@@ -48,3 +48,6 @@ use App\Http\Controllers\Admin\UserController;
 //     //     Route::delete('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
 //     // });
 // });
+Route::get('/admin', function () {
+    return view('admins.dashboard');
+})->name('admin');
