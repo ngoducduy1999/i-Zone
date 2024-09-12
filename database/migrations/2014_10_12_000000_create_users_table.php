@@ -12,16 +12,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id(); // id (PK, unsigned big integer)
-            $table->string('ten'); // ten (varchar)
-            $table->string('email')->unique(); // email (varchar)
-            $table->string('mat_khau'); // mat_khau (varchar)
-            $table->string('so_dien_thoai')->nullable(); // so_dien_thoai (varchar)
-            $table->string('anh_dai_dien')->nullable(); // anh_dai_dien (varchar)
-            $table->enum('vai_tro', ['quan_ly', 'khach_hang', 'nhan_vien'])->default('khach_hang'); // vai_tro (enum)
-            $table->text('dia_chi')->nullable(); // dia_chi (text)
-            $table->softDeletes(); // deleted_at (soft delete)
-            $table->timestamps(); // created_at and updated_at
+            $table->id();
+            $table->string('ten');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('mat_khau');
+            $table->string('so_dien_thoai');
+            $table->string('anh_dai_dien')->nullable();
+            $table->enum('vai_tro', ['admin', 'staff', 'user'])->default('user');
+            $table->text('dia_chi')->nullable();
+            $table->date('ngay_sinh');
+            $table->softDeletes();
+            $table->rememberToken();
+            $table->timestamps();
         });
     }
 
