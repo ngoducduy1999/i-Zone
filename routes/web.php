@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\BannerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 
@@ -12,42 +13,54 @@ use App\Http\Controllers\Admin\UserController;
 // });
 
 // Route::prefix('admin')->name('admin.')->middleware('role:admin,staff')->group(function () {
-//     Route::get('/', [DanhMucController::class, 'index'])->name('index');
-//     //  staff và admin mới có thể làm việc 
+Route::prefix('admin')->name('admin.')->group(function () {
+    //     Route::get('/', [DanhMucController::class, 'index'])->name('index');
+    //     //  staff và admin mới có thể làm việc 
 
-//     // categories
-//     Route::prefix('categories')->name('categories.')->group(function () {
-//         Route::get('/', [DanhMucController::class, 'index'])->name('index');
-//         Route::get('create', [DanhMucController::class, 'create'])->name('create');
-//         Route::post('store', [DanhMucController::class, 'store'])->name('store');
-//         Route::get('/{category}/show', [DanhMucController::class, 'show'])->name('show');
-//         Route::get('/{category}/edit', [DanhMucController::class, 'edit'])->name('edit');
-//         Route::put('/{category}/update', [DanhMucController::class, 'update'])->name('update');
-//         Route::delete('/{category}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
-//     });
+    //     // categories
+    //     Route::prefix('categories')->name('categories.')->group(function () {
+    //         Route::get('/', [DanhMucController::class, 'index'])->name('index');
+    //         Route::get('create', [DanhMucController::class, 'create'])->name('create');
+    //         Route::post('store', [DanhMucController::class, 'store'])->name('store');
+    //         Route::get('/{category}/show', [DanhMucController::class, 'show'])->name('show');
+    //         Route::get('/{category}/edit', [DanhMucController::class, 'edit'])->name('edit');
+    //         Route::put('/{category}/update', [DanhMucController::class, 'update'])->name('update');
+    //         Route::delete('/{category}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
+    //     });
 
-//     // products
-//     Route::prefix('products')->name('products.')->group(function () {
-//         Route::get('/', [SanPhamController::class, 'index'])->name('index');
-//         Route::get('create', [SanPhamController::class, 'create'])->name('create');
-//         Route::post('store', [SanPhamController::class, 'store'])->name('store');
-//         Route::get('/{product}/show', [SanPhamController::class, 'show'])->name('show');
-//         Route::get('/{product}/edit', [SanPhamController::class, 'edit'])->name('edit');
-//         Route::put('/{product}/update', [SanPhamController::class, 'update'])->name('update');
-//         Route::delete('/{product}/destroy', [SanPhamController::class, 'destroy'])->name('destroy');
-//     });
+    //     // products
+    //     Route::prefix('products')->name('products.')->group(function () {
+    //         Route::get('/', [SanPhamController::class, 'index'])->name('index');
+    //         Route::get('create', [SanPhamController::class, 'create'])->name('create');
+    //         Route::post('store', [SanPhamController::class, 'store'])->name('store');
+    //         Route::get('/{product}/show', [SanPhamController::class, 'show'])->name('show');
+    //         Route::get('/{product}/edit', [SanPhamController::class, 'edit'])->name('edit');
+    //         Route::put('/{product}/update', [SanPhamController::class, 'update'])->name('update');
+    //         Route::delete('/{product}/destroy', [SanPhamController::class, 'destroy'])->name('destroy');
+    //     });
 
-//     //  chỉ admin mới có thể làm việc 
-//     // Route::prefix('users')->name('users.')->middleware('role:admin')->group(function () {
-//     //     Route::get('/', [UserController::class, 'index'])->name('index');
-//     //     Route::get('create', [UserController::class, 'create'])->name('create');
-//     //     Route::post('store', [UserController::class, 'store'])->name('store');
-//     //     Route::get('/{user}/show', [UserController::class, 'show'])->name('show');
-//     //     Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
-//     //     Route::put('/{user}/update', [UserController::class, 'update'])->name('update');
-//     //     Route::delete('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
-//     // });
-// });
+    //     //  chỉ admin mới có thể làm việc 
+    //     // Route::prefix('users')->name('users.')->middleware('role:admin')->group(function () {
+    //     //     Route::get('/', [UserController::class, 'index'])->name('index');
+    //     //     Route::get('create', [UserController::class, 'create'])->name('create');
+    //     //     Route::post('store', [UserController::class, 'store'])->name('store');
+    //     //     Route::get('/{user}/show', [UserController::class, 'show'])->name('show');
+    //     //     Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+    //     //     Route::put('/{user}/update', [UserController::class, 'update'])->name('update');
+    //     //     Route::delete('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
+    //     // });
+
+    // banner 
+    Route::prefix('banners')->name('banners.')->group(function () {
+        Route::get('/', [BannerController::class, 'index'])->name('index');
+        Route::get('create', [BannerController::class, 'create'])->name('create');
+        Route::post('store', [BannerController::class, 'store'])->name('store');
+        Route::get('/{banner}/show', [BannerController::class, 'show'])->name('show');
+        Route::get('/{banner}/edit', [BannerController::class, 'edit'])->name('edit');
+        Route::put('/{banner}/update', [BannerController::class, 'update'])->name('update');
+        Route::delete('/{banner}/destroy', [BannerController::class, 'destroy'])->name('destroy');
+    });
+});
 Route::get('/admin', function () {
     return view('admins.dashboard');
 })->name('admin');
