@@ -29,7 +29,7 @@
                 <li class="menu-title text-light">Quản trị</li>
 
                 <li>
-                    <a class='text-light' href='{{ route('admin') }}'>
+                    <a class='text-light' href=''>
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
@@ -64,6 +64,37 @@
                         <span> Thông tin đơn hàng </span>
                     </a>
                 </li>
+
+                <li>
+                    <a class='text-light' href='{{ route('danhgias.index') }}'>
+                        <i data-feather="activity"></i>
+                        <span> Đánh giá sản phẩm </span>
+                    </a>
+                </li>
+
+                {{-- <li>
+                    <a href="#sidebarForms" data-bs-toggle="collapse" class="text-white">
+                        <i data-feather="briefcase"></i>
+                        <span> Forms </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarForms">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href='forms-elements.html'>General Elements</a>
+                            </li>
+                            <li>
+                                <a class='text-white' href='forms-validation.html'>Validation</a>
+                            </li>
+                            <li>
+                                <a class='text-white' href='forms-quilljs.html'>Quilljs Editor</a>
+                            </li>
+                            <li>
+                                <a class='text-white' href='forms-pickers.html'>Picker</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> --}}
 
             </ul>
 

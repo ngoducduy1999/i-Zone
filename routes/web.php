@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DanhgiaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\DanhGiaSanPham;
 
 // chưa đăng nhập hoặc không có quyền truy cập
 // Route::prefix('admin')->name('admin.')->group(function () {
@@ -47,7 +49,12 @@ use App\Http\Controllers\Admin\UserController;
 //     //     Route::put('/{user}/update', [UserController::class, 'update'])->name('update');
 //     //     Route::delete('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
 //     // });
-// });
-Route::get('/admin', function () {
-    return view('admins.dashboard');
-})->name('admin');
+        // Đánh giá sản phẩm
+        Route::prefix('danhgias')->name('danhgias.')->group(function () {
+            Route::get('/', [DanhgiaController::class, 'index'])->name('index');
+            Route::get('create', [DanhgiaController::class, 'create'])->name('create');
+            Route::post('store', [DanhgiaController::class, 'store'])->name('store');
+            Route::delete('/{danhgia}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');  
+    });
+//  });
+
