@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <h6 class="fs-15 mb-3">Banner</h6>
-                                <img src="{{ asset($banner->anh_banner) }}" alt="" id="img" name="img"
+                                <img src="{{ asset($banner->anh_banner) }}" alt="{{ $banner->ten_banner }}" id="img" name="img"
                                     width="100%">
                             </div>
                         </div>

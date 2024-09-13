@@ -60,7 +60,11 @@ class BannerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $banner = Banner::find($id);
+        if (!$banner) {
+            return redirect()->route('admin.banners.index')->with('error', 'Banner không tồn tại');
+        }
+        return view('admins.banners.show', compact('banner'));
     }
 
     /**
