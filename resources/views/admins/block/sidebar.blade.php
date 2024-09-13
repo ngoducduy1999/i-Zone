@@ -93,7 +93,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#banner" data-bs-toggle="collapse">
+                    <a href="#khuyenmai" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
                             fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
                             <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
@@ -108,7 +108,7 @@
                         <span class="text-white"> Khuyến mãi </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
-                    <div class="collapse" id="banner">
+                    <div class="collapse" id="khuyenmai">
                         <ul class="nav-second-level">
                             <li>
                                 <a class='text-white' href="{{ route('admin.khuyen_mais.index') }}">Danh sách</a>
