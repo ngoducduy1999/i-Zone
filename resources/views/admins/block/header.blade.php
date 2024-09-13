@@ -1,4 +1,4 @@
-<!-- Topbar Start -->
+<!-- Topbar Bắt đầu -->
 <div class="topbar-custom">
     <div class="container-xxl">
         <div class="d-flex justify-content-between">
@@ -10,7 +10,7 @@
                 </li>
                 <li class="d-none d-lg-block">
                     <div class="position-relative topbar-search">
-                        <input type="text" class="form-control bg-light bg-opacity-75 border-light ps-4" placeholder="Search...">
+                        <input type="text" class="form-control bg-light bg-opacity-75 border-light ps-4" placeholder="Tìm kiếm...">
                         <i class="mdi mdi-magnify fs-16 position-absolute text-muted top-50 translate-middle-y ms-2"></i>
                     </div>
                 </li>
@@ -36,9 +36,9 @@
                             <h5 class="m-0">
                                 <span class="float-end">
                                     <a href="#" class="text-dark">
-                                        <small>Clear All</small>
+                                        <small>Xóa tất cả</small>
                                     </a>
-                                </span>Notification
+                                </span>Thông báo
                             </h5>
                         </div>
 
@@ -51,10 +51,10 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <p class="notify-details">Carl Steadham</p>
-                                    <small class="text-muted">5 min ago</small>
+                                    <small class="text-muted">5 phút trước</small>
                                 </div>
                                 <p class="mb-0 user-msg">
-                                    <small class="fs-14">Completed <span class="text-reset">Improve workflow in Figma</span></small>
+                                    <small class="fs-14">Hoàn thành <span class="text-reset">Cải thiện quy trình làm việc trong Figma</span></small>
                                 </p>
                             </a>
 
@@ -66,7 +66,7 @@
                                 <div class="notify-content">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <p class="notify-details">Olivia McGuire</p>
-                                        <small class="text-muted">1 min ago</small>
+                                        <small class="text-muted">1 phút trước</small>
                                     </div>
                         
                                     <div class="d-flex mt-2 align-items-center">
@@ -91,9 +91,9 @@
                                 <div class="notify-content">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <p class="notify-details">Travis Williams</p>
-                                        <small class="text-muted">7 min ago</small>
+                                        <small class="text-muted">7 phút trước</small>
                                     </div>
-                                    <p class="noti-mentioned p-2 rounded-2 mb-0 mt-2"><span class="text-primary">@Patryk</span> Please make sure that you're....</p>
+                                    <p class="noti-mentioned p-2 rounded-2 mb-0 mt-2"><span class="text-primary">@Patryk</span> Vui lòng đảm bảo rằng bạn...</p>
                                 </div>
                             </a>
 
@@ -104,10 +104,10 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <p class="notify-details">Violette Lasky</p>
-                                    <small class="text-muted">5 min ago</small>
+                                    <small class="text-muted">5 phút trước</small>
                                 </div>
                                 <p class="mb-0 user-msg">
-                                    <small class="fs-14">Completed <span class="text-reset">Create new components</span></small>
+                                    <small class="fs-14">Hoàn thành <span class="text-reset">Tạo các thành phần mới</span></small>
                                 </p>
                             </a>
 
@@ -118,10 +118,10 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <p class="notify-details">Ralph Edwards</p>
-                                    <small class="text-muted">5 min ago</small>
+                                    <small class="text-muted">5 phút trước</small>
                                 </div>
                                 <p class="mb-0 user-msg">
-                                    <small class="fs-14">Completed <span class="text-reset">Improve workflow in React</span></small>
+                                    <small class="fs-14">Hoàn thành <span class="text-reset">Cải thiện quy trình làm việc trong React</span></small>
                                 </p>
                             </a>
 
@@ -132,17 +132,17 @@
                                 </div>
                                 <div class="notify-content">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <p class="notify-details">Jocab jones</p>
-                                        <small class="text-muted">7 min ago</small>
+                                        <p class="notify-details">Jocab Jones</p>
+                                        <small class="text-muted">7 phút trước</small>
                                     </div>
-                                    <p class="noti-mentioned p-2 rounded-2 mb-0 mt-2"><span class="text-reset">@Patryk</span> Please make sure that you're....</p>
+                                    <p class="noti-mentioned p-2 rounded-2 mb-0 mt-2"><span class="text-reset">@Patryk</span> Vui lòng đảm bảo rằng bạn...</p>
                                 </div>
                             </a>
                         </div>
 
-                        <!-- All-->
+                        <!-- Tất cả-->
                         <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
-                            View all
+                            Xem tất cả
                             <i class="fe-arrow-right"></i>
                         </a>
 
@@ -153,34 +153,39 @@
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <img src="{{ asset('assets/admin/images/users/user-11.jpg') }}" alt="user-image" class="rounded-circle">
                         <span class="pro-user-name ms-1">
-                            Christian <i class="mdi mdi-chevron-down"></i> 
+                            {{ Auth::user()->ten }} <i class="mdi mdi-chevron-down"></i> 
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
                         <!-- item-->
                         <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome !</h6>
-                        </div>
+                            <h6 class="text-overflow m-0">Chào mừng, {{ Auth::user()->ten }}!</h6>
+                        </div>                        
 
                         <!-- item-->
                         <a class='dropdown-item notify-item' href='pages-profile.html'>
                             <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
-                            <span>My Account</span>
+                            <span>Tài khoản của tôi</span>
                         </a>
 
                         <!-- item-->
                         <a class='dropdown-item notify-item' href='auth-lock-screen.html'>
                             <i class="mdi mdi-lock-outline fs-16 align-middle"></i>
-                            <span>Lock Screen</span>
+                            <span>Màn hình khóa</span>
                         </a>
 
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <a class='dropdown-item notify-item' href='auth-logout.html'>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        
+                        <a class='dropdown-item notify-item' href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="mdi mdi-location-exit fs-16 align-middle"></i>
-                            <span>Logout</span>
+                            <span>Đăng xuất</span>
                         </a>
+                        
 
                     </div>
                 </li>

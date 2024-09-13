@@ -92,7 +92,26 @@ $(document).ready(function () {
     $("#datatable_length select[name*='datatable_length']").removeClass('custom-select custom-select-sm');
     $(".dataTables_length label").addClass('form-label');
 });
+$("#datatable_length select[name*='datatable_length']").addClass('form-select form-select-sm');
 
+$('#datatable').DataTable({
+    "lengthMenu": [10, 30, 50, 100], // Thay đổi số lượng tùy chọn
+    "pagingType": "full_numbers",    // Phân trang đầy đủ
+    "language": {
+        "lengthMenu": "Hiển thị _MENU_ mục mỗi trang", // Tùy chỉnh text
+        "zeroRecords": "Không tìm thấy dữ liệu",
+        "info": "Trang _PAGE_ của _PAGES_",
+        "infoEmpty": "Không có dữ liệu",
+        "infoFiltered": "(lọc từ _MAX_ mục)",
+        "search": "Tìm kiếm:",
+        "paginate": {
+            "first": "Đầu",
+            "last": "Cuối",
+            "next": "Tiếp",
+            "previous": "Trước"
+        }
+    }
+});
 
 // $(document).ready(function() {
 //     var table = $('#fixed-header-datatable').DataTable( {

@@ -34,12 +34,35 @@
                         <span> Dashboard </span>
                     </a>
                 </li>
-
                 <li>
-                    <a class='text-light' href=''>
-                        <i data-feather="users"></i>
+                    <a href="#sidebarTables" data-bs-toggle="collapse" class="text-white">
+                        <i data-feather="table"></i>
                         <span> Quản lý tài khoản </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <div class="collapse" id="sidebarTables">
+                        <ul class="nav-second-level">
+                            @if (Auth::user()->vai_tro=='admin')
+                            <li>
+                                <a class='text-white' href='{{route('admin.nhanviens')}}'>Quản lý nhân viên </a>
+                            </li>
+                            @endif
+                            @if (Auth::user()->vai_tro=='admin')
+
+                            <li>
+                                <a class='text-white' href='{{route('admin.khachhangs')}}'>Quản lý khách hàng</a>
+                            </li>
+        
+                            @else
+                            <li>
+                                <a class='text-white' href='{{route('staff.khachhangs')}}'>Quản lý khách hàng</a>
+                            </li>   
+                            @endif
+                            
+
+
+                        </ul>
+                    </div>
                 </li>
 
                 <li class="menu-title text-light">Kinh doanh</li>
