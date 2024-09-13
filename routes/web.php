@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\KhuyenMaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\DanhGiaSanPham;
 
 // chưa đăng nhập hoặc không có quyền truy cập
 // Route::prefix('admin')->name('admin.')->group(function () {
@@ -39,6 +41,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
     //         Route::put('/{product}/update', [SanPhamController::class, 'update'])->name('update');
     //         Route::delete('/{product}/destroy', [SanPhamController::class, 'destroy'])->name('destroy');
     //     });
+
+//     //  chỉ admin mới có thể làm việc 
+//     // Route::prefix('users')->name('users.')->middleware('role:admin')->group(function () {
+//     //     Route::get('/', [UserController::class, 'index'])->name('index');
+//     //     Route::get('create', [UserController::class, 'create'])->name('create');
+//     //     Route::post('store', [UserController::class, 'store'])->name('store');
+//     //     Route::get('/{user}/show', [UserController::class, 'show'])->name('show');
+//     //     Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+//     //     Route::put('/{user}/update', [UserController::class, 'update'])->name('update');
+//     //     Route::delete('/{user}/destroy', [UserController::class, 'destroy'])->name('destroy');
+//     // });
+        // Đánh giá sản phẩm
+        Route::prefix('danhgias')->name('danhgias.')->group(function () {
+            Route::get('/', [DanhgiaController::class, 'index'])->name('index');
+            Route::get('create', [DanhgiaController::class, 'create'])->name('create');
+            Route::post('store', [DanhgiaController::class, 'store'])->name('store');
+            Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');  
+    });
+//  });
 
     //     //  chỉ admin mới có thể làm việc 
     //     // Route::prefix('users')->name('users.')->middleware('role:admin')->group(function () {
