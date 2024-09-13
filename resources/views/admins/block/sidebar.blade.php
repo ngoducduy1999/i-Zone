@@ -66,35 +66,11 @@
                 </li>
 
                 <li>
-                    <a class='text-light' href='{{ route('danhgias.index') }}'>
+                    <a class='text-light' href='{{ route('admin.danhgias.index') }}'>
                         <i data-feather="activity"></i>
                         <span> Đánh giá sản phẩm </span>
                     </a>
                 </li>
-
-                {{-- <li>
-                    <a href="#sidebarForms" data-bs-toggle="collapse" class="text-white">
-                        <i data-feather="briefcase"></i>
-                        <span> Forms </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarForms">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a class='text-white' href='forms-elements.html'>General Elements</a>
-                            </li>
-                            <li>
-                                <a class='text-white' href='forms-validation.html'>Validation</a>
-                            </li>
-                            <li>
-                                <a class='text-white' href='forms-quilljs.html'>Quilljs Editor</a>
-                            </li>
-                            <li>
-                                <a class='text-white' href='forms-pickers.html'>Picker</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li> --}}
 
                     <a href="#banner" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"

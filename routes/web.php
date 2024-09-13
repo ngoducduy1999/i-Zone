@@ -57,7 +57,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [DanhgiaController::class, 'index'])->name('index');
             Route::get('create', [DanhgiaController::class, 'create'])->name('create');
             Route::post('store', [DanhgiaController::class, 'store'])->name('store');
-            Route::delete('/{danhgia}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');  
+            Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');  
     });
 //  });
 

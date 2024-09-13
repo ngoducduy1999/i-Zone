@@ -69,6 +69,6 @@ class DanhgiaController extends Controller
 
         $danhGia->delete($id);
 
-        return redirect()->route('danhgias.index')->with('success', 'Xóa nhận xết thành công');
+        return redirect()->route('admin.danhgias.index')->with('success', 'Xóa nhận xết thành công');
     }
 }

@@ -46,7 +46,7 @@
                                             <td>{{ $item->diem_so }}</td>
                                             <td>{{ $item->nhan_xet }}</td>
                                             <td>                                                                                      
-                                                <form action="{{ route('danhgias.destroy', $item->id) }}" method="POST" class="d-inline" 
+                                                <form action="{{ route('admin.danhgias.destroy', $item->id) }}" method="POST" class="d-inline" 
                                                     onsubmit="return confirm('Bạn có đồng ý xóa không?')">
                                                     @csrf
                                                     @method('DELETE')
