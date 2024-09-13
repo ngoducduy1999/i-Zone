@@ -83,9 +83,9 @@
                     </a>
                     <div class="collapse" id="banner">
                         <ul class="nav-second-level">
-                            {{-- <li>
+                            <li>
                                 <a class='text-white' href="{{ route('admin.banners.index') }}">Danh sách</a>
-                            </li> --}}
+                            </li>
                             <li>
                                 <a class='text-white' href="{{ route('admin.banners.create') }}">Thêm mới</a>
                             </li>
