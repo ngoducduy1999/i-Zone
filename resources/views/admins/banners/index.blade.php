@@ -60,7 +60,7 @@
                                                         aria-expanded="false">Thao tác<i
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">Xem</a>
+                                                        <a class="dropdown-item" href="{{ route('admin.banners.show', $banner->id) }}">Xem</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('admin.banners.edit', $banner->id) }}">Sửa</a>
                                                         @if ($banner->trang_thai == 1)
