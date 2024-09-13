@@ -13,7 +13,9 @@
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
-
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+        @endif
         <!-- Datatables  -->
         <div class="row">
             <div class="col-12">
@@ -59,14 +61,19 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="#">Xem</a>
-                                                        <a class="dropdown-item" href="#">Sửa</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('admin.banners.edit', $banner->id) }}">Sửa</a>
                                                         @if ($banner->trang_thai == 1)
-                                                            <form action="">
-                                                                <a class="dropdown-item" href="#">Ngừng hoạt động</a>
+                                                            <form action="{{ route('admin.banners.onOffBanner', $banner->id) }}" method="post">
+                                                                @csrf
+                                                                @method('post')
+                                                                <button class="dropdown-item" href="#">Ngừng hoạt động</button>
                                                             </form>
                                                         @else
-                                                            <form action="">
-                                                                <a class="dropdown-item" href="#">Hoạt động</a>
+                                                            <form action="{{ route('admin.banners.onOffBanner', $banner->id) }}" method="post">
+                                                                @csrf
+                                                                @method('post')
+                                                                <button class="dropdown-item" href="#">Hoạt động</button>
                                                             </form>
                                                         @endif
 

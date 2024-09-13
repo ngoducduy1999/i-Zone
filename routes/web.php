@@ -55,10 +55,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [BannerController::class, 'index'])->name('index');
         Route::get('create', [BannerController::class, 'create'])->name('create');
         Route::post('store', [BannerController::class, 'store'])->name('store');
-        Route::get('/{banner}/show', [BannerController::class, 'show'])->name('show');
-        Route::get('/{banner}/edit', [BannerController::class, 'edit'])->name('edit');
-        Route::put('/{banner}/update', [BannerController::class, 'update'])->name('update');
-        Route::delete('/{banner}/destroy', [BannerController::class, 'destroy'])->name('destroy');
+        Route::get('/{id}/show', [BannerController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [BannerController::class, 'update'])->name('update');
+        Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
+        Route::delete('/{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
     });
 });
 Route::get('/admin', function () {
