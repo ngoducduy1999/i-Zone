@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\BannerController;
+use App\Http\Controllers\admin\KhuyenMaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 
@@ -60,6 +61,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/{id}/update', [BannerController::class, 'update'])->name('update');
         Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
         Route::delete('/{id}/destroy', [BannerController::class, 'destroy'])->name('destroy');
+    });
+
+    // khuyến mãi 
+    Route::prefix('khuyen_mais')->name('khuyen_mais.')->group(function () {
+        Route::get('/', [KhuyenMaiController::class, 'index'])->name('index');
+        Route::get('create', [KhuyenMaiController::class, 'create'])->name('create');
+        Route::post('store', [KhuyenMaiController::class, 'store'])->name('store');
+        Route::get('/{id}/show', [KhuyenMaiController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [KhuyenMaiController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [KhuyenMaiController::class, 'update'])->name('update');
+        Route::get('/update-expired-khuyen-mai', [KhuyenMaiController::class, 'updateExpiredKhuyenMai'])->name('khuyenmai.updateExpired');
+        Route::post('/{id}/onOffKhuyenMai', [KhuyenMaiController::class, 'onOffKhuyenMai'])->name('onOffKhuyenMai');
+        Route::DELETE('/{id}/destroy', [KhuyenMaiController::class, 'destroy'])->name('destroy');
     });
 });
 Route::get('/admin', function () {
