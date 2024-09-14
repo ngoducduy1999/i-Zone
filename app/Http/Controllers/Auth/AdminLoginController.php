@@ -5,16 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-class LoginController extends Controller
+class AdminLoginController extends Controller
 {
-    // Hiển thị form đăng nhập
-    public function showLoginForm()
-    {
-        return view('auth.login');
-    }
-
-    // Xử lý đăng nhập
+      // Hiển thị form đăng nhập
+      public function showLoginForm()
+      {
+          return view('auth.admin_login');
+      }
+       // Xử lý đăng nhập
     public function login(Request $request)
     {
         // Xác thực dữ liệu đầu vào
@@ -38,24 +36,25 @@ class LoginController extends Controller
             $user = Auth::user();
 
             // Chuyển hướng dựa trên vai trò
+            // Chuyển hướng dựa trên vai trò
             if ($user->vai_tro == 'admin') {
-                return redirect()->route('admin');
+                return redirect()->route('admin.dashboard');
             } elseif ($user->vai_tro == 'staff') {
-                return redirect()->route('staff'); // Thêm route dành cho staff
+                return redirect()->route('staff.dashboard'); // Thêm route dành cho staff
             }
-
-            // Đăng nhập thành công (không phải admin hoặc staff)
-            return redirect()->intended('/');
+            else {
+                Auth::logout();
+                return redirect()->back()->withErrors(['email' => 'Bạn không có quyền truy cập']);
+            }
         }
 
         // Đăng nhập thất bại
         return redirect()->back()->withErrors(['email' => 'Thông tin đăng nhập không chính xác']);
     }
-
-    // Xử lý đăng xuất
-    public function logout()
-    {
-        Auth::logout();
-        return redirect('/login');
-    }
+     // Xử lý đăng xuất
+     public function logout()
+     {
+         Auth::logout();
+         return redirect('/admin/login');
+     }
 }

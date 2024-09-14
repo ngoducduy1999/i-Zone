@@ -151,7 +151,11 @@
 
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="{{ asset('assets/admin/images/users/user-11.jpg') }}" alt="user-image" class="rounded-circle">
+                        @if (Auth::user()->anh_dai_dien!='')
+                        <img src="{{ asset('storage/' .Auth::user()->anh_dai_dien) }}" alt="user-image" class="rounded-circle">                                        
+                        @else                                       
+                        <img src="{{ asset('assets/admin/images/users/user-11.jpg') }}" alt="user-image" class="rounded-circle">    
+                        @endif
                         <span class="pro-user-name ms-1">
                             {{ Auth::user()->ten }} <i class="mdi mdi-chevron-down"></i> 
                         </span>
@@ -163,7 +167,7 @@
                         </div>                        
 
                         <!-- item-->
-                        <a class='dropdown-item notify-item' href='pages-profile.html'>
+                        <a class='dropdown-item notify-item' href='{{ route('admin.profile') }}'>
                             <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
                             <span>Tài khoản của tôi</span>
                         </a>
@@ -177,7 +181,7 @@
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
                         

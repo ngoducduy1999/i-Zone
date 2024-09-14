@@ -41,10 +41,10 @@
                                 <td>{{ $user->created_at->format('d/m/Y') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($user->ngay_sinh)->age }}</td>
                                 <td>
-                                    <a href="{{ route('taikhoans.show', $user->id) }}" class="btn btn-info btn-sm">Xem chi tiết</a>
+                                    <a href="{{ route('admin.taikhoans.show', $user->id) }}" class="btn btn-info btn-sm">Xem chi tiết</a>
                                     <!-- Nút xóa -->
                                     @if (Auth::user()->vai_tro=='admin')
-                                    <form action="{{ route('taikhoans.destroy', $user->id) }}" method="POST" style="display:inline-block;">
+                                    <form action="{{ route('admin.taikhoans.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa</button>

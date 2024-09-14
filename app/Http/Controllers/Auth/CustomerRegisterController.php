@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -7,9 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
-
-class RegisterController extends Controller
+class CustomerRegisterController extends Controller
 {
+    //
     // Hiển thị trang đăng ký
     public function showRegistrationForm()
     {

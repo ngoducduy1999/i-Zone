@@ -16,7 +16,7 @@
 
         <div class="card-body">
             <!-- Form tạo tài khoản -->
-            <form class="row g-3" action="{{ route('taikhoans.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="row g-3" action="{{ route('admin.taikhoans.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Tên -->

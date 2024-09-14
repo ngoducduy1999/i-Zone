@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Chỉnh Sửa Người Dùng</h1>
 
-    <form action="{{ route('taikhoans.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.taikhoans.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 

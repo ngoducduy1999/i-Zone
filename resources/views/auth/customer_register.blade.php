@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.admin')
 
 @section('title', 'Đăng ký')
 

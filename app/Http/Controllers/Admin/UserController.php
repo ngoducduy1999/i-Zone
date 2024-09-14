@@ -25,13 +25,13 @@ class UserController extends Controller
         return view('admins.taikhoans.nhanvien', compact('users'));
     }
 
-    // Hiển thị form tạo người dùng mới
+    // Hiển thị form tạo nhân viên
     public function create()
     {
         return view('admins.taikhoans.create');
     }
 
-    // Lưu người dùng mới vào cơ sở dữ liệu
+    // Lưu nhân viên mới vào cơ sở dữ liệu
     public function store(Request $request)
     {
         $request->validate([
@@ -40,7 +40,7 @@ class UserController extends Controller
             'mat_khau' => 'required|string|min:8',
             'so_dien_thoai' => 'nullable|string|max:20',
             'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // validate cho file ảnh
-            'vai_tro' => 'required|in:admin,staff,user', // Vai trò mới cho phép cả 'admin', 'staff', và 'user'
+            'vai_tro' => 'required|in:staff', // Vai trò mới cho phép cả 'admin', 'staff', và 'user'
             'dia_chi' => 'nullable|string',
             'ngay_sinh' => 'required|date', // Thêm field ngày sinh
         ]);
@@ -71,23 +71,43 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('taikhoans.show', compact('user'));
+        return view('admins.taikhoans.show', compact('user'));
     }
-
-    // Hiển thị form chỉnh sửa người dùng
+    
+    // Hiển thị form chỉnh sửa nhân viên
     public function edit($id)
     {
         $user = User::findOrFail($id);
         return view('admins.taikhoans.edit', compact('user'));
     }
 
-    // Cập nhật người dùng
-    public function update(Request $request, $id)
+    
+    // Xóa người dùng (soft delete)
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Xóa ảnh đại diện nếu tồn tại
+        if ($user->anh_dai_dien) {
+            Storage::disk('public')->delete($user->anh_dai_dien);
+        }
+
+        $user->delete();
+
+        return redirect('/taikhoans')->with('success', 'User deleted successfully.');
+    }
+    //profile
+    public function profile()
+    {
+        $profile = Auth::user(); // Lấy người dùng hiện tại
+        return view('admins.taikhoans.profile', compact('profile')); // Trả về view với dữ liệu người dùng
+    }
+    // Cập nhật profile
+    public function updateProfile(Request $request, $id)
 {
     $request->validate([
         'ten' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-        'mat_khau' => 'nullable|string|min:8', // Mật khẩu là tùy chọn
         'so_dien_thoai' => 'nullable|string|max:20',
         'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'dia_chi' => 'nullable|string',
@@ -96,12 +116,40 @@ class UserController extends Controller
     $user = User::findOrFail($id);
     $user->ten = $request->get('ten');
     $user->email = $request->get('email');
+    $user->so_dien_thoai = $request->get('so_dien_thoai');
 
-    // Cập nhật mật khẩu nếu có
-    if ($request->filled('mat_khau')) {
-        $user->mat_khau = Hash::make($request->get('mat_khau'));
+    // Xử lý upload ảnh đại diện mới (nếu có)
+    if ($request->hasFile('anh_dai_dien')) {
+        // Xóa ảnh cũ nếu tồn tại
+        if ($user->anh_dai_dien) {
+            Storage::disk('public')->delete($user->anh_dai_dien);
+        }
+
+        // Lưu ảnh mới
+        $filePath = $request->file('anh_dai_dien')->store('avatars', 'public');
+        $user->anh_dai_dien = $filePath;
     }
 
+    $user->dia_chi = $request->get('dia_chi');
+
+    $user->save();
+
+    return redirect()->route('admin.profile')->with('success', 'User updated successfully.');
+    }
+    //Sửa nhân viên
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'ten' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        'so_dien_thoai' => 'nullable|string|max:20',
+        'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'dia_chi' => 'nullable|string',
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->ten = $request->get('ten');
+    $user->email = $request->get('email');
     $user->so_dien_thoai = $request->get('so_dien_thoai');
 
     // Xử lý upload ảnh đại diện mới (nếu có)
@@ -122,18 +170,5 @@ class UserController extends Controller
 
     return redirect()->route('admin.nhanviens')->with('success', 'User updated successfully.');
     }
-    // Xóa người dùng (soft delete)
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-
-        // Xóa ảnh đại diện nếu tồn tại
-        if ($user->anh_dai_dien) {
-            Storage::disk('public')->delete($user->anh_dai_dien);
-        }
-
-        $user->delete();
-
-        return redirect('/taikhoans')->with('success', 'User deleted successfully.');
-    }
+    
 }
