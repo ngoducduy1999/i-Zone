@@ -66,9 +66,17 @@
                                                     <a class="dropdown-item"
                                                         href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
                 
-                                                    <form action="">
-                                                        <a class="dropdown-item" href="#">Xóa</a>
-                                                    </form>
+                                                        <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}"
+                                                            method="POST" class="mt-1 d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                onclick="return confirm('Có chắc chắn xóa danh mục  không?')"
+                                                                class="btn btn-link text-danger p-0 "
+                                                                style="border: none; background: none; ">
+                                                               <p>Xóa</p>
+                                                            </button>
+                                                        </form>
                                                 </div>
                                             </div>
 

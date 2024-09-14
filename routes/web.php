@@ -31,6 +31,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
             Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
         });
+        
 
     //     // products
     //     Route::prefix('products')->name('products.')->group(function () {

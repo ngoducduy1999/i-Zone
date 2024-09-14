@@ -69,6 +69,7 @@
                         <li>
                             <a class='text-white' href="{{ route('admin.danhmucs.create') }}">Thêm mới</a>
                         </li>
+                      
                     </ul>
                 </div>
             </li>
