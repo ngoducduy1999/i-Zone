@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\KhuyenMaiController;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +45,13 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
    Route::get('/profile/updatePassword', [UserController::class, 'profile'])->name('profile.updatePassword');
    Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
 
-   
+   // Đánh giá sản phẩm
+   Route::prefix('danhgias')->name('danhgias.')->group(function () {
+   Route::get('/', [DanhgiaController::class, 'index'])->name('index');
+   Route::get('create', [DanhgiaController::class, 'create'])->name('create');
+   Route::post('store', [DanhgiaController::class, 'store'])->name('store');
+   Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');  
+    });
 
     // Banner management
     Route::prefix('banners')->name('banners.')->group(function () {
