@@ -27,19 +27,50 @@
             <ul id="side-menu">
 
                 <li class="menu-title text-light">Quản trị</li>
-
+                @if (Auth::user()->vai_tro=='admin')
                 <li>
-                    <a class='text-light' href=''>
+                    <a class='text-light' href='{{ route('admin.dashboard') }}'>
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
                 </li>
-
+                @else
                 <li>
-                    <a class='text-light' href=''>
-                        <i data-feather="users"></i>
-                        <span> Quản lý tài khoản </span>
+                    <a class='text-light' href='{{ route('staff.dashboard') }}'>
+                        <i data-feather="home"></i>
+                        <span> Dashboard </span>
                     </a>
+                </li>
+                @endif
+                <li>
+                    <a href="#sidebarTables" data-bs-toggle="collapse" class="text-white">
+                        <i data-feather="table"></i>
+                        <span> Quản lý tài khoản </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarTables">
+                        <ul class="nav-second-level">
+                            @if (Auth::user()->vai_tro=='admin')
+                            <li>
+                                <a class='text-white' href='{{route('admin.nhanviens')}}'>Quản lý nhân viên </a>
+                            </li>
+                            @endif
+                            @if (Auth::user()->vai_tro=='admin')
+
+                            <li>
+                                <a class='text-white' href='{{route('admin.khachhangs')}}'>Quản lý khách hàng</a>
+                            </li>
+        
+                            @else
+                            <li>
+                                <a class='text-white' href='{{route('staff.khachhangs')}}'>Quản lý khách hàng</a>
+                            </li>   
+                            @endif
+                            
+
+
+                        </ul>
+                    </div>
                 </li>
 
                 <li class="menu-title text-light">Kinh doanh</li>
