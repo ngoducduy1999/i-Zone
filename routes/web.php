@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\admin\BannerController;
-use App\Http\Controllers\admin\KhuyenMaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\admin\LoginController;
+use App\Http\Controllers\admin\BannerController;
+use App\Http\Controllers\admin\DanhMucController;
+use App\Http\Controllers\admin\SanPhamController;
+use App\Http\Controllers\admin\KhuyenMaiController;
 
 // chưa đăng nhập hoặc không có quyền truy cập
 // Route::prefix('admin')->name('admin.')->group(function () {
@@ -18,16 +21,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     //     Route::get('/', [DanhMucController::class, 'index'])->name('index');
     //     //  staff và admin mới có thể làm việc 
 
-    //     // categories
-    //     Route::prefix('categories')->name('categories.')->group(function () {
-    //         Route::get('/', [DanhMucController::class, 'index'])->name('index');
-    //         Route::get('create', [DanhMucController::class, 'create'])->name('create');
-    //         Route::post('store', [DanhMucController::class, 'store'])->name('store');
-    //         Route::get('/{category}/show', [DanhMucController::class, 'show'])->name('show');
-    //         Route::get('/{category}/edit', [DanhMucController::class, 'edit'])->name('edit');
-    //         Route::put('/{category}/update', [DanhMucController::class, 'update'])->name('update');
-    //         Route::delete('/{category}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
-    //     });
+        // danhmucs
+        Route::prefix('danhmucs')->name('danhmucs.')->group(function () {
+            Route::get('/', [DanhMucController::class, 'index'])->name('index');
+            Route::get('create', [DanhMucController::class, 'create'])->name('create');
+            Route::post('store', [DanhMucController::class, 'store'])->name('store');
+            Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
+            Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
+            Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
+        });
 
     //     // products
     //     Route::prefix('products')->name('products.')->group(function () {
