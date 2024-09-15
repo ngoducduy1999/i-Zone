@@ -27,7 +27,7 @@
                                 @method('post')
                                 <div class="mb-3">
                                     <label for="ten_tag" class="form-label">Tên Thẻ Tag</label>
-                                    <input class="form-control" type="text" id="ten_tag" name="ten_tag"
+                                    <input  class="form-control" type="text" id="ten_tag" name="ten_tag"
                                         placeholder="Tên Thẻ Tag" value="{{ old('ten_tag') }}">
                                     @error('ten_tag')
                                     <p class="text-danger">{{ $message }}</p>
