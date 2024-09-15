@@ -10,6 +10,8 @@ use App\Http\Controllers\Auth\CustomerRegisterController; */
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\admin\TagController;
+
 
 // Routes for unauthenticated users
 /* Route::prefix('customer')->name('customer.')->group(function () {
@@ -77,6 +79,17 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('/{id}/onOffKhuyenMai', [KhuyenMaiController::class, 'onOffKhuyenMai'])->name('onOffKhuyenMai');
         Route::delete('/{id}', [KhuyenMaiController::class, 'destroy'])->name('destroy');
     });
+
+        // Route the-tag
+        Route::prefix('tag')->name('tag.')->group(function () {
+            Route::get('/', [TagController::class, 'index'])->name('index');
+            Route::get('create', [TagController::class, 'create'])->name('create');
+            Route::post('store', [TagController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [TagController::class, 'update'])->name('update');
+            Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
+            Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
+        });
 });
 
 // Routes for authenticated users with 'staff' role
@@ -86,3 +99,5 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
 
 });
+
+
