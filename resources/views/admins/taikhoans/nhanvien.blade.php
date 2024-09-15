@@ -43,7 +43,6 @@
                                 <td>{{ \Carbon\Carbon::parse($user->ngay_sinh)->age }}</td>
                                 <td>
                                     <!-- Nút sửa -->
-                                    <a href="{{ route('admin.taikhoans.edit', $user->id) }}" class="btn btn-primary btn-sm">Sửa</a>
 
                                     <!-- Nút xem chi tiết -->
                                     <a href="{{ route('admin.taikhoans.show', $user->id) }}" class="btn btn-info btn-sm">Xem chi tiết</a>

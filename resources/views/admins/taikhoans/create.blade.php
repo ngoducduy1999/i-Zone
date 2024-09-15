@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Tạo tài khoản mới
+    Thêm nhân viên
 @endsection
 
 @section('css')

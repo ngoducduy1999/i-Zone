@@ -27,7 +27,7 @@
             <ul id="side-menu">
 
                 <li class="menu-title text-light">Quản trị</li>
-                @if (Auth::user()->vai_tro=='admin')
+                @if (Auth::user()->vai_tro == 'admin')
                 <li>
                     <a class='text-light' href='{{ route('admin.dashboard') }}'>
                         <i data-feather="home"></i>
@@ -50,25 +50,18 @@
                     </a>
                     <div class="collapse" id="sidebarTables">
                         <ul class="nav-second-level">
-                            @if (Auth::user()->vai_tro=='admin')
+                            @if (Auth::user()->vai_tro == 'admin')
                             <li>
-                                <a class='text-white' href='{{route('admin.nhanviens')}}'>Quản lý nhân viên </a>
+                                <a class='text-white' href='{{ route('admin.nhanviens') }}'>Nhân viên</a>
                             </li>
-                            @endif
-                            @if (Auth::user()->vai_tro=='admin')
-
                             <li>
-                                <a class='text-white' href='{{route('admin.khachhangs')}}'>Quản lý khách hàng</a>
+                                <a class='text-white' href='{{ route('admin.khachhangs') }}'>Khách hàng</a>
                             </li>
-        
                             @else
                             <li>
-                                <a class='text-white' href='{{route('staff.khachhangs')}}'>Quản lý khách hàng</a>
-                            </li>   
+                                <a class='text-white' href='{{ route('staff.khachhangs') }}'>Quản lý khách hàng</a>
+                            </li>
                             @endif
-                            
-
-
                         </ul>
                     </div>
                 </li>
@@ -103,7 +96,8 @@
                     </a>
                 </li>
 
-                    <a href="#banner" data-bs-toggle="collapse">
+                <li>
+                    <a href="#bannerSection" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
                             fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
                             <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
@@ -118,7 +112,7 @@
                         <span class="text-white"> Banner </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
-                    <div class="collapse" id="banner">
+                    <div class="collapse" id="bannerSection">
                         <ul class="nav-second-level">
                             <li>
                                 <a class='text-white' href="{{ route('admin.banners.index') }}">Danh sách</a>
@@ -129,8 +123,9 @@
                         </ul>
                     </div>
                 </li>
+
                 <li>
-                    <a href="#banner" data-bs-toggle="collapse">
+                    <a href="#promotionSection" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
                             fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
                             <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
@@ -145,7 +140,7 @@
                         <span class="text-white"> Khuyến mãi </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
-                    <div class="collapse" id="banner">
+                    <div class="collapse" id="promotionSection">
                         <ul class="nav-second-level">
                             <li>
                                 <a class='text-white' href="{{ route('admin.khuyen_mais.index') }}">Danh sách</a>
@@ -156,6 +151,7 @@
                         </ul>
                     </div>
                 </li>
+
             </ul>
 
         </div>

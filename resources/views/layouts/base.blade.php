@@ -30,7 +30,7 @@
                             <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
                                 <div class="mb-4 p-0">
                                     <a class='auth-logo' href='index.html'>
-                                        <img src="assets/images/logo-dark.png" alt="logo-dark" class="mx-auto" height="28" />
+                                        <img src="{{asset('assets/admin/images/logo-dark.png')}}" alt="logo-dark" class="mx-auto" height="28" />
                                     </a>
                                 </div>
                                 @yield('content')
@@ -42,9 +42,9 @@
                 <div class="col-xl-7">
                     <div class="account-page-bg p-md-5 p-4">
                         <div class="text-center">
-                            <h3 class="text-dark mb-3 pera-title">Quick, Effective, and Productive With Tapeli Admin Dashboard</h3>
+                            <h3 class="text-dark mb-3 pera-title">Nhanh chóng, hiệu quả và năng suất với Bảng điều khiển dành cho quản trị viên iZone</h3>
                             <div class="auth-image">
-                                <img src="assets/images/authentication.svg" class="mx-auto img-fluid"  alt="images">
+                                <img src="{{asset('assets/admin/images/authentication.svg')}}" class="mx-auto img-fluid"  alt="images">
                             </div>
                         </div>
                     </div>
