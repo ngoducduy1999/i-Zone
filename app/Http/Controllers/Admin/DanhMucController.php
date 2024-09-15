@@ -25,6 +25,7 @@ class DanhMucController extends Controller
     public function create()
     {
         //
+        return view('admins.danhmucs.create');
     }
 
     /**
@@ -33,6 +34,20 @@ class DanhMucController extends Controller
     public function store(Request $request)
     {
         //
+        if($request->isMethod('POST')){
+            $params = $request->post();
+            $params = $request->except('_token');
+            if($request->hasFile('anh_danh_muc')){
+                $filePath = $request->file('anh_danh_muc')->store('uploads/danhmucs','public');
+
+            }else{
+                $filePath = null;
+            }
+            $params['anh_danh_muc'] = $filePath;
+            DanhMuc::create($params);
+            return redirect()->route('danhmucs.index')->with('msg','Thêm danh mục thành công');
+        }
+        
     }
 
     /**
