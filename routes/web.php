@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\KhuyenMaiController;
@@ -10,6 +9,8 @@ use App\Http\Controllers\Auth\CustomerRegisterController; */
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\admin\DanhMucController;
+use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\admin\TagController;
 
 
@@ -89,6 +90,16 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
             Route::put('/{id}', [TagController::class, 'update'])->name('update');
             Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
             Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
+        });
+   // danhmucs
+        Route::prefix('danhmucs')->name('danhmucs.')->group(function () {
+            Route::get('/', [DanhMucController::class, 'index'])->name('index');
+            Route::get('create', [DanhMucController::class, 'create'])->name('create');
+            Route::post('store', [DanhMucController::class, 'store'])->name('store');
+            Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
+            Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
+            Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
         });
 });
 
