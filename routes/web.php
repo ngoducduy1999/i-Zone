@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\CustomerRegisterController; */
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\admin\DanhMucController;
+use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\admin\TagController;
 
 
@@ -27,6 +29,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('login', [AdminLoginController::class, 'login'])->name('login.post');
     Route::post('logout', [AdminLoginController::class, 'logout'])->name('logout');
 });
+
 
 
 // Routes for authenticated users with 'admin' role
@@ -80,15 +83,25 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
     });
 
         // Route the-tag
-    Route::prefix('tag')->name('tag.')->group(function () {
-    Route::get('/', [TagController::class, 'index'])->name('index');
-    Route::get('create', [TagController::class, 'create'])->name('create');
-    Route::post('store', [TagController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [TagController::class, 'update'])->name('update');
-    Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
-    Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
-    });
+        Route::prefix('tag')->name('tag.')->group(function () {
+            Route::get('/', [TagController::class, 'index'])->name('index');
+            Route::get('create', [TagController::class, 'create'])->name('create');
+            Route::post('store', [TagController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [TagController::class, 'update'])->name('update');
+            Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
+            Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
+        });
+     // danhmucs
+        Route::prefix('danhmucs')->name('danhmucs.')->group(function () {
+            Route::get('/', [DanhMucController::class, 'index'])->name('index');
+            Route::get('create', [DanhMucController::class, 'create'])->name('create');
+            Route::post('store', [DanhMucController::class, 'store'])->name('store');
+            Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
+            Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
+            Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
+        });
 });
 
 // Routes for authenticated users with 'staff' role

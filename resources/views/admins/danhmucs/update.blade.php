@@ -17,7 +17,9 @@
         </div>
 
     </div>
-
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+    @endif
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -29,31 +31,33 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6">
-                            <form action="{{ route('admin.danhmucs.store') }}" method="POST"
+                            <form action="{{ route('admin.danhmucs.update', $danhmucs->id) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
-                                @method('post')
+                                @method('put')
                                 <div class="mb-3">
                                     <label for="ten_danh_muc" class="form-label">Tên Danh Mục</label>
                                     <input class="form-control" type="text" id="ten_danh_muc" name="ten_danh_muc"
-                                        placeholder="Tên banner" value="{{ old('ten_danh_muc') }}">
+                                        placeholder="Tên banner" value="{{ $danhmucs->ten_danh_muc }}">
                                     @error('ten_danh_muc')
-                                        <p class="text-danger">{{ $message }}</p>
+                                        <p class="text-danger">{{ $validatedData}}</p>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="anh_danh_muc" class="form-label">Ảnh danh mục</label>
+                                    <label for="anh_danh_muc" class="form-label">Ảnh Danh Mục</label>
                                     <input class="form-control" type="file" id="anh_danh_muc" name="anh_danh_muc">
                                     @error('anh_danh_muc')
-                                        <p class="text-danger">{{ $message }}</p>
+                                        <p class="text-danger">{{ $validatedData}}</p>
                                     @enderror
                                 </div>
-                                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                                <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                                <a href="{{ route('admin.danhmucs.index') }}" class="btn btn-dark">Quay lại</a>
                             </form>
                         </div>
                         <div class="col-lg-6">
                             <h6 class="fs-15 mb-3">Ảnh</h6>
-                            <img src="" alt="" id="img" name="img" width="100%">
+                            <img src="{{ asset($danhmucs->anh_danh_muc) }}" alt="{{ $danhmucs->ten_danh_muc }}" id="img" name="img"
+                                width="100%">
                         </div>
                     </div>
                 </div>
