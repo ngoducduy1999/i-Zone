@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\KhuyenMaiController;
@@ -66,7 +65,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
         Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
     });
-
+    
     // Promotion management
     Route::prefix('khuyen_mais')->name('khuyen_mais.')->group(function () {
         Route::get('/', [KhuyenMaiController::class, 'index'])->name('index');
@@ -81,15 +80,15 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
     });
 
         // Route the-tag
-        Route::prefix('tag')->name('tag.')->group(function () {
-            Route::get('/', [TagController::class, 'index'])->name('index');
-            Route::get('create', [TagController::class, 'create'])->name('create');
-            Route::post('store', [TagController::class, 'store'])->name('store');
-            Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
-            Route::put('/{id}', [TagController::class, 'update'])->name('update');
-            Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
-            Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
-        });
+    Route::prefix('tag')->name('tag.')->group(function () {
+    Route::get('/', [TagController::class, 'index'])->name('index');
+    Route::get('create', [TagController::class, 'create'])->name('create');
+    Route::post('store', [TagController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [TagController::class, 'update'])->name('update');
+    Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
+    Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
+    });
 });
 
 // Routes for authenticated users with 'staff' role
