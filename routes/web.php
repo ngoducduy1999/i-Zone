@@ -91,7 +91,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
             Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
             Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
         });
-   // danhmucs
+     // danhmucs
         Route::prefix('danhmucs')->name('danhmucs.')->group(function () {
             Route::get('/', [DanhMucController::class, 'index'])->name('index');
             Route::get('create', [DanhMucController::class, 'create'])->name('create');
