@@ -22,6 +22,6 @@ class CheckRole
             return $next($request);
         }
 
-        return redirect()->route('admin.showLogin')->with('error', 'Bạn không có quyền truy cập.');
+        return redirect()->route('admin.login')->with('error', 'Bạn không có quyền truy cập.');
     }
 }
