@@ -14,10 +14,9 @@ class DanhMucController extends Controller
      */
     public function index()
     {
-        //
-      
-            $danhmucs = DanhMuc::query()->latest('id');
-            return view('admins.danhmucs.index', compact('danhmucs'));
+        // Lấy tất cả danh mục
+        $danhmucs = DanhMuc::all();
+        return view('admins.danhmucs.index', compact('danhmucs'));
     }
 
     /**
@@ -25,7 +24,7 @@ class DanhMucController extends Controller
      */
     public function create()
     {
-        //
+        // Hiển thị form tạo mới danh mục
         return view('admins.danhmucs.create');
     }
 
@@ -34,29 +33,39 @@ class DanhMucController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        if($request->isMethod('POST')){
-            $params = $request->post();
-            $params = $request->except('_token');
-            if($request->hasFile('anh_danh_muc')){
-                $filePath = $request->file('anh_danh_muc')->store('uploads/danhmucs','public');
+        // Kiểm tra và validate dữ liệu đầu vào
+        $validatedData = $request->validate([
+            'ten_danh_muc' => 'required|string|max:255|unique:danh_mucs,ten_danh_muc',
+            'mo_ta' => 'nullable|string',
+            'anh_danh_muc' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ],
+        [
+            'ten_danh_muc.required' => 'Tên danh mục không được để trống',
+            'ten_danh_muc.string' => 'Tên danh mục phải là chuỗi',
+            'ten_danh_mucunique' => 'Tên danh mục đã tồn tại',
+            'ten_danh_muc.max' => 'Tên danh mục không quá 255 ký tự',
 
-            }else{
-                $filePath = null;
-            }
-            $params['anh_danh_muc'] = $filePath;
-            DanhMuc::create($params);
-            return redirect()->route('danhmucs.index')->with('msg','Thêm danh mục thành công');
+            'anh_danh_muc.image' => 'Ảnh danh mục phải là ảnh',
+            'anh_danh_muc.mimes' => 'Ảnh danh mục phải có đuôi jpg, png, jpeg, gif',
+        ]);
+
+        // Lấy toàn bộ request trừ _token
+        $params = $request->except('_token');
+    
+        // Xử lý ảnh danh mục nếu có
+        if ($request->hasFile('anh_danh_muc')) {
+            $fileName = time() . '_' . $request->file('anh_danh_muc')->getClientOriginalName();
+            $filePath = $request->file('anh_danh_muc')->storeAs('danhmucs', $fileName, 'public');
+            $params['anh_danh_muc'] = 'storage/' . $filePath;
+        } else {
+            $params['anh_danh_muc'] = null;
         }
-        
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        // Tạo danh mục mới
+        DanhMuc::create($params);
+
+        // Chuyển hướng và thông báo thành công
+        return redirect()->route('admin.danhmucs.index')->with('msg', 'Thêm danh mục thành công');
     }
 
     /**
@@ -64,10 +73,9 @@ class DanhMucController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $danhmucs = DanhMuc::query()->findOrFail($id);
-
-        return view('admins.danhmucs.update',compact(  'title'));
+        // Lấy danh mục theo ID và hiển thị form chỉnh sửa
+        $danhmucs = DanhMuc::findOrFail($id);
+        return view('admins.danhmucs.update', compact('danhmucs'));
     }
 
     /**
@@ -75,37 +83,43 @@ class DanhMucController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        $danhmucs = DanhMuc::find($id);
-        if (!$danhmucs) {
-            return redirect()->route('admin.danhmucs.index')->with('error', 'Danh mục không tồn tại');
-        }
-        $data = $request->validate(
-            [
-                'ten_danh_muc' => ['required', 'string', 'max:255'],
-                'anh_danh_muc' => ['image', 'mimes:jpg,png,jpeg,gif'],
-            ],
-            [
-                'ten_danh_muc.required' => 'Tên danh mục không được để trống',
-                'ten_danh_muc.string' => 'Tên danh mục phải là chuỗi',
-                'ten_danh_muc.max' => 'Tên danh mục không quá 255 ký tự',
+        // Lấy danh mục theo ID
+        $danhmucs = DanhMuc::findOrFail($id);
 
-                'anh_danh_muc.image' => 'Ảnh danh mục phải là ảnh',
-                'anh_danh_muc.mimes' => 'Ảnh danh mục phải có đuôi jpg, png, jpeg, gif',
-            ]
-        );
-        $old_danh_muc = $danhmucs->anh_danh_muc;
-        if (isset($request['anh_danh_muc'])) {
-            $path_danh_muc = $request->file('anh_danh_muc')->store('danhmucs', 'public');
-            $data['anh_danh_muc'] = 'storage/' . $path_danh_muc;
-            if ($old_danh_muc) {
-                if (file_exists($old_danh_muc)) {
-                    unlink($old_danh_muc);
-                }
+        // Validate dữ liệu đầu vào, bỏ qua bản ghi hiện tại khi kiểm tra tính duy nhất
+        $validatedData = $request->validate([
+            'ten_danh_muc' => 'required|string|max:255|unique:danh_mucs,ten_danh_muc,' . $danhmucs->id,
+            'mo_ta' => 'nullable|string',
+            'anh_danh_muc' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ],
+        [
+            'ten_danh_muc.required' => 'Tên danh mục không được để trống',
+            'ten_danh_muc.string' => 'Tên danh mục phải là chuỗi',
+            'ten_danh_muc.unique' => 'Tên danh mục đã tồn tại',
+            'ten_danh_muc.max' => 'Tên danh mục không quá 255 ký tự',
+
+            'anh_danh_muc.image' => 'Ảnh danh mục phải là ảnh',
+            'anh_danh_muc.mimes' => 'Ảnh danh mục phải có đuôi jpg, png, jpeg, gif',
+        ]);
+       
+        // Lưu ảnh mới nếu có
+        if ($request->hasFile('anh_danh_muc')) {
+            // Xóa ảnh cũ nếu tồn tại
+            if ($danhmucs->anh_danh_muc) {
+                Storage::disk('public')->delete($danhmucs->anh_danh_muc);
             }
+
+            // Lưu ảnh mới
+            $fileName = time() . '_' . $request->file('anh_danh_muc')->getClientOriginalName();
+            $filePath = $request->file('anh_danh_muc')->storeAs('danhmucs', $fileName, 'public');
+            $validatedData['anh_danh_muc'] = 'storage/' .$filePath;
         }
-        $danhmucs->update($data);
-        return redirect()->back()->with('success', 'Cập nhật danh mục thành công');
+
+        // Cập nhật danh mục
+        $danhmucs->update($validatedData);
+
+        // Chuyển hướng và thông báo thành công
+        return redirect()->route('admin.danhmucs.index')->with('msg', 'Cập nhật danh mục thành công');
     }
 
     /**
@@ -113,17 +127,20 @@ class DanhMucController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $danhMuc = DanhMuc::find($id);
-        if($danhMuc) {
-        
-            $danhMuc->delete();
-            if($danhMuc->anh_danh_muc && Storage::disk('public')->exists('uploads/danhmucs', 'public')){
-                Storage::disk('public')->delete($danhMuc->anh_danh_muc);
-            }
-            return back()->with('delete', 'Xóa danh mục thành công!');
-        }else {
-            return back()->with('error', 'Danh mục không tồn tại!');
+        // Lấy danh mục theo ID
+        $danhMuc = DanhMuc::findOrFail($id);
+
+        // Xóa danh mục
+        if ($danhMuc->anh_danh_muc) {
+            // Xóa ảnh từ storage
+            Storage::disk('public')->delete($danhMuc->anh_danh_muc);
         }
+
+        // Xóa bản ghi danh mục
+        $danhMuc->delete();
+
+        // Chuyển hướng và thông báo thành công
+        return back()->with('msg', 'Xóa danh mục thành công!');
     }
+
 }

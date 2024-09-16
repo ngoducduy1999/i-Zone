@@ -32,6 +32,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 
+
 // Routes for authenticated users with 'admin' role
 Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -68,7 +69,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
         Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
     });
-
+    
     // Promotion management
     Route::prefix('khuyen_mais')->name('khuyen_mais.')->group(function () {
         Route::get('/', [KhuyenMaiController::class, 'index'])->name('index');
