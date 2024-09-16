@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.base')
 
 @section('title', 'Đăng ký')
 
@@ -7,7 +7,7 @@
 @section('content')
     <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
         <div class="pt-0">
-            <form method="POST" action="{{ route('register') }}" class="my-4">
+            <form method="POST" action="{{ route('customer.register.post') }}" class="my-4">
                 @csrf
                 <div class="form-group mb-3">
                     <label for="username" class="form-label">Tên người dùng</label>
@@ -70,7 +70,7 @@
             <div class="saprator my-4"><span>hoặc đăng nhập với</span></div>
 
             <div class="text-center text-muted mb-4">
-                <p class="mb-0">Đã có tài khoản? <a class='text-primary ms-2 fw-medium' href='{{ route('login') }}'>Đăng nhập tại đây</a></p>
+                <p class="mb-0">Đã có tài khoản? <a class='text-primary ms-2 fw-medium' href='{{ route('customer.login.post') }}'>Đăng nhập tại đây</a></p>
             </div>
         </div>
     </div>

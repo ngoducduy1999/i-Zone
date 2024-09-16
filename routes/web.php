@@ -4,25 +4,26 @@ use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\KhuyenMaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AdminLoginController;
-/* use App\Http\Controllers\Auth\CustomerLoginController;
-use App\Http\Controllers\Auth\CustomerRegisterController; */
+use App\Http\Controllers\Auth\CustomerLoginController;
+use App\Http\Controllers\Auth\CustomerRegisterController; 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\admin\DanhMucController;
+use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\admin\TagController;
 
 
 // Routes for unauthenticated users
-/* Route::prefix('customer')->name('customer.')->group(function () {
-    Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
-    Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
-    Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
-    Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
-});
- */
+//  Route::prefix('customer')->name('customer.')->group(function () {
+//     Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
+//     Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
+//     Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
+//     Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
+//     Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
+// });
+
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('login', [AdminLoginController::class, 'showLoginForm'])->name('login');
@@ -100,6 +101,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
             Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
             Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
             Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
+        });
+        // Route hóa đơn
+        Route::prefix('hoadons')->name('hoadons.')->group(function () {
+            Route::get('/', [HoaDonController::class, 'index'])->name('index');
+            Route::get('/{id}/show', [HoaDonController::class, 'show'])->name('show');
+            Route::put('/{id}/update', [HoaDonController::class, 'update'])->name('update');
         });
 });
 
