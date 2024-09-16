@@ -12,7 +12,7 @@ class CustomerLoginController extends Controller
     // Hiển thị form đăng nhập
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('auth.customer_login');
     }
 
     // Xử lý đăng nhập

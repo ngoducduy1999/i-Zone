@@ -106,7 +106,7 @@
                 </li>
 
                 <li>
-                    <a class='text-light' href=''>
+                    <a class='text-light' href='{{ route('admin.hoadons.index') }}'>
                         <i data-feather="shopping-bag"></i>
                         <span> Thông tin đơn hàng </span>
                     </a>

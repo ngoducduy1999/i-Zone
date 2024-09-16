@@ -60,7 +60,7 @@
                                 </tbody>
                             </table>
                             <div class="mt-3">
-                              
+                                {{-- {{ $listDanhGia->links('pagination::bootstrap-5') }} --}}
                             </div>
                         </div>
                     </div>
