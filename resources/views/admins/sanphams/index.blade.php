@@ -1,17 +1,5 @@
 @extends('layouts.admin')
-
-@section('title')
-
-@endsection
-
-@section('css')
-
-@endsection
-
+@section('title', 'Danh sách sản phẩm')
 @section('content')
-
-@endsection
-
-@section('js')
-  
+    <h1>Danh sách sản phẩm</h1>
 @endsection
