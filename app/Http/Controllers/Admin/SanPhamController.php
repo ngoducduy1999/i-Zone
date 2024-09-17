@@ -162,7 +162,14 @@ class SanPhamController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $sanpham = SanPham::find($id);
+        if ($sanpham) {
+            $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
+            $anhsanphams = HinhAnhSanPham::where('san_pham_id', $id)->get();
+            $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
+            return view('admins.sanphams.show', compact('sanpham', 'bienthesanphams', 'anhsanphams', 'tagsanphams'));
+        }
+        return redirect()->route('admin.sanphams.index')->with('error', 'Không tìm thấy sản phẩm');
     }
 
     /**
