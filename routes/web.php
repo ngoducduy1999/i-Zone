@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\KhuyenMaiController;
@@ -26,7 +27,7 @@ use App\Http\Controllers\admin\TagController;
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+    Route::get('/', [AdminLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminLoginController::class, 'login'])->name('login.post');
     Route::post('logout', [AdminLoginController::class, 'logout'])->name('logout');
 });
@@ -109,6 +110,25 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
             Route::get('/{id}/show', [HoaDonController::class, 'show'])->name('show');
             Route::put('/{id}/update', [HoaDonController::class, 'update'])->name('update');
         });
+
+        // sản phẩm
+    Route::prefix('sanphams')->name('sanphams.')->group(function () {
+        Route::get('/', [SanPhamController::class, 'index'])->name('index');
+        Route::get('create', [SanPhamController::class, 'create'])->name('create');
+        Route::post('store', [SanPhamController::class, 'store'])->name('store');
+        Route::get('/{id}/show', [SanPhamController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [SanPhamController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [SanPhamController::class, 'update'])->name('update');
+        Route::get('{id}createbienthe',  [SanPhamController::class, 'createbienthe'])->name('createbienthe');
+        Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->name('destroy'); //chưa làm
+    });
+    // biến thể sản phẩm
+    Route::prefix('bienthesanphams')->name('bienthesanphams.')->group(function () {
+        Route::get('/{id}/index', [BienTheSanPhamController::class, 'index'])->name('index');
+        Route::post('/store', [BienTheSanPhamController::class, 'store'])->name('store');
+        Route::delete('/{id}/destroy', [BienTheSanPhamController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('restore');
+    });
 });
 
 // Routes for authenticated users with 'staff' role

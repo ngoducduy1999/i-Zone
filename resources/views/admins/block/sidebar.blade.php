@@ -118,7 +118,28 @@
                         <span> Đánh giá sản phẩm </span>
                     </a>
                 </li>
-
+                <li>
+                    <a href="#sanpham" data-bs-toggle="collapse">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
+                            <path
+                                d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z">
+                            </path>
+                        </svg>
+                        <span class="text-white"> Sản phẩm </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="sanpham">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.sanphams.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a class='text-white' href="{{ route('admin.sanphams.create') }}">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li>
                     <a href="#bannerSection" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
@@ -175,7 +196,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#promotionSection" data-bs-toggle="collapse">
+                    <a href="#tags" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
                             fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
                             <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
@@ -190,7 +211,7 @@
                         <span class="text-white"> Thẻ Tag </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
-                    <div class="collapse" id="promotionSection">
+                    <div class="collapse" id="tags">
                         <ul class="nav-second-level">
                             <li>
                                 <a class='text-white' href="{{ route('admin.tag.index') }}">Danh sách</a>
