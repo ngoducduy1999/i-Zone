@@ -15,6 +15,8 @@ use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\admin\TagController;
+use App\Http\Controllers\Auth\AdminForgotPasswordController;
+
 
 
 // Routes for unauthenticated users
@@ -31,6 +33,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminLoginController::class, 'login'])->name('login.post');
     Route::post('logout', [AdminLoginController::class, 'logout'])->name('logout');
+    Route::get('forgot-password', [AdminForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('forgot-password', [AdminForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('reset-password/{token}', [AdminForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('reset-password', [AdminForgotPasswordController::class, 'reset'])->name('password.update');   
 });
 
 

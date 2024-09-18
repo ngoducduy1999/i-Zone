@@ -10,8 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    use SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'ten',
@@ -31,15 +30,16 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'mat_khau' => 'hashed',
+        'mat_khau' => 'hashed', // Laravel sẽ tự động hash mật khẩu khi lưu trữ
     ];
 
-    // Accessor để Laravel hiểu cột 'mat_khau' là 'password'
+    // Accessor để Laravel hiểu cột 'mat_khau' là mật khẩu
     public function getAuthPassword()
     {
         return $this->mat_khau;
     }
 
+    // Các mối quan hệ với các bảng khác
     public function baiViets()
     {
         return $this->hasMany(BaiViet::class);
