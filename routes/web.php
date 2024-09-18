@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\BannerController;
@@ -6,7 +7,7 @@ use App\Http\Controllers\admin\KhuyenMaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\CustomerLoginController;
-use App\Http\Controllers\Auth\CustomerRegisterController; 
+use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Admin\UserController;
@@ -37,26 +38,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
 // Routes for authenticated users with 'admin' role
 Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
-    // CRUD routes for User management
-   Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
-   Route::get('/nhanviens', [UserController::class, 'nhanviens'])->name('nhanviens'); // Display users list
-   Route::get('/taikhoans/create', [UserController::class, 'create'])->name('taikhoans.create'); // Create new user
-   Route::post('/taikhoans', [UserController::class, 'store'])->name('taikhoans.store'); // Store new user
-   Route::get('/taikhoans/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
-   Route::get('/taikhoans/{id}/edit', [UserController::class, 'edit'])->name('taikhoans.edit'); // Edit user
-   Route::put('/taikhoans/{id}', [UserController::class, 'update'])->name('taikhoans.update'); // Update user
-   Route::delete('/taikhoans/{id}', [UserController::class, 'destroy'])->name('taikhoans.destroy'); // Delete user
-   Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-   Route::get('/profile/updatePassword', [UserController::class, 'profile'])->name('profile.updatePassword');
-   Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
 
-   // Đánh giá sản phẩm
-   Route::prefix('danhgias')->name('danhgias.')->group(function () {
-   Route::get('/', [DanhgiaController::class, 'index'])->name('index');
-   Route::get('create', [DanhgiaController::class, 'create'])->name('create');
-   Route::post('store', [DanhgiaController::class, 'store'])->name('store');
-   Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');  
+    // CRUD routes for User management
+    Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
+    Route::get('/nhanviens', [UserController::class, 'nhanviens'])->name('nhanviens'); // Display users list
+    Route::get('/taikhoans/create', [UserController::class, 'create'])->name('taikhoans.create'); // Create new user
+    Route::post('/taikhoans', [UserController::class, 'store'])->name('taikhoans.store'); // Store new user
+    Route::get('/taikhoans/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
+    Route::get('/taikhoans/{id}/edit', [UserController::class, 'edit'])->name('taikhoans.edit'); // Edit user
+    Route::put('/taikhoans/{id}', [UserController::class, 'update'])->name('taikhoans.update'); // Update user
+    Route::delete('/taikhoans/{id}', [UserController::class, 'destroy'])->name('taikhoans.destroy'); // Delete user
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/profile/updatePassword', [UserController::class, 'profile'])->name('profile.updatePassword');
+    Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
+
+    // Đánh giá sản phẩm
+    Route::prefix('danhgias')->name('danhgias.')->group(function () {
+        Route::get('/', [DanhgiaController::class, 'index'])->name('index');
+        Route::get('create', [DanhgiaController::class, 'create'])->name('create');
+        Route::post('store', [DanhgiaController::class, 'store'])->name('store');
+        Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');
     });
 
     // Banner management
@@ -70,7 +71,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
         Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
     });
-    
+
     // Promotion management
     Route::prefix('khuyen_mais')->name('khuyen_mais.')->group(function () {
         Route::get('/', [KhuyenMaiController::class, 'index'])->name('index');
@@ -84,34 +85,34 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::delete('/{id}', [KhuyenMaiController::class, 'destroy'])->name('destroy');
     });
 
-        // Route the-tag
-        Route::prefix('tag')->name('tag.')->group(function () {
-            Route::get('/', [TagController::class, 'index'])->name('index');
-            Route::get('create', [TagController::class, 'create'])->name('create');
-            Route::post('store', [TagController::class, 'store'])->name('store');
-            Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
-            Route::put('/{id}', [TagController::class, 'update'])->name('update');
-            Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
-            Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
-        });
-     // danhmucs
-        Route::prefix('danhmucs')->name('danhmucs.')->group(function () {
-            Route::get('/', [DanhMucController::class, 'index'])->name('index');
-            Route::get('create', [DanhMucController::class, 'create'])->name('create');
-            Route::post('store', [DanhMucController::class, 'store'])->name('store');
-            Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
-            Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
-            Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
-            Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
-        });
-        // Route hóa đơn
-        Route::prefix('hoadons')->name('hoadons.')->group(function () {
-            Route::get('/', [HoaDonController::class, 'index'])->name('index');
-            Route::get('/{id}/show', [HoaDonController::class, 'show'])->name('show');
-            Route::put('/{id}/update', [HoaDonController::class, 'update'])->name('update');
-        });
+    // Route the-tag
+    Route::prefix('tag')->name('tag.')->group(function () {
+        Route::get('/', [TagController::class, 'index'])->name('index');
+        Route::get('create', [TagController::class, 'create'])->name('create');
+        Route::post('store', [TagController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [TagController::class, 'update'])->name('update');
+        Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
+        Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
+    });
+    // danhmucs
+    Route::prefix('danhmucs')->name('danhmucs.')->group(function () {
+        Route::get('/', [DanhMucController::class, 'index'])->name('index');
+        Route::get('create', [DanhMucController::class, 'create'])->name('create');
+        Route::post('store', [DanhMucController::class, 'store'])->name('store');
+        Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
+        Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
+    });
+    // Route hóa đơn
+    Route::prefix('hoadons')->name('hoadons.')->group(function () {
+        Route::get('/', [HoaDonController::class, 'index'])->name('index');
+        Route::get('/{id}/show', [HoaDonController::class, 'show'])->name('show');
+        Route::put('/{id}/update', [HoaDonController::class, 'update'])->name('update');
+    });
 
-        // sản phẩm
+    // sản phẩm
     Route::prefix('sanphams')->name('sanphams.')->group(function () {
         Route::get('/', [SanPhamController::class, 'index'])->name('index');
         Route::get('create', [SanPhamController::class, 'create'])->name('create');
@@ -119,8 +120,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::get('/{id}/show', [SanPhamController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [SanPhamController::class, 'edit'])->name('edit');
         Route::put('/{id}/update', [SanPhamController::class, 'update'])->name('update');
-        Route::get('{id}createbienthe',  [SanPhamController::class, 'createbienthe'])->name('createbienthe');
-        Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->name('destroy'); //chưa làm
+        Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
     });
     // biến thể sản phẩm
     Route::prefix('bienthesanphams')->name('bienthesanphams.')->group(function () {
@@ -138,5 +139,3 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
 
 });
-
-
