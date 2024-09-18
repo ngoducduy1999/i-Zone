@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BienTheSanPham;
+use App\Models\SanPham;
 use Illuminate\Http\Request;
 
 class BienTheSanPhamController extends Controller
@@ -10,9 +12,11 @@ class BienTheSanPhamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $id)
     {
-        //
+        $sanpham = SanPham::withTrashed()->where('id', $id)->first();
+        $bienthes = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
+        return view('admins.bienthesanphams.index', compact('sanpham', 'bienthes'));
     }
 
     /**
