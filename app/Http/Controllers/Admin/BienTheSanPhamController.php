@@ -64,6 +64,21 @@ class BienTheSanPhamController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $bienthe = BienTheSanPham::withTrashed()->find($id);
+        if (!$bienthe) {
+            return redirect()->back()->with('error', 'Biến thể sản phẩm không tồn tại');
+        }
+        $bienthe->delete();
+        return redirect()->back()->with('success', 'Xóa biến thể sản phẩm thành công');
+    }
+
+    public function restore(string $id)
+    {
+        $bienthe = BienTheSanPham::withTrashed()->find($id);
+        if (!$bienthe) {
+            return redirect()->back()->with('error', 'Biến thể sản phẩm không tồn tại');
+        }
+        $bienthe->restore();
+        return redirect()->back()->with('success', 'Khôi phục biến thể sản phẩm thành công');
     }
 }
