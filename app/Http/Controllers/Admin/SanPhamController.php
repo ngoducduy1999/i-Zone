@@ -186,6 +186,21 @@ class SanPhamController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $sanpham = SanPham::withTrashed()->find($id);
+        if (!$sanpham) {
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+        }
+        $sanpham->delete();
+        return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
+    }
+
+    public function restore(string $id)
+    {
+        $sanpham = SanPham::withTrashed()->find($id);
+        if (!$sanpham) {
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+        }
+        $sanpham->restore();
+        return redirect()->back()->with('success', 'Khôi phục sản phẩm thành công');
     }
 }
