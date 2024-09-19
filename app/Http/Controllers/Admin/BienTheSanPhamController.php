@@ -59,6 +59,7 @@ class BienTheSanPhamController extends Controller
             'so_luong.*.required' => 'Số lượng không được để trống.',
             'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
             'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
+            'so_luong.*.max' => 'Số lượng quá lớn.',
         ]);
         foreach ($databienthesanphams['dung_luong_id'] as $index => $dung_luong_id) {
             BienTheSanPham::create([

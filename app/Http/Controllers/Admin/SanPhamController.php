@@ -116,7 +116,7 @@ class SanPhamController extends Controller
             'so_luong.*.required' => 'Số lượng không được để trống.',
             'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
             'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
-            'so_luong.*.max' => 'Số lượng sản phẩm giá lớn.',
+            'so_luong.*.max' => 'Số lượng quá lớn.',
         ]);
         // sản phẩm
         if (isset($request['anh_san_pham'])) {
@@ -304,7 +304,7 @@ class SanPhamController extends Controller
             'so_luong.*.required' => 'Số lượng không được để trống.',
             'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
             'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
-            'so_luong.*.max' => 'Số lượng sản phẩm giá lớn.',
+            'so_luong.*.max' => 'Số lượng quá lớn.',
         ]);
         $dungLuongIds = $request->input('dung_luong_id', []);
         $mauSacIds = $request->input('mau_sac_id', []);
