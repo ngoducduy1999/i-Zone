@@ -20,13 +20,13 @@ use App\Http\Controllers\Auth\AdminForgotPasswordController;
 
 
 // Routes for unauthenticated users
-//  Route::prefix('customer')->name('customer.')->group(function () {
-//     Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
-//     Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
-//     Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
-//     Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
-//     Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
-// });
+  Route::prefix('customer')->name('customer.')->group(function () {
+  Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
+  Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
+  Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
+  Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
+  Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
+});
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
