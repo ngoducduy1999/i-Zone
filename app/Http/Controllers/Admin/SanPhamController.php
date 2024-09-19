@@ -99,7 +99,7 @@ class SanPhamController extends Controller
             'mau_sac_id.*' => ['required', 'exists:mau_sacs,id'],
             'gia_cu.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
             'gia_moi.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
-            'so_luong.*' => ['required', 'integer', 'min:0'],
+            'so_luong.*' => ['required', 'integer', 'min:0', 'max:4294967295'],
         ], [
             'dung_luong_id.*.required' => 'Dung lượng không được để trống.',
             'dung_luong_id.*.exists' => 'Dung lượng không tồn tại.',
@@ -116,6 +116,7 @@ class SanPhamController extends Controller
             'so_luong.*.required' => 'Số lượng không được để trống.',
             'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
             'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
+            'so_luong.*.max' => 'Số lượng quá lớn.',
         ]);
         // sản phẩm
         if (isset($request['anh_san_pham'])) {
@@ -285,7 +286,7 @@ class SanPhamController extends Controller
             'mau_sac_id.*' => ['required', 'exists:mau_sacs,id'],
             'gia_cu.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
             'gia_moi.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
-            'so_luong.*' => ['required', 'integer', 'min:0'],
+            'so_luong.*' => ['required', 'integer', 'min:0', 'max:4294967295'],
             'deleted.*' => ['nullable', 'string'],
         ], [
             'dung_luong_id.*.required' => 'Dung lượng không được để trống.',
@@ -303,6 +304,7 @@ class SanPhamController extends Controller
             'so_luong.*.required' => 'Số lượng không được để trống.',
             'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
             'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
+            'so_luong.*.max' => 'Số lượng quá lớn.',
         ]);
         $dungLuongIds = $request->input('dung_luong_id', []);
         $mauSacIds = $request->input('mau_sac_id', []);
