@@ -12,6 +12,9 @@ use App\Models\SanPham;
 use App\Models\Tag;
 use App\Models\TagSanPham;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class SanPhamController extends Controller
 {
@@ -94,8 +97,8 @@ class SanPhamController extends Controller
         $databienthesanphams = $request->validate([
             'dung_luong_id.*' => ['required', 'exists:dung_luongs,id'],
             'mau_sac_id.*' => ['required', 'exists:mau_sacs,id'],
-            'gia_cu.*' => ['required', 'numeric', 'min:1'],
-            'gia_moi.*' => ['required', 'numeric', 'min:1'],
+            'gia_cu.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
+            'gia_moi.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
             'so_luong.*' => ['required', 'integer', 'min:0'],
         ], [
             'dung_luong_id.*.required' => 'Dung lượng không được để trống.',
@@ -105,9 +108,11 @@ class SanPhamController extends Controller
             'gia_cu.*.required' => 'Giá cũ không được để trống.',
             'gia_cu.*.numeric' => 'Giá cũ phải là số.',
             'gia_cu.*.min' => 'Giá cũ phải lớn hơn hoặc bằng 1.',
+            'gia_cu.*.max' => 'Giá cũ quá lớn.',
             'gia_moi.*.required' => 'Giá mới không được để trống.',
             'gia_moi.*.numeric' => 'Giá mới phải là số.',
             'gia_moi.*.min' => 'Giá mới phải lớn hơn hoặc bằng 1.',
+            'gia_moi.*.max' => 'Giá mới giá lớn.',
             'so_luong.*.required' => 'Số lượng không được để trống.',
             'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
             'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
@@ -177,7 +182,19 @@ class SanPhamController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $sanpham = SanPham::find($id);
+        if ($sanpham) {
+            $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
+            $hinh_anhs = HinhAnhSanPham::where('san_pham_id', $id)->get();
+            $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
+
+            $danhmucs = DanhMuc::get();
+            $tags = Tag::where('trang_thai', 1)->get();
+            $mausacs = MauSac::where('trang_thai', 1)->get();
+            $dungluongs = DungLuong::where('trang_thai', 1)->get();
+            return view('admins.sanphams.update', compact('sanpham', 'bienthesanphams', 'hinh_anhs', 'tagsanphams', 'danhmucs', 'tags', 'mausacs', 'dungluongs'));
+        }
+        return redirect()->route('admin.sanphams.index')->with('error', 'Không tìm thấy sản phẩm');
     }
 
     /**
@@ -185,7 +202,148 @@ class SanPhamController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        // sản phẩm
+        $sanpham = SanPham::find($id);
+        $old_anh_san_pham = $sanpham->anh_san_pham;
+        $datasanpham = $request->validate(
+            [
+                'ma_san_pham' => ['string', 'max:255', Rule::unique('san_phams', 'ma_san_pham')->ignore($id)],
+                'ten_san_pham' => ['required', 'string', 'max:255'],
+                'danh_muc_id' => ['required', 'integer', 'exists:danh_mucs,id'],
+                'anh_san_pham' => ['mimes:jpg,jpeg,png,gif', 'max:2048'], // Thêm quy tắc kích thước tệp
+                'mo_ta' => ['required', 'string'],
+            ],
+            [
+                'ma_san_pham.required' => 'Mã sản phẩm không được để trống.',
+                'ma_san_pham.string' => 'Mã sản phẩm phải là chuỗi ký tự.',
+                'ma_san_pham.max' => 'Mã sản phẩm không được vượt quá 255 ký tự.',
+                'ma_san_pham.unique' => 'Mã sản phẩm đã tồn tại.',
+
+                'ten_san_pham.required' => 'Tên sản phẩm không được để trống.',
+                'ten_san_pham.string' => 'Tên sản phẩm phải là chuỗi ký tự.',
+                'ten_san_pham.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
+
+                'danh_muc_id.required' => 'Danh mục ID không được để trống.',
+                'danh_muc_id.integer' => 'Danh mục ID phải là số nguyên.',
+                'danh_muc_id.exists' => 'Danh mục ID không tồn tại.',
+
+                'anh_san_pham.mimes' => 'Ảnh sản phẩm phải có định dạng jpg, jpeg, png, hoặc gif.',
+                'anh_san_pham.max' => 'Ảnh sản phẩm không được vượt quá 2MB.', // Thêm thông báo kích thước tệp
+
+                'mo_ta.required' => 'Mô tả không được để trống.',
+                'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
+            ]
+        );
+        if (isset($request['anh_san_pham'])) {
+            $path_anh_san_pham = $request->file('anh_san_pham')->store('thumbnail', 'public');
+            $datasanpham['anh_san_pham'] = 'storage/' . $path_anh_san_pham;
+            if ($old_anh_san_pham) {
+                if (file_exists($old_anh_san_pham)) {
+                    unlink($old_anh_san_pham);
+                }
+            }
+        }
+        $sanpham->update($datasanpham);
+        // ảnh sản phẩm
+        $dataanhsanphams = $request->validate([
+            'hinh_anh.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Tệp phải là hình ảnh với định dạng jpeg, png, jpg, gif và kích thước tối đa 2MB
+            'deleted_images' => 'nullable|string', // Các ảnh đã xóa, nếu có
+            'old_images' => 'nullable|string', // Các ảnh cũ, nếu có
+        ]);
+        $deletedImageIds = explode(',', $request->input('deleted_images')); // Chia chuỗi các ID ảnh đã xóa thành mảng
+        // Xóa các ảnh đã được chỉ định để xóa
+        if (!empty($deletedImageIds)) {
+            foreach ($deletedImageIds as $imageId) {
+                $image = HinhAnhSanPham::find($imageId); // Tìm ảnh theo ID
+                if ($image) {
+                    $filePath = $image->hinh_anh; // Lấy đường dẫn file của ảnh
+                    // Kiểm tra xem đường dẫn file có hợp lệ trước khi xóa
+                    $filePath = str_replace('storage/', '', $filePath);
+                    if ($filePath && Storage::exists($filePath)) {
+                        Storage::delete($filePath);
+                    }
+                    // Xóa bản ghi ảnh khỏi cơ sở dữ liệu
+                    $image->delete();
+                }
+            }
+        }
+        // Xử lý các ảnh mới được tải lên
+        if ($request->hasFile('hinh_anh')) {
+            foreach ($request->file('hinh_anh') as $hinh_anh) {
+                $path = $hinh_anh->store('albums', 'public'); // Lưu tệp ảnh và lấy đường dẫn
+                // Lưu thông tin ảnh vào cơ sở dữ liệu
+                HinhAnhSanPham::create([
+                    'hinh_anh' => 'storage/' . $path, // Đường dẫn ảnh lưu trữ
+                    'san_pham_id' => $sanpham['id'], // ID của sản phẩm
+                ]);
+            }
+        }
+        // // biến thể sản phẩm
+        $databienthesanphams = $request->validate([
+            'dung_luong_id.*' => ['required', 'exists:dung_luongs,id'],
+            'mau_sac_id.*' => ['required', 'exists:mau_sacs,id'],
+            'gia_cu.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
+            'gia_moi.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
+            'so_luong.*' => ['required', 'integer', 'min:0'],
+            'deleted.*' => ['nullable', 'string'],
+        ], [
+            'dung_luong_id.*.required' => 'Dung lượng không được để trống.',
+            'dung_luong_id.*.exists' => 'Dung lượng không tồn tại.',
+            'mau_sac_id.*.required' => 'Màu sắc không được để trống.',
+            'mau_sac_id.*.exists' => 'Màu sắc không tồn tại.',
+            'gia_cu.*.required' => 'Giá cũ không được để trống.',
+            'gia_cu.*.numeric' => 'Giá cũ phải là số.',
+            'gia_cu.*.min' => 'Giá cũ phải lớn hơn hoặc bằng 1.',
+            'gia_cu.*.max' => 'Giá cũ quá lớn.',
+            'gia_moi.*.required' => 'Giá mới không được để trống.',
+            'gia_moi.*.numeric' => 'Giá mới phải là số.',
+            'gia_moi.*.min' => 'Giá mới phải lớn hơn hoặc bằng 1.',
+            'gia_moi.*.max' => 'Giá mới quá lớn.',
+            'so_luong.*.required' => 'Số lượng không được để trống.',
+            'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
+            'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
+        ]);
+        $dungLuongIds = $request->input('dung_luong_id', []);
+        $mauSacIds = $request->input('mau_sac_id', []);
+        $giaCu = $request->input('gia_cu', []);
+        $giaMoi = $request->input('gia_moi', []);
+        $soLuong = $request->input('so_luong', []);
+        $variantIds = $request->input('variant_id', []);
+        foreach ($variantIds as $index => $idbienthe) {
+            $bienthe = BienTheSanPham::withTrashed()->find($idbienthe);
+            if ($bienthe) {
+                $bienthe->update([
+                    'dung_luong_id' => $dungLuongIds[$index],
+                    'mau_sac_id' => $mauSacIds[$index],
+                    'gia_cu' => $giaCu[$index],
+                    'gia_moi' => $giaMoi[$index],
+                    'so_luong' => $soLuong[$index],
+                ]);
+            }
+        }
+        // // tags
+        $newTags = $request->input('tag_id', []);
+        if (!is_array($newTags)) {
+            $newTags = [];
+        }
+        // Bắt đầu một giao dịch
+        DB::transaction(function () use ($sanpham, $newTags) {
+            // Lấy các tag hiện tại
+            $currentTags = $sanpham->tags->pluck('id')->toArray();
+            // Tính toán các tag cần thêm và xóa
+            $tagsToAdd = array_diff($newTags, $currentTags);
+            $tagsToRemove = array_diff($currentTags, $newTags);
+            // Thêm các tag mới
+            if (!empty($tagsToAdd)) {
+                $sanpham->tags()->attach($tagsToAdd);
+            }
+            // Xóa các tag không còn được chọn
+            if (!empty($tagsToRemove)) {
+                $sanpham->tags()->detach($tagsToRemove);
+            }
+        });
+        return redirect()->back()->with('success', 'Cập nhập thành công sản phẩm');
     }
 
     /**

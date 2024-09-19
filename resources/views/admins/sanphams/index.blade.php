@@ -59,9 +59,9 @@
                                                         <li>Số lượng: {{ $bienthe->so_luong }}</li>
                                                         <li>
                                                             <del class="text-danger">
-                                                                {{ number_format($bienthe->gia_cu, 0, ',', '.') }}đ -
+                                                                {{ number_format($bienthe->gia_cu, 0, ',', '.') }}đ 
                                                             </del>
-                                                            {{ number_format($bienthe->gia_moi, 0, ',', '.') }}đ
+                                                            - {{ number_format($bienthe->gia_moi, 0, ',', '.') }}đ
                                                         </li>
                                                     </ul>
                                                 @endif
