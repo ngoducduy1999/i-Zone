@@ -93,7 +93,7 @@
                         <li>
                             <a class='text-white' href="{{ route('admin.danhmucs.create') }}">Thêm mới</a>
                         </li>
-                      
+
                     </ul>
                 </div>
             </li>
@@ -218,6 +218,43 @@
                             </li>
                             <li>
                                 <a class='text-white' href="{{ route('admin.tag.create') }}">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a class='text-light' href='#dungluongs' data-bs-toggle="collapse">
+                        <i data-feather="package"></i>
+                        <span> dung lượng </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="dungluongs">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.dungluongs.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a href="{{route('admin.dungluongs.create')}}" class="text-white">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+
+                <li>
+                    <a class='text-light' href='#mausacs' data-bs-toggle="collapse">
+                        <i data-feather="package"></i>
+                        <span> Màu sắc </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="mausacs">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.mausacs.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a href="{{route('admin.mausacs.create')}}" class="text-white">Thêm mới</a>
                             </li>
                         </ul>
                     </div>

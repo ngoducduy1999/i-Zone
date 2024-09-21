@@ -11,6 +11,8 @@ use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MauSacController;
+use App\Http\Controllers\Admin\DungLuongController;
 use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\admin\SanPhamController;
@@ -36,7 +38,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('forgot-password', [AdminForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
     Route::post('forgot-password', [AdminForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
     Route::get('reset-password/{token}', [AdminForgotPasswordController::class, 'showResetForm'])->name('password.reset');
-    Route::post('reset-password', [AdminForgotPasswordController::class, 'reset'])->name('password.update');   
+    Route::post('reset-password', [AdminForgotPasswordController::class, 'reset'])->name('password.update');
 });
 
 
@@ -136,6 +138,25 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::delete('/{id}/destroy', [BienTheSanPhamController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('restore');
     });
+
+    Route::prefix('mausacs')->name('mausacs.')->group(function(){
+        Route::get('/',[MauSacController::class,'index'])->name('index');
+        Route::get('create',[MauSacController::class,'create'])->name('create');
+        Route::post('store',[MauSacController::class,'store'])->name('store');
+        Route::get('/{id}/edit',[MauSacController::class,'edit'])->name('edit');
+        Route::put('/{id}/update',[MauSacController::class,'update'])->name('update');
+        Route::delete('/{id}/destroy',[MauSacController::class,'destroy'])->name('destroy');
+    });
+
+    Route::prefix('dungluongs')->name('dungluongs.')->group(function(){
+        Route::get('/',[DungLuongController::class,'index'])->name('index');
+        Route::get('create',[DungLuongController::class,'create'])->name('create');
+        Route::post('store',[DungLuongController::class,'store'])->name('store');
+        Route::get('/{id}/edit',[DungLuongController::class,'edit'])->name('edit');
+        Route::put('/{id}/update',[DungLuongController::class,'update'])->name('update');
+        Route::delete('/{id}/destroy',[DungLuongController::class,'destroy'])->name('destroy');
+    });
+
 });
 
 // Routes for authenticated users with 'staff' role
