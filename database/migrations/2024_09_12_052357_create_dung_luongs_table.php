@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('dung_luongs', function (Blueprint $table) {
             $table->id();
             $table->string('ten_dung_luong');
-            $table->boolean('trang_thai')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

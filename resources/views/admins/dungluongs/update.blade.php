@@ -38,7 +38,7 @@
                                             <p class="text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="trang_thai" class="form-label">Trạng Thái</label>
                                         <select name="trang_thai" id="">
                                             <option value="1" {{ $dungluongs->trang_thai == '1' ? 'selected' : '' }}>Còn
@@ -46,7 +46,7 @@
                                             <option value="0" {{ $dungluongs->trang_thai == '0' ? 'selected' : '' }}>Hết
                                                 hàng</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <button type="submit" class="btn btn-warning">Cập nhật</button>
                                 </form>
                             </div>
