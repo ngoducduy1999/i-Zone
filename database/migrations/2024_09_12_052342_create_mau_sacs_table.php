@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('mau_sacs', function (Blueprint $table) {
             $table->id();
             $table->string('ten_mau_sac');
-            $table->boolean('trang_thai')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

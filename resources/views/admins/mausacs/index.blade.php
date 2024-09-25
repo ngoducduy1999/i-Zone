@@ -40,7 +40,6 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên màu</th>
-                                    <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -49,9 +48,6 @@
                                     <tr>
                                         <td>{{ $mau->id }}</td>
                                         <td>{{ $mau->ten_mau_sac }}</td>
-                                        <td>{!! $mau->trang_thai == 1
-                                            ? '<span class="badge bg-success">Còn</span>'
-                                            : '<span class="badge bg-danger">Hết</span>' !!}</td>
                                         <td>
                                             <div class="">
                                                 <div class="btn-group">
