@@ -146,7 +146,8 @@
                                     </div>
                                     <button class="btn btn-primary" type="submit" style="margin-top: 10px">Sửa sản
                                         phẩm</button>
-                                        <a href="{{ route('admin.sanphams.index') }}" class="btn btn-secondary" style="margin-top: 10px">Danh sách sản phẩm</a>
+                                    <a href="{{ route('admin.sanphams.index') }}" class="btn btn-secondary"
+                                        style="margin-top: 10px">Danh sách sản phẩm</a>
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="card-header">
@@ -226,12 +227,32 @@
                                                                 <p class="text-danger">{{ $message }}</p>
                                                             @enderror
                                                         </div>
+                                                        <div class="col-md-2">
+                                                            <div class="form-check form-switch mb-2">
+                                                                <input type="hidden"
+                                                                    name="trangthai[{{ $index }}]" value="0">
+                                                                <!-- Input hidden -->
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    name="trangthai[{{ $index }}]" value="1"
+                                                                    @if ($bienthesanpham->deleted_at === null) checked @endif
+                                                                    role="switch" id="trangthai-{{ $index }}">
+                                                                <label class="form-check-label"
+                                                                    for="trangthai-{{ $index }}">
+                                                                    Trạng thái
+                                                                </label>
+                                                            </div>
+                                                        </div>
                                                         <input type="hidden" name="variant_id[]"
                                                             value="{{ $bienthesanpham->id }}">
+
                                                     </div>
                                                     <hr>
                                                 </div>
                                             @endforeach
+                                            <div class="variant" data-index="0">
+                                            </div>
+                                            <button class="btn btn-primary py-2" style="margin-top: 10px"
+                                                id="addnewvariant">Thêm biến thể</button>
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -250,7 +271,112 @@
             </div>
         </div>
     </div>
+    <script>
+        // biến thể
+        document.addEventListener('DOMContentLoaded', function() {
+            var variantsContainer = document.getElementById("variants-container");
+            var addnewvariant = document.getElementById("addnewvariant");
+            var variantCount = 1;
 
+            function attachInputChangeListener() {
+                var inputs = document.querySelectorAll('input');
+                inputs.forEach(function(input) {
+                    input.addEventListener('change', function(e) {
+                        if (e.target.value < 1) {
+                            e.target.value = 1;
+                        }
+                    });
+                });
+            }
+
+            function addVariant() {
+                var newVariant = document.createElement('div');
+                newVariant.className = 'variant';
+                newVariant.setAttribute('data-index', variantCount);
+                newVariant.innerHTML = `
+                                    <div class="row g-3">
+                                        <div class="col-md-2">
+                                            <label for="new_dung_luong_id-${variantCount}" class="form-label">Dung lượng:</label>
+                                            <select class="form-select" id="new_dung_luong_id-${variantCount}" name="new_dung_luong_id[]">
+                                                @foreach ($dungluongs as $dungluong)
+                                                    <option value="{{ $dungluong->id }}"
+                                                        {{ old('new_dung_luong_id.0') == $dungluong->id ? 'selected' : '' }}>
+                                                        {{ $dungluong->ten_dung_luong }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="new_mau_sac_id-${variantCount}" class="form-label">Màu sắc:</label>
+                                            <select class="form-select" id="new_mau_sac_id-${variantCount}" name="new_mau_sac_id[]">
+                                                @foreach ($mausacs as $mausac)
+                                                    <option value="{{ $mausac->id }}"
+                                                        {{ old('new_mau_sac_id.0') == $mausac->id ? 'selected' : '' }}>
+                                                        {{ $mausac->ten_mau_sac }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="new_gia_cu-${variantCount}" class="form-label">Giá cũ:</label>
+                                            <input type="number" class="form-control" id="new_gia_cu-${variantCount}" name="new_gia_cu[]" min="0" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="new_gia_moi-${variantCount}" class="form-label">Giá mới:</label>
+                                            <input type="number" class="form-control" id="new_gia_moi-${variantCount}" name="new_gia_moi[]" min="0" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="new_so_luong-${variantCount}" class="form-label">Số lượng:</label>
+                                            <input type="number" class="form-control" id="new_so_luong-${variantCount}" name="new_so_luong[]" min="0" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="remove-btn btn btn-none">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="text-danger" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    @error('new_dung_luong_id.0')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                    @error('new_mau_sac_id.0')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                    @error('new_gia_cu.0')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                    @error('new_gia_moi.0')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                    @error('new_so_luong.0')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                    <hr>
+                                `;
+
+                variantCount++;
+                variantsContainer.insertBefore(newVariant, addnewvariant);
+                attachInputChangeListener();
+
+                // Thêm sự kiện cho nút xóa trong biến thể mới
+                newVariant.querySelector('.remove-btn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    newVariant.remove();
+                });
+            }
+
+            addnewvariant.addEventListener('click', function(e) {
+                e.preventDefault();
+                addVariant();
+            });
+
+
+            // Gán sự kiện ban đầu cho các input
+            attachInputChangeListener();
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('hinh_anh');
