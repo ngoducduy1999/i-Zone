@@ -11,11 +11,27 @@ class DanhgiaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $title = "Đánh giá sản phẩm";
+        // // Lấy dữ liệu từ form search
+        // $search = $request->input('search');
+        // $searchTrangThai = $request->input('searchTrangThai');
 
+        $title = "Đánh giá sản phẩm";
         $listDanhGia = DanhGiaSanPham::get();
+        // $listDanhGia = DanhGiaSanPham::orderByDesc('trang_thai')
+        // ->when($search, function ($query, $search) {
+        //     return $query->whereHas('user', function ($q) use ($search) {
+        //         $q->where('ten', 'like', "%{$search}%");  // Truy vấn qua quan hệ user
+        //     })
+        //     ->orWhereHas('sanPham', function ($q) use ($search) {
+        //         $q->where('ten_san_pham', 'like', "%{$search}%");  // Truy vấn qua quan hệ sanPham
+        //     });
+        // })
+        // ->when($searchTrangThai !== null, function ($query) use ($searchTrangThai) {
+        //     return $query->where('trang_thai', '=', $searchTrangThai);
+        // })
+        // ->paginate(6);
 
         return view('admins.danhgias.index', compact('title', 'listDanhGia'));
     }

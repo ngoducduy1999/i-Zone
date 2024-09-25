@@ -68,7 +68,7 @@
 
                 <li class="menu-title text-light">Kinh doanh</li>
 
-              //
+              
               <li>
                 <a href="#banner" data-bs-toggle="collapse">
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
@@ -98,48 +98,59 @@
                 </div>
             </li>
 
+            <li>
+                <a href="#sanpham" data-bs-toggle="collapse">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
+                        <path
+                            d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z">
+                        </path>
+                    </svg>
+                    <span class="text-white"> Sản phẩm </span>
+                    <span class="menu-arrow text-white"></span>
+                </a>
+                <div class="collapse" id="sanpham">
+                    <ul class="nav-second-level">
+                        <li>
+                            <a class='text-white' href="{{ route('admin.sanphams.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a class='text-white' href="{{ route('admin.sanphams.create') }}">Thêm mới</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
                 <li>
-                    <a class='text-light' href=''>
+                    <a class='text-light' href='#hoadons' data-bs-toggle="collapse">
                         <i data-feather="package"></i>
-                        <span> Thông tin sản phẩm </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class='text-light' href='{{ route('admin.hoadons.index') }}'>
-                        <i data-feather="shopping-bag"></i>
-                        <span> Thông tin đơn hàng </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class='text-light' href='{{ route('admin.danhgias.index') }}'>
-                        <i data-feather="activity"></i>
-                        <span> Đánh giá sản phẩm </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#sanpham" data-bs-toggle="collapse">
-                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
-                            fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
-                            <path
-                                d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z">
-                            </path>
-                        </svg>
-                        <span class="text-white"> Sản phẩm </span>
+                        <span> Hóa đơn </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
-                    <div class="collapse" id="sanpham">
+                    <div class="collapse" id="hoadons">
                         <ul class="nav-second-level">
                             <li>
-                                <a class='text-white' href="{{ route('admin.sanphams.index') }}">Danh sách</a>
-                            </li>
-                            <li>
-                                <a class='text-white' href="{{ route('admin.sanphams.create') }}">Thêm mới</a>
+                                <a class='text-white' href="{{ route('admin.hoadons.index') }}">Danh sách</a>
                             </li>
                         </ul>
                     </div>
                 </li>
+
+                <li>
+                    <a class='text-light' href='#danhgias' data-bs-toggle="collapse">
+                        <i data-feather="activity"></i>
+                        <span> Đánh giá sản phẩm </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="danhgias">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.danhgias.index') }}">Danh sách</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                 <li>
                     <a href="#bannerSection" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
@@ -226,7 +237,7 @@
                 <li>
                     <a class='text-light' href='#dungluongs' data-bs-toggle="collapse">
                         <i data-feather="package"></i>
-                        <span> dung lượng </span>
+                        <span> Dung lượng </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
                     <div class="collapse" id="dungluongs">
