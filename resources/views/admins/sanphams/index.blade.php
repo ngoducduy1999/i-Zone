@@ -4,7 +4,7 @@
     <div class="container-xxl">
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Danh sách banner</h4>
+                <h4 class="fs-18 fw-semibold m-0">Danh sách sản phẩm</h4>
             </div>
 
         </div>
@@ -20,7 +20,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Danh sách banner</h5>
+                        <h5 class="card-title mb-0">Danh sách sản phẩm</h5>
                     </div><!-- end card header -->
 
                     <div class="card-body">
@@ -59,9 +59,9 @@
                                                         <li>Số lượng: {{ $bienthe->so_luong }}</li>
                                                         <li>
                                                             <del class="text-danger">
-                                                                {{ number_format($bienthe->gia_cu, 0, ',', '.') }}đ 
+                                                                {{ number_format($bienthe->gia_cu, 0, ',', '.') }}đ
                                                             </del>
-                                                            - {{ number_format($bienthe->gia_moi, 0, ',', '.') }}đ
+                                                            -{{ number_format($bienthe->gia_moi, 0, ',', '.') }}đ
                                                         </li>
                                                     </ul>
                                                 @endif
@@ -70,9 +70,7 @@
                                         <td>
                                             @foreach ($tagsanphams as $tagsanpham)
                                                 @if ($sanpham->id == $tagsanpham->san_pham_id)
-                                                    <ul>
-                                                        <li>{{ $tagsanpham->tag->ten_tag }}</li>
-                                                    </ul>
+                                                    <span class="text-primary">#{{ $tagsanpham->tag->ten_tag }}</span>
                                                 @endif
                                             @endforeach
                                         </td>
@@ -104,9 +102,6 @@
                                                             href="{{ route('admin.sanphams.show', $sanpham->id) }}">Xem</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('admin.sanphams.edit', $sanpham->id) }}">Sửa</a>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin.bienthesanphams.index', $sanpham->id) }}">Danh
-                                                            sách biến thể</a>
                                                         @if ($sanpham->deleted_at == null)
                                                             <form
                                                                 action="{{ route('admin.sanphams.destroy', $sanpham->id) }}"
@@ -121,7 +116,8 @@
                                                                 method="post">
                                                                 @csrf
                                                                 @method('post')
-                                                                <button class="dropdown-item" href="#">Khôi phục</button>
+                                                                <button class="dropdown-item" href="#">Khôi
+                                                                    phục</button>
 
                                                             </form>
                                                         @endif

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\BienTheSanPham;
+use App\Models\DanhGiaSanPham;
 use App\Models\DanhMuc;
 use App\Models\DungLuong;
 use App\Models\HinhAnhSanPham;
@@ -79,6 +80,7 @@ class SanPhamController extends Controller
             ]
         );
 
+
         // validate ảnh sản phẩm
         $dataanhsanphams = $request->validate(
             [
@@ -97,9 +99,9 @@ class SanPhamController extends Controller
         $databienthesanphams = $request->validate([
             'dung_luong_id.*' => ['required', 'exists:dung_luongs,id'],
             'mau_sac_id.*' => ['required', 'exists:mau_sacs,id'],
-            'gia_cu.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
-            'gia_moi.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
-            'so_luong.*' => ['required', 'integer', 'min:0', 'max:4294967295'],
+            'gia_cu.*' => ['required', 'numeric', 'min:1'],
+            'gia_moi.*' => ['required', 'numeric', 'min:1'],
+            'so_luong.*' => ['required', 'integer', 'min:0'],
         ], [
             'dung_luong_id.*.required' => 'Dung lượng không được để trống.',
             'dung_luong_id.*.exists' => 'Dung lượng không tồn tại.',
@@ -108,15 +110,12 @@ class SanPhamController extends Controller
             'gia_cu.*.required' => 'Giá cũ không được để trống.',
             'gia_cu.*.numeric' => 'Giá cũ phải là số.',
             'gia_cu.*.min' => 'Giá cũ phải lớn hơn hoặc bằng 1.',
-            'gia_cu.*.max' => 'Giá cũ quá lớn.',
             'gia_moi.*.required' => 'Giá mới không được để trống.',
             'gia_moi.*.numeric' => 'Giá mới phải là số.',
             'gia_moi.*.min' => 'Giá mới phải lớn hơn hoặc bằng 1.',
-            'gia_moi.*.max' => 'Giá mới giá lớn.',
             'so_luong.*.required' => 'Số lượng không được để trống.',
             'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
             'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
-            'so_luong.*.max' => 'Số lượng quá lớn.',
         ]);
         // sản phẩm
         if (isset($request['anh_san_pham'])) {
@@ -163,17 +162,22 @@ class SanPhamController extends Controller
         return redirect()->route('admin.sanphams.index')->with('success', 'Thêm thành công sản phẩm');
     }
 
+
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $sanpham = SanPham::find($id);
+        $sanpham = SanPham::withTrashed()->find($id);
         if ($sanpham) {
             $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
             $anhsanphams = HinhAnhSanPham::where('san_pham_id', $id)->get();
             $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
-            return view('admins.sanphams.show', compact('sanpham', 'bienthesanphams', 'anhsanphams', 'tagsanphams'));
+            $danhgias = DanhGiaSanPham::latest('id')->where('san_pham_id', $id)->paginate(5);
+            $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
+            $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
+            return view('admins.sanphams.show', compact('sanpham', 'bienthesanphams', 'anhsanphams', 'tagsanphams', 'danhgias', 'diemtrungbinh', 'soluotdanhgia'));
         }
         return redirect()->route('admin.sanphams.index')->with('error', 'Không tìm thấy sản phẩm');
     }
@@ -183,7 +187,7 @@ class SanPhamController extends Controller
      */
     public function edit(string $id)
     {
-        $sanpham = SanPham::find($id);
+        $sanpham = SanPham::withTrashed()->find($id);
         if ($sanpham) {
             $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
             $hinh_anhs = HinhAnhSanPham::where('san_pham_id', $id)->get();
@@ -205,7 +209,7 @@ class SanPhamController extends Controller
     {
 
         // sản phẩm
-        $sanpham = SanPham::find($id);
+        $sanpham = SanPham::withTrashed()->find($id);
         $old_anh_san_pham = $sanpham->anh_san_pham;
         $datasanpham = $request->validate(
             [
@@ -280,14 +284,14 @@ class SanPhamController extends Controller
                 ]);
             }
         }
-        // // biến thể sản phẩm
+        // // biến thể sản phẩm cũ
         $databienthesanphams = $request->validate([
             'dung_luong_id.*' => ['required', 'exists:dung_luongs,id'],
             'mau_sac_id.*' => ['required', 'exists:mau_sacs,id'],
-            'gia_cu.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
-            'gia_moi.*' => ['required', 'numeric', 'min:1', 'max:4294967295'],
-            'so_luong.*' => ['required', 'integer', 'min:0', 'max:4294967295'],
-            'deleted.*' => ['nullable', 'string'],
+            'gia_cu.*' => ['required', 'numeric', 'min:1'],
+            'gia_moi.*' => ['required', 'numeric', 'min:1'],
+            'so_luong.*' => ['required', 'integer', 'min:0'],
+            'trangthai.*' => ['nullable', 'boolean'],
         ], [
             'dung_luong_id.*.required' => 'Dung lượng không được để trống.',
             'dung_luong_id.*.exists' => 'Dung lượng không tồn tại.',
@@ -296,15 +300,12 @@ class SanPhamController extends Controller
             'gia_cu.*.required' => 'Giá cũ không được để trống.',
             'gia_cu.*.numeric' => 'Giá cũ phải là số.',
             'gia_cu.*.min' => 'Giá cũ phải lớn hơn hoặc bằng 1.',
-            'gia_cu.*.max' => 'Giá cũ quá lớn.',
             'gia_moi.*.required' => 'Giá mới không được để trống.',
             'gia_moi.*.numeric' => 'Giá mới phải là số.',
             'gia_moi.*.min' => 'Giá mới phải lớn hơn hoặc bằng 1.',
-            'gia_moi.*.max' => 'Giá mới quá lớn.',
             'so_luong.*.required' => 'Số lượng không được để trống.',
             'so_luong.*.integer' => 'Số lượng phải là số nguyên.',
             'so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
-            'so_luong.*.max' => 'Số lượng quá lớn.',
         ]);
         $dungLuongIds = $request->input('dung_luong_id', []);
         $mauSacIds = $request->input('mau_sac_id', []);
@@ -312,6 +313,7 @@ class SanPhamController extends Controller
         $giaMoi = $request->input('gia_moi', []);
         $soLuong = $request->input('so_luong', []);
         $variantIds = $request->input('variant_id', []);
+        $trangthai = $request->input('trangthai', []);
         foreach ($variantIds as $index => $idbienthe) {
             $bienthe = BienTheSanPham::withTrashed()->find($idbienthe);
             if ($bienthe) {
@@ -322,9 +324,48 @@ class SanPhamController extends Controller
                     'gia_moi' => $giaMoi[$index],
                     'so_luong' => $soLuong[$index],
                 ]);
+                if (isset($trangthai[$index]) && $trangthai[$index] == 0) {
+                    $bienthe->delete(); // Xóa biến thể sản phẩm
+                } else {
+                    $bienthe->restore();
+                }
             }
         }
-        // // tags
+        //biến thể sản phẩm mới
+        if ($request->has('new_dung_luong_id')) {
+            $databienthesanphammois = $request->validate([
+                'new_dung_luong_id.*' => ['required', 'exists:dung_luongs,id'],
+                'new_mau_sac_id.*' => ['required', 'exists:mau_sacs,id'],
+                'new_gia_cu.*' => ['required', 'numeric', 'min:1'],
+                'new_gia_moi.*' => ['required', 'numeric', 'min:1'],
+                'new_so_luong.*' => ['required', 'integer', 'min:0'],
+            ], [
+                'new_dung_luong_id.*.required' => 'Dung lượng không được để trống.',
+                'new_dung_luong_id.*.exists' => 'Dung lượng không tồn tại.',
+                'new_mau_sac_id.*.required' => 'Màu sắc không được để trống.',
+                'new_mau_sac_id.*.exists' => 'Màu sắc không tồn tại.',
+                'new_gia_cu.*.required' => 'Giá cũ không được để trống.',
+                'new_gia_cu.*.numeric' => 'Giá cũ phải là số.',
+                'new_gia_cu.*.min' => 'Giá cũ phải lớn hơn hoặc bằng 1.',
+                'new_gia_moi.*.required' => 'Giá mới không được để trống.',
+                'new_gia_moi.*.numeric' => 'Giá mới phải là số.',
+                'new_gia_moi.*.min' => 'Giá mới phải lớn hơn hoặc bằng 1.',
+                'new_so_luong.*.required' => 'Số lượng không được để trống.',
+                'new_so_luong.*.integer' => 'Số lượng phải là số nguyên.',
+                'new_so_luong.*.min' => 'Số lượng phải lớn hơn hoặc bằng 0.',
+            ]);
+            foreach ($databienthesanphammois['new_dung_luong_id'] as $index => $new_dung_luong_id) {
+                BienTheSanPham::create([
+                    'san_pham_id' => $sanpham['id'],
+                    'so_luong' => $databienthesanphammois['new_so_luong'][$index],
+                    'gia_cu' => $databienthesanphammois['new_gia_cu'][$index],
+                    'gia_moi' => $databienthesanphammois['new_gia_moi'][$index],
+                    'dung_luong_id' => $new_dung_luong_id,
+                    'mau_sac_id' => $databienthesanphammois['new_mau_sac_id'][$index],
+                ]);
+            }
+        }
+        // // // tags
         $newTags = $request->input('tag_id', []);
         if (!is_array($newTags)) {
             $newTags = [];
