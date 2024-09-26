@@ -26,45 +26,49 @@
                 <div class="card">
 
                     <div class="card-header d-flex justify-content-start">   
-                        <form action="{{ route('admin.danhgias.index') }}" method="GET">
+                        {{-- <form action="{{ route('admin.danhgias.index') }}" method="POST">
                             @csrf
-                            <div class="input-group">
-                                <select name="searchTrangThai" class="form-select">
-                                    <option value="" selected>Chọn trạng thái</option>
-                                    <option value="1">Phê duyệt</option>
-                                    <option value="0">Chưa phê duyệt</option>
+                            <div>
+                                <label for="listSanPham">Chọn sản phẩm:</label>
+                                <select name="sanPham_id" id="sanPham">
+                                    @foreach($listSanPham as $sanPham)
+                                        <option value="{{ $sanPham->id }}">{{ $sanPham->ten_san_pham }}</option>
+                                    @endforeach
                                 </select>
-                                <input type="text" class="form-control" name="search" placeholder="Tìm hiếm....">
-                                <button type="submit" class="btn btn-dark">Tìm kiếm</button>
                             </div>
-                        </form>
+                            <button type="submit">Chọn</button>
+                        </form> --}}
+                        <!-- Form tìm kiếm sản phẩm -->
                     </div>
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped mb-0">
+                            <table class="table table-bordered dt-responsive table-responsive nowrap">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Tài khoản</th>
-                                        <th scope="col">Sản phẩm</th>
-                                        <th scope="col">Điểm số</th>
-                                        <th scope="col">Nhận xét</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Tên sản phẩm</th>
+                                        <th scope="col">Ảnh sản phâm</th>                                 
                                         <th scope="col">Trạng thái</th>
                                         <th scope="col">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($listDanhGia as $index => $item)
+                                    @foreach ($listSanPham as $item)
                                         <tr>
-                                            <th scope="row">{{ $index + 1 }}</th>
-                                            <td>{{ $item->user->ten }}</td>
-                                            <td>{{ $item->sanPham->ten_san_pham }}</td>
-                                            <td>{{ $item->diem_so }}</td>
-                                            <td>{{ $item->nhan_xet }}</td>
-                                            <td>                                              
-                                                <span class="badge badge-success bg-success">Phê duyệt</span>                                   
+                                            <th>{{ $item->id }}</th>
+                                            <td>{{ $item->ten_san_pham }}</td>
+                                            <td><img src="{{ asset($item->anh_san_pham) }}" alt="{{ $item->ten_san_pham }}"
+                                                width="200px">
+                                            </td>                                           
+                                            <td>
+                                                @if ($item->deleted_at == null)
+                                                    <span class="badge badge-success bg-success">Hoạt động</span>
+                                                @else
+                                                    <span class="badge badge-danger bg-danger">Ngừng hoạt động</span>
+                                                @endif
                                             </td>
+                                                               
                                             <td>
                                                 <div class="card-body">
                                                     <div class="btn-group">
@@ -72,19 +76,14 @@
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">Thao tác<i
                                                                 class="mdi mdi-chevron-down"></i></button>
-                                                        <div class="dropdown-menu">       
-                                                            <form action="{{ route('admin.danhgias.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa thẻ tag này?');">
-                                                                @method('DELETE')
-                                                                @csrf
-                                                                <button type="submit" class="dropdown-item">Xóa</button>
-                                                            </form>
-            
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('admin.danhgias.show', $item->id) }}">Xem đánh giá
+                                                            </a>                                                              
                                                         </div>
                                                     </div>
-            
-            
                                                 </div>
-                                            </td>
+                                            </td> 
                                         </tr>
                                     @endforeach
                                 </tbody>

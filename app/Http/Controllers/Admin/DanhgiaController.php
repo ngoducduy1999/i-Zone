@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\DanhGiaSanPham;
 use App\Http\Controllers\Controller;
+use App\Models\SanPham;
 
 class DanhgiaController extends Controller
 {
@@ -13,27 +14,15 @@ class DanhgiaController extends Controller
      */
     public function index(Request $request)
     {
-        // // Lấy dữ liệu từ form search
-        // $search = $request->input('search');
-        // $searchTrangThai = $request->input('searchTrangThai');
+        $keyword = $request->input('keyword');
+
+        // Tìm kiếm sản phẩm trong cơ sở dữ liệu
+        $listSanPham = SanPham::where('ten_san_pham', 'LIKE', "%{$keyword}%")          
+            ->get();
 
         $title = "Đánh giá sản phẩm";
-        $listDanhGia = DanhGiaSanPham::get();
-        // $listDanhGia = DanhGiaSanPham::orderByDesc('trang_thai')
-        // ->when($search, function ($query, $search) {
-        //     return $query->whereHas('user', function ($q) use ($search) {
-        //         $q->where('ten', 'like', "%{$search}%");  // Truy vấn qua quan hệ user
-        //     })
-        //     ->orWhereHas('sanPham', function ($q) use ($search) {
-        //         $q->where('ten_san_pham', 'like', "%{$search}%");  // Truy vấn qua quan hệ sanPham
-        //     });
-        // })
-        // ->when($searchTrangThai !== null, function ($query) use ($searchTrangThai) {
-        //     return $query->where('trang_thai', '=', $searchTrangThai);
-        // })
-        // ->paginate(6);
 
-        return view('admins.danhgias.index', compact('title', 'listDanhGia'));
+        return view('admins.danhgias.index', compact('title', 'listSanPham'));
     }
 
     /**
@@ -57,7 +46,13 @@ class DanhgiaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $title = "Đánh giá sản phẩm";
+
+        $sanPham = SanPham::query()->findOrFail($id);
+
+        $listDanhGia = DanhGiaSanPham::where('san_pham_id', $sanPham->id)->get();
+
+        return view('admins.danhgias.show', compact('title', 'sanPham', 'listDanhGia'));
     }
 
     /**
