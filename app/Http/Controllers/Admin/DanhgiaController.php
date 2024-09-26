@@ -14,11 +14,13 @@ class DanhgiaController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->input('keyword');
+        // Lấy dữ liệu từ form search
+        $search = $request->input('search');
 
-        // Tìm kiếm sản phẩm trong cơ sở dữ liệu
-        $listSanPham = SanPham::where('ten_san_pham', 'LIKE', "%{$keyword}%")          
-            ->get();
+        $listSanPham = SanPham::when($search, function ($query, $search) {
+            return $query->where('ten_san_pham', 'like', "%{$search}%");
+        })
+        ->paginate(5);
 
         $title = "Đánh giá sản phẩm";
 
@@ -47,12 +49,12 @@ class DanhgiaController extends Controller
     public function show(string $id)
     {
         $title = "Đánh giá sản phẩm";
-
         $sanPham = SanPham::query()->findOrFail($id);
+        $danhgias = DanhGiaSanPham::where('san_pham_id', $sanPham->id)->paginate(5);
+        $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
+        $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
 
-        $listDanhGia = DanhGiaSanPham::where('san_pham_id', $sanPham->id)->get();
-
-        return view('admins.danhgias.show', compact('title', 'sanPham', 'listDanhGia'));
+        return view('admins.danhgias.show', compact('title', 'sanPham', 'danhgias', 'diemtrungbinh', 'soluotdanhgia'));
     }
 
     /**

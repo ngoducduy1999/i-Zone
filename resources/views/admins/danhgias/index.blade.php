@@ -26,18 +26,13 @@
                 <div class="card">
 
                     <div class="card-header d-flex justify-content-start">   
-                        {{-- <form action="{{ route('admin.danhgias.index') }}" method="POST">
+                        <form action="{{ route('admin.danhgias.index') }}" method="GET">
                             @csrf
-                            <div>
-                                <label for="listSanPham">Chọn sản phẩm:</label>
-                                <select name="sanPham_id" id="sanPham">
-                                    @foreach($listSanPham as $sanPham)
-                                        <option value="{{ $sanPham->id }}">{{ $sanPham->ten_san_pham }}</option>
-                                    @endforeach
-                                </select>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="Tìm hiếm....">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                             </div>
-                            <button type="submit">Chọn</button>
-                        </form> --}}
+                        </form>
                         <!-- Form tìm kiếm sản phẩm -->
                     </div>
 

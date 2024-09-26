@@ -181,51 +181,113 @@
         </div>
     </div>
 
-    <!-- Phần đánh giá và bình luận -->
-    <div class="review-section">
-        <h3>Đánh giá sản phẩm</h3>
-        
-        <!-- Nhận xét -->
-        <form class="comment-form">
-            @foreach($listDanhGia as $danhGia)
-        <div class="review">
-            <div class="rating">
-                @for($i = 0; $i < $danhGia->rating; $i++)
-                    <span>&#9733;</span> <!-- Sao vàng -->
-                @endfor
-            </div>  
-            <div class="d-flex">
-                <img src="{{ asset('storage/' .Auth::user()->anh_dai_dien) }}" alt="{{ $danhGia->user->ten }}" class="rounded-circle" width="40px" height="40px"> 
-                <h5>{{ $danhGia->user->ten }}</h5>
-            </div>  
-            
-            {{-- <div class="rating">
-                @for($i = 0; $i < $danhGia->rating; $i++)
-                    <span>&#9733;</span> <!-- Sao vàng -->
-                @endfor
-            </div> --}}
-         
-            <!-- Đánh giá sao -->
-        <div class="rating">
-            <input type="radio" name="rating" id="star5" value="5">
-            <label for="star5">&#9733;</label>
+    <!-- Phần đánh giá và nhận xét -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card px-5">
+                <div class="card-header">
+                    <h5 class="card-title mb-0 fs-2">Đánh giá sản phẩm</h5>
+                </div>
+                <div class="card-body">
+                    {{-- <div id="stacked_area_chart" class="apex-charts d-flex align-items-center">
+                        <h1 class="m-0">4.5</h1>
+                        <h5 class="m-0 ml-2">trên 5 sao</h5>
+                    </div> --}}
+                    <div class="bg-light">
+                        @if ($soluotdanhgia > 0)
+                            <div id="area_chart-years"
+                                class="apex-charts px-5 py-3 d-flex justify-content-between align-items-center">
+                                <div class="">
+                                    <div class="text-danger">
+                                        <span class="m-0 fs-1">{{ number_format($diemtrungbinh, 1) }}</span>
 
-            <input type="radio" name="rating" id="star4" value="4">
-            <label for="star4">&#9733;</label>
+                                        <span class="m-0">trên 5</span>
+                                    </div>
+                                    <div class="">
+                                        <p class="m-0 fs-1">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= floor($diemtrungbinh) && $diemtrungbinh < 5)
+                                                    <span class="star text-warning">★</span> <!-- Sao vàng -->
+                                                @elseif ($i == ceil($diemtrungbinh))
+                                                    @if ($diemtrungbinh - floor($diemtrungbinh) >= 0.3 && $diemtrungbinh - floor($diemtrungbinh) < 0.8)
+                                                        <span class="star text-warning">☆</span> <!-- Sao rưỡi -->
+                                                    @else
+                                                        <span class="star text-muted">★</span> <!-- Sao xám -->
+                                                    @endif
+                                                @else
+                                                    <span class="star text-muted">★</span> <!-- Sao xám -->
+                                                @endif
+                                            @endfor
+                                        </p>
+                                    </div>
+                                </div>
+                                <p class="text-black">{{ $soluotdanhgia }} lượt đánh giá</p>
+                            </div>
+                        @else
+                            <div id="area_chart-years"
+                                class="apex-charts px-5 py-3 d-flex justify-content-between align-items-center">
+                                <div class="">
+                                    <div class="text-danger">
+                                        <span class="m-0 fs-1">Chưa có đánh giá</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
 
-            <input type="radio" name="rating" id="star3" value="3">
-            <label for="star3">&#9733;</label>
+                <div class="card-body">
+                    @foreach ($danhgias as $danhgia)
+                        <div class="github-style d-flex my-2">
+                            <div class="flex-shrink-0 me-2">
+                                <img src="{{ asset($danhgia->user->anh_dai_dien) }}" alt="" height="32"
+                                    width="32" class="avatar-sm rounded-pill"
+                                    style="object-fit: cover; object-position: center;">
+                            </div>
+                            <div class="flex-grow-1">
+                                <a class="font-size-14 text-body fw-medium">{{ $danhgia->user->ten }}</a>
+                                <div class="cmeta text-muted font-size-11">
+                                    <div class="stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $danhgia->diem_so)
+                                                <span class="star text-warning">★</span>
+                                            @else
+                                                <span class="star text-muted">★</span>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                    <p class="m-0">{{ $danhgia->created_at }}</p>
+                                    <span
+                                        class="commits text-body fw-medium text-black">{{ $danhgia->nhan_xet }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    @endforeach
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {{ $danhgias->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $danhgias->previousPageUrl() }}">Previous</a>
+                            </li>
 
-            <input type="radio" name="rating" id="star2" value="2">
-            <label for="star2">&#9733;</label>
+                            @foreach ($danhgias->getUrlRange(1, $danhgias->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $danhgias->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
 
-            <input type="radio" name="rating" id="star1" value="1">
-            <label for="star1">&#9733;</label>
+                            <li class="page-item {{ $danhgias->hasMorePages() ? '' : 'disabled' }}">
+                                <a class="page-link" href="{{ $danhgias->nextPageUrl() }}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
         </div>
-            <p>{{ $danhGia->nhan_xet }}</p>
-        </div>
-    @endforeach
-        </form>
+
+
+
     </div>
 </div>
 @endsection
