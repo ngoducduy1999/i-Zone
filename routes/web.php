@@ -65,6 +65,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::get('/', [DanhgiaController::class, 'index'])->name('index');
         Route::get('create', [DanhgiaController::class, 'create'])->name('create');
         Route::post('store', [DanhgiaController::class, 'store'])->name('store');
+        Route::get('/{id}/show', [DanhgiaController::class, 'show'])->name('show');
         Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');
     });
 
@@ -159,3 +160,5 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
 
 });
+
+

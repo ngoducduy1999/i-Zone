@@ -46,7 +46,7 @@
                                 </div>
                             @endif
 
-                            <table class="table table-striped mb-0">
+                            <table class="table table-bordered dt-responsive table-responsive nowrap">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
