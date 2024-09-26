@@ -132,13 +132,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
     });
-    // biến thể sản phẩm
-    Route::prefix('bienthesanphams')->name('bienthesanphams.')->group(function () {
-        Route::get('/{id}/index', [BienTheSanPhamController::class, 'index'])->name('index');
-        Route::post('/store', [BienTheSanPhamController::class, 'store'])->name('store');
-        Route::delete('/{id}/destroy', [BienTheSanPhamController::class, 'destroy'])->name('destroy');
-        Route::post('/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('restore');
-    });
 
     Route::prefix('mausacs')->name('mausacs.')->group(function(){
         Route::get('/',[MauSacController::class,'index'])->name('index');
