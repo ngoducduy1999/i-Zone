@@ -13,7 +13,7 @@
 
     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
         <div class="flex-grow-1">
-            <h4 class="fs-18 fw-semibold m-0">Danh sách danh_muc</h4>
+            <h4 class="fs-18 fw-semibold m-0">Danh sách danh mục</h4>
         </div>
 
     </div>
@@ -72,6 +72,7 @@
                                                         @method('delete')
                                                         <button class="dropdown-item" onclick="return confirm('Xóa danh mục ?')">Xóa</button>
                                                     </form>
+
                                                 </div>
                                             </div>
 
