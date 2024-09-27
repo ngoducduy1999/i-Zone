@@ -12,6 +12,7 @@ class DungLuong extends Model
     use HasFactory,SoftDeletes;
     protected $fillable = [
         'ten_dung_luong',
+        'trang_thai',
         'deleted_at'
     ];
 
