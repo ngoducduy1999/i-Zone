@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="col-sm-6 text-end">
-                <a class='text-muted fs-14' href='auth-recoverpw.html'>Quên mật khẩu?</a>
+                <a class='text-muted fs-14' href='{{route('admin.password.request')}}'>Quên mật khẩu?</a>
             </div>
         </div>
 

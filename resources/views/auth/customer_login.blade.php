@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="pt-0">
-    <form action="{{ route('admin.postLogin') }}" method="POST" class="my-4">
+    <form action="{{ route('customer.login.post') }}" method="POST" class="my-4">
         @csrf
         <!-- Hiển thị lỗi xác thực -->
         @if ($errors->any())
@@ -61,7 +61,7 @@
     <div class="saprator my-4"><span>hoặc đăng nhập bằng</span></div>
 
     <div class="text-center text-muted mb-4">
-        <p class="mb-0">Chưa có tài khoản? <a class='text-primary ms-2 fw-medium' href='{{ route('admin.showRegister') }}'>Đăng ký</a></p>
+        <p class="mb-0">Chưa có tài khoản? <a class='text-primary ms-2 fw-medium' href='{{ route('customer.register.post') }}'>Đăng ký</a></p>
     </div>
 
     <div class="row">

@@ -14,7 +14,7 @@ class CustomerRegisterController extends Controller
     // Hiển thị trang đăng ký
     public function showRegistrationForm()
     {
-        return view('auth.register');
+        return view('auth.customer_register');
     }
 
     // Xử lý đăng ký
@@ -45,6 +45,6 @@ class CustomerRegisterController extends Controller
     
         event(new Registered($user));
     
-        return redirect()->route('login')->with('success', 'Registration successful.');
+        return redirect()->route('customer.login')->with('success', 'Registration successful.');
     }
 }

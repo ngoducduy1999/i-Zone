@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('ten_mau_sac');
             $table->boolean('trang_thai')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
