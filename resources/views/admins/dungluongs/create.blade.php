@@ -41,14 +41,14 @@
                                     <p class="text-danger">{{$message}}</p>
                                     @enderror
                                 </div>
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="trang_thai" class="form-label">Trạng Thái</label>
                                     <select name="trang_thai" id="">
 
                                         <option value="1">Còn hàng</option>
 
                                     </select>
-                                </div>
+                                </div> --}}
                                 <button type="submit" class="btn btn-primary">Thêm mới</button>
                             </form>
                         </div>

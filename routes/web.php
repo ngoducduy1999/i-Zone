@@ -148,6 +148,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('store',[DungLuongController::class,'store'])->name('store');
         Route::get('/{id}/edit',[DungLuongController::class,'edit'])->name('edit');
         Route::put('/{id}/update',[DungLuongController::class,'update'])->name('update');
+        Route::post('/{id}/onOffDungLuong', [DungLuongController::class, 'onOffDungLuong'])->name('onOffDungLuong');
         Route::delete('/{id}/destroy',[DungLuongController::class,'destroy'])->name('destroy');
     });
 
