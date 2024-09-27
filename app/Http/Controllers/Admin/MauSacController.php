@@ -89,6 +89,24 @@ class MauSacController extends Controller
         }
     }
 
+
+    public function onOffBanner($id)
+    {
+        $mausacs = MauSac::find($id);
+        if (!$mausacs) {
+            return redirect()->route('admin.mausacs.index')->with('error', 'Màu sắc không tồn tại');
+        }
+        if ($mausacs->trang_thai == true) {
+            $mausacs->trang_thai = false;
+            $mausacs->save();
+            return redirect()->back()->with('success', 'Ngừng hoạt động màu sắc');
+        } else {
+            $mausacs->trang_thai = true;
+            $mausacs->save();
+            return redirect()->back()->with('success', 'Hoạt hoạt động màu sắc');
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
