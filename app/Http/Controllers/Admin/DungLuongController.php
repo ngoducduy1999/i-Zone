@@ -101,6 +101,23 @@ class DungLuongController extends Controller
         }
     }
 
+    public function onOffBanner($id)
+    {
+        $dungluong = DungLuong::find($id);
+        if (!$dungluong) {
+            return redirect()->route('admin.banners.index')->with('error', 'Dung lượng không tồn tại');
+        }
+        if ($dungluong->trang_thai == true) {
+            $dungluong->trang_thai = false;
+            $dungluong->save();
+            return redirect()->back()->with('success', 'Ngừng hoạt động dung lượng');
+        } else {
+            $dungluong->trang_thai = true;
+            $dungluong->save();
+            return redirect()->back()->with('success', 'Hoạt hoạt động dung lượng');
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
