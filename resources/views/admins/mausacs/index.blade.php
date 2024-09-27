@@ -83,6 +83,7 @@
                                                         <form action="{{ route('admin.mausacs.destroy', $mau->id) }}"
                                                             method="POST"
                                                             onsubmit="return confirm('bạn co chắc xóa màu sắc này không?')">
+
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"

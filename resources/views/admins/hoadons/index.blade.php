@@ -46,7 +46,7 @@
                                 </div>
                             @endif
 
-                            <table class="table table-striped mb-0">
+                            <table class="table table-bordered dt-responsive table-responsive nowrap">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -54,6 +54,7 @@
                                         <th>Tổng tiền</th>
                                         <th>Phương thức thanh toán</th>
                                         <th>Trạng thái</th>
+                                        <th>Trạng thái hóa đơn</th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
@@ -75,11 +76,29 @@
                                                             @endforeach
                                                         </select>
                                                     </form>
-                                                </td>                 
+                                                </td>                   
                                                 <td>
-                                                    <a href="{{ route('admin.hoadons.show', $item->id) }}"><i class="mdi mdi-eye text-muted fs-18 rounded-2 border p-1 me-1"></i></a>
-
-                                                </td>                             
+                                                    @if ($item->trang_thai !== null)
+                                                    <span class="badge badge-success bg-success">Hoạt động</span>
+                                                    @else
+                                                    <span class="badge badge-danger bg-danger">Ngưng hoạt động</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="card-body">
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                                                data-bs-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">Thao tác<i
+                                                                    class="mdi mdi-chevron-down"></i></button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('admin.hoadons.show', $item->id) }}">Xem chi tiết
+                                                                </a>                                                              
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>                   
                                             </tr>  
                                         @endforeach   
                                 </tbody>

@@ -13,7 +13,7 @@
 
     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
         <div class="flex-grow-1">
-            <h4 class="fs-18 fw-semibold m-0">Danh sách danh_muc</h4>
+            <h4 class="fs-18 fw-semibold m-0">Danh sách danh mục</h4>
         </div>
 
     </div>
@@ -62,21 +62,17 @@
                                                     aria-expanded="false">Thao tác<i
                                                         class="mdi mdi-chevron-down"></i></button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{ route('admin.danhmucs.show', $danh_muc->id) }}">Xem</a>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
-                
-                                                        <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}"
-                                                            method="POST" class="mt-1 d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                onclick="return confirm('Có chắc chắn xóa danh mục  không?')"
-                                                                class="btn btn-link text-danger p-0 "
-                                                                style="border: none; background: none; ">
-                                                               <p>Xóa</p>
-                                                            </button>
-                                                        </form>
+                                                    href="{{ route('admin.danhmucs.show', $danh_muc->id) }}">Xem</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
+                                                    <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="dropdown-item" onclick="return confirm('Xóa danh mục ?')">Xóa</button>
+                                                    </form>
+
                                                 </div>
                                             </div>
 

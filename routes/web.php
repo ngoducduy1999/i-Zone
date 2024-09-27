@@ -65,6 +65,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::get('/', [DanhgiaController::class, 'index'])->name('index');
         Route::get('create', [DanhgiaController::class, 'create'])->name('create');
         Route::post('store', [DanhgiaController::class, 'store'])->name('store');
+        Route::get('/{id}/show', [DanhgiaController::class, 'show'])->name('show');
         Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');
     });
 
@@ -131,13 +132,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
     });
-    // biến thể sản phẩm
-    Route::prefix('bienthesanphams')->name('bienthesanphams.')->group(function () {
-        Route::get('/{id}/index', [BienTheSanPhamController::class, 'index'])->name('index');
-        Route::post('/store', [BienTheSanPhamController::class, 'store'])->name('store');
-        Route::delete('/{id}/destroy', [BienTheSanPhamController::class, 'destroy'])->name('destroy');
-        Route::post('/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('restore');
-    });
 
     Route::prefix('mausacs')->name('mausacs.')->group(function(){
         Route::get('/',[MauSacController::class,'index'])->name('index');
@@ -156,6 +150,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('store',[DungLuongController::class,'store'])->name('store');
         Route::get('/{id}/edit',[DungLuongController::class,'edit'])->name('edit');
         Route::put('/{id}/update',[DungLuongController::class,'update'])->name('update');
+        Route::post('/{id}/onOffDungLuong', [DungLuongController::class, 'onOffDungLuong'])->name('onOffDungLuong');
         Route::delete('/{id}/destroy',[DungLuongController::class,'destroy'])->name('destroy');
     });
 
@@ -168,3 +163,5 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
 
 });
+
+

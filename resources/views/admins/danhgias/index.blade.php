@@ -24,37 +24,61 @@
             <!-- Striped Rows -->
             <div class="col-xl-12">
                 <div class="card">
+
+                    <div class="card-header d-flex justify-content-start">   
+                        <form action="{{ route('admin.danhgias.index') }}" method="GET">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="Tìm hiếm....">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </form>
+                        <!-- Form tìm kiếm sản phẩm -->
+                    </div>
+
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped mb-0">
+                            <table class="table table-bordered dt-responsive table-responsive nowrap">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Tài khoản</th>
-                                        <th scope="col">Sản phẩm</th>
-                                        <th scope="col">Điểm số</th>
-                                        <th scope="col">Nhận xét</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Tên sản phẩm</th>
+                                        <th scope="col">Ảnh sản phâm</th>                                 
+                                        <th scope="col">Trạng thái</th>
                                         <th scope="col">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($listDanhGia as $index => $item)
+                                    @foreach ($listSanPham as $item)
                                         <tr>
-                                            <th scope="row">{{ $index + 1 }}</th>
-                                            <td>{{ $item->user->ten }}</td>
-                                            <td>{{ $item->sanPham->ten_san_pham }}</td>
-                                            <td>{{ $item->diem_so }}</td>
-                                            <td>{{ $item->nhan_xet }}</td>
-                                            <td>                                                                                      
-                                                <form action="{{ route('admin.danhgias.destroy', $item->id) }}" method="POST" class="d-inline" 
-                                                    onsubmit="return confirm('Bạn có đồng ý xóa không?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="border-0 bg-white">
-                                                        <i class="mdi mdi-delete text-muted fs-18 rounded-2 border p-1"></i>
-                                                    </button>
-                                                </form>
+                                            <th>{{ $item->id }}</th>
+                                            <td>{{ $item->ten_san_pham }}</td>
+                                            <td><img src="{{ asset($item->anh_san_pham) }}" alt="{{ $item->ten_san_pham }}"
+                                                width="200px">
+                                            </td>                                           
+                                            <td>
+                                                @if ($item->deleted_at == null)
+                                                    <span class="badge badge-success bg-success">Hoạt động</span>
+                                                @else
+                                                    <span class="badge badge-danger bg-danger">Ngừng hoạt động</span>
+                                                @endif
                                             </td>
+                                                               
+                                            <td>
+                                                <div class="card-body">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">Thao tác<i
+                                                                class="mdi mdi-chevron-down"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('admin.danhgias.show', $item->id) }}">Xem đánh giá
+                                                            </a>                                                              
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td> 
                                         </tr>
                                     @endforeach
                                 </tbody>
