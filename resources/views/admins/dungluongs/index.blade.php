@@ -66,7 +66,7 @@
                                                         <a class="dropdown-item"
                                                             href="{{ route('admin.dungluongs.edit', $gb->id) }}">Sửa</a>
                                                         <form action="{{ route('admin.dungluongs.destroy' , $gb->id) }}" method="POST"
-                                                            onsubmit="return confirm('bạn co chắc xóa kích cỡ dung lượng này không?')">
+                                                            onsubmit="return confirm('Bạn có chắc xóa kích cỡ dung lượng này không?')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
