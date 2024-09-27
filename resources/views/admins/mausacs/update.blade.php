@@ -52,7 +52,7 @@
 
                                     </select>
                                 </div> --}}
-                                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                                <button type="submit" class="btn btn-primary">Cập nhật</button>
                             </form>
                         </div>
                 </div>
