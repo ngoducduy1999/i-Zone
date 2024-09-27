@@ -92,7 +92,7 @@
                                 @endphp
                                     <tr>
                                         <td>
-                                            <img src="{{ Storage::url($sanPham->hinh_anh) }}" alt="Sản phẩm" width="75px">
+                                            <img src="{{ asset($sanPham->anh_san_pham) }}" alt="Sản phẩm" width="75px">
                                         </td>
                                         <td>{{ $sanPham->ma_san_pham }}</td>
                                         <td>{{ $sanPham->ten_san_pham }}</td>
