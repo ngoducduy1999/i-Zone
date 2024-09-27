@@ -60,25 +60,34 @@
                                                         aria-expanded="false">Thao tác<i
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="{{ route('admin.banners.show', $banner->id) }}">Xem</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('admin.banners.show', $banner->id) }}">Xem</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('admin.banners.edit', $banner->id) }}">Sửa</a>
                                                         @if ($banner->trang_thai == 1)
-                                                            <form action="{{ route('admin.banners.onOffBanner', $banner->id) }}" method="post">
+                                                            <form
+                                                                action="{{ route('admin.banners.onOffBanner', $banner->id) }}"
+                                                                method="post">
                                                                 @csrf
                                                                 @method('post')
-                                                                <button class="dropdown-item" href="#">Ngừng hoạt động</button>
+                                                                <button class="dropdown-item" href="#">Ngừng hoạt
+                                                                    động</button>
                                                             </form>
                                                         @else
-                                                            <form action="{{ route('admin.banners.onOffBanner', $banner->id) }}" method="post">
+                                                            <form
+                                                                action="{{ route('admin.banners.onOffBanner', $banner->id) }}"
+                                                                method="post">
                                                                 @csrf
                                                                 @method('post')
-                                                                <button class="dropdown-item" href="#">Hoạt động</button>
+                                                                <button class="dropdown-item" href="#">Hoạt
+                                                                    động</button>
                                                             </form>
                                                         @endif
-
-                                                        <form action="">
-                                                            <a class="dropdown-item" href="#">Xóa</a>
+                                                        <form action="{{ route('admin.banners.destroy', $banner->id) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button class="dropdown-item" onclick="return confirm('Xóa banner?')">Xóa</button>
                                                         </form>
                                                     </div>
                                                 </div>

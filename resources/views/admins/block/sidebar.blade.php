@@ -27,46 +27,156 @@
             <ul id="side-menu">
 
                 <li class="menu-title text-light">Quản trị</li>
-
+                @if (Auth::user()->vai_tro == 'admin')
                 <li>
-                    <a class='text-light' href='{{ route('admin') }}'>
+                    <a class='text-light' href='{{ route('admin.dashboard') }}'>
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
                 </li>
-
+                @else
                 <li>
-                    <a class='text-light' href=''>
+                    <a class='text-light' href='{{ route('staff.dashboard') }}'>
+                        <i data-feather="home"></i>
+                        <span> Dashboard </span>
+                    </a>
+                </li>
+                @endif
+                <li>
+                    <a href="#sidebarTables" data-bs-toggle="collapse" class="text-white">
                         <i data-feather="users"></i>
                         <span> Quản lý tài khoản </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <div class="collapse" id="sidebarTables">
+                        <ul class="nav-second-level">
+                            @if (Auth::user()->vai_tro == 'admin')
+                            <li>
+                                <a class='text-white' href='{{ route('admin.nhanviens') }}'>Nhân viên</a>
+                            </li>
+                            <li>
+                                <a class='text-white' href='{{ route('admin.khachhangs') }}'>Khách hàng</a>
+                            </li>
+                            @else
+                            <li>
+                                <a class='text-white' href='{{ route('staff.khachhangs') }}'>Quản lý khách hàng</a>
+                            </li>
+                            @endif
+                        </ul>
+                    </div>
                 </li>
 
                 <li class="menu-title text-light">Kinh doanh</li>
 
                 <li>
-                    <a class='text-light' href=''>
+                    <a class='text-light' href='#danhmucs' data-bs-toggle="collapse">
                         <i data-feather="list"></i>
-                        <span> Danh mục sản phẩm </span>
+                        <span> Danh mục </span>
+                        <span class="menu-arrow text-white"></span>
                     </a>
+                    <div class="collapse" id="danhmucs">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.danhmucs.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a class='text-white' href="{{ route('admin.danhmucs.create') }}">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
-                <li>
-                    <a class='text-light' href=''>
-                        <i data-feather="package"></i>
-                        <span> Thông tin sản phẩm </span>
-                    </a>
-                </li>
+            <li>
+                <a href="#sanpham" data-bs-toggle="collapse">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
+                        <path
+                            d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z">
+                        </path>
+                    </svg>
+                    <span class="text-white"> Sản phẩm </span>
+                    <span class="menu-arrow text-white"></span>
+                </a>
+                <div class="collapse" id="sanpham">
+                    <ul class="nav-second-level">
+                        <li>
+                            <a class='text-white' href="{{ route('admin.sanphams.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a class='text-white' href="{{ route('admin.sanphams.create') }}">Thêm mới</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li>
+                <a class='text-light' href='#dungluongs' data-bs-toggle="collapse">
+                    <i data-feather="package"></i>
+                    <span> Dung lượng </span>
+                    <span class="menu-arrow text-white"></span>
+                </a>
+                <div class="collapse" id="dungluongs">
+                    <ul class="nav-second-level">
+                        <li>
+                            <a class='text-white' href="{{ route('admin.dungluongs.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.dungluongs.create')}}" class="text-white">Thêm mới</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li>
+                <a class='text-light' href='#mausacs' data-bs-toggle="collapse">
+                    <i data-feather="package"></i>
+                    <span> Màu sắc </span>
+                    <span class="menu-arrow text-white"></span>
+                </a>
+                <div class="collapse" id="mausacs">
+                    <ul class="nav-second-level">
+                        <li>
+                            <a class='text-white' href="{{ route('admin.mausacs.index') }}">Danh sách</a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.mausacs.create')}}" class="text-white">Thêm mới</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
                 <li>
-                    <a class='text-light' href=''>
+                    <a class='text-light' href='#hoadons' data-bs-toggle="collapse">
                         <i data-feather="shopping-bag"></i>
-                        <span> Thông tin đơn hàng </span>
+                        <span> Hóa đơn </span>
+                        <span class="menu-arrow text-white"></span>
                     </a>
+                    <div class="collapse" id="hoadons">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.hoadons.index') }}">Danh sách</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 <li>
-                    <a href="#banner" data-bs-toggle="collapse">
+                    <a class='text-light' href='#danhgias' data-bs-toggle="collapse">
+                        <i data-feather="activity"></i>
+                        <span> Đánh giá sản phẩm </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="danhgias">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.danhgias.index') }}">Danh sách</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="#bannerSection" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
                             fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
                             <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
@@ -81,7 +191,7 @@
                         <span class="text-white"> Banner </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
-                    <div class="collapse" id="banner">
+                    <div class="collapse" id="bannerSection">
                         <ul class="nav-second-level">
                             <li>
                                 <a class='text-white' href="{{ route('admin.banners.index') }}">Danh sách</a>
@@ -92,7 +202,9 @@
                         </ul>
                     </div>
                 </li>
+
                 <li>
+<<<<<<< HEAD
                     <a href="#khuyenmai" data-bs-toggle="collapse">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
                             fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
@@ -109,6 +221,14 @@
                         <span class="menu-arrow text-white"></span>
                     </a>
                     <div class="collapse" id="khuyenmai">
+=======
+                    <a class='text-light' href="#promotionSection" data-bs-toggle="collapse">
+                        <i class="text-white" data-feather="archive"></i>
+                        <span> Khuyến mãi </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="promotionSection">
+>>>>>>> d0230c1841f4475feab1c2b20960b1c804196c52
                         <ul class="nav-second-level">
                             <li>
                                 <a class='text-white' href="{{ route('admin.khuyen_mais.index') }}">Danh sách</a>
@@ -119,6 +239,26 @@
                         </ul>
                     </div>
                 </li>
+                <li>
+                    <a class='text-light' href="#tags" data-bs-toggle="collapse">
+                        <i data-feather="table"></i>
+                        <span class="text-white"> Thẻ Tag </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="tags">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.tag.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a class='text-white' href="{{ route('admin.tag.create') }}">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                
+
             </ul>
 
         </div>

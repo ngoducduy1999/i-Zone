@@ -37,6 +37,11 @@ class SanPham extends Model
         return $this->hasMany(HinhAnhSanPham::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'tag_san_phams', 'san_pham_id', 'tag_id');
+    }
+    
     public function tagSanPhams()
     {
         return $this->hasMany(TagSanPham::class);

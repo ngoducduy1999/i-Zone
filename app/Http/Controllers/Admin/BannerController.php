@@ -138,6 +138,17 @@ class BannerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $banner = Banner::find($id);
+        if (!$banner) {
+            return redirect()->route('admin.banners.index')->with('error', 'Banner không tồn tại');
+        }
+        $old_banner = $banner->anh_banner;
+        if (isset($old_banner) && $old_banner != '') {
+            if (file_exists($old_banner)) {
+                unlink($old_banner);
+            }
+        }
+        $banner->delete();
+        return redirect()->back()->with('success', 'Xóa banner thành công');
     }
 }
