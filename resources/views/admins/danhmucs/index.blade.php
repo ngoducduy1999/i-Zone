@@ -62,16 +62,17 @@
                                                     aria-expanded="false">Thao tác<i
                                                         class="mdi mdi-chevron-down"></i></button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{ route('admin.danhmucs.show', $danh_muc->id) }}">Xem</a>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
-                                                        <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}" method="POST"
-                                                            onsubmit="return confirm('Bạn có chắc xóa danh mục này không?')">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-outline-danger">xóa</button>
-                                                        </form>
+                                                    href="{{ route('admin.danhmucs.show', $danh_muc->id) }}">Xem</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
+                                                    <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="dropdown-item" onclick="return confirm('Xóa danh mục ?')">Xóa</button>
+                                                    </form>
+
                                                 </div>
                                             </div>
 
