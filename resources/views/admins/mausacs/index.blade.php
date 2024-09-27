@@ -63,7 +63,7 @@
                                                         <a class="dropdown-item"
                                                             href="{{route('admin.mausacs.edit',$mau->id)}}">Sửa</a>
                                                         <form action="{{route('admin.mausacs.destroy',$mau->id)}}" method="POST"
-                                                            onsubmit="return confirm('bạn co chắc xóa màu sắc này không?')">
+                                                            onsubmit="return confirm('Bạn có chắc xóa màu sắc này không?')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
