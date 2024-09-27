@@ -101,7 +101,7 @@ class DungLuongController extends Controller
         }
     }
 
-    public function onOffBanner($id)
+    public function onOffDungLuong($id)
     {
         $dungluong = DungLuong::find($id);
         if (!$dungluong) {
