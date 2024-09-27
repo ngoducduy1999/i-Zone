@@ -38,12 +38,13 @@ class DungLuongController extends Controller
         if($request->isMethod('POST')){
 
             $validDungLuong = $request->validate([
-                'ten_dung_luong'=>'required|string|max:255'
+                'ten_dung_luong'=>'required|string|max:255,unique:dung_luongs,ten_dung_luong'
             ],
             [
                 'ten_dung_luong.required'=>'tên dung lượng không được để trống',
                 'ten_dung_luong.string'=>'tên dung lượng phải là một chuỗi!',
-                'ten_dung_luong.max'=>"Tên dung lượng không quá 255 ký tự!"
+                'ten_dung_luong.max'=>"Tên dung lượng không quá 255 ký tự!",
+                 'ten_dung_luong.unique'=>'Tên dung lượng đã tồn tại!'
             ]);
 
             $params = $request->except('_token');
