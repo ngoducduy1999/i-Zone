@@ -87,7 +87,8 @@ class DungLuongController extends Controller
             [
                 'ten_dung_luong.required'=>'tên dung lượng không được để trống!',
                 'ten_dung_luong.string'=>'tên dung lượng phải là một chuỗi!',
-                'ten_dung_luong.max'=>"Tên dung lượng không quá 255 ký tự!"
+                'ten_dung_luong.max'=>"Tên dung lượng không quá 255 ký tự!",
+                'ten_dung_luong.unique'=>'Tên dung lượng đã tồn tại'
             ]);
 
 
