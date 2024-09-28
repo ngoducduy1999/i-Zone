@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MauSac extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     protected $fillable = [
         'ten_mau_sac',
         'trang_thai',
-        'deleted_at'
+
     ];
     public function bienTheSanPhams()
     {

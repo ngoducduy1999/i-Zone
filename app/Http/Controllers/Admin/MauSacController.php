@@ -90,7 +90,7 @@ class MauSacController extends Controller
     }
 
 
-    public function onOffBanner($id)
+    public function onOffMauSac($id)
     {
         $mausacs = MauSac::find($id);
         if (!$mausacs) {

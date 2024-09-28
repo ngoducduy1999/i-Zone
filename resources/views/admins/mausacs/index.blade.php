@@ -63,7 +63,7 @@
                                                             href="{{ route('admin.mausacs.edit', $mau->id) }}">Sửa</a>
                                                         @if ($mau->trang_thai == 1)
                                                             <form
-                                                                action="{{ route('admin.mausacs.onOffBanner', $mau->id) }}"
+                                                                action="{{ route('admin.mausacs.onOffMauSac', $mau->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('post')
@@ -72,7 +72,7 @@
                                                             </form>
                                                         @else
                                                             <form
-                                                                action="{{ route('admin.mausacs.onOffBanner', $mau->id) }}"
+                                                                action="{{ route('admin.mausacs.onOffMauSac', $mau->id) }}"
                                                                 method="post">
                                                                 @csrf
                                                                 @method('post')

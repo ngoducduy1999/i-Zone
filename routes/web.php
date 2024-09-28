@@ -139,9 +139,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('store',[MauSacController::class,'store'])->name('store');
         Route::get('/{id}/edit',[MauSacController::class,'edit'])->name('edit');
         Route::put('/{id}/update',[MauSacController::class,'update'])->name('update');
-        Route::post('/{id}/onOffBanner', [MauSacController::class, 'onOffBanner'])->name('onOffBanner');
+        Route::post('/{id}/onOffMauSac', [MauSacController::class, 'onOffMauSac'])->name('onOffMauSac');
         Route::delete('/{id}/destroy',[MauSacController::class,'destroy'])->name('destroy');
-
     });
 
     Route::prefix('dungluongs')->name('dungluongs.')->group(function(){
