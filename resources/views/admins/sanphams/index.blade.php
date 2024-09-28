@@ -44,7 +44,7 @@
                                             <ul>
                                                 <li>Mã sản phẩm: {{ $sanpham->ma_san_pham }}</li>
                                                 <li>Tên sản phẩm: {{ $sanpham->ten_san_pham }}</li>
-                                                <li>Danh mục: {{ $sanpham->danhMuc->ten_danh_muc }}</li>
+                                                <li>Danh mục: {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</li>
                                                 <li>Ảnh : <br> <img src="{{ asset($sanpham->anh_san_pham) }}"
                                                         alt="{{ $sanpham->ten_san_pham }}" width="50px"></li>
                                                 <li>Ngày tạo: {{ $sanpham->created_at->format('d-m-Y') }}</li>
