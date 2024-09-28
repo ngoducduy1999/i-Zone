@@ -7,7 +7,6 @@
         <div class="flex-grow-1">
             <h4 class="fs-18 fw-semibold m-0">Danh sách thẻ tag</h4>
         </div>
-
     </div>
 
     @if (session('success'))
@@ -24,15 +23,12 @@
                 <div class="card-header">
                     <h5 class="card-title mb-0">Danh sách thẻ tag</h5>
                 </div><!-- end card header -->
-
                 <div class="card-body">
                     <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                
                                 <th>Tên thẻ tag</th>
-                                
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
                             </tr>
@@ -41,9 +37,7 @@
                             @foreach ($tags as $tag)
                             <tr>
                                 <td>{{ $tag->id }}</td>
-                                
                                 <td>{{ $tag->ten_tag }}</td>
-                                
                                 <td>
                                     @if ($tag->trang_thai == 1)
                                     <span class="badge badge-success bg-success">Hoạt động</span>
@@ -81,11 +75,8 @@
                                                     @csrf
                                                     <button type="submit" class="dropdown-item">Xóa</button>
                                                 </form>
-
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </td>
                             </tr>
@@ -97,10 +88,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 
 </div>
 @endsection

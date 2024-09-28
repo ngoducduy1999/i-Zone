@@ -94,6 +94,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::delete('/{id}', [KhuyenMaiController::class, 'destroy'])->name('destroy');
     });
 
+
+
     // Route the-tag
     Route::prefix('tag')->name('tag.')->group(function () {
         Route::get('/', [TagController::class, 'index'])->name('index');
