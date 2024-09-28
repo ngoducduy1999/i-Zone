@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DungLuong extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     protected $fillable = [
         'ten_dung_luong',
         'trang_thai',
-        'deleted_at'
+
     ];
 
     public function bienTheSanPhams()

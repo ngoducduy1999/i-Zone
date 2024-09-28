@@ -43,7 +43,6 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Dung lượng</th>
-                                    <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -52,9 +51,6 @@
                                     <tr>
                                         <td>{{ $gb->id }}</td>
                                         <td>{{ $gb->ten_dung_luong }}</td>
-                                        <td>{!! $gb->trang_thai == 1
-                                            ? '<span class="badge bg-success">Còn</span>'
-                                            : '<span class="badge bg-danger">Hết</span>' !!}</td>
                                         <td>
                                             <div class="">
                                                 <div class="btn-group">
@@ -65,6 +61,25 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item"
                                                             href="{{ route('admin.dungluongs.edit', $gb->id) }}">Sửa</a>
+                                                            @if ($gb->trang_thai == 1)
+                                                            <form
+                                                                action="{{ route('admin.dungluongs.onOffDungLuong', $gb->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('post')
+                                                                <button class="dropdown-item" href="#">Ngừng hoạt
+                                                                    động</button>
+                                                            </form>
+                                                        @else
+                                                            <form
+                                                                action="{{ route('admin.dungluongs.onOffDungLuong', $gb->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('post')
+                                                                <button class="dropdown-item" href="#">Hoạt
+                                                                    động</button>
+                                                            </form>
+                                                        @endif
                                                         <form action="{{ route('admin.dungluongs.destroy' , $gb->id) }}" method="POST"
                                                             onsubmit="return confirm('Bạn có chắc xóa kích cỡ dung lượng này không?')">
                                                             @csrf

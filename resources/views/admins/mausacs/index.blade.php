@@ -33,6 +33,9 @@
                     @if (session('success'))
                         <div class="alert alert-success" role="alert">{{ session('success') }}</div>
                     @endif
+                    @if (session('error'))
+                        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+                    @endif
 
                     <div class="card-body">
                         <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
@@ -40,7 +43,6 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên màu</th>
-                                    <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -49,9 +51,6 @@
                                     <tr>
                                         <td>{{ $mau->id }}</td>
                                         <td>{{ $mau->ten_mau_sac }}</td>
-                                        <td>{!! $mau->trang_thai == 1
-                                            ? '<span class="badge bg-success">Còn</span>'
-                                            : '<span class="badge bg-danger">Hết</span>' !!}</td>
                                         <td>
                                             <div class="">
                                                 <div class="btn-group">
@@ -61,9 +60,30 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item"
-                                                            href="{{route('admin.mausacs.edit',$mau->id)}}">Sửa</a>
-                                                        <form action="{{route('admin.mausacs.destroy',$mau->id)}}" method="POST"
-                                                            onsubmit="return confirm('Bạn có chắc xóa màu sắc này không?')">
+                                                            href="{{ route('admin.mausacs.edit', $mau->id) }}">Sửa</a>
+                                                        @if ($mau->trang_thai == 1)
+                                                            <form
+                                                                action="{{ route('admin.mausacs.onOffBanner', $mau->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('post')
+                                                                <button class="dropdown-item" href="#">Ngừng hoạt
+                                                                    động</button>
+                                                            </form>
+                                                        @else
+                                                            <form
+                                                                action="{{ route('admin.mausacs.onOffBanner', $mau->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('post')
+                                                                <button class="dropdown-item" href="#">Hoạt
+                                                                    động</button>
+                                                            </form>
+                                                        @endif
+                                                        <form action="{{ route('admin.mausacs.destroy', $mau->id) }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('bạn co chắc xóa màu sắc này không?')">
+
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"

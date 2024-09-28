@@ -141,7 +141,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('store',[MauSacController::class,'store'])->name('store');
         Route::get('/{id}/edit',[MauSacController::class,'edit'])->name('edit');
         Route::put('/{id}/update',[MauSacController::class,'update'])->name('update');
+        Route::post('/{id}/onOffBanner', [MauSacController::class, 'onOffBanner'])->name('onOffBanner');
         Route::delete('/{id}/destroy',[MauSacController::class,'destroy'])->name('destroy');
+
     });
 
     Route::prefix('dungluongs')->name('dungluongs.')->group(function(){
@@ -150,6 +152,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::post('store',[DungLuongController::class,'store'])->name('store');
         Route::get('/{id}/edit',[DungLuongController::class,'edit'])->name('edit');
         Route::put('/{id}/update',[DungLuongController::class,'update'])->name('update');
+        Route::post('/{id}/onOffDungLuong', [DungLuongController::class, 'onOffDungLuong'])->name('onOffDungLuong');
         Route::delete('/{id}/destroy',[DungLuongController::class,'destroy'])->name('destroy');
     });
 

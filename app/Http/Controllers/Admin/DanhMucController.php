@@ -78,6 +78,15 @@ class DanhMucController extends Controller
         return view('admins.danhmucs.update', compact('danhmucs'));
     }
 
+    public function show(string $id)
+    {
+        $danhmucs = DanhMuc::find($id);
+        if (!$danhmucs) {
+            return redirect()->route('admin.danhmucs.index')->with('error', 'Danh mục không tồn tại');
+        }
+        return view('admins.danhmucs.show', compact('danhmucs'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
