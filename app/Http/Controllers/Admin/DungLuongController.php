@@ -38,12 +38,13 @@ class DungLuongController extends Controller
         if($request->isMethod('POST')){
 
             $validDungLuong = $request->validate([
-                'ten_dung_luong'=>'required|string|max:255|unique:dung_luongs,ten_dung_luong'
+                'ten_dung_luong'=>'required|string|max:255,unique:dung_luongs,ten_dung_luong'
             ],
             [
                 'ten_dung_luong.required'=>'tên dung lượng không được để trống',
                 'ten_dung_luong.string'=>'tên dung lượng phải là một chuỗi!',
-                'ten_dung_luong.max'=>"Tên dung lượng không quá 255 ký tự!"
+                'ten_dung_luong.max'=>"Tên dung lượng không quá 255 ký tự!",
+                 'ten_dung_luong.unique'=>'Tên dung lượng đã tồn tại!'
             ]);
 
             $params = $request->except('_token');
@@ -87,7 +88,8 @@ class DungLuongController extends Controller
             [
                 'ten_dung_luong.required'=>'tên dung lượng không được để trống!',
                 'ten_dung_luong.string'=>'tên dung lượng phải là một chuỗi!',
-                'ten_dung_luong.max'=>"Tên dung lượng không quá 255 ký tự!"
+                'ten_dung_luong.max'=>"Tên dung lượng không quá 255 ký tự!",
+                'ten_dung_luong.unique'=>'Tên dung lượng đã tồn tại'
             ]);
 
 
@@ -98,6 +100,23 @@ class DungLuongController extends Controller
             $dungluongs->update($params);
 
             return redirect()->route('admin.dungluongs.index')->with('success','cập nhật thành công');
+        }
+    }
+
+    public function onOffDungLuong($id)
+    {
+        $dungluong = DungLuong::find($id);
+        if (!$dungluong) {
+            return redirect()->route('admin.banners.index')->with('error', 'Dung lượng không tồn tại');
+        }
+        if ($dungluong->trang_thai == true) {
+            $dungluong->trang_thai = false;
+            $dungluong->save();
+            return redirect()->back()->with('success', 'Ngừng hoạt động dung lượng');
+        } else {
+            $dungluong->trang_thai = true;
+            $dungluong->save();
+            return redirect()->back()->with('success', 'Hoạt hoạt động dung lượng');
         }
     }
 
