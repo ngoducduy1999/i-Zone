@@ -76,10 +76,7 @@ public function edit($id)
             'trang_thai' => $tag->trang_thai,
         ]);
 
-        // Kiểm tra và cập nhật trạng thái nếu cần
-        
-        
-    
+
         return redirect()->route('admin.tag.index')->with('success', 'Tên tag đã được cập nhật thành công.');
     }
     
@@ -106,11 +103,6 @@ public function edit($id)
         if (!$Tag) {
             return redirect()->route('admin.tags.index')->with('error', 'Tên tag không tồn tại.');
         }
-
-        // So sánh ngày hiện tại với ngày kết thúc của Tên tag
-       
-
-        
 
         // Cập nhật trạng thái Tên tag nếu còn thời gian
         if ($Tag->trang_thai) {

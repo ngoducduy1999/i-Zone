@@ -204,12 +204,31 @@
                 </li>
 
                 <li>
+<<<<<<< HEAD
+                    <a href="#khuyenmai" data-bs-toggle="collapse">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1 text-white">
+                            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                            <line x1="7" y1="2" x2="7" y2="22"></line>
+                            <line x1="17" y1="2" x2="17" y2="22"></line>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <line x1="2" y1="7" x2="7" y2="7"></line>
+                            <line x1="2" y1="17" x2="7" y2="17"></line>
+                            <line x1="17" y1="17" x2="22" y2="17"></line>
+                            <line x1="17" y1="7" x2="22" y2="7"></line>
+                        </svg>
+                        <span class="text-white"> Khuyến mãi </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="khuyenmai">
+=======
                     <a class='text-light' href="#promotionSection" data-bs-toggle="collapse">
                         <i class="text-white" data-feather="archive"></i>
                         <span> Khuyến mãi </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
                     <div class="collapse" id="promotionSection">
+>>>>>>> d0230c1841f4475feab1c2b20960b1c804196c52
                         <ul class="nav-second-level">
                             <li>
                                 <a class='text-white' href="{{ route('admin.khuyen_mais.index') }}">Danh sách</a>
