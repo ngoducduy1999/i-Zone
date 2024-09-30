@@ -269,6 +269,8 @@
     window.nguoiDungNgayLabels = @json($nguoiDungNgayLabels); // Gán nhãn ngày
     window.donNgayData = @json($donNgayData); // Gán dữ liệu đơn hàng theo ngày
     window.donNgayLabels = @json($donNgayLabels); // Gán nhãn ngày
+    window.dataDanhMuc = @json($dataDanhMuc); // Gán dữ liệu danh mục
+    window.labelsDanhMuc = @json($labelsDanhMuc); // số lượng sản phẩm trên mỗi danh mục
 </script>
 
 @endsection
