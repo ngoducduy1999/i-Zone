@@ -273,6 +273,8 @@
     window.labelsDanhMuc = @json($labelsDanhMuc); // số lượng sản phẩm trên mỗi danh mục
     window.dataKhuyenMai = @json($dataKhuyenMai); // Gán dữ liệu khuyến mãi còn hạn và hết hạn
     window.labelsKhuyenMai = @json($labelsKhuyenMai); // Gán 
+    window.dataInStock = @json($dataInStock ); // Sản phẩm còn hàng
+    window.dataLowStock = @json($dataLowStock); // Sản phẩm sắp hết hàng
 </script>
 
 @endsection
