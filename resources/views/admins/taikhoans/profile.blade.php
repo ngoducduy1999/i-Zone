@@ -224,7 +224,7 @@
                                                         <div class="form-group mb-3 row">
                                                             <label class="form-label">Mật khẩu cũ</label>
                                                             <div class="col-lg-12 col-xl-12">
-                                                                <input type="text" name="mat_khau_cu" id="mat_khau_cu" class="form-control" required>
+                                                                <input type="password" name="mat_khau_cu" id="mat_khau_cu" class="form-control" required>
                                                             </div>
                                                         </div>
                                                     
