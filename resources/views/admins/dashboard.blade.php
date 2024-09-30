@@ -263,7 +263,8 @@
    <script>
     window.doanhThuData = @json($doanh_thu_data); // Gán dữ liệu doanh thu theo tháng
     window.thangLabels = @json($thang_labels); // Gán nhãn tháng
-    
+    window.doanhThuNgayData = @json($doanhThuNgayData); // Gán dữ liệu doanh thu theo ngày
+    window.ngayLabels = @json($ngayLabels); // Gán nhãn ngày
    
 </script>
 

@@ -170,8 +170,7 @@
                                                             <input type="file" name="anh_dai_dien" id="anh_dai_dien" class="form-control" onchange="previewImage(event)">
                                                             @if ($profile->anh_dai_dien)
                                                                 <div class="current-image mt-2">
-                                                                    <img src="{{ asset('storage/' . $profile->anh_dai_dien) }}" alt="Ảnh đại diện" style="width: 100px; height: 100px; margin-top: 10px;" id="current-image">
-                                                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeCurrentImage()">X</button>
+                                                                    <img src="{{ asset('storage/' . $profile->anh_dai_dien) }}" alt="Ảnh đại diện" style="width: 100px;  margin-top: 10px;" id="current-image">
                                                                 </div>
                                                             @endif
                                                             <div id="image-preview" class="mt-2"></div>
@@ -225,7 +224,7 @@
                                                         <div class="form-group mb-3 row">
                                                             <label class="form-label">Mật khẩu cũ</label>
                                                             <div class="col-lg-12 col-xl-12">
-                                                                <input type="password" name="mat_khau_cu" id="mat_khau_cu" class="form-control" required>
+                                                                <input type="text" name="mat_khau_cu" id="mat_khau_cu" class="form-control" required>
                                                             </div>
                                                         </div>
                                                     
@@ -339,29 +338,8 @@
         document.getElementById('xa').addEventListener('change', capNhatDiaChi);
     });
 
-    function previewImage(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('image-preview');
-        preview.innerHTML = ''; // Clear previous preview
+    
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.width = '100px';
-                img.style.height = '100px';
-                img.style.marginTop = '10px';
-                preview.appendChild(img);
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function removeCurrentImage() {
-        const currentImage = document.getElementById('current-image');
-        currentImage.style.display = 'none';
-        document.querySelector('input[name="remove_anh_dai_dien"]').value = '1';
-    }
+    
 </script>
 @endsection
