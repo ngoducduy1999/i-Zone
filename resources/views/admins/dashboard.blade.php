@@ -275,6 +275,8 @@
     window.labelsKhuyenMai = @json($labelsKhuyenMai); // Gán 
     window.dataInStock = @json($dataInStock ); // Sản phẩm còn hàng
     window.dataLowStock = @json($dataLowStock); // Sản phẩm sắp hết hàng
+    window.dataOutOfStock = @json($dataOutOfStock); // Sản phẩm hết hàng
+    window.labelsSanPham = @json($labelsSanPham); // Gán
 </script>
 
 @endsection
