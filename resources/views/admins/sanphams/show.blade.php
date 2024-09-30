@@ -219,7 +219,7 @@
                         @foreach ($danhgias as $danhgia)
                             <div class="github-style d-flex my-2">
                                 <div class="flex-shrink-0 me-2">
-                                    <img src="{{ asset($danhgia->user->anh_dai_dien) }}" alt="" height="32"
+                                    <img src="{{ asset('storage/'. $danhgia->user->anh_dai_dien) }}" alt="" height="32"
                                         width="32" class="avatar-sm rounded-pill"
                                         style="object-fit: cover; object-position: center;">
                                 </div>
