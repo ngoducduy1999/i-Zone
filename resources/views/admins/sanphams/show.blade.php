@@ -67,9 +67,9 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="danh_muc_id" class="form-label">Danh mục sản phẩm</label>
-                                    <input type="text" id="danh_muc_id" id="danh_muc_id" name="danh_muc_id"
-                                        class="form-control" placeholder="Tên sản phẩm"
-                                        value=" {{ $sanpham->danhMuc->ten_danh_muc }}" disabled>
+                                    <input type="text" id="danh_muc_id" name="danh_muc_id" class="form-control"
+                                        placeholder="Tên sản phẩm"
+                                        value="{{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}" disabled>
                                 </div>
                                 <div class="mb-3">
                                     <label for="example-multiselect" class="form-label">Tags sản phẩm</label>
@@ -152,8 +152,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="mo_ta" class="form-label">Mô tả sản phẩm</label>
-                                    <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                                    <textarea name="mo_ta" id="mo_ta" cols="30" rows="10">{{ $sanpham->mo_ta }}</textarea>
+                                    <textarea name="mo_ta" id="mo_ta" cols="30" rows="10" disabled>{{ $sanpham->mo_ta }}</textarea>
                                 </div>
                             </div>
                         </div>

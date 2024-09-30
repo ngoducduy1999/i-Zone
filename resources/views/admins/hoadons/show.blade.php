@@ -16,7 +16,7 @@
 
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Quản lý chi tiết đơn hàng</h4>
+                <h4 class="fs-18 fw-semibold m-0">Quản lý chi tiết hóa đơn</h4>
             </div>
         </div>
 
@@ -92,7 +92,7 @@
                                 @endphp
                                     <tr>
                                         <td>
-                                            <img src="{{ Storage::url($sanPham->hinh_anh) }}" alt="Sản phẩm" width="75px">
+                                            <img src="{{ asset($sanPham->anh_san_pham) }}" alt="Sản phẩm" width="75px">
                                         </td>
                                         <td>{{ $sanPham->ma_san_pham }}</td>
                                         <td>{{ $sanPham->ten_san_pham }}</td>
