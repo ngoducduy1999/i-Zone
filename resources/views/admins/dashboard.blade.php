@@ -271,6 +271,8 @@
     window.donNgayLabels = @json($donNgayLabels); // Gán nhãn ngày
     window.dataDanhMuc = @json($dataDanhMuc); // Gán dữ liệu danh mục
     window.labelsDanhMuc = @json($labelsDanhMuc); // số lượng sản phẩm trên mỗi danh mục
+    window.dataKhuyenMai = @json($dataKhuyenMai); // Gán dữ liệu khuyến mãi còn hạn và hết hạn
+    window.labelsKhuyenMai = @json($labelsKhuyenMai); // Gán 
 </script>
 
 @endsection
