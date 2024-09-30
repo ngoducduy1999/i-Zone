@@ -165,6 +165,32 @@ class UserController extends Controller
     
         return response()->json(['success' => true, 'message' => 'Cập nhật thành công!']);
     }
+    public function updatePassword(Request $request)
+{
+    // Lấy thông tin người dùng đang đăng nhập
+    $user = Auth::user();
+
+    // Xác thực mật khẩu cũ, mật khẩu mới và xác nhận mật khẩu mới
+    $request->validate([
+        'mat_khau_cu' => 'required', // Bắt buộc phải nhập mật khẩu cũ
+        'mat_khau_moi' => 'required|min:8|confirmed' // Mật khẩu mới phải ít nhất 8 ký tự và khớp với xác nhận mật khẩu
+    ]);
+
+    // Kiểm tra mật khẩu cũ
+    if (!Hash::check($request->input('mat_khau_cu'), $user->mat_khau)) {
+        return redirect()->back()->with('error', 'Mật khẩu cũ không đúng.');
+    }
+    
+
+    // Cập nhật mật khẩu mới
+    $user->mat_khau = Hash::make($request->input('mat_khau_moi'));
+    $user->save();
+
+    return redirect()->back()->with('success', 'Đổi mật khẩu thành công!'); // Quay lại trang trước với thông báo thành công
+}
+
+    
+
     
 
 }

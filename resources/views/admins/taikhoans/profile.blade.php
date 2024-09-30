@@ -10,7 +10,20 @@
                     <h4 class="fs-18 fw-semibold m-0">Hồ sơ cá nhân</h4>
                 </div>
             </div>
-
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -205,25 +218,34 @@
                                                     <h4 class="card-title mb-0">Đổi mật khẩu</h4>
                                                 </div>
                                                 <div class="card-body">
-                                                    <form action="{{ route('admin.profile.updatePassword', $profile->id) }}" method="POST">
+                                                    <form action="{{ route('admin.profile.updatePassword') }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
+                                                    
+                                                        <div class="form-group mb-3 row">
+                                                            <label class="form-label">Mật khẩu cũ</label>
+                                                            <div class="col-lg-12 col-xl-12">
+                                                                <input type="password" name="mat_khau_cu" id="mat_khau_cu" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                    
                                                         <div class="form-group mb-3 row">
                                                             <label class="form-label">Mật khẩu mới</label>
                                                             <div class="col-lg-12 col-xl-12">
                                                                 <input type="password" name="mat_khau_moi" id="mat_khau_moi" class="form-control" required>
                                                             </div>
                                                         </div>
-
+                                                    
                                                         <div class="form-group mb-3 row">
                                                             <label class="form-label">Xác nhận mật khẩu mới</label>
                                                             <div class="col-lg-12 col-xl-12">
-                                                                <input type="password" name="mat_khau_xac_nhan" id="mat_khau_xac_nhan" class="form-control" required>
+                                                                <input type="password" name="mat_khau_moi_confirmation" id="mat_khau_moi_confirmation" class="form-control" required>
                                                             </div>
                                                         </div>
-
+                                                    
                                                         <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
                                                     </form>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
