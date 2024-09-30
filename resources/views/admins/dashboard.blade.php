@@ -265,7 +265,8 @@
     window.thangLabels = @json($thang_labels); // Gán nhãn tháng
     window.doanhThuNgayData = @json($doanhThuNgayData); // Gán dữ liệu doanh thu theo ngày
     window.ngayLabels = @json($ngayLabels); // Gán nhãn ngày
-   
+    window.nguoiDungNgayData = @json($nguoiDungNgayData); // Gán dữ liệu người dùng theo ngày
+    window.nguoiDungNgayLabels = @json($nguoiDungNgayLabels); // Gán nhãn ngày
 </script>
 
 @endsection
