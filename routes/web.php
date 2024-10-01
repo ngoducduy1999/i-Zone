@@ -57,8 +57,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
     Route::put('/taikhoans/{id}', [UserController::class, 'update'])->name('taikhoans.update'); // Update user
     Route::delete('/taikhoans/{id}', [UserController::class, 'destroy'])->name('taikhoans.destroy'); // Delete user
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-    Route::get('/profile/updatePassword', [UserController::class, 'profile'])->name('profile.updatePassword');
     Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
+    Route::put('/profile/updatePassword', [UserController::class, 'updatePassword'])->name('profile.updatePassword');
 
     // Đánh giá sản phẩm
     Route::prefix('danhgias')->name('danhgias.')->group(function () {
