@@ -453,7 +453,7 @@
                            </li>
                             <li class="has-dropdown has-mega-menu ">
                                
-                               <a href="shop.html">Products</a>
+                               <a href="{{ route('trangsanpham') }}">Products</a>
                                <ul class="tp-submenu tp-mega-menu mega-menu-style-2">
                                   <!-- first col -->
                                   <li class="has-dropdown">
