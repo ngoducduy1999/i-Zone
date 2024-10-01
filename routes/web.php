@@ -167,4 +167,6 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
 // Client routes
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 
+Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
+
 

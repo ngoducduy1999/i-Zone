@@ -363,7 +363,7 @@
                              <div class="col-xl-3 col-lg-3 col-sm-6">
                                 <div class="tp-product-item p-relative transition-3 mb-25">
                                    <div class="tp-product-thumb p-relative fix m-img">
-                                      <a href="product-details.html">
+                                      <a href="{{ route('chitietsanpham') }}">
                                          <img src="{{ asset('assets/client/img/product/product-1.jpg') }}" alt="product-electronic">
                                       </a>
            
