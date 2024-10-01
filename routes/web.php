@@ -27,6 +27,7 @@ use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 
+
 // Routes for unauthenticated users
   Route::prefix('customer')->name('customer.')->group(function () {
   Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
