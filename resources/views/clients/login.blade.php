@@ -33,7 +33,7 @@
                  <div class="tp-login-wrapper">
                     <div class="tp-login-top text-center mb-30">
                        <h3 class="tp-login-title">Login to Shofy.</h3>
-                       <p>Don’t have an account? <span><a href="register.html">Create a free account</a></span></p>
+                       <p>Don’t have an account? <span><a href="{{ route('client.register') }}">Create a free account</a></span></p>
                     </div>
                     <div class="tp-login-option">
                        <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
@@ -99,7 +99,7 @@
                              <label for="remeber">Remember me</label>
                           </div>
                           <div class="tp-login-forgot">
-                             <a href="forgot.html">Forgot Password?</a>
+                             <a href="{{ route('client.forgot') }}">Forgot Password?</a>
                           </div>
                        </div>
                        <div class="tp-login-bottom">
