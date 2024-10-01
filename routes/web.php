@@ -19,6 +19,7 @@ use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
+use App\Http\Controllers\Client\GioHangController;
 use App\Http\Controllers\Client\TrangChuController;
 
 // Routes for unauthenticated users
@@ -168,5 +169,7 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 
 Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
+
+Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 
 

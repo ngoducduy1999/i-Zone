@@ -270,7 +270,7 @@
                      <span>$113.00</span>
                  </div>
                  <div class="cartmini__checkout-btn">
-                     <a href="cart.html" class="tp-btn mb-10 w-100"> view cart</a>
+                     <a href="{{ route('giohang') }}" class="tp-btn mb-10 w-100"> view cart</a>
                      <a href="checkout.html" class="tp-btn tp-btn-border w-100"> checkout</a>
                  </div>
              </div>

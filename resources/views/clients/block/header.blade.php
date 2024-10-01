@@ -384,7 +384,7 @@
                       <nav class="tp-main-menu-content">
                          <ul>
                             <li class="has-mega-menu">
-                               <a href="index.html">Home</a>                              
+                               <a href="{{ route('trangchu') }}">Home</a>                              
                             </li>
                             <li  class="has-dropdown has-mega-menu">
                                <a href="shop.html">Shop</a>
