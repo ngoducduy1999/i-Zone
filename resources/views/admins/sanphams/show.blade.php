@@ -54,44 +54,14 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="mb-3">
-                                    <label for="ma_san_pham" class="form-label">Mã sản phẩm</label>
-                                    <input type="text" id="ma_san_pham" id="ma_san_pham" name="ma_san_pham"
-                                        class="form-control" placeholder="Mã sản phẩm" value="{{ $sanpham->ma_san_pham }}"
-                                        disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="ten_san_pham" class="form-label">Tên sản phẩm</label>
-                                    <input type="text" id="ten_san_pham" id="ten_san_pham" name="ten_san_pham"
-                                        class="form-control" placeholder="Tên sản phẩm"
-                                        value=" {{ $sanpham->ten_san_pham }}" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="danh_muc_id" class="form-label">Danh mục sản phẩm</label>
-                                    <input type="text" id="danh_muc_id" name="danh_muc_id" class="form-control"
-                                        placeholder="Tên sản phẩm"
-                                        value="{{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="example-multiselect" class="form-label">Tags sản phẩm</label>
-                                    <select id="example-multiselect" multiple class="form-control" id="tag_id"
-                                        name="tag_id[]">
-                                        @foreach ($tagsanphams as $tag)
-                                            <option value="{{ $tag->id }}">
-                                                {{ $tag->tag->ten_tag }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="anh_san_pham" class="form-label">Ảnh sản phẩm</label><br>
-                                    <img src="{{ asset($sanpham->anh_san_pham) }}" alt="" width="50px"
-                                        id="img" class="py-1">
+                                    <img src="{{ asset($sanpham->anh_san_pham) }}" alt="" width="100%"
+                                        id="img" class="py-1 rounded-4">
                                 </div>
                                 <div class="mb-3">
                                     <label for="hinh_anh" class="form-label">Album ảnh:</label><br>
                                     @foreach ($anhsanphams as $anhsanpham)
                                         <img src="{{ asset($anhsanpham->hinh_anh) }}" alt="" width="50px"
-                                            id="img" class="py-1">
+                                            id="img" class="py-1 rounded-3">
                                     @endforeach
 
                                 </div>
@@ -103,56 +73,70 @@
                                     phẩm</a>
                             </div>
                             <div class="col-lg-8">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">Biến thể sản phẩm</h5>
-                                </div>
                                 <div class="mb-3">
+                                    <label for="ma_san_pham" class="form-label">Mã sản phẩm:</label>
+                                    <span class="text-black">{{ $sanpham->ma_san_pham }}</span><br>
+                                    <label for="ten_san_pham" class="form-label">Tên sản phẩm:</label>
+                                    <span class="text-black">{{ $sanpham->ten_san_pham }}</span><br>
+                                    <label for="danh_muc_id" class="form-label">Danh mục sản phẩm:</label>
+                                    <span class="text-black">
+                                        {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}
+                                    </span><br>
+                                    <label for="example-multiselect" class="form-label">Tags sản phẩm:</label>
+                                    <span class="text-primary">
+                                        @foreach ($tagsanphams as $tag)
+                                            #{{ $tag->tag->ten_tag }}
+                                        @endforeach
+                                    </span><br>
+                                    <h5 class="card-title mb-0">Biến thể sản phẩm:</h5>
                                     <div id="variants-container">
-                                        <div class="variant" data-index="0">
-                                            @foreach ($bienthesanphams as $bienthesanpham)
-                                                <div class="row g-3">
-                                                    <div class="col-md-2">
-                                                        <label for="dung_luong_id-0" class="form-label">Dung
-                                                            lượng:</label>
-                                                        <input type="text" id="dung_luong_id" id="dung_luong_id"
-                                                            name="dung_luong_id" class="form-control"
-                                                            value="{{ $bienthesanpham->dungLuong->ten_dung_luong }}"
-                                                            disabled>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <label for="mau_sac_id-0" class="form-label">Màu sắc:</label>
-                                                        <input type="text" id="mau_sac_id" id="mau_sac_id"
-                                                            name="mau_sac_id" class="form-control"
-                                                            value="{{ $bienthesanpham->mauSac->ten_mau_sac }}" disabled>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <label for="gia_cu-0" class="form-label">Giá cũ:</label>
-                                                        <input type="number" class="form-control" id="gia_cu-0"
-                                                            name="gia_cu[]" min="0" required
-                                                            value="{{ $bienthesanpham->gia_cu }}" disabled>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <label for="gia_moi-0" class="form-label">Giá mới:</label>
-                                                        <input type="number" class="form-control" id="gia_moi-0"
-                                                            name="gia_moi[]" min="0" required
-                                                            value="{{ $bienthesanpham->gia_moi }}" disabled>
-
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <label for="so_luong-0" class="form-label">Số lượng:</label>
-                                                        <input type="number" class="form-control" id="so_luong-0"
-                                                            name="so_luong[]" min="0" required
-                                                            value="{{ $bienthesanpham->so_luong }}" disabled>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                            @endforeach
+                                        <div class="variant px-2 py-2" data-index="0">
+                                            <div class="row g-3">
+                                                <table id="datatable-buttons"
+                                                    class="table table-striped table-bordered dt-responsive nowrap">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Dung lượng</th>
+                                                            <th>Màu sắc</th>
+                                                            <th>Giá</th>
+                                                            <th>Số lượng sản phẩm</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($bienthesanphams as $bienthesanpham)
+                                                            <tr>
+                                                                <td>{{ $bienthesanpham->id }}</td>
+                                                                <td>{{ $bienthesanpham->dungLuong->ten_dung_luong }}</td>
+                                                                <td>{{ $bienthesanpham->mauSac->ten_mau_sac }}</td>
+                                                                <td>
+                                                                    <span>
+                                                                        <del class="text-danger">
+                                                                            {{ number_format($bienthesanpham->gia_cu, 0, ',', '.') }}đ
+                                                                        </del>
+                                                                    </span>
+                                                                    <span>-{{ number_format($bienthesanpham->gia_moi, 0, ',', '.') }}đ;</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="px-1">
+                                                                        {{ number_format($bienthesanpham->so_luong, 0, ',', '.') }}
+                                                                    </span>
+                                                                </td>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="mo_ta" class="form-label">Mô tả sản phẩm</label>
-                                    <textarea name="mo_ta" id="mo_ta" cols="30" rows="10" disabled>{{ $sanpham->mo_ta }}</textarea>
+                                    <h5 class="card-title mb-0">Mô tả sản phẩm:</h5>
+
+                                    <div class="text-black">
+                                        <p>
+                                            {!! $sanpham->mo_ta !!}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -168,10 +152,6 @@
                         <h5 class="card-title mb-0 fs-2">Đánh giá sản phẩm</h5>
                     </div>
                     <div class="card-body">
-                        {{-- <div id="stacked_area_chart" class="apex-charts d-flex align-items-center">
-                            <h1 class="m-0">4.5</h1>
-                            <h5 class="m-0 ml-2">trên 5 sao</h5>
-                        </div> --}}
                         <div class="bg-light">
                             @if ($soluotdanhgia > 0)
                                 <div id="area_chart-years"
@@ -219,8 +199,8 @@
                         @foreach ($danhgias as $danhgia)
                             <div class="github-style d-flex my-2">
                                 <div class="flex-shrink-0 me-2">
-                                    <img src="{{ asset('storage/'. $danhgia->user->anh_dai_dien) }}" alt="" height="32"
-                                        width="32" class="avatar-sm rounded-pill"
+                                    <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt=""
+                                        height="32" width="32" class="avatar-sm rounded-pill"
                                         style="object-fit: cover; object-position: center;">
                                 </div>
                                 <div class="flex-grow-1">
@@ -269,9 +249,4 @@
 
         </div>
     </div>
-    <script src="{{ asset('assets/admin/ckeditor/ckeditor.js') }}"></script>
-    <script>
-        // mô tả
-        CKEDITOR.replace('mo_ta');
-    </script>
 @endsection
