@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Client\TrangChuController;
 use App\Http\Controllers\Auth\ClientLoginController;
 use App\Http\Controllers\Client\ThanhToanController;
+use App\Http\Controllers\Auth\ClientForgotController;
 use App\Http\Controllers\Auth\CustomerLoginController;
 use App\Http\Controllers\Auth\ClientRegisterController;
 use App\Http\Controllers\admin\BienTheSanPhamController;
@@ -172,6 +173,7 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
 Route::prefix('client')->name('client.')->group(function () {
 Route::get('login', [ClientLoginController::class, 'showLogin'])->name('login');
 Route::get('register', [ClientRegisterController::class, 'showRegister'])->name('register');
+Route::get('forgot', [ClientForgotController::class, 'showForgot'])->name('forgot');
 });
 
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
