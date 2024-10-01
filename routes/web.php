@@ -1,28 +1,29 @@
 <?php
 
-use App\Http\Controllers\admin\BienTheSanPhamController;
-use App\Http\Controllers\Admin\DanhgiaController;
-use App\Http\Controllers\admin\BannerController;
-use App\Http\Controllers\admin\KhuyenMaiController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AdminLoginController;
-use App\Http\Controllers\Auth\CustomerLoginController;
-use App\Http\Controllers\Auth\CustomerRegisterController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\StaffDashboardController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\MauSacController;
-use App\Http\Controllers\Admin\DungLuongController;
-use App\Http\Controllers\admin\DanhMucController;
-use App\Http\Controllers\Admin\HoaDonController;
-use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\admin\TagController;
-use App\Http\Controllers\Auth\AdminForgotPasswordController;
-use App\Http\Controllers\Auth\ClientLoginController;
-use App\Http\Controllers\Client\ChiTietSanPhamController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\admin\BannerController;
+use App\Http\Controllers\Admin\HoaDonController;
+use App\Http\Controllers\Admin\MauSacController;
+use App\Http\Controllers\Admin\DanhgiaController;
+use App\Http\Controllers\admin\DanhMucController;
+use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\Client\GioHangController;
-use App\Http\Controllers\Client\ThanhToanController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DungLuongController;
+use App\Http\Controllers\admin\KhuyenMaiController;
+use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Client\TrangChuController;
+use App\Http\Controllers\Auth\ClientLoginController;
+use App\Http\Controllers\Client\ThanhToanController;
+use App\Http\Controllers\Auth\CustomerLoginController;
+use App\Http\Controllers\Auth\ClientRegisterController;
+use App\Http\Controllers\admin\BienTheSanPhamController;
+use App\Http\Controllers\Admin\StaffDashboardController;
+use App\Http\Controllers\Auth\CustomerRegisterController;
+use App\Http\Controllers\Client\ChiTietSanPhamController;
+use App\Http\Controllers\Auth\AdminForgotPasswordController;
 
 // Routes for unauthenticated users
   Route::prefix('customer')->name('customer.')->group(function () {
@@ -170,7 +171,7 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
 // Client routes
 Route::prefix('client')->name('client.')->group(function () {
 Route::get('login', [ClientLoginController::class, 'showLogin'])->name('login');
-
+Route::get('register', [ClientRegisterController::class, 'showRegister'])->name('register');
 });
 
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
