@@ -220,6 +220,7 @@
                         </ul>
                     </div>
                 </li>
+
                 <li>
                     <a class='text-light' href="#tags" data-bs-toggle="collapse">
                         <i data-feather="table"></i>
@@ -237,8 +238,6 @@
                         </ul>
                     </div>
                 </li>
-
-                
 
             </ul>
 

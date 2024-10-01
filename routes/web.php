@@ -18,8 +18,9 @@ use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
-
-
+use App\Http\Controllers\Client\ChiTietSanPhamController;
+use App\Http\Controllers\Client\GioHangController;
+use App\Http\Controllers\Client\TrangChuController;
 
 // Routes for unauthenticated users
   Route::prefix('customer')->name('customer.')->group(function () {
@@ -162,7 +163,13 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
     Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
-
 });
+
+// Client routes
+Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
+
+Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
+
+Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 
 
