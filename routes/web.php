@@ -25,6 +25,8 @@ use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
+use App\Http\Controllers\Client\TrangSanPhamController;
+use App\Http\Controllers\Client\YeuThichController;
 
 // Routes for unauthenticated users
   Route::prefix('customer')->name('customer.')->group(function () {
@@ -177,6 +179,8 @@ Route::get('forgot', [ClientForgotController::class, 'showForgot'])->name('forgo
 });
 
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
 Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
+Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
