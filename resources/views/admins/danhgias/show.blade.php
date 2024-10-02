@@ -264,6 +264,23 @@
                         </div>
                         <hr>
                     @endforeach
+                    <div class="card-body  mb-4 text-center">
+                        <h5>Lọc đánh giá</h5>
+                        <div class="rating-filter bg-white border rounded p-3">
+                            <a href="#" class="btn filter-btn" data-url="{{ route('admin.sanphams.filterDanhGia', ['id' => $sanpham->id, 'star' => 'all']) }}">
+                                Tất cả<span class="star text-warning">★</span>
+                            </a>
+                            @foreach (range(5, 1) as $star)
+                                <a href="#" class="btn filter-btn" data-url="{{ route('admin.sanphams.filterDanhGia', ['id' => $sanpham->id, 'star' => $star]) }}">
+                                    {{ $star }} sao <span class="star text-warning">★</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    
+                    <div id="view_dgia">
+                        @include('admins.sanphams.danh_gia_list', ['danhgias' => $danhgias])
+                    </div>
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
                             <li class="page-item {{ $danhgias->onFirstPage() ? 'disabled' : '' }}">
