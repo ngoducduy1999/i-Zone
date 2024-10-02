@@ -264,6 +264,20 @@
                         </div>
                         <hr>
                     @endforeach
+                    <div class="card-body mb-3">
+                        <div class="col-md-6 offset-md-3">
+                            <ul class="list-unstyled">
+                                @foreach ($starPercentage as $star => $percentage)
+                                    <li class="d-flex align-items-center mb-2">
+                                        <span class="kk me-2">{{ $star }} ★</span> 
+                                        <div class="progress flex-grow-1">
+                                            <div class="progress-bar bg-warning" style="width: {{ number_format($percentage) }}%;"></div>
+                                        </div>
+                                        <span class="ms-2">{{ number_format($percentage) }}%</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     <div class="card-body  mb-4 text-center">
                         <h5>Lọc đánh giá</h5>
                         <div class="rating-filter bg-white border rounded p-3">
