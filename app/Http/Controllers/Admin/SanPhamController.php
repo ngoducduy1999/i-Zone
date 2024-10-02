@@ -174,13 +174,47 @@ class SanPhamController extends Controller
             $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
             $anhsanphams = HinhAnhSanPham::where('san_pham_id', $id)->get();
             $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
-            $danhgias = DanhGiaSanPham::latest('id')->where('san_pham_id', $id)->paginate(5);
+            
+            // Lấy danh sách đánh giá sản phẩm
+            $danhgias = DanhGiaSanPham::latest('id')->where('san_pham_id', $id)->paginate(10);
+            
+            // Tính điểm trung bình và số lượt đánh giá
             $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
             $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
-            return view('admins.sanphams.show', compact('sanpham', 'bienthesanphams', 'anhsanphams', 'tagsanphams', 'danhgias', 'diemtrungbinh', 'soluotdanhgia'));
+    
+            // Tính tỷ lệ phần trăm cho mỗi loại sao
+            $starCounts = DanhGiaSanPham::select(DB::raw('diem_so, count(*) as count'))
+                ->where('san_pham_id', $id)
+                ->groupBy('diem_so')
+                ->pluck('count', 'diem_so');
+    
+            $totalRatings = $starCounts->sum(); // Tổng số đánh giá
+            $starPercentage = [];
+    
+            for ($i = 1; $i <= 5; $i++) {
+                $percentage = $totalRatings > 0 ? ($starCounts->get($i, 0) / $totalRatings) * 100 : 0;
+                $starPercentage[$i] = $percentage;
+            }
+    
+            return view('admins.sanphams.show', compact(
+                'sanpham', 
+                'bienthesanphams', 
+                'anhsanphams', 
+                'tagsanphams', 
+                'danhgias', 
+                'diemtrungbinh', 
+                'soluotdanhgia',
+                'starPercentage' // Truyền tỷ lệ phần trăm sao vào view
+            ));
         }
         return redirect()->route('admin.sanphams.index')->with('error', 'Không tìm thấy sản phẩm');
     }
+   
+    
+    
+
+    
+        
 
     /**
      * Show the form for editing the specified resource.
