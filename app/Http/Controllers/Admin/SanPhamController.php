@@ -210,7 +210,20 @@ class SanPhamController extends Controller
         return redirect()->route('admin.sanphams.index')->with('error', 'Không tìm thấy sản phẩm');
     }
    
-    
+    public function filterDanhGia(string $id, $star)
+    {
+    $danhgias = DanhGiaSanPham::where('san_pham_id', $id);
+
+    // Nếu star không phải 'all', lọc theo số sao
+    if ($star !== 'all') {
+        $danhgias = $danhgias->where('diem_so', (int)$star);
+    }
+
+    $danhgias = $danhgias->latest('id')->paginate(10);
+
+    // Trả về HTML của danh sách đánh giá
+    return view('admins.sanphams.danh_gia_list', compact('danhgias'));
+    }
     
 
     
