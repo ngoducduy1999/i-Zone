@@ -15,9 +15,9 @@ class HoaDonController extends Controller
      */
     public function index()
     {
-        $title = "Danh sách đơn hàng";
+        $title = "Danh sách hóa đơn";
 
-        $listHoaDon = HoaDon::query()->get();
+        $listHoaDon = HoaDon::query()->paginate(5);
 
         $trangThaiHoaDon = HoaDon::TRANG_THAI;
 
@@ -47,7 +47,7 @@ class HoaDonController extends Controller
      */
     public function show(string $id)
     {
-        $title = "Thông tin chi tiết đơn hàng";
+        $title = "Thông tin chi tiết hóa đơn";
 
         $hoaDon = HoaDon::query()->findOrFail($id);
 

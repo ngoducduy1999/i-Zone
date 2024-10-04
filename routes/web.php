@@ -1,25 +1,32 @@
 <?php
 
-use App\Http\Controllers\admin\BienTheSanPhamController;
-use App\Http\Controllers\Admin\DanhgiaController;
-use App\Http\Controllers\admin\BannerController;
-use App\Http\Controllers\admin\KhuyenMaiController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AdminLoginController;
-use App\Http\Controllers\Auth\CustomerLoginController;
-use App\Http\Controllers\Auth\CustomerRegisterController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\StaffDashboardController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\MauSacController;
-use App\Http\Controllers\Admin\DungLuongController;
-use App\Http\Controllers\admin\DanhMucController;
-use App\Http\Controllers\Admin\HoaDonController;
-use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\admin\TagController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\admin\BannerController;
+use App\Http\Controllers\Admin\HoaDonController;
+use App\Http\Controllers\Admin\MauSacController;
+use App\Http\Controllers\Admin\DanhgiaController;
+use App\Http\Controllers\admin\DanhMucController;
+use App\Http\Controllers\admin\SanPhamController;
+use App\Http\Controllers\Client\GioHangController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DungLuongController;
+use App\Http\Controllers\admin\KhuyenMaiController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Client\TrangChuController;
+use App\Http\Controllers\Auth\ClientLoginController;
+use App\Http\Controllers\Client\ThanhToanController;
+use App\Http\Controllers\Auth\ClientForgotController;
+use App\Http\Controllers\Auth\CustomerLoginController;
+use App\Http\Controllers\Auth\ClientRegisterController;
+use App\Http\Controllers\admin\BienTheSanPhamController;
+use App\Http\Controllers\Admin\StaffDashboardController;
+use App\Http\Controllers\Auth\CustomerRegisterController;
+use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
-
-
+use App\Http\Controllers\Client\TrangSanPhamController;
+use App\Http\Controllers\Client\YeuThichController;
 
 // Routes for unauthenticated users
   Route::prefix('customer')->name('customer.')->group(function () {
@@ -57,8 +64,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
     Route::put('/taikhoans/{id}', [UserController::class, 'update'])->name('taikhoans.update'); // Update user
     Route::delete('/taikhoans/{id}', [UserController::class, 'destroy'])->name('taikhoans.destroy'); // Delete user
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-    Route::get('/profile/updatePassword', [UserController::class, 'profile'])->name('profile.updatePassword');
     Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
+    Route::put('/profile/updatePassword', [UserController::class, 'updatePassword'])->name('profile.updatePassword');
 
     // Đánh giá sản phẩm
     Route::prefix('danhgias')->name('danhgias.')->group(function () {
@@ -133,6 +140,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::put('/{id}/update', [SanPhamController::class, 'update'])->name('update');
         Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
+        Route::get('/sanpham/{id}/filterDanhGia/{star}', [SanPhamController::class, 'filterDanhGia'])->name('filterDanhGia');
     });
 
     Route::prefix('mausacs')->name('mausacs.')->group(function(){
@@ -162,7 +170,18 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
     Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
-
 });
 
+// Client routes
+Route::prefix('client')->name('client.')->group(function () {
+Route::get('login', [ClientLoginController::class, 'showLogin'])->name('login');
+Route::get('register', [ClientRegisterController::class, 'showRegister'])->name('register');
+Route::get('forgot', [ClientForgotController::class, 'showForgot'])->name('forgot');
+});
 
+Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
+Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
+Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
+Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
+Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');

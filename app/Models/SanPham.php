@@ -56,4 +56,8 @@ class SanPham extends Model
     {
         return $this->hasMany(DanhGiaSanPham::class);
     }
+    public function chiTietHoaDons()
+    {
+        return $this->hasMany(ChiTietHoaDon::class, 'bien_the_san_pham_id', 'id'); // Sử dụng cột đúng
+    }
 }
