@@ -234,7 +234,7 @@
                </div>
                <div class="tp-feature-content">
                   <h3 class="tp-feature-title">Giảm giá cho thành viên</h3>
-                  <p>Một đơn hàng trên 10.000.000VNĐ</p>
+                  <p>Đơn hàng trên 10.000.000VNĐ</p>
                </div>
             </div>
          </div>
