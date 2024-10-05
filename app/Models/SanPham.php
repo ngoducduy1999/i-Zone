@@ -60,4 +60,13 @@ class SanPham extends Model
     {
         return $this->hasMany(ChiTietHoaDon::class, 'bien_the_san_pham_id', 'id'); // Sử dụng cột đúng
     }
+    
+    use HasFactory;
+
+    protected $table = 'san_phams'; // Đặt tên bảng nếu không tuân theo quy tắc Laravel
+
+    public function bienThe()
+    {
+        return $this->hasMany(BienTheSanPham::class, 'san_pham_id');
+    }
 }

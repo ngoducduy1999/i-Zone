@@ -37,9 +37,11 @@
                           </div>
                        </div>
                        <div class="col-xl-7 col-lg-6 col-md-6">
+                       @if($banners)
                           <div class="tp-slider-thumb text-end">
-                             <img src="{{ asset('assets/client/img/slider/slider-img-1.png') }}" alt="slider-img">
+                          <img src="{{ asset($banners->anh_banner) }}" alt="{{ $banners->ten_banner }}" width="400">                          
                           </div>
+                        @endif
                        </div>
                     </div>
                  </div>
@@ -76,9 +78,11 @@
                           </div>
                        </div>
                        <div class="col-xl-7 col-lg-6 col-md-6">
+                       @if($banners2)
                           <div class="tp-slider-thumb text-end">
-                             <img src="{{ asset('assets/client/img/slider/slider-img-2.png') }}" alt="slider-img">
+                          <img src="{{ asset($banners2->anh_banner) }}" alt="{{ $banners2->ten_banner }}" width="400">                          
                           </div>
+                        @endif
                        </div>
                     </div>
                  </div>
@@ -115,9 +119,11 @@
                           </div>
                        </div>
                        <div class="col-xl-7 col-lg-6 col-md-6">
+                       @if($banners1)
                           <div class="tp-slider-thumb text-end">
-                             <img src="{{ asset('assets/client/img/slider/slider-img-3.png') }}" alt="slider-img">
+                          <img src="{{ asset($banners1->anh_banner) }}" alt="{{ $banners1->ten_banner }}" width="400">                          
                           </div>
+                        @endif
                        </div>
                     </div>
                  </div>
@@ -1820,7 +1826,7 @@
                                          <a href="product-details.html">
                                             Galaxy Tab S6 Lite 10.4-inch Android Tablet 128GB.
                                          </a>
-                                      </h3>
+                                      </h3> 
                                       <div class="tp-product-rating d-flex align-items-center">
                                          <div class="tp-product-rating-icon">
                                             <span><i class="fa-solid fa-star"></i></span>
