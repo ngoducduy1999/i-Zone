@@ -153,84 +153,27 @@
 <section class="tp-product-category pt-60 pb-15">
    <div class="container">
       <div class="row row-cols-xl-5 row-cols-lg-5 row-cols-md-4">
+         @foreach($danhMucs as $danhMuc)
          <div class="col">
             <div class="tp-product-category-item text-center mb-40">
                <div class="tp-product-category-thumb fix">
-                  <a href="shop-category.html">
-                     <img src="{{ asset('assets/client/img/product/category/product-cat-1.png') }}" alt="product-category">
+                  <a href="{{ url('shop-category/' . $danhMuc->id) }}"> <!-- Link đến trang danh mục -->
+                     <img src="{{ asset('storage/' . $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}">
                   </a>
                </div>
                <div class="tp-product-category-content">
                   <h3 class="tp-product-category-title">
-                     <a href="shop-category.html">Headphones</a>
+                     <a href="{{ url('shop-category/' . $danhMuc->id) }}">{{ $danhMuc->ten_danh_muc }}</a>
                   </h3>
-                  <p>20 Product</p>
+                  <p>{{ $danhMuc->san_phams_count }} Product</p> <!-- Số lượng sản phẩm -->
                </div>
             </div>
          </div>
-         <div class="col">
-            <div class="tp-product-category-item text-center mb-40">
-               <div class="tp-product-category-thumb fix">
-                  <a href="shop-category.html">
-                     <img src="{{ asset('assets/client/img/product/category/product-cat-2.png') }}" alt="product-category">
-                  </a>
-               </div>
-               <div class="tp-product-category-content">
-                  <h3 class="tp-product-category-title">
-                     <a href="shop-category.html">Mobile Phone</a>
-                  </h3>
-                  <p>25 Product</p>
-               </div>
-            </div>
-         </div>
-         <div class="col">
-            <div class="tp-product-category-item text-center mb-40">
-               <div class="tp-product-category-thumb fix">
-                  <a href="shop-category.html">
-                     <img src="{{ asset('assets/client/img/product/category/product-cat-3.png') }}" alt="product-category">
-                  </a>
-               </div>
-               <div class="tp-product-category-content">
-                  <h3 class="tp-product-category-title">
-                     <a href="shop-category.html">CPU Heat Pipes</a>
-                  </h3>
-                  <p>57 Product</p>
-               </div>
-            </div>
-         </div>
-         <div class="col">
-            <div class="tp-product-category-item text-center mb-40">
-               <div class="tp-product-category-thumb fix">
-                  <a href="shop-category.html">
-                     <img src="{{ asset('assets/client/img/product/category/product-cat-4.png') }}" alt="product-category">
-                  </a>
-               </div>
-               <div class="tp-product-category-content">
-                  <h3 class="tp-product-category-title">
-                     <a href="shop-category.html">Smart Watch</a>
-                  </h3>
-                  <p>44 Product</p>
-               </div>
-            </div>
-         </div>
-         <div class="col">
-            <div class="tp-product-category-item text-center mb-40">
-               <div class="tp-product-category-thumb fix">
-                  <a href="shop-category.html">
-                     <img src="{{ asset('assets/client/img/product/category/product-cat-5.png') }}" alt="product-category">
-                  </a>
-               </div>
-               <div class="tp-product-category-content">
-                  <h3 class="tp-product-category-title">
-                     <a href="shop-category.html">With Bluetooth </a>
-                  </h3>
-                  <p>81 Product</p>
-               </div>
-            </div>
-         </div>
+         @endforeach
       </div>
    </div>
 </section>
+
 <!-- product category area end -->
 
 <!-- feature area start -->
@@ -250,8 +193,8 @@
                   </span>
                </div>
                <div class="tp-feature-content">
-                  <h3 class="tp-feature-title">Free Delivary</h3>
-                  <p>Orders from all item</p>
+                  <h3 class="tp-feature-title">Giao hàng miễn phí</h3>
+                  <p>Tất cả các đơn hàng</p>
                </div>
             </div>
          </div>
@@ -266,8 +209,8 @@
                   </span>
                </div>
                <div class="tp-feature-content">
-                  <h3 class="tp-feature-title">Return & Refunf</h3>
-                  <p>Maney back guarantee</p>
+                  <h3 class="tp-feature-title">Trả hàng & Hoàn tiền</h3>
+                  <p>Đảm bảo hoàn lại tiền</p>
                </div>
             </div>
          </div>
@@ -289,8 +232,8 @@
                   </span>
                </div>
                <div class="tp-feature-content">
-                  <h3 class="tp-feature-title">Member Discount</h3>
-                  <p>Onevery order over $140.00</p>
+                  <h3 class="tp-feature-title">Giảm giá cho thành viên</h3>
+                  <p>Một đơn hàng trên 10.000VNĐ</p>
                </div>
             </div>
          </div>
@@ -305,8 +248,8 @@
                   </span>
                </div>
                <div class="tp-feature-content">
-                  <h3 class="tp-feature-title">Support 24/7</h3>
-                  <p>Contact us 24 hours a day</p>
+                  <h3 class="tp-feature-title">Hỗ trợ 24/7</h3>
+                  <p>Liên hệ với chúng tôi </p>
                </div>
             </div>
          </div>
@@ -448,7 +391,7 @@
       <div class="row align-items-end">
          <div class="col-xl-4 col-md-5 col-sm-6">
             <div class="tp-section-title-wrapper mb-40">
-               <h3 class="tp-section-title">Khuyến mãi
+               <h3 class="tp-section-title">Khuyến mãi Hot
                   <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round" />
                   </svg>

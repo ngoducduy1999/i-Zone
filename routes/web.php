@@ -180,7 +180,6 @@ Route::get('forgot', [ClientForgotController::class, 'showForgot'])->name('forgo
 });
 
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
-Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.details');
 
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
 Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');

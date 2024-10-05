@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\SanPham;
 use App\Models\Banner;
 use App\Models\KhuyenMai;
+use App\Models\DanhMuc;
 
 class TrangChuController extends Controller
 {
@@ -30,10 +31,13 @@ class TrangChuController extends Controller
         $featuredProducts = SanPham::with('bienThe')
             ->whereNull('deleted_at') // Chỉ lấy sản phẩm chưa xóa
             ->orderBy('luot_xem', 'desc') // Sắp xếp theo lượt xem
-            ->take(10) // Lấy 10 sản phẩm
+            ->take(8) // Lấy 8 sản phẩm
             ->get();
 
+            // Lấy tất cả danh mục
+            $danhMucs = DanhMuc::withCount('sanPhams')->get(); // Lấy danh sách danh mục và số lượng sản phẩm
+
         // Trả về view và truyền dữ liệu sang
-       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','featuredProducts'));
+       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','featuredProducts','danhMucs'));
     }
 }
