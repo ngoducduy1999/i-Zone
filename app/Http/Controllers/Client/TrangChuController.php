@@ -26,6 +26,13 @@ class TrangChuController extends Controller
          ->take(3) // Lấy 3 khuyến mãi
          ->get();
 
-       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2'));
+        // Lấy 10 sản phẩm nổi bật (có lượt xem cao)
+        $featuredProducts = SanPham::with('bienThe')
+            ->whereNull('deleted_at') // Chỉ lấy sản phẩm chưa xóa
+            ->orderBy('luot_xem', 'desc') // Sắp xếp theo lượt xem
+            ->take(10) // Lấy 10 sản phẩm
+            ->get();
+
+       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','featuredProducts'));
     }
 }

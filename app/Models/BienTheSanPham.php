@@ -35,12 +35,12 @@ class BienTheSanPham extends Model
     {
         return $this->belongsTo(MauSac::class);
     }
-    use HasFactory;
 
-    protected $table = 'bien_the_san_phams'; // Đặt tên bảng nếu không tuân theo quy tắc Laravel
+    protected $table = 'bien_the_san_phams';
 
     public function sanPhamnew()
     {
         return $this->belongsTo(SanPham::class, 'san_pham_id');
     }
+ 
 }
