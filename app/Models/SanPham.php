@@ -69,4 +69,10 @@ class SanPham extends Model
     {
         return $this->hasMany(BienTheSanPham::class, 'san_pham_id');
     }
+
+    public function danhmucs()
+{
+    return $this->belongsTo(DanhMuc::class, 'danh_muc_id');
+}
+
 }

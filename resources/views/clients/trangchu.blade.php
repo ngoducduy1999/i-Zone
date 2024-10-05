@@ -16,19 +16,19 @@
                <div class="row align-items-center">
                   <div class="col-xl-5 col-lg-6 col-md-6">
                      <div class="tp-slider-content p-relative z-index-1">
-                        <span>Starting at <b>$274.00</b></span>
-                        <h3 class="tp-slider-title">The best tablet Collection 2023</h3>
-                        <p>Exclusive offer
-                           <span>-35%
+                     <span>I -<b>Zone</b></span>
+                        <h3 class="tp-slider-title">Đại tiệc mùa thu  <br> Ưu đãi vù vù</h3>
+                        <p>Giảm đến
+                           <span>50%
                               <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335" fill="currentColor" />
                               </svg>
                            </span>
-                           off this week
+                           
                         </p>
 
                         <div class="tp-slider-btn">
-                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
+                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Mua ngay
                               <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                  <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -40,7 +40,7 @@
                   <div class="col-xl-7 col-lg-6 col-md-6">
                      @if($banners)
                      <div class="tp-slider-thumb text-end">
-                        <img src="{{ asset($banners->anh_banner) }}" alt="{{ $banners->ten_banner }}" width="400">
+                        <img src="{{ asset($banners->anh_banner) }}" alt="{{ $banners->ten_banner }}" width="580">
                      </div>
                      @endif
                   </div>
@@ -58,19 +58,19 @@
                <div class="row align-items-center">
                   <div class="col-xl-5 col-lg-6 col-md-6">
                      <div class="tp-slider-content p-relative z-index-1">
-                        <span>Starting at <b>$999.00</b></span>
-                        <h3 class="tp-slider-title">The best note book collection 2023</h3>
-                        <p>Exclusive offer
+                     <span>I -<b>Zone</b></span>
+                        <h3 class="tp-slider-title">Uy tín Chất lượng <br> Giá rẻ bất ngờ</h3>
+                        <p>Giảm giá
                            <span>-10%
                               <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335" fill="currentColor" />
                               </svg>
                            </span>
-                           off this week
+                           các sản phẩm
                         </p>
 
                         <div class="tp-slider-btn">
-                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
+                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Mua ngay
                               <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                  <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -82,7 +82,7 @@
                   <div class="col-xl-7 col-lg-6 col-md-6">
                      @if($banners2)
                      <div class="tp-slider-thumb text-end">
-                        <img src="{{ asset($banners2->anh_banner) }}" alt="{{ $banners2->ten_banner }}" width="400">
+                        <img src="{{ asset($banners2->anh_banner) }}" alt="{{ $banners2->ten_banner }}" width="580">
                      </div>
                      @endif
                   </div>
@@ -100,19 +100,19 @@
                <div class="row align-items-center">
                   <div class="col-xl-5 col-lg-6 col-md-6">
                      <div class="tp-slider-content p-relative z-index-1">
-                        <span>Starting at <b>$999.00</b></span>
-                        <h3 class="tp-slider-title">The best note book collection 2023</h3>
-                        <p>Exclusive offer
-                           <span>-10%
+                        <span>I -<b>Zone</b></span>
+                        <h3 class="tp-slider-title">Điện thoại thông minh <br> Mới nhất 2024</h3>
+                        <p>Các
+                           <span>khuyến mãi
                               <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335" fill="currentColor" />
                               </svg>
                            </span>
-                           off this week
+                           cực hot
                         </p>
 
                         <div class="tp-slider-btn">
-                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
+                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Mua ngay
                               <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                  <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -124,7 +124,7 @@
                   <div class="col-xl-7 col-lg-6 col-md-6">
                      @if($banners1)
                      <div class="tp-slider-thumb text-end">
-                        <img src="{{ asset($banners1->anh_banner) }}" alt="{{ $banners1->ten_banner }}" width="400">
+                        <img src="{{ asset($banners1->anh_banner) }}" alt="{{ $banners1->ten_banner }}" width="580">
                      </div>
                      @endif
                   </div>
@@ -343,12 +343,12 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="new-tab-pane" role="tabpanel" aria-labelledby="new-tab" tabindex="0">
                     <div class="row">
-                        @foreach ($featuredProducts as $product)
+                        @foreach ($featuredProducts as $sanpham)
                         <div class="col-xl-3 col-lg-3 col-sm-6">
                             <div class="tp-product-item p-relative transition-3 mb-25">
                                 <div class="tp-product-thumb p-relative fix m-img">
-                                    <a href="{{ ( $product->id) }}">
-                                        <img src="{{ asset($product->anh_san_pham) }}" alt="{{ $product->ten_san_pham }}">
+                                    <a href="{{ ( $sanpham->id) }}">
+                                        <img src="{{ asset($sanpham->anh_san_pham) }}" alt="{{ $sanpham->ten_san_pham }}">
                                     </a>
 
                                     <!-- product badge -->
@@ -396,14 +396,16 @@
                                 </div>
 
                                 <div class="tp-product-info text-center">
-                                    <div class="tp-product-category">
-                                        <a href="{{ ( $product->danh_muc_id) }}">{{ $product->category->name ?? 'Danh mục' }}</a>
-                                    </div>
-                                    <h3 class="tp-product-title">
-                                        <a href="{{ ( $product->id) }}">
-                                            {{ $product->ten_san_pham }}
+                                 <br>
+                                   <h2 class="tp-product-title">
+                                        <a href="{{ ( $sanpham->id) }}">
+                                            {{ $sanpham->ten_san_pham }}
                                         </a>
-                                    </h3>
+                                    </h2>
+                                    <div class="tp-product-category">
+                                    <a href="{{ $sanpham->danh_muc_id }}">{{ $sanpham->danhmucs->ten_danh_muc ?? 'Danh mục' }}</a>
+                                    </div>
+                                    
                                     <div class="tp-product-rating d-flex align-items-center">
                                         <div class="tp-product-rating-icon">
                                             <span><i class="fa-solid fa-star"></i></span>
@@ -418,10 +420,10 @@
                                     </div>
                                     <div class="tp-product-price-wrapper">
                                         <span class="tp-product-price old-price">
-                                            ${{ $product->bienThe->first()->gia_cu ?? 'Chưa có giá' }}
+                                            {{ $sanpham->bienThe->first()->gia_cu ?? 'Chưa có giá' }}VNĐ
                                         </span>
                                         <span class="tp-product-price new-price">
-                                            ${{ $product->bienThe->first()->gia_moi ?? 'Chưa có giá' }}
+                                            {{ $sanpham->bienThe->first()->gia_moi ?? 'Chưa có giá' }}VNĐ
                                         </span>
                                     </div>
                                 </div>
@@ -446,7 +448,7 @@
       <div class="row align-items-end">
          <div class="col-xl-4 col-md-5 col-sm-6">
             <div class="tp-section-title-wrapper mb-40">
-               <h3 class="tp-section-title">Deal of The Day
+               <h3 class="tp-section-title">Khuyến mãi
                   <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round" />
                   </svg>
@@ -455,13 +457,7 @@
          </div>
          <div class="col-xl-8 col-md-7 col-sm-6">
             <div class="tp-product-offer-more-wrapper d-flex justify-content-sm-end p-relative z-index-1">
-               <div class="tp-product-offer-more mb-40 text-sm-end grey-bg-2">
-                  <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-blue">View All Deals
-                     <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                     </svg>
-                  </a>
+               <div class="tp-product-offer-more mb-40 text-sm-end grey-bg-2">                 
                   <span class="tp-product-offer-more-border"></span>
                </div>
             </div>
