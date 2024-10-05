@@ -158,7 +158,7 @@
             <div class="tp-product-category-item text-center mb-40">
                <div class="tp-product-category-thumb fix">
                   <a href="{{ url('shop-category/' . $danhMuc->id) }}"> <!-- Link đến trang danh mục -->
-                     <img src="{{ asset('storage/' . $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}">
+                     <img src="{{ asset( $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}">
                   </a>
                </div>
                <div class="tp-product-category-content">
@@ -173,6 +173,7 @@
       </div>
    </div>
 </section>
+
 
 <!-- product category area end -->
 
@@ -233,7 +234,7 @@
                </div>
                <div class="tp-feature-content">
                   <h3 class="tp-feature-title">Giảm giá cho thành viên</h3>
-                  <p>Một đơn hàng trên 10.000VNĐ</p>
+                  <p>Một đơn hàng trên 10.000.000VNĐ</p>
                </div>
             </div>
          </div>
