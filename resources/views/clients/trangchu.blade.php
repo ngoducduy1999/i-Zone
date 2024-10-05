@@ -332,14 +332,12 @@
          <div class="col-xl-5 col-lg-6 col-md-5">
             <div class="tp-section-title-wrapper mb-40">
                <h3 class="tp-section-title">Sản phẩm nổi bật
-
                   <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round" />
                   </svg>
                </h3>
             </div>
          </div>
-
       <div class="col-xl-12">
         <div class="tp-product-tab-content">
             <div class="tab-content" id="myTabContent">
@@ -373,7 +371,7 @@
                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M16.434 18.0409C16.322 18.0409 16.23 18.1329 16.23 18.2459C16.231 18.4749 16.641 18.4729 16.64 18.2459C16.64 18.1329 16.547 18.0409 16.434 18.0409ZM16.434 19.5409C15.72 19.5409 15.14 18.9599 15.14 18.2459C15.14 17.5319 15.72 16.9519 16.434 16.9519C17.149 16.9519 17.73 17.5319 17.73 18.2459C17.73 18.9599 17.149 19.5409 16.434 19.5409Z" fill="currentColor" />
                                           </svg>
 
-                                          <span class="tp-product-tooltip">Add to Cart</span>
+                                          <span class="tp-product-tooltip">Thêm vào giỏ</span>
                                        </button>
                                        <button type="button" class="tp-product-action-btn tp-product-quick-view-btn" data-bs-toggle="modal" data-bs-target="#producQuickViewModal">
                                           <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -383,7 +381,7 @@
                                              </g>
                                           </svg>
 
-                                          <span class="tp-product-tooltip">Quick View</span>
+                                          <span class="tp-product-tooltip">Xem</span>
                                        </button>
                                        <button type="button" class="tp-product-action-btn tp-product-add-to-wishlist-btn">
                                           <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -391,7 +389,7 @@
                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M15.7806 7.42904C15.4025 7.42904 15.0821 7.13968 15.0508 6.75775C14.9864 5.95687 14.4491 5.2807 13.6841 5.03421C13.2983 4.9095 13.0873 4.49737 13.2113 4.11446C13.3373 3.73059 13.7467 3.52209 14.1335 3.6429C15.4651 4.07257 16.398 5.24855 16.5123 6.63888C16.5445 7.04127 16.2446 7.39397 15.8412 7.42612C15.8206 7.42807 15.8011 7.42904 15.7806 7.42904Z" fill="currentColor" />
                                           </svg>
 
-                                          <span class="tp-product-tooltip">Add To Wishlist</span>
+                                          <span class="tp-product-tooltip">Yêu thích</span>
                                        </button>
                                         </div>
                                     </div>
@@ -485,10 +483,10 @@
                            <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
                               <div class="tp-product-countdown-inner">
                                  <ul>
-                                    <li><span data-days></span> Days</li>
-                                    <li><span data-hours></span> Hrs</li>
-                                    <li><span data-minutes></span> Min</li>
-                                    <li><span data-seconds></span> Sec</li>
+                                    <li><span data-days></span> Ngày</li>
+                                    <li><span data-hours></span> Giờ</li>
+                                    <li><span data-minutes></span>Phút</li>
+                                    <li><span data-seconds></span> Giây</li>
                                  </ul>
                               </div>
                            </div>
