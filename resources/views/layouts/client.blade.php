@@ -22,6 +22,13 @@
       <link rel="stylesheet" href="{{ asset('assets/client/css/flaticon_shofy.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
+
+      <!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
    </head>
    <body>
       <!--[if lte IE 9]>
@@ -591,3 +598,21 @@
 
 <!-- Mirrored from template.wphix.com/shofy-prv/shofy/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 29 Sep 2024 13:19:32 GMT -->
 </html>
+
+<!-- <script>
+   var swiper = new Swiper('.tp-slider-active', {
+  loop: true,
+  autoplay: {
+    delay: 8000,
+  },
+  navigation: {
+    nextEl: '.tp-slider-button-next',
+    prevEl: '.tp-slider-button-prev',
+  },
+  pagination: {
+    el: '.tp-swiper-dot',
+    clickable: true,
+  },
+});
+
+</script> -->
