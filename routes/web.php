@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\MauSacController;
-use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\Client\GioHangController;
@@ -66,15 +65,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
     Route::put('/profile/updatePassword', [UserController::class, 'updatePassword'])->name('profile.updatePassword');
-
-    // Đánh giá sản phẩm
-    Route::prefix('danhgias')->name('danhgias.')->group(function () {
-        Route::get('/', [DanhgiaController::class, 'index'])->name('index');
-        Route::get('create', [DanhgiaController::class, 'create'])->name('create');
-        Route::post('store', [DanhgiaController::class, 'store'])->name('store');
-        Route::get('/{id}/show', [DanhgiaController::class, 'show'])->name('show');
-        Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');
-    });
 
     // Banner management
     Route::prefix('banners')->name('banners.')->group(function () {
