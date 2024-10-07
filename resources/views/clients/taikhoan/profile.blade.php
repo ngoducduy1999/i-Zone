@@ -82,7 +82,15 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="profile__main-logout text-sm-end">
-                                                        <a href="" class="tp-logout-btn">Logout</a>
+                                                        <form id="logout-form-client" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
+                                                            @csrf
+                                                        </form>
+
+                                                        <a class='dropdown-item notify-item' href="#" onclick="event.preventDefault(); document.getElementById('logout-form-client').submit();">
+                                                            <i class="mdi mdi-location-exit fs-16 align-middle"></i>
+                                                            <span>Đăng xuất</span>
+                                                        </a>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -200,7 +208,7 @@
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="text" placeholder="Enter your username"
-                                                                    value="Shahnewaz Sakil">
+                                                                    value="{{$profile->ten}}" name="ten">
                                                                 <span>
                                                                     <svg width="17" height="19"
                                                                         viewBox="0 0 17 19" fill="none"
@@ -224,8 +232,8 @@
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <input type="email" placeholder="Enter your email"
-                                                                    value="example@mail.com">
+                                                                <input type="email" placeholder="Enter your email" name="email"
+                                                                    value="{{$profile->email}}">
                                                                 <span>
                                                                     <svg width="18" height="16"
                                                                         viewBox="0 0 18 16" fill="none"
@@ -245,7 +253,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xxl-6 col-md-6">
+                                                    {{-- <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="text" placeholder="Enter username"
@@ -264,12 +272,12 @@
                                                                 <span><i class="fa-brands fa-twitter"></i></span>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <input type="text" placeholder="Enter your number"
-                                                                    value="0123 456 7889">
+                                                                <input type="text" placeholder="Nhập số điện thoại" name="so_dien_thoai"
+                                                                    value="{{$profile->so_dien_thoai}}">
                                                                 <span>
                                                                     <svg width="15" height="18"
                                                                         viewBox="0 0 15 18" fill="none"
@@ -296,19 +304,17 @@
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <select>
-                                                                    <option>Male</option>
-                                                                    <option>Female</option>
-                                                                    <option>Others</option>
-                                                                </select>
+                                                                <input type="date" placeholder="Nhập ngày sinh" name="ngay_sinh"
+                                                                    value="{{$profile->ngay_sinh}}">
+                                                                <span><i class="fa-solid fa-calendar-days" style="color: #000000;"></i></span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-xxl-12">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <input type="text" placeholder="Enter your address"
-                                                                    value="3304 Randall Drive">
+                                                                <input type="text" placeholder="Nhập địa chỉ" name="dia_chi"
+                                                                    value="{{$profile->dia_chi}}">
                                                                 <span>
                                                                     <svg width="16" height="18"
                                                                         viewBox="0 0 16 18" fill="none"
@@ -325,16 +331,16 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-xxl-12">
+                                                    {{-- <div class="col-xxl-12">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <textarea placeholder="Enter your bio">Hi there, this is my bio...</textarea>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="col-xxl-12">
                                                         <div class="profile__btn">
-                                                            <button type="submit" class="tp-btn">Update Profile</button>
+                                                            <button type="submit" class="tp-btn">Cập nhật thông tin</button>
                                                         </div>
                                                     </div>
                                                 </div>
