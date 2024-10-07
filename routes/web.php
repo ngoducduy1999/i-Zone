@@ -28,14 +28,7 @@ use App\Http\Controllers\Auth\AdminForgotPasswordController;
 use App\Http\Controllers\Client\TrangSanPhamController;
 use App\Http\Controllers\Client\YeuThichController;
 
-// Routes for unauthenticated users
-  Route::prefix('customer')->name('customer.')->group(function () {
-  Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
-  Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
-  Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
-  Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
-  Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
-});
+
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -170,16 +163,20 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
     Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
+    
+    
 });
+// Routes for unauthenticated users
+Route::prefix('customer')->name('customer.')->group(function () {
+    Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
+    Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
+    Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
+  });
 
-// Client routes
-Route::prefix('client')->name('client.')->group(function () {
-Route::get('login', [ClientLoginController::class, 'showLogin'])->name('login');
-Route::get('register', [ClientRegisterController::class, 'showRegister'])->name('register');
-Route::get('forgot', [ClientForgotController::class, 'showForgot'])->name('forgot');
-});
 
-Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
 Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
