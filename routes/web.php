@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\TaiKhoanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Admin\UserController;
@@ -163,8 +164,8 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
     Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
-    
-    
+
+
 });
 // Routes for unauthenticated users
 Route::prefix('customer')->name('customer.')->group(function () {
@@ -173,6 +174,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
     Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
+    Route::get('profile',[TaiKhoanController::class,'profileUser'])->name('profileUser');
   });
 
 

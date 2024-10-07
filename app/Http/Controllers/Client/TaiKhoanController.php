@@ -11,6 +11,8 @@ class TaiKhoanController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
         //
@@ -38,8 +40,7 @@ class TaiKhoanController extends Controller
     public function show(string $id)
     {
         //
-        $profile = Auth::user();
-        return view('clients.taikhoan.profile',compact('profile'));
+
     }
 
     /**
@@ -64,5 +65,10 @@ class TaiKhoanController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function profileUser(){
+        $profile = Auth::user();
+        return view('clients.taikhoan.profile',compact('profile'));
     }
 }
