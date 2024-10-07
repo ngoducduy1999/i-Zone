@@ -173,7 +173,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
     Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
-    Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
+    Route::post('logout', [CustomerLoginController::class, 'logout'])->name('logout');
     Route::get('profile',[TaiKhoanController::class,'profileUser'])->name('profileUser');
   });
 
