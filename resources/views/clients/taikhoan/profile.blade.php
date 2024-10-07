@@ -6,11 +6,11 @@
        <div class="profile__inner p-relative">
           <div class="profile__shape">
              <img class="profile__shape-1" src="{{asset('assets/client/img/login/laptop.png')}}" alt="" >
-             <img class="profile__shape-2" src="assets/img/login/man.png" alt="" >
-             <img class="profile__shape-3" src="assets/img/login/shape-1.png" alt="" >
-             <img class="profile__shape-4" src="assets/img/login/shape-2.png" alt="" >
-             <img class="profile__shape-5" src="assets/img/login/shape-3.png" alt="" >
-             <img class="profile__shape-6" src="assets/img/login/shape-4.png" alt="" >
+             <img class="profile__shape-2" src="{{asset('assets/client/img/login/man.png')}}" alt="" >
+             <img class="profile__shape-3" src="{{asset('assets/client/img/login/shape-1.png')}}" alt="" >
+             <img class="profile__shape-4" src="{{asset('assets/client/img/login/shape-2.png')}}" alt="" >
+             <img class="profile__shape-5" src="{{asset('assets/client/img/login/shape-3.png')}}" alt="" >
+             <img class="profile__shape-6" src="{{asset('assets/client/img/login/shape-4.png')}}" alt="" >
           </div>
           <div class="row">
              <div class="col-xxl-4 col-lg-4">
@@ -38,7 +38,7 @@
                                   <div class="col-md-6">
                                      <div class="profile__main-inner d-flex flex-wrap align-items-center">
                                         <div class="profile__main-thumb">
-                                           <img src="assets/img/users/user-10.jpg" alt="">
+                                           <img src="{{asset('assets/client/img/users/user-10.jpg')}}" alt="">
                                            <div class="profile__main-thumb-edit">
                                               <input id="profile-thumb-input" class="profile-img-popup" type="file">
                                               <label for="profile-thumb-input"><i class="fa-light fa-camera"></i></label>
@@ -52,7 +52,7 @@
                                   </div>
                                   <div class="col-md-6">
                                      <div class="profile__main-logout text-sm-end">
-                                        <a href="login.html" class="tp-logout-btn">Logout</a>
+                                        <a href="" class="tp-logout-btn">Logout</a>
                                      </div>
                                   </div>
                                </div>
