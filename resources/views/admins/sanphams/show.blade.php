@@ -205,7 +205,7 @@ span {
                                         <td>{{ $bienthesanpham->mauSac->ten_mau_sac }}</td>
                                         <td>
                                             <del class="text-danger">{{ number_format($bienthesanpham->gia_cu, 0, ',', '.') }}đ</del>
-                                            {{ number_format($bienthesanpham->gia_moi, 0, ',', '.') }}đ
+                                           - {{ number_format($bienthesanpham->gia_moi, 0, ',', '.') }}đ
                                         </td>
                                         <td>{{ number_format($bienthesanpham->so_luong, 0, ',', '.') }}</td>
                                     </tr>
