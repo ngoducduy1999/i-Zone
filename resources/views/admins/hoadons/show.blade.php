@@ -86,19 +86,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($hoaDon->chiTietHoaDons as $item)
-                                @php
-                                    $sanPham = $item->sanPham;
-                                @endphp
+                                @foreach ($chiTietHoaDons as $chiTiet)
                                     <tr>
                                         <td>
-                                            <img src="{{ asset($sanPham->anh_san_pham) }}" alt="Sản phẩm" width="75px">
+                                            <img src="{{ asset( $chiTiet->bienTheSanPham->sanPham->anh_san_pham) }}" alt="Sản phẩm" width="75px">
                                         </td>
-                                        <td>{{ $sanPham->ma_san_pham }}</td>
-                                        <td>{{ $sanPham->ten_san_pham }}</td>
-                                        <td>{{ number_format($item->don_gia, 0, '', '.') }} đ</td>
-                                        <td>{{ $item->so_luong }}</td>
-                                        <td>{{ number_format($item->thanh_tien, 0, '', '.') }} đ</td>         
+                                        <td>{{ $chiTiet->bienTheSanPham->sanPham->ma_san_pham }}</td>
+                                        <td>{{  $chiTiet->bienTheSanPham->sanPham->ten_san_pham  }}</td>
+                                        <td>{{ number_format( $chiTiet->don_gia, 0, '', '.') }} đ</td>
+                                        <td>{{  $chiTiet->so_luong }}</td>
+                                        <td>{{ number_format( $chiTiet->thanh_tien, 0, '', '.') }} đ</td>         
                                     </tr>
                                 @endforeach                                
                             </tbody>
