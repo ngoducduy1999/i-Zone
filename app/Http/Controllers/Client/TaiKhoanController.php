@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use Auth;
 use Illuminate\Http\Request;
 
 class TaiKhoanController extends Controller
@@ -37,6 +38,8 @@ class TaiKhoanController extends Controller
     public function show(string $id)
     {
         //
+        $profile = Auth::user();
+        return view('clients.taikhoan.profile',compact('profile'));
     }
 
     /**
