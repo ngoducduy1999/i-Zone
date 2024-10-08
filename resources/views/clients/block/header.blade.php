@@ -128,7 +128,7 @@
                             </span>
                          </div>
                          <div class="tp-header-login-content d-none d-xl-block">
-                            <span>Hello, Sign In</span>
+                            <span>Xin chào {{Auth::user()->ten}}</span>
                             <h5 class="tp-header-login-title">Your Account</h5>
                          </div>
                     </a>
@@ -143,8 +143,8 @@
                             </span>
                          </div>
                          <div class="tp-header-login-content d-none d-xl-block">
-                            <span>Hello, Sign In</span>
-                            <h5 class="tp-header-login-title">Your Account</h5>
+                            <span>Xin chào</span>
+                            <h5 class="tp-header-login-title">Đăng nhập</h5>
                          </div>
                     </a>
                     @endif
