@@ -74,7 +74,7 @@ class TaiKhoanController extends Controller
         $users->ten = $request->get('ten');
         $users->email = $request->get('email');
         $users->so_dien_thoai = $request->get('so_dien_thoai');
-
+        $users->dia_chi = $request->get('dia_chi');
         // Xử lý upload ảnh đại diện mới (nếu có)
         if ($request->hasFile('anh_dai_dien')) {
             // Xóa ảnh cũ nếu tồn tại
@@ -87,7 +87,7 @@ class TaiKhoanController extends Controller
             $users->anh_dai_dien = $filePath;
         }
 
-        $users->dia_chi = $request->get('dia_chi');
+
 
         $users->save();
         return redirect()->route('customer.profileUser')->with('success','cập nhật thông tin thành công');

@@ -66,27 +66,33 @@
                                                                     class="rounded-circle avatar-xxl img-thumbnail float-start"
                                                                     alt="Ảnh đại diện">
                                                             @endif
-                                                            <div class="profile__main-thumb-edit">
-                                                                <input id="profile-thumb-input" class="profile-img-popup" name="anh_dai_dien"
-                                                                    type="file">
-                                                                <label for="profile-thumb-input"><i
-                                                                        class="fa-light fa-camera"></i></label>
-                                                            </div>
+`
+                                                                <div class="profile__main-thumb-edit">
+                                                                    <input id="profile-thumb-input"
+                                                                        class="profile-img-popup" name="anh_dai_dien"
+                                                                        type="file">
+                                                                    <label for="profile-thumb-input"><i
+                                                                            class="fa-light fa-camera"></i></label>
+                                                                </div>
                                                         </div>
                                                         <div class="profile__main-content">
                                                             <h4 class="profile__main-title">Xin chào {{ $profile->ten }}
                                                             </h4>
                                                             {{-- <p>You have <span>08</span> notifications</p> --}}
                                                         </div>
+                                                       
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="profile__main-logout text-sm-end">
-                                                        <form id="logout-form-client" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
+                                                        <form id="logout-form-client"
+                                                            action="{{ route('customer.logout') }}" method="POST"
+                                                            style="display: none;">
                                                             @csrf
                                                         </form>
 
-                                                        <a class='dropdown-item notify-item' href="#" onclick="event.preventDefault(); document.getElementById('logout-form-client').submit();">
+                                                        <a class='dropdown-item notify-item' href="#"
+                                                            onclick="event.preventDefault(); document.getElementById('logout-form-client').submit();">
                                                             <i class="mdi mdi-location-exit fs-16 align-middle"></i>
                                                             <span>Đăng xuất</span>
                                                         </a>
@@ -202,7 +208,8 @@
                                     <div class="profile__info">
                                         <h3 class="profile__info-title">Thông tin cá nhân</h3>
                                         <div class="profile__info-content">
-                                            <form action="{{route('customer.update.profileUser',$profile->id)}}" method="POST">
+                                            <form action="{{ route('customer.update.profileUser', $profile->id) }}" enctype="multipart/form-data"
+                                                method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="row">
@@ -210,7 +217,8 @@
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="text" placeholder="Enter your username"
-                                                                    value="{{old('ten',$profile->ten)}}" name="ten">
+                                                                    value="{{ old('ten', $profile->ten) }}"
+                                                                    name="ten">
                                                                 <span>
                                                                     <svg width="17" height="19"
                                                                         viewBox="0 0 17 19" fill="none"
@@ -234,8 +242,9 @@
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <input type="email" placeholder="Enter your email" name="email"
-                                                                    value="{{old('email',$profile->email)}}">
+                                                                <input type="email" placeholder="Enter your email"
+                                                                    name="email"
+                                                                    value="{{ old('email', $profile->email) }}">
                                                                 <span>
                                                                     <svg width="18" height="16"
                                                                         viewBox="0 0 18 16" fill="none"
@@ -278,8 +287,9 @@
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <input type="text" placeholder="Nhập số điện thoại" name="so_dien_thoai"
-                                                                    value="{{old('so_dien_thoai',$profile->so_dien_thoai)}}">
+                                                                <input type="text" placeholder="Nhập số điện thoại"
+                                                                    name="so_dien_thoai"
+                                                                    value="{{ old('so_dien_thoai', $profile->so_dien_thoai) }}">
                                                                 <span>
                                                                     <svg width="15" height="18"
                                                                         viewBox="0 0 15 18" fill="none"
@@ -306,17 +316,30 @@
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <input type="date" placeholder="Nhập ngày sinh" name="ngay_sinh"
-                                                                    value="{{old('ngay_sinh',$profile->ngay_sinh)}}">
-                                                                <span><i class="fa-solid fa-calendar-days" style="color: #000000;"></i></span>
+                                                                <input type="date" placeholder="Nhập ngày sinh"
+                                                                    name="ngay_sinh"
+                                                                    value="{{ old('ngay_sinh', $profile->ngay_sinh) }}">
+                                                                <span><i class="fa-solid fa-calendar-days"
+                                                                        style="color: #000000;"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xxl-6 col-md-6">
+                                                        <div class="profile__input-box">
+                                                            <div class="profile__input">
+                                                                <input  type="file" name="anh_dai_dien" id="anh_dai_dien"">
+                                                                <span>
+                                                                    <i class="fa-regular fa-image"></i>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-xxl-12">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <input type="text" placeholder="Nhập địa chỉ" name="dia_chi"
-                                                                    value="{{old('dia_chi',$profile->dia_chi)}}">
+                                                                <input type="text" placeholder="Nhập địa chỉ"
+                                                                    name="dia_chi"
+                                                                    value="{{ old('dia_chi', $profile->dia_chi) }}">
                                                                 <span>
                                                                     <svg width="16" height="18"
                                                                         viewBox="0 0 16 18" fill="none"
@@ -342,7 +365,8 @@
                                                     </div> --}}
                                                     <div class="col-xxl-12">
                                                         <div class="profile__btn">
-                                                            <button type="submit" class="tp-btn">Cập nhật thông tin</button>
+                                                            <button type="submit" class="tp-btn">Cập nhật thông
+                                                                tin</button>
                                                         </div>
                                                     </div>
                                                 </div>
