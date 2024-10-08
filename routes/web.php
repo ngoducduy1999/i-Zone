@@ -175,6 +175,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
     Route::post('logout', [CustomerLoginController::class, 'logout'])->name('logout');
     Route::get('profile',[TaiKhoanController::class,'profileUser'])->name('profileUser');
+    Route::put('/editProfile/{id}',[TaiKhoanController::class,'update'])->name('update.profileUser');
   });
 
 

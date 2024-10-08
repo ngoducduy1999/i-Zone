@@ -202,8 +202,9 @@
                                     <div class="profile__info">
                                         <h3 class="profile__info-title">Thông tin cá nhân</h3>
                                         <div class="profile__info-content">
-                                            <form action="#" method="POST">
+                                            <form action="{{route('customer.update.profileUser',$profile->id)}}" method="POST">
                                                 @csrf
+                                                @method('PUT')
                                                 <div class="row">
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">

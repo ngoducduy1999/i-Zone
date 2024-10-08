@@ -90,7 +90,7 @@ class TaiKhoanController extends Controller
         $users->dia_chi = $request->get('dia_chi');
 
         $users->save();
-
+        return redirect()->route('customer.profileUser')->with('success','cập nhật thông tin thành công');
     }
 
     /**
