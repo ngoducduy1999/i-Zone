@@ -24,7 +24,7 @@
                                     <button class="nav-link" id="nav-information-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-information" type="button" role="tab"
                                         aria-controls="nav-information" aria-selected="false"><span><i
-                                                class="fa-regular fa-circle-info"></i></span> Information</button>
+                                                class="fa-regular fa-circle-info"></i></span>Thông tin tài khoản</button>
                                     <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-address" type="button" role="tab"
                                         aria-controls="nav-address" aria-selected="false"><span><i
@@ -67,7 +67,7 @@
                                                                     alt="Ảnh đại diện">
                                                             @endif
                                                             <div class="profile__main-thumb-edit">
-                                                                <input id="profile-thumb-input" class="profile-img-popup"
+                                                                <input id="profile-thumb-input" class="profile-img-popup" name="anh_dai_dien"
                                                                     type="file">
                                                                 <label for="profile-thumb-input"><i
                                                                         class="fa-light fa-camera"></i></label>
@@ -200,15 +200,16 @@
                                 <div class="tab-pane fade" id="nav-information" role="tabpanel"
                                     aria-labelledby="nav-information-tab">
                                     <div class="profile__info">
-                                        <h3 class="profile__info-title">Personal Details</h3>
+                                        <h3 class="profile__info-title">Thông tin cá nhân</h3>
                                         <div class="profile__info-content">
-                                            <form action="#">
+                                            <form action="#" method="POST">
+                                                @csrf
                                                 <div class="row">
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="text" placeholder="Enter your username"
-                                                                    value="{{$profile->ten}}" name="ten">
+                                                                    value="{{old('ten',$profile->ten)}}" name="ten">
                                                                 <span>
                                                                     <svg width="17" height="19"
                                                                         viewBox="0 0 17 19" fill="none"
@@ -233,7 +234,7 @@
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="email" placeholder="Enter your email" name="email"
-                                                                    value="{{$profile->email}}">
+                                                                    value="{{old('email',$profile->email)}}">
                                                                 <span>
                                                                     <svg width="18" height="16"
                                                                         viewBox="0 0 18 16" fill="none"
@@ -277,7 +278,7 @@
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="text" placeholder="Nhập số điện thoại" name="so_dien_thoai"
-                                                                    value="{{$profile->so_dien_thoai}}">
+                                                                    value="{{old('so_dien_thoai',$profile->so_dien_thoai)}}">
                                                                 <span>
                                                                     <svg width="15" height="18"
                                                                         viewBox="0 0 15 18" fill="none"
@@ -305,7 +306,7 @@
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="date" placeholder="Nhập ngày sinh" name="ngay_sinh"
-                                                                    value="{{$profile->ngay_sinh}}">
+                                                                    value="{{old('ngay_sinh',$profile->ngay_sinh)}}">
                                                                 <span><i class="fa-solid fa-calendar-days" style="color: #000000;"></i></span>
                                                             </div>
                                                         </div>
@@ -314,7 +315,7 @@
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="text" placeholder="Nhập địa chỉ" name="dia_chi"
-                                                                    value="{{$profile->dia_chi}}">
+                                                                    value="{{old('dia_chi',$profile->dia_chi)}}">
                                                                 <span>
                                                                     <svg width="16" height="18"
                                                                         viewBox="0 0 16 18" fill="none"
