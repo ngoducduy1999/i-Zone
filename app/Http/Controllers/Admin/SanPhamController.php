@@ -271,7 +271,6 @@ class SanPhamController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
         // sản phẩm
         $sanpham = SanPham::withTrashed()->find($id);
         $old_anh_san_pham = $sanpham->anh_san_pham;
@@ -419,7 +418,7 @@ class SanPhamController extends Controller
                 ]);
             }
         }
-        // // biến thể sản phẩm cũ
+        // biến thể sản phẩm cũ
         $dungLuongIds = $request->input('dung_luong_id', []);
         $mauSacIds = $request->input('mau_sac_id', []);
         $giaCu = $request->input('gia_cu', []);
@@ -439,31 +438,23 @@ class SanPhamController extends Controller
                         return $query->where('id', '!=', $bienthe->id);
                     })
                     ->exists();
-
                 if ($exists) {
                     $flags = false;
                     break;
                 }
             }
         }
-
         if ($flags) {
             foreach ($variantIds as $index => $idbienthe) {
                 $bienthe = BienTheSanPham::withTrashed()->find($idbienthe);
                 if ($bienthe) {
-                    $exists = BienTheSanPham::where('san_pham_id', $sanpham['id'])
-                        ->where('dung_luong_id', $dungLuongIds[$index])
-                        ->where('mau_sac_id', $mauSacIds[$index])
-                        ->exists();
-                    if (!$exists) {
-                        $bienthe->update([
-                            'dung_luong_id' => $dungLuongIds[$index],
-                            'mau_sac_id' => $mauSacIds[$index],
-                            'gia_cu' => $giaCu[$index],
-                            'gia_moi' => $giaMoi[$index],
-                            'so_luong' => $soLuong[$index],
-                        ]);
-                    }
+                    $bienthe->update([
+                        'dung_luong_id' => $dungLuongIds[$index],
+                        'mau_sac_id' => $mauSacIds[$index],
+                        'gia_cu' => $giaCu[$index],
+                        'gia_moi' => $giaMoi[$index],
+                        'so_luong' => $soLuong[$index],
+                    ]);
                     if (isset($trangthai[$index]) && $trangthai[$index] == 0) {
                         $bienthe->delete(); // Xóa biến thể sản phẩm
                     } else {
@@ -474,8 +465,7 @@ class SanPhamController extends Controller
         } else {
             return redirect()->back()->with('error', 'Cập nhập biến thể sản phẩm thất bại');
         }
-
-        $flag = true; // checks biến thể mới trùng
+        $flag = true;
         if ($request->has('new_dung_luong_id')) {
             // Lấy dữ liệu biến thể mới
             $databienthesanphammois = $request->only([
@@ -485,7 +475,6 @@ class SanPhamController extends Controller
                 'new_gia_moi',
                 'new_so_luong',
             ]);
-
             foreach ($databienthesanphammois['new_dung_luong_id'] as $index => $new_dung_luong_id) {
                 // Kiểm tra xem biến thể đã tồn tại chưa
                 $exists = BienTheSanPham::where('san_pham_id', $sanpham['id'])
@@ -518,7 +507,7 @@ class SanPhamController extends Controller
             // Sử dụng sync để thêm hoặc xóa tag
             $sanpham->tags()->sync($newTags);
         });
-        if (!$flag) {
+        if(!$flag){
             return redirect()->back()->with('success', 'Cập nhập sản phẩm thành công. Biến thể trùng sẽ không được thêm!');
         }
         return redirect()->back()->with('success', 'Cập nhập sản phẩm thành công');
