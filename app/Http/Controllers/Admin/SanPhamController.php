@@ -387,7 +387,6 @@ class SanPhamController extends Controller
                 }
             }
         }
-
         $sanpham->update($datasanpham);
         // ảnh sản phẩm
         $deletedImageIds = explode(',', $request->input('deleted_images')); // Chia chuỗi các ID ảnh đã xóa thành mảng
@@ -407,6 +406,7 @@ class SanPhamController extends Controller
                 }
             }
         }
+
         // Xử lý các ảnh mới được tải lên
         if ($request->hasFile('hinh_anh')) {
             foreach ($request->file('hinh_anh') as $hinh_anh) {
@@ -418,6 +418,7 @@ class SanPhamController extends Controller
                 ]);
             }
         }
+
         // biến thể sản phẩm cũ
         $dungLuongIds = $request->input('dung_luong_id', []);
         $mauSacIds = $request->input('mau_sac_id', []);
@@ -426,45 +427,52 @@ class SanPhamController extends Controller
         $soLuong = $request->input('so_luong', []);
         $variantIds = $request->input('variant_id', []);
         $trangthai = $request->input('trangthai', []);
-        $flags = true;
+        // Mảng để theo dõi các biến thể đã tồn tại
+        $existingVariants = [];
         foreach ($variantIds as $index => $idbienthe) {
             $bienthe = BienTheSanPham::withTrashed()->find($idbienthe);
             if ($bienthe) {
-                // Kiểm tra biến thể hiện tại có đang được cập nhật không
-                $exists = BienTheSanPham::where('san_pham_id', $sanpham['id'])
-                    ->where('dung_luong_id', $dungLuongIds[$index])
-                    ->where('mau_sac_id', $mauSacIds[$index])
-                    ->when($bienthe->id, function ($query) use ($bienthe) {
-                        return $query->where('id', '!=', $bienthe->id);
-                    })
-                    ->exists();
-                if ($exists) {
-                    $flags = false;
-                    break;
-                }
-            }
-        }
-        if ($flags) {
-            foreach ($variantIds as $index => $idbienthe) {
-                $bienthe = BienTheSanPham::withTrashed()->find($idbienthe);
-                if ($bienthe) {
-                    $bienthe->update([
-                        'dung_luong_id' => $dungLuongIds[$index],
-                        'mau_sac_id' => $mauSacIds[$index],
-                        'gia_cu' => $giaCu[$index],
-                        'gia_moi' => $giaMoi[$index],
-                        'so_luong' => $soLuong[$index],
-                    ]);
-                    if (isset($trangthai[$index]) && $trangthai[$index] == 0) {
-                        $bienthe->delete(); // Xóa biến thể sản phẩm
+                // Tạo khóa duy nhất cho dung lượng và màu sắc
+                $key = $dungLuongIds[$index] . '-' . $mauSacIds[$index];
+                // Kiểm tra sự tồn tại trong mảng
+                if (!in_array($key, $existingVariants)) {
+                    // Kiểm tra sự tồn tại trong cơ sở dữ liệu
+                    $exists = BienTheSanPham::where('san_pham_id', $sanpham['id'])
+                        ->where('dung_luong_id', $dungLuongIds[$index])
+                        ->where('mau_sac_id', $mauSacIds[$index])
+                        ->when($bienthe->id, function ($query) use ($bienthe) {
+                            return $query->where('id', '!=', $bienthe->id);
+                        })
+                        ->exists();
+
+                    if (!$exists) {
+                        // Cập nhật biến thể
+                        $bienthe->update([
+                            'dung_luong_id' => $dungLuongIds[$index],
+                            'mau_sac_id' => $mauSacIds[$index],
+                            'gia_cu' => $giaCu[$index],
+                            'gia_moi' => $giaMoi[$index],
+                            'so_luong' => $soLuong[$index],
+                        ]);
+
+                        // Thêm khóa vào mảng các biến thể đã tồn tại
+                        $existingVariants[] = $key;
+
+                        // Kiểm tra trạng thái
+                        if (isset($trangthai[$index]) && $trangthai[$index] == 0) {
+                            $bienthe->delete(); // Xóa biến thể sản phẩm
+                        } else {
+                            $bienthe->restore(); // Khôi phục biến thể
+                        }
                     } else {
-                        $bienthe->restore();
+                        return redirect()->back()->with('error', 'Cập nhật biến thể sản phẩm thất bại. Có biến thể trùng lặp!');
                     }
+                } else {
+                    return redirect()->back()->with('error', 'Cập nhật biến thể sản phẩm thất bại. Có biến thể trùng lặp!');
                 }
             }
-        } else {
-            return redirect()->back()->with('error', 'Cập nhập biến thể sản phẩm thất bại');
         }
+
         $flag = true;
         if ($request->has('new_dung_luong_id')) {
             // Lấy dữ liệu biến thể mới
@@ -507,7 +515,7 @@ class SanPhamController extends Controller
             // Sử dụng sync để thêm hoặc xóa tag
             $sanpham->tags()->sync($newTags);
         });
-        if(!$flag){
+        if (!$flag) {
             return redirect()->back()->with('success', 'Cập nhập sản phẩm thành công. Biến thể trùng sẽ không được thêm!');
         }
         return redirect()->back()->with('success', 'Cập nhập sản phẩm thành công');
