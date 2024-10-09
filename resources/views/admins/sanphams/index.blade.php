@@ -134,6 +134,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $sanphams->links() }}
                     </div>
 
                 </div>

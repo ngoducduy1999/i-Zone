@@ -24,7 +24,7 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        $sanphams = SanPham::withTrashed()->latest('id')->get();
+        $sanphams = SanPham::withTrashed()->latest('id')->paginate(5);
         $tagsanphams = TagSanPham::get();
         $bienthesanphams = BienTheSanPham::withTrashed()->latest('id')->get();
         $anhsanphams = HinhAnhSanPham::get();
