@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\MauSacController;
-use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\Client\GioHangController;
@@ -28,14 +27,7 @@ use App\Http\Controllers\Auth\AdminForgotPasswordController;
 use App\Http\Controllers\Client\TrangSanPhamController;
 use App\Http\Controllers\Client\YeuThichController;
 
-// Routes for unauthenticated users
-  Route::prefix('customer')->name('customer.')->group(function () {
-  Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
-  Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
-  Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
-  Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
-  Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
-});
+
 
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -66,15 +58,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
     Route::put('/profile/updatePassword', [UserController::class, 'updatePassword'])->name('profile.updatePassword');
-
-    // Đánh giá sản phẩm
-    Route::prefix('danhgias')->name('danhgias.')->group(function () {
-        Route::get('/', [DanhgiaController::class, 'index'])->name('index');
-        Route::get('create', [DanhgiaController::class, 'create'])->name('create');
-        Route::post('store', [DanhgiaController::class, 'store'])->name('store');
-        Route::get('/{id}/show', [DanhgiaController::class, 'show'])->name('show');
-        Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');
-    });
 
     // Banner management
     Route::prefix('banners')->name('banners.')->group(function () {
@@ -170,19 +153,23 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
     Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
+    
+    
 });
+// Routes for unauthenticated users
+Route::prefix('customer')->name('customer.')->group(function () {
+    Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
+    Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
+    Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
+  });
 
-// Client routes
-Route::prefix('client')->name('client.')->group(function () {
-Route::get('login', [ClientLoginController::class, 'showLogin'])->name('login');
-Route::get('register', [ClientRegisterController::class, 'showRegister'])->name('register');
-Route::get('forgot', [ClientForgotController::class, 'showForgot'])->name('forgot');
-});
 
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
-
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
-Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
+Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');
+Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGiaBienThe'])->name('sanpham.lay_gia_bien_the');
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
