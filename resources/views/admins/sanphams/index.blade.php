@@ -46,6 +46,7 @@
                                                 <li>Tên sản phẩm: {{ $sanpham->ten_san_pham }}</li>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                 @if($sanpham->danhMuc && $sanpham->danhMuc->ten_danh_muc != "")
                                                 <li>Danh mục: {{ $sanpham->danhMuc->ten_danh_muc }}</li>
                                                 @endif
@@ -57,6 +58,9 @@
                                                 <li>Danh mục: {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}
                                                 </li>
 >>>>>>> c6a59e78f51751a158bc7eb72bb023415ad66011
+=======
+                                                <li>Danh mục: {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</li>
+>>>>>>> tuanph44484/trangchu
                                                 <li>Ảnh : <br> <img src="{{ asset($sanpham->anh_san_pham) }}"
                                                         alt="{{ $sanpham->ten_san_pham }}" width="50px"></li>
                                                 <li>Ngày tạo: {{ $sanpham->created_at->format('d-m-Y') }}</li>

@@ -24,4 +24,12 @@ class DanhMuc extends Model
     {
         return $this->hasMany(SanPham::class);
     }
+
+    protected $table = 'danh_mucs';
+
+    public function sanPham()
+    {
+        return $this->hasMany(SanPham::class, 'danh_muc_id');
+    }
+
 }
