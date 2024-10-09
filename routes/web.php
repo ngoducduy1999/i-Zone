@@ -167,11 +167,15 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
 =======
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 
 >>>>>>> tuanph44484/trangchu
+=======
+Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
+>>>>>>> 71cb6663e60943f163acc503d041c6cd8ace7dd5
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
 Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');
 Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGiaBienThe'])->name('sanpham.lay_gia_bien_the');
