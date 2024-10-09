@@ -37,14 +37,6 @@ class CustomerLoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-
-            // Chuyển hướng dựa trên vai trò
-            if ($user->vai_tro == 'admin') {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->vai_tro == 'staff') {
-                return redirect()->route('staff'); // Thêm route dành cho staff
-            }
-
             // Đăng nhập thành công (không phải admin hoặc staff)
             return redirect()->intended('/');
         }

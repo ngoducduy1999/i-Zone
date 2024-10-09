@@ -46,17 +46,22 @@ class HoaDonController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        $title = "Thông tin chi tiết hóa đơn";
+{
+    $title = "Thông tin chi tiết hóa đơn";
 
-        $hoaDon = HoaDon::query()->findOrFail($id);
+    // Lấy hóa đơn theo ID
+    $hoaDon = HoaDon::query()->findOrFail($id);
 
-        $trangThaiHoaDon = HoaDon::TRANG_THAI;       
+    // Lấy thông tin chi tiết sản phẩm theo hóa đơn cùng với biến thể sản phẩm và sản phẩm
+    $chiTietHoaDons = $hoaDon->chiTietHoaDons()->with(['bienTheSanPham.sanPham'])->get();
 
-        $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
+    // Các thuộc tính khác của hóa đơn
+    $trangThaiHoaDon = HoaDon::TRANG_THAI;       
+    $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
 
-        return view('admins.hoadons.show', compact('title', 'hoaDon', 'trangThaiHoaDon', 'phuongThucThanhToan'));
-    }
+    return view('admins.hoadons.show', compact('title', 'hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
+}
+
 
     /**
      * Show the form for editing the specified resource.

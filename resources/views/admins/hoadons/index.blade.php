@@ -54,7 +54,6 @@
                                         <th>Tổng tiền</th>
                                         <th>Phương thức thanh toán</th>
                                         <th>Trạng thái</th>
-                                        <th>Trạng thái hóa đơn</th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
@@ -77,13 +76,6 @@
                                                         </select>
                                                     </form>
                                                 </td>                   
-                                                <td>
-                                                    @if ($item->trang_thai !== null)
-                                                    <span class="badge badge-success bg-success">Hoạt động</span>
-                                                    @else
-                                                    <span class="badge badge-danger bg-danger">Ngưng hoạt động</span>
-                                                    @endif
-                                                </td>
                                                 <td>
                                                     <div class="card-body">
                                                         <div class="btn-group">

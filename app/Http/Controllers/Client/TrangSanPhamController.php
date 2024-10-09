@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Http\Controllers\Controller;
+use App\Models\SanPham;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TrangSanPhamController extends Controller
 {
     public function index(){
-
-        return view('clients.trangsanpham');
-
+        $listSanPham = SanPham::query()->get();
+        return view('clients.trangsanpham', compact('listSanPham'));
     }
 }
