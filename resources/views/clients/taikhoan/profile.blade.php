@@ -80,7 +80,7 @@
                                                             </h4>
                                                             {{-- <p>You have <span>08</span> notifications</p> --}}
                                                         </div>
-                                                       
+
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -219,6 +219,9 @@
                                                                 <input type="text" placeholder="Enter your username"
                                                                     value="{{ old('ten', $profile->ten) }}"
                                                                     name="ten">
+                                                                    @error('ten')
+                                                                    <p class="text-danger">{{$message}}</p>
+                                                                    @enderror
                                                                 <span>
                                                                     <svg width="17" height="19"
                                                                         viewBox="0 0 17 19" fill="none"
@@ -245,6 +248,9 @@
                                                                 <input type="email" placeholder="Enter your email"
                                                                     name="email"
                                                                     value="{{ old('email', $profile->email) }}">
+                                                                    @error('email')
+                                                                    <p class="text-danger">{{$message}}</p>
+                                                                    @enderror
                                                                 <span>
                                                                     <svg width="18" height="16"
                                                                         viewBox="0 0 18 16" fill="none"
@@ -290,6 +296,9 @@
                                                                 <input type="text" placeholder="Nhập số điện thoại"
                                                                     name="so_dien_thoai"
                                                                     value="{{ old('so_dien_thoai', $profile->so_dien_thoai) }}">
+                                                                    @error('so_dien_thoai')
+                                                                    <p class="text-danger">{{$message}}</p>
+                                                                    @enderror
                                                                 <span>
                                                                     <svg width="15" height="18"
                                                                         viewBox="0 0 15 18" fill="none"
@@ -319,6 +328,9 @@
                                                                 <input type="date" placeholder="Nhập ngày sinh"
                                                                     name="ngay_sinh"
                                                                     value="{{ old('ngay_sinh', $profile->ngay_sinh) }}">
+                                                                    @error('ngay_sinh')
+                                                                    <p class="text-danger">{{$message}}</p>
+                                                                    @enderror
                                                                 <span><i class="fa-solid fa-calendar-days"
                                                                         style="color: #000000;"></i></span>
                                                             </div>
@@ -340,6 +352,9 @@
                                                                 <input type="text" placeholder="Nhập địa chỉ"
                                                                     name="dia_chi"
                                                                     value="{{ old('dia_chi', $profile->dia_chi) }}">
+                                                                    @error('dia_chi')
+                                                                    <p class="text-danger">{{$message}}</p>
+                                                                    @enderror
                                                                 <span>
                                                                     <svg width="16" height="18"
                                                                         viewBox="0 0 16 18" fill="none"
@@ -495,47 +510,34 @@
                                 </div>
                                 <div class="tab-pane fade" id="nav-order" role="tabpanel"
                                     aria-labelledby="nav-order-tab">
+                                    <h3 class="profile__info-title">Lịch sử đơn hàng</h3>
                                     <div class="profile__ticket table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Order Id</th>
-                                                    <th scope="col">Product Title</th>
-                                                    <th scope="col">Status</th>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Tên</th>
+                                                    <th scope="col">Trang thai</th>
                                                     <th scope="col">View</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($orders as $order)
                                                 <tr>
                                                     <th scope="row"> #2245</th>
                                                     <td data-info="title">How can i share ?</td>
                                                     <td data-info="status pending">Pending </td>
                                                     <td><a href="#" class="tp-logout-btn">Invoice</a></td>
                                                 </tr>
-                                                <tr>
+                                                @endforeach
+
+                                                {{-- <tr>
                                                     <th scope="row"> #2220</th>
                                                     <td data-info="title">Send money, but not working</td>
                                                     <td data-info="status reply">Need your replay</td>
                                                     <td><a href="#" class="tp-logout-btn">Reply</a></td>
                                                 </tr>
-                                                <tr>
-                                                    <th scope="row"> #2125</th>
-                                                    <td data-info="title">Balance error</td>
-                                                    <td data-info="status done">Resolved</td>
-                                                    <td><a href="#" class="tp-logout-btn">Invoice</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row"> #2124</th>
-                                                    <td data-info="title">How to decline bid</td>
-                                                    <td data-info="status hold">On Hold</td>
-                                                    <td><a href="#" class="tp-logout-btn">Status</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row"> #2121</th>
-                                                    <td data-info="title">How to contact</td>
-                                                    <td data-info="status done">Resolved</td>
-                                                    <td><a href="#" class="tp-logout-btn">Invoice</a></td>
-                                                </tr>
+                                                 --}}
                                             </tbody>
                                         </table>
                                     </div>
