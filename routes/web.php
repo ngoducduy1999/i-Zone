@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BaiVietController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Admin\UserController;
@@ -146,6 +147,18 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::delete('/{id}/destroy',[DungLuongController::class,'destroy'])->name('destroy');
     });
 
+    // Bài viết
+    Route::prefix('baiviets')->name('baiviets.')->group(function () {
+        Route::get('/', [BaiVietController::class, 'index'])->name('index');
+        Route::get('create', [BaiVietController::class, 'create'])->name('create');
+        Route::post('store', [BaiVietController::class, 'store'])->name('store');
+        Route::get('/{id}', [BaiVietController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [BaiVietController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [BaiVietController::class, 'update'])->name('update');
+        Route::post('/{id}/onOffKhuyenMai', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
+        Route::delete('/{id}', [BaiVietController::class, 'destroy'])->name('destroy');
+    });
+
 });
 
 // Routes for authenticated users with 'staff' role
@@ -166,6 +179,10 @@ Route::prefix('customer')->name('customer.')->group(function () {
   });
 
 
+Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
+Route::get('/san-pham/danh-muc/{id}', [TrangSanPhamController::class, 'index'])->name('san-pham.danh-muc');
+Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
 Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');

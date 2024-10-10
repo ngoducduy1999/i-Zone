@@ -95,16 +95,12 @@
                                         @endforeach   
                                 </tbody>
                             </table>
-                            <div class="mt-3">
-                                {{ $listHoaDon->links('pagination::bootstrap-5') }}
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-
     </div> <!-- container-fluid -->
 </div> <!-- content -->
 @endsection
