@@ -35,4 +35,12 @@ class BienTheSanPham extends Model
     {
         return $this->belongsTo(MauSac::class);
     }
+
+    protected $table = 'bien_the_san_phams';
+
+    public function sanPhamnew()
+    {
+        return $this->belongsTo(SanPham::class, 'san_pham_id');
+    }
+ 
 }
