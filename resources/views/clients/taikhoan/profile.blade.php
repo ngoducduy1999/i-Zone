@@ -29,10 +29,11 @@
                                         data-bs-target="#nav-address" type="button" role="tab"
                                         aria-controls="nav-address" aria-selected="false"><span><i
                                                 class="fa-light fa-location-dot"></i></span> Address </button>
-                                    <button class="nav-link" id="nav-order-tab" data-bs-toggle="tab"
+                                      <a href="{{route('customer.donhang')}}" class="nav-link"><span><i class="fa-light fa-clipboard-list-check"></i></span>đơn hàng</a>
+                                    {{-- <button class="nav-link" id="nav-order-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-order" type="button" role="tab" aria-controls="nav-order"
                                         aria-selected="false"><span><i class="fa-light fa-clipboard-list-check"></i></span>
-                                        My Orders </button>
+                                        My Orders </button> --}}
                                     <button class="nav-link" id="nav-notification-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-notification" type="button" role="tab"
                                         aria-controls="nav-notification" aria-selected="false"><span><i

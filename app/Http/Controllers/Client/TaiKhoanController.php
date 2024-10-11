@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\HoaDon;
 use Auth;
 use Illuminate\Http\Request;
 use Storage;
@@ -18,9 +19,11 @@ class TaiKhoanController extends Controller
     {
         //
         $user = Auth::user();
-        $orders = $user->hoaDons;
+        $orders = $user->hoaDons()->get();
 
-        return view('clients.taikhoan.profile',compact('orders'));
+        $trang_thai_don_hang = HoaDon::TRANG_THAI;
+
+        return view('clients.taikhoan.donhang',compact('orders','trang_thai_don_hang'));
     }
 
     /**

@@ -44,7 +44,7 @@
                                             <li>Địa chỉ tài khoản: <b>{{ $hoaDon->user->dia_chi }}</b></li>
                                             <li>Vai trò tài khoản: <b>{{ $hoaDon->user->vai_tro }}</b></li>
                                         </ul>
-                                    </td>                                  
+                                    </td>
                                     <td>
                                         <ul>
                                             <li>Tên người nhận: <b>{{ $hoaDon->ten_nguoi_nhan }}</b></li>
@@ -53,13 +53,13 @@
                                             <li>Địa chỉ người nhận: <b>{{ $hoaDon->dia_chi_nhan_hang }}</b></li>
                                             <li>Ghi chú: <b>{{ $hoaDon->ghi_chu }}</b></li>
                                             <li>Trạng thái đơn hàng: <b>{{ $trangThaiHoaDon[$hoaDon->trang_thai] }}</b></li>
-                                            <li>Trạng thái thanh toán: <b>{{ $phuongThucThanhToan[$hoaDon->phuong_thuc_thanh_toan] }}</b></li>                                      
-                                            <li>Tổng tiền: <b class="fs-5 text-danger">{{ number_format($hoaDon->tong_tien, 0, '', '.') }} đ</b></li>   
-                                        </ul>                       
+                                            <li>Trạng thái thanh toán: <b>{{ $phuongThucThanhToan[$hoaDon->phuong_thuc_thanh_toan] }}</b></li>
+                                            <li>Tổng tiền: <b class="fs-5 text-danger">{{ number_format($hoaDon->tong_tien, 0, '', '.') }} đ</b></li>
+                                        </ul>
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>               
+                        </table>
                     </div>
                 </div>
             </div>
@@ -95,16 +95,16 @@
                                         <td>{{  $chiTiet->bienTheSanPham->sanPham->ten_san_pham  }}</td>
                                         <td>{{ number_format( $chiTiet->don_gia, 0, '', '.') }} đ</td>
                                         <td>{{  $chiTiet->so_luong }}</td>
-                                        <td>{{ number_format( $chiTiet->thanh_tien, 0, '', '.') }} đ</td>         
+                                        <td>{{ number_format( $chiTiet->thanh_tien, 0, '', '.') }} đ</td>
                                     </tr>
-                                @endforeach                                
+                                @endforeach
                             </tbody>
-                        </table>                 
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div> <!-- container-fluid -->
 </div> <!-- content -->
 @endsection

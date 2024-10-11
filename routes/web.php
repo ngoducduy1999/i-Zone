@@ -177,7 +177,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('logout', [CustomerLoginController::class, 'logout'])->name('logout');
     Route::get('profile',[TaiKhoanController::class,'profileUser'])->name('profileUser');
     Route::put('/editProfile/{id}',[TaiKhoanController::class,'update'])->name('update.profileUser');
-    // Route::get('/donhang',[DonHangController::class,'index'])->name('donhang');
+    Route::get('/donhang',[TaiKhoanController::class,'index'])->name('donhang');
   });
 
 
