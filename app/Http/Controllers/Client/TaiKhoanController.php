@@ -17,6 +17,10 @@ class TaiKhoanController extends Controller
     public function index()
     {
         //
+        $user = Auth::user();
+        $orders = $user->hoaDons;
+
+        return view('clients.taikhoan.profile',compact('orders'));
     }
 
     /**

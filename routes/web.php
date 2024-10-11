@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\DonHangController;
 use App\Http\Controllers\Client\TaiKhoanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\TagController;
@@ -176,6 +177,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('logout', [CustomerLoginController::class, 'logout'])->name('logout');
     Route::get('profile',[TaiKhoanController::class,'profileUser'])->name('profileUser');
     Route::put('/editProfile/{id}',[TaiKhoanController::class,'update'])->name('update.profileUser');
+    // Route::get('/donhang',[DonHangController::class,'index'])->name('donhang');
   });
 
 

@@ -14,11 +14,11 @@ class DonHangController extends Controller
     public function index()
     {
         //
-        $user = Auth::user();
+        // $user = Auth::user();
 
-        $orders = $user->hoaDons()->get();
+        // $donhangs = $user->hoaDons()->get();
 
-        return view('clients.taikhoan.profile',compact('orders'));
+        // return view('clients.taikhoan.profile',compact('donhangs'));
     }
 
     /**

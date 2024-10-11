@@ -516,20 +516,20 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">ID</th>
-                                                    <th scope="col">Tên</th>
+                                                    <th scope="col">Tổng tiền</th>
                                                     <th scope="col">Trang thai</th>
                                                     <th scope="col">View</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($orders as $order)
+                                                {{-- @foreach ($orders as $order)
                                                 <tr>
-                                                    <th scope="row"> #2245</th>
-                                                    <td data-info="title">How can i share ?</td>
-                                                    <td data-info="status pending">Pending </td>
-                                                    <td><a href="#" class="tp-logout-btn">Invoice</a></td>
+                                                    <th scope="row"> #IZD{{$order->id}}</th>
+                                                    <td data-info="title">{{$order->tong_tienc}}</td>
+                                                    <td data-info="status pending">{{$order->trang_thai}} </td>
+                                                    <td><a href="#" class="tp-logout-btn">xem</a></td>
                                                 </tr>
-                                                @endforeach
+                                                @endforeach --}}
 
                                                 {{-- <tr>
                                                     <th scope="row"> #2220</th>
