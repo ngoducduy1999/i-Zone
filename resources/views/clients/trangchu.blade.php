@@ -548,17 +548,11 @@
                               <a href="{{ $sanphamNew->danh_muc_id }}">{{ $sanphamNew->danhmucs->ten_danh_muc ?? 'Danh mục' }}</a>
                            </div>
 
-
-
+                           
                            <h3 class="tp-product-title">
                                  <a href="{{ ( $sanphamNew->id) }}">
                                     {{ $sanphamNew->ten_san_pham }}
                                  </a>
-
-
-
-
-                                 
                            </h3>
 
                            <div class="tp-product-rating d-flex align-items-center">
