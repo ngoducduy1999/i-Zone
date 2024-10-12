@@ -25,36 +25,26 @@
     @endif
 
     <!-- Datatables  -->
-
     <div class="row">
-
         <div class="col-12">
-
             <div class="card">
                 <div class="card-header">
-
                     <h5 class="card-title mb-0">Danh sách thẻ tag</h5>
-
                 </div><!-- end card header -->
-
                 <div class="card-body">
-
                     <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
 
                         <thead>
                             <tr>
-
                                 <th>ID</th>
                                 <th>Tên thẻ tag</th>
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
-
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach ($tags as $tag)
-
                             <tr>
                                 <td>{{ $tag->id }}</td>
                                 <td>{{ $tag->ten_tag }}</td>
@@ -68,35 +58,27 @@
                                 <td>
                                     <div class="card-body">
                                         <div class="btn-group">
-
                                             <button class="btn btn-primary dropdown-toggle" type="button"
                                                 data-bs-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false">Thao tác<i
                                                     class="mdi mdi-chevron-down"></i></button>
-
                                             <div class="dropdown-menu">                               
                                                 <a class="dropdown-item"
                                                     href="{{ route('admin.tag.edit', $tag->id) }}">Sửa</a>
                                                 @if ($tag->trang_thai == 1)
-
                                                 <form action="{{ route('admin.tag.onOffTag', $tag->id) }}" method="post">
                                                     @csrf
                                                     @method('post')
-
                                                     <button class="dropdown-item" href="#">Ngừng hoạt động</button>
                                                 </form>
-
                                                 @else
                                                 <form action="{{ route('admin.tag.onOffTag', $tag->id) }}" method="post">
                                                     @csrf
                                                     @method('post')
                                                     <button class="dropdown-item" href="#">Hoạt động</button>
                                                 </form>
-
                                                 @endif
-
                                                 <form action="{{ route('admin.tag.destroy', $tag->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa thẻ tag này?');">
-
                                                     @method('DELETE')
                                                     @csrf
                                                     <button type="submit" class="dropdown-item">Xóa</button>
