@@ -4,24 +4,15 @@
 
 <div class="container-xxl">
     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
-
         <div class="flex-grow-1">
-
             <h4 class="fs-18 fw-semibold m-0">Danh sách thẻ tag</h4>
-
         </div>
-
     </div>
-
     @if (session('success'))
-
     <div class="alert alert-success" role="alert">{{ session('success') }}</div>
     @endif
-
-    @if (session('error'))
-    
+    @if (session('error'))  
     <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
-
     @endif
 
     <!-- Datatables  -->
