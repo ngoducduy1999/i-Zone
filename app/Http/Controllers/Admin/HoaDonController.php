@@ -17,7 +17,7 @@ class HoaDonController extends Controller
     {
         $title = "Danh sách hóa đơn";
 
-        $listHoaDon = HoaDon::query()->paginate(5);
+        $listHoaDon = HoaDon::query()->get();
 
         $trangThaiHoaDon = HoaDon::TRANG_THAI;
 
