@@ -500,7 +500,7 @@
 
                            <!-- product badge -->
                            <div class="tp-product-badge">
-                              <span class="product-offer">-25%</span>
+                              <span class="product-offer">New</span>
                            </div>
 
                            <!-- product action -->
