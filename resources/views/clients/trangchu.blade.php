@@ -570,6 +570,7 @@
                      </div>
                   </div>
                   
+                  
                   <div class="col-xl-4 col-sm-6">
                      <div class="tp-product-item p-relative transition-3 mb-25">
                         <div class="tp-product-thumb p-relative fix m-img">
