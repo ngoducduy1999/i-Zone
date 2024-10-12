@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\HoaDon;
 use Auth;
+use Hash;
 use Illuminate\Http\Request;
 use Storage;
 
@@ -111,5 +112,27 @@ class TaiKhoanController extends Controller
     public function profileUser(){
         $profile = Auth::user();
         return view('clients.taikhoan.profile',compact('profile'));
+    }
+
+    public function changePassword(Request $request){
+        $user = Auth::user();
+
+        // Xác thực mật khẩu cũ, mật khẩu mới và xác nhận mật khẩu mới
+        $request->validate([
+            'mat_khau_cu' => 'required', // Bắt buộc phải nhập mật khẩu cũ
+            'mat_khau_moi' => 'required|min:8|confirmed' // Mật khẩu mới phải ít nhất 8 ký tự và khớp với xác nhận mật khẩu
+        ]);
+
+        // Kiểm tra mật khẩu cũ
+        if (!Hash::check($request->input('mat_khau_cu'), $user->mat_khau)) {
+            return redirect()->back()->with('error', 'Mật khẩu cũ không đúng.');
+        }
+
+
+        // Cập nhật mật khẩu mới
+        $user->mat_khau = Hash::make($request->input('mat_khau_moi'));
+        $user->save();
+
+        return redirect()->back()->with('success', 'Đổi mật khẩu thành công!');
     }
 }

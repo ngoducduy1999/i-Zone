@@ -3,6 +3,7 @@
 @section('content')
     <section class="profile__area pt-120 pb-120">
         <div class="container">
+
             <div class="profile__inner p-relative">
                 <div class="profile__shape">
                     <img class="profile__shape-1" src="{{ asset('assets/client/img/login/laptop.png') }}" alt="">
@@ -12,6 +13,7 @@
                     <img class="profile__shape-5" src="{{ asset('assets/client/img/login/shape-3.png') }}" alt="">
                     <img class="profile__shape-6" src="{{ asset('assets/client/img/login/shape-4.png') }}" alt="">
                 </div>
+
                 <div class="row">
                     <div class="col-xxl-4 col-lg-4">
                         <div class="profile__tab mr-40">
@@ -56,6 +58,11 @@
                                         <div class="profile__main-top pb-80">
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
+                                                    @if (session('success'))
+                                                    <div class="alert alert-success">
+                                                        {{ session('success') }}
+                                                    </div>
+                                                @endif
                                                     <div class="profile__main-inner d-flex flex-wrap align-items-center">
                                                         <div class="profile__main-thumb">
                                                             @if ($profile->anh_dai_dien != '')
@@ -393,41 +400,43 @@
                                 <div class="tab-pane fade" id="nav-password" role="tabpanel"
                                     aria-labelledby="nav-password-tab">
                                     <div class="profile__password">
-                                        <form action="#">
+                                        <form action="{{route('customer.changePassword')}}" method="POST">
+                                            @csrf
+                                            @method('PUT')
                                             <div class="row">
                                                 <div class="col-xxl-12">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-contact-input">
-                                                            <input name="old_pass" id="old_pass" type="password">
+                                                            <input name="mat_khau_cu" id="old_pass" type="password">
                                                         </div>
                                                         <div class="tp-profile-input-title">
-                                                            <label for="old_pass">Old Password</label>
+                                                            <label for="mat_khau_moi">Mật khẩu cũ</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-xxl-6 col-md-6">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-profile-input">
-                                                            <input name="new_pass" id="new_pass" type="password">
+                                                            <input name="mat_khau_moi" id="new_pass" type="password">
                                                         </div>
                                                         <div class="tp-profile-input-title">
-                                                            <label for="new_pass">New Password</label>
+                                                            <label for="mat_khau_moi">Mật khẩu mới</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-xxl-6 col-md-6">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-profile-input">
-                                                            <input name="con_new_pass" id="con_new_pass" type="password">
+                                                            <input name="mat_khau_moi_confirmation" id="con_new_pass" type="password">
                                                         </div>
                                                         <div class="tp-profile-input-title">
-                                                            <label for="con_new_pass">Confirm Password</label>
+                                                            <label for="con_new_pass">Xác nhận mật khẩu mới</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-xxl-6 col-md-6">
                                                     <div class="profile__btn">
-                                                        <button type="submit" class="tp-btn">Update</button>
+                                                        <button type="submit" class="tp-btn">Cập nhật</button>
                                                     </div>
                                                 </div>
                                             </div>
