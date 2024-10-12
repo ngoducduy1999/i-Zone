@@ -35,7 +35,12 @@ class TrangChuController extends Controller
             ->get();
 
             // Lấy tất cả danh mục
-            $danhMucs = DanhMuc::withCount('sanPhams')->get(); // Lấy danh sách danh mục và số lượng sản phẩm
+        $danhMucs = DanhMuc::withCount('sanPhams')->get(); // Lấy danh sách danh mục và số lượng sản phẩm
+        $sanPhamsMoiNhat = SanPham::with('bienTheSanPhams')
+            ->whereNull('deleted_at') // Bỏ qua sản phẩm đã bị xóa mềm
+            ->orderBy('created_at', 'desc') // Sắp xếp theo ngày tạo mới nhất
+            ->take(5) // Lấy 5 sản phẩm
+            ->get();
 
         // Trả về view và truyền dữ liệu sang
        return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','featuredProducts','danhMucs'));

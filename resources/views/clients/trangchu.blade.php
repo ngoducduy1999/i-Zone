@@ -500,7 +500,7 @@
 
                            <!-- product badge -->
                            <div class="tp-product-badge">
-                              <span class="product-offer">New</span>
+                              <span class="product-trending">New</span>
                            </div>
 
                            <!-- product action -->
