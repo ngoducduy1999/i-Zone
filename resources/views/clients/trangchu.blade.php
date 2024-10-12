@@ -496,7 +496,7 @@
                      <div class="tp-product-item p-relative transition-3 mb-25">
                         <div class="tp-product-thumb p-relative fix m-img">
                            <a href="{{ ( $sanpham->id) }}">
-                              <img src="{{ asset($sanpham->anh_san_pham) }}" alt="{{ $sanpham->ten_san_pham }}">
+                              <img src="{{ asset($sanphamNew->anh_san_pham) }}" alt="{{ $sanphamNew->ten_san_pham }}">
                            </a>
 
                            <!-- product badge -->
