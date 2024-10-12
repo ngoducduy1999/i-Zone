@@ -100,24 +100,18 @@
                                                     @method('DELETE')
                                                     @csrf
                                                     <button type="submit" class="dropdown-item">Xóa</button>
-
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                           
                             </tr>
-
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
-
 @endsection
