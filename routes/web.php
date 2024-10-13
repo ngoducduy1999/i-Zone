@@ -179,6 +179,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::put('/editProfile/{id}',[TaiKhoanController::class,'update'])->name('update.profileUser');
     Route::get('/donhang',[TaiKhoanController::class,'index'])->name('donhang');
     Route::put('changepassword',[TaiKhoanController::class,'changePassword'])->name('changePassword');
+    Route::get('/{id}/chitietdonhang',[TaiKhoanController::class,'show'])->name('donhang.chitiet');
   });
 
 

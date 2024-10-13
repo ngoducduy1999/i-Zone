@@ -54,7 +54,7 @@
                          <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Setting</span>
                          <ul>
                             <li>
-                               <a href="profile.html">My Profile</a>
+                               <a href="{{route('customer.profileUser')}}">My Profile</a>
                             </li>
                             <li>
                                <a href="wishlist.html">Wishlist</a>
@@ -63,7 +63,17 @@
                                <a href="cart.html">Cart</a>
                             </li>
                             <li>
-                               <a href="login.html">Logout</a>
+                                <form id="logout-form-client"
+                                action="{{ route('customer.logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+
+                            <a class='dropdown-item notify-item' href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form-client').submit();">
+                                <i class="mdi mdi-location-exit fs-16 align-middle"></i>
+                                <span>Đăng xuất</span>
+                            </a>
                             </li>
                          </ul>
                       </div>

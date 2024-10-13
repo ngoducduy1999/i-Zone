@@ -18,10 +18,12 @@ class TaiKhoanController extends Controller
 
     public function index()
     {
-        //
+        //lấy thông tin ng dùng đang đăng nhập
         $user = Auth::user();
-        $orders = $user->hoaDons()->get();
 
+        // lấy thông tin đơn hàng người dùng đã mua
+        $orders = $user->hoaDons()->get();
+        // lấy thuộc tính
         $trang_thai_don_hang = HoaDon::TRANG_THAI;
 
         return view('clients.taikhoan.donhang',compact('orders','trang_thai_don_hang'));
@@ -50,6 +52,18 @@ class TaiKhoanController extends Controller
     {
         //
 
+
+        // Lấy hóa đơn theo ID
+        $hoaDon = HoaDon::query()->findOrFail($id);
+
+        // Lấy thông tin chi tiết sản phẩm theo hóa đơn cùng với biến thể sản phẩm và sản phẩm
+        $chiTietHoaDons = $hoaDon->chiTietHoaDons()->with(['bienTheSanPham.sanPham'])->get();
+
+        // Các thuộc tính khác của hóa đơn
+        $trangThaiHoaDon = HoaDon::TRANG_THAI;
+        $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
+
+        return view('clients.taikhoan.chitietdonhang', compact('hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
     }
 
     /**

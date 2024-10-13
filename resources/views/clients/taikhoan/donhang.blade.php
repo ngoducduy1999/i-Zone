@@ -35,7 +35,7 @@
                                 @endif
 
                             </td>
-                            <td><a href="#" class="tp-logout-btn">xem</a></td>
+                            <td><a href="{{route('customer.donhang.chitiet',$order->id)}}" class="tp-logout-btn">Chi tiết</a></td>
                         </tr>
                     @endforeach
 
