@@ -63,14 +63,14 @@
                                <a href="cart.html">Cart</a>
                             </li>
                             <li>
-                                <form id="logout-form-client"
+                                <form id="logout-form-clients"
                                 action="{{ route('customer.logout') }}" method="POST"
                                 style="display: none;">
                                 @csrf
                             </form>
 
                             <a class='dropdown-item notify-item' href="#"
-                                onclick="event.preventDefault(); document.getElementById('logout-form-client').submit();">
+                                onclick="event.preventDefault(); document.getElementById('logout-form-clients').submit();">
                                 <i class="mdi mdi-location-exit fs-16 align-middle"></i>
                                 <span>Đăng xuất</span>
                             </a>
