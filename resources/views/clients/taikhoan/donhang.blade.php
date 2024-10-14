@@ -35,7 +35,21 @@
                                 @endif
 
                             </td>
-                            <td><a href="{{route('customer.donhang.chitiet',$order->id)}}" class="tp-logout-btn">Chi tiết</a></td>
+                            <td>
+                                
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Thao tác
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                      <li> <a href="{{route('customer.donhang.chitiet',$order->id)}}" class="dropdown-item">Chi tiết</a></li>
+                                      <li><a class="dropdown-item" href="#">Hủy đơn hàng</a></li>
+
+                                    </ul>
+                                  </div>
+                                </div>
+
+                            </td>
                         </tr>
                     @endforeach
 
