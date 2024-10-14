@@ -149,4 +149,21 @@ class TaiKhoanController extends Controller
 
         return redirect()->back()->with('success', 'Đổi mật khẩu thành công!');
     }
+
+    public function cancelOrder($id,Request $request){
+        $orders = HoaDon::findOrFail($id);
+
+        // tìm đơn hàng nếu không có thông báo
+        if(!$orders){
+            return redirect()->back()->with('error','Đơn hàng không tồn hại!');
+        }
+
+        $orders->trang_thai = 6;
+
+        if($orders->save()){
+            return redirect()->back()->with('success','Đã hủy đơn hàng thành công!');
+        }else{
+            return redirect()->back()->with('error','Đã có lỗi khi hủy!');
+        }
+    }
 }

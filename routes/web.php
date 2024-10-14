@@ -180,6 +180,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/donhang',[TaiKhoanController::class,'index'])->name('donhang');
     Route::put('changepassword',[TaiKhoanController::class,'changePassword'])->name('changePassword');
     Route::get('/{id}/chitietdonhang',[TaiKhoanController::class,'show'])->name('donhang.chitiet');
+    Route::post('/{id}/cancel',[TaiKhoanController::class,'cancelOrder'])->name('cancelOrder');
   });
 
 

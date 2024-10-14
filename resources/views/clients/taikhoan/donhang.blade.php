@@ -21,47 +21,54 @@
                             <td data-info="status pending">
                                 @if ($order->trang_thai == 1)
                                     <p class=""><b>Chờ xác nhận</b></p>
-                                @elseif($oder->trang_thai == 2)
+                                @elseif($order->trang_thai == 2)
                                     <p><b>Đã xác nhận</b></p>
-                                @elseif($oder->trang_thai == 3)
+                                @elseif($order->trang_thai == 3)
                                     <p><b>Đang chuẩn bị hàng</b></p>
-                                @elseif($oder->trang_thai == 4)
+                                @elseif($order->trang_thai == 4)
                                     <p><b>Đang giao hàng</b></p>
-                                @elseif($oder->trang_thai == 5)
+                                @elseif($order->trang_thai == 5)
                                     <p><b>Đã giao hàng</b></p>
-                                    @elseif($oder->trang_thai==6)
+                                @elseif($order->trang_thai == 6)
                                     <p><b>Đã hủy đơn hàng</b></p>
-
                                 @endif
 
                             </td>
                             <td>
-                                
+
                                 <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
                                         Thao tác
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                      <li> <a href="{{route('customer.donhang.chitiet',$order->id)}}" class="dropdown-item">Chi tiết</a></li>
-                                      <li><a class="dropdown-item" href="#">Hủy đơn hàng</a></li>
+                                        <li> <a href="{{ route('customer.donhang.chitiet', $order->id) }}"
+                                                class="dropdown-item">Chi tiết</a></li>
+                                        <li>
+                                            <form action="{{route('customer.cancelOrder',$order->id)}}" method="post"
+                                            onsubmit="return confirm('Bạn có chắc muốn hủy không?')">
+                                                @csrf
+                                                <button   class="dropdown-item" type="submit">Hủy đơn hàng</button>
+                                            </form>
+                                        </li>
 
                                     </ul>
-                                  </div>
                                 </div>
-
-                            </td>
-                        </tr>
-                    @endforeach
-
-
-                </tbody>
-            </table>
-
-
         </div>
-        <div class="pt-3">
-            <button onclick="goBack()" class="btn btn-secondary">Quay lại</button>
-        </div>
+
+        </td>
+        </tr>
+        @endforeach
+
+
+        </tbody>
+        </table>
+
+
+    </div>
+    <div class="pt-3">
+        <button onclick="goBack()" class="btn btn-secondary">Quay lại</button>
+    </div>
     </div>
 @endsection
 
