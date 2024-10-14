@@ -566,10 +566,10 @@
                            </div>
                            <div class="tp-product-price-wrapper">
                               <span class="tp-product-price old-price">
-                                 {{ $sanphamNew->bienThe->first()->gia_cu ?? 'Chưa có giá' }}VNĐ
+                                 {{ isset($sanphamNew->bienThe->first()->gia_cu) ? number_format($sanphamNew->bienThe->first()->gia_cu, 0, ',', '.') : 'Chưa có giá' }}VNĐ
                               </span>
                               <span class="tp-product-price new-price">
-                                 {{ $sanphamNew->bienThe->first()->gia_moi ?? 'Chưa có giá' }}VNĐ
+                                 {{ isset($sanphamNew->bienThe->first()->gia_moi) ? number_format($sanphamNew->bienThe->first()->gia_moi, 0, ',', '.') : 'Chưa có giá' }}VNĐ
                               </span>
                            </div>
                         </div>
