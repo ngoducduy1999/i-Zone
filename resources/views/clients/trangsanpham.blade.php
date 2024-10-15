@@ -82,13 +82,13 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-4">
                     <div class="tp-shop-sidebar mr-10">
-                         <!-- Lọc theo giá -->
+                        <!-- Lọc theo giá -->
                         <div class="tp-shop-widget mb-50">
                             <h3 class="tp-shop-widget-title">Lọc theo giá</h3>
                             <div class="category-filter"></div>
                             <div class="tp-shop-widget-content">
                                 <div class="tp-shop-widget-checkbox">
-                                    <form id="filter-form" action="{{ route('san-pham') }}" method="GET">                                     
+                                    <form id="filter-form" action="{{ route('san-pham') }}" method="GET">
                                         <ul class="filter-items filter-checkbox" id="price-filter">
                                             <li class="filter-item" data-value="0-1000000">Dưới 1 triệu</li>
                                             <li class="filter-item" data-value="1000000-5000000">1 đến 5 triệu
@@ -217,268 +217,62 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- product rating -->
-                        <div class="tp-shop-widget mb-50">
-                            <h3 class="tp-shop-widget-title">Top Rated Products</h3>
 
+                        <!-- Sản phẩm được đánh giá cao -->
+                        <div class="tp-shop-widget mb-50">
+                            <h3 class="tp-shop-widget-title">Sản phẩm được đánh giá cao</h3>
                             <div class="tp-shop-widget-content">
                                 <div class="tp-shop-widget-product">
-                                    <div class="tp-shop-widget-product-item d-flex align-items-center">
-                                        <div class="tp-shop-widget-product-thumb">
-                                            <a href="product-details.html">
-                                                <img src="{{ asset('assets/client/img/product/shop/sm/shop-sm-1.jpg') }}"
-                                                    alt="">
-                                            </a>
-                                        </div>
-                                        <div class="tp-shop-widget-product-content">
-                                            <div class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
-                                                <div class="tp-shop-widget-product-rating">
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
+                                    @foreach ($topRatedProducts as $item)
+                                        <div class="tp-shop-widget-product-item d-flex align-items-center">
+                                            <div class="tp-shop-widget-product-thumb">
+                                                <a href="{{ route('chitietsanpham', $item->id) }}">
+                                                    <img src="{{ asset($item->anh_san_pham) }}"
+                                                        alt="{{ $item->ten_san_pham }}">
+                                                </a>
+                                            </div>
+                                            <div class="tp-shop-widget-product-content">
+                                                <div
+                                                    class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
+                                                    <div class="tp-shop-widget-product-rating">
+                                                        @for ($i = 0; $i < 5; $i++)
+                                                            <span>
+                                                                <svg width="12" height="12" viewBox="0 0 12 12"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
+                                                                        fill="{{ $i < round($item->avg_rating) ? 'currentColor' : 'none' }}" />
+                                                                </svg>
+                                                            </span>
+                                                        @endfor
+                                                    </div>
+                                                    <div class="tp-shop-widget-product-rating-number">
+                                                        <span>({{ number_format($item->avg_rating, 1) }})</span>
+                                                    </div>
                                                 </div>
-                                                <div class="tp-shop-widget-product-rating-number">
-                                                    <span>(4.2)</span>
+                                                <h4 class="tp-shop-widget-product-title">
+                                                    <a
+                                                        href="{{ route('chitietsanpham', $item->id) }}">{{ $item->ten_san_pham }}</a>
+                                                </h4>
+                                                <div class="tp-shop-widget-product-price-wrapper">
+                                                    @if ($item->bienTheSanPhams->isNotEmpty())
+                                                        <span class="tp-product-price-2 new-price">
+                                                            {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
+                                                        </span>
+                                                        @if (isset($item->bienTheSanPhams->first()->gia_cu))
+                                                            <span class="tp-product-price-2 old-price">
+                                                                {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                            </span>
+                                                        @endif
+                                                    @endif
                                                 </div>
                                             </div>
-                                            <h4 class="tp-shop-widget-product-title">
-                                                <a href="product-details.html">Smart watches wood...</a>
-                                            </h4>
-                                            <div class="tp-shop-widget-product-price-wrapper">
-                                                <span class="tp-shop-widget-product-price">$150.00</span>
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="tp-shop-widget-product-item d-flex align-items-center">
-                                        <div class="tp-shop-widget-product-thumb">
-                                            <a href="product-details.html">
-                                                <img src="{{ asset('assets/client/img/product/shop/sm/shop-sm-2.jpg') }}"
-                                                    alt="">
-                                            </a>
-                                        </div>
-                                        <div class="tp-shop-widget-product-content">
-                                            <div class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
-                                                <div class="tp-shop-widget-product-rating">
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                </div>
-                                                <div class="tp-shop-widget-product-rating-number">
-                                                    <span>(4.5)</span>
-                                                </div>
-                                            </div>
-                                            <h4 class="tp-shop-widget-product-title">
-                                                <a href="product-details.html">Decoration for panda.</a>
-                                            </h4>
-                                            <div class="tp-shop-widget-product-price-wrapper">
-                                                <span class="tp-shop-widget-product-price">$120.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tp-shop-widget-product-item d-flex align-items-center">
-                                        <div class="tp-shop-widget-product-thumb">
-                                            <a href="product-details.html">
-                                                <img src="{{ asset('assets/client/img/product/shop/sm/shop-sm-3.jpg') }}"
-                                                    alt="">
-                                            </a>
-                                        </div>
-                                        <div class="tp-shop-widget-product-content">
-                                            <div class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
-                                                <div class="tp-shop-widget-product-rating">
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                </div>
-                                                <div class="tp-shop-widget-product-rating-number">
-                                                    <span>(3.5)</span>
-                                                </div>
-                                            </div>
-                                            <h4 class="tp-shop-widget-product-title">
-                                                <a href="product-details.html">Trending Watch for Man</a>
-                                            </h4>
-                                            <div class="tp-shop-widget-product-price-wrapper">
-                                                <span class="tp-shop-widget-product-price">$99.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tp-shop-widget-product-item d-flex align-items-center">
-                                        <div class="tp-shop-widget-product-thumb">
-                                            <a href="product-details.html">
-                                                <img src="{{ asset('assets/client/img/product/shop/sm/shop-sm-4.jpg') }}"
-                                                    alt="">
-                                            </a>
-                                        </div>
-                                        <div class="tp-shop-widget-product-content">
-                                            <div class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
-                                                <div class="tp-shop-widget-product-rating">
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                    <span>
-                                                        <svg width="12" height="12" viewBox="0 0 12 12"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                fill="currentColor" />
-                                                        </svg>
-                                                    </span>
-                                                </div>
-                                                <div class="tp-shop-widget-product-rating-number">
-                                                    <span>(4.8)</span>
-                                                </div>
-                                            </div>
-                                            <h4 class="tp-shop-widget-product-title">
-                                                <a href="product-details.html">Minimal Backpack.</a>
-                                            </h4>
-                                            <div class="tp-shop-widget-product-price-wrapper">
-                                                <span class="tp-shop-widget-product-price">$165.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-8">
@@ -695,24 +489,24 @@
                                                             <a href="#">{{ $item->danhMuc->ten_danh_muc }}</a>
                                                         </div>
                                                         <h3 class="tp-product-title-2">
-                                                            <a href="product-details.html">{{ $item->ten_san_pham }}</a>
+                                                            <a href="{{ route('chitietsanpham', $item->id) }}">{{ $item->ten_san_pham }}</a>
                                                         </h3>
                                                         <div class="tp-product-rating-icon tp-product-rating-icon-2">
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
+                                                            @for ($i = 0; $i < 5; $i++)
+                                                                <span><i class="fa-solid fa-star" style="color: {{ $i < round($item->avg_rating) ? 'currentColor' : 'lightgray' }}"></i></span>
+                                                            @endfor
                                                         </div>
                                                         @if ($item->bienTheSanPhams->isNotEmpty())
                                                             <span class="tp-product-price-2 new-price">
                                                                 {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
                                                             </span>
-                                                            <span class="tp-product-price-2 old-price">
-                                                                {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
-                                                            </span>
+                                                            @if (isset($item->bienTheSanPhams->first()->gia_cu) && $item->bienTheSanPhams->first()->gia_cu > $item->bienTheSanPhams->first()->gia_moi)
+                                                                <span class="tp-product-price-2 old-price">
+                                                                    {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                </span>
+                                                            @endif
                                                         @endif
-                                                    </div>
+                                                    </div>                                                    
                                                 </div>
                                             </div>
                                         @endforeach
@@ -801,36 +595,35 @@
                                                         <div class="tp-product-list-content">
                                                             <div class="tp-product-content-2 pt-15">
                                                                 <div class="tp-product-tag-2">
-                                                                    <a
-                                                                        href="#">{{ $item->danhMuc->ten_danh_muc }}</a>
+                                                                    <a href="#">{{ $item->danhMuc->ten_danh_muc }}</a>
                                                                 </div>
                                                                 <h3 class="tp-product-title-2">
-                                                                    <a
-                                                                        href="product-details.html">{{ $item->ten_san_pham }}</a>
+                                                                    <a href="{{ route('chitietsanpham', $item->id) }}">{{ $item->ten_san_pham }}</a>
                                                                 </h3>
-                                                                <div
-                                                                    class="tp-product-rating-icon tp-product-rating-icon-2">
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
-                                                                    <span><i class="fa-solid fa-star"></i></span>
+                                                                <div class="tp-product-rating-icon tp-product-rating-icon-2">
+                                                                    @for ($i = 0; $i < 5; $i++)
+                                                                        <span>
+                                                                            <i class="fa-solid fa-star" style="color: {{ $i < round($item->avg_rating) ? 'currentColor' : 'lightgray' }}"></i>
+                                                                        </span>
+                                                                    @endfor
                                                                 </div>
                                                                 @if ($item->bienTheSanPhams->isNotEmpty())
                                                                     <span class="tp-product-price-2 new-price">
                                                                         {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
                                                                     </span>
-                                                                    <span class="tp-product-price-2 old-price">
-                                                                        {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
-                                                                    </span>
+                                                                    @if (isset($item->bienTheSanPhams->first()->gia_cu))
+                                                                        <span class="tp-product-price-2 old-price">
+                                                                            {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                        </span>
+                                                                    @endif
                                                                 @endif
                                                                 <p>{{ $item->mo_ta }}</p>
                                                                 <div class="tp-product-list-add-to-cart">
-                                                                    <button class="tp-product-list-add-to-cart-btn">Add To
-                                                                        Cart</button>
+                                                                    <button class="tp-product-list-add-to-cart-btn">Add To Cart</button>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -845,46 +638,11 @@
                         <div class="tp-shop-pagination mt-20">
                             <div class="tp-pagination">
                                 <nav>
-                                    <ul>
-                                        <li>
-                                            <a href="shop.html" class="tp-pagination-prev prev page-numbers">
-                                                <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">1</a>
-                                        </li>
-                                        <li>
-                                            <span class="current">2</span>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">3</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html" class="next page-numbers">
-                                                <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    {{ $listSanPham->links() }} 
                                 </nav>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
