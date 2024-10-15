@@ -34,6 +34,26 @@
         .category-item.active a {
             color: #fff;
         }
+
+        #price-filter .filter-item {
+            cursor: pointer;
+            border: 2px solid transparent;
+            padding: 10px;
+            margin-bottom: 5px;
+            text-align: center;
+            transition: all 0.3s;
+            border-radius: 10px;
+        }
+
+        #price-filter .filter-item:hover {
+            border-color: #ccc;
+        }
+
+        #price-filter .filter-item.selected {
+            border-color: #007bff;
+            background-color: #f0f0f0;
+            color: #007bff;
+        }
     </style>
 @endsection
 
@@ -62,27 +82,33 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-4">
                     <div class="tp-shop-sidebar mr-10">
-                        <!-- filter -->
-                        <div class="tp-shop-widget mb-35">
-                            <h3 class="tp-shop-widget-title no-border">Price Filter</h3>
+                         <!-- Lọc theo giá -->
+                        <div class="tp-shop-widget mb-50">
+                            <h3 class="tp-shop-widget-title">Lọc theo giá</h3>
+                            <div class="category-filter"></div>
                             <div class="tp-shop-widget-content">
-                                <div class="tp-shop-widget-filter">
-                                    <div id="slider-range" class="mb-10"></div>
-                                    <div
-                                        class="tp-shop-widget-filter-info d-flex align-items-center justify-content-between">
-                                        <span class="input-range">
-                                            <input type="text" id="amount" readonly>
-                                        </span>
-                                        <button class="tp-shop-widget-filter-btn" type="button">Filter</button>
-                                    </div>
+                                <div class="tp-shop-widget-checkbox">
+                                    <form id="filter-form" action="{{ route('san-pham') }}" method="GET">                                     
+                                        <ul class="filter-items filter-checkbox" id="price-filter">
+                                            <li class="filter-item" data-value="0-1000000">Dưới 1 triệu</li>
+                                            <li class="filter-item" data-value="1000000-5000000">1 đến 5 triệu
+                                            </li>
+                                            <li class="filter-item" data-value="5000000-10000000">5 đến 10 triệu
+                                            </li>
+                                            <li class="filter-item" data-value="10000000-20000000">10 đến 20 triệu
+                                            </li>
+                                            <li class="filter-item" data-value="20000000-999999999">Trên 20 triệu</li>
+                                        </ul>
+                                        <input type="hidden" name="price_range" id="price_range"
+                                            value="{{ request('price_range') }}">
+                                    </form>
                                 </div>
                             </div>
                         </div>
+
                         <!-- status -->
                         <div class="tp-shop-widget mb-50">
                             <h3 class="tp-shop-widget-title">Dung lượng</h3>
-                            <div class="category-filter">
-                            </div>
                             <div class="tp-shop-widget-content">
                                 <div class="tp-shop-widget-checkbox">
                                     <form id="filter-form" action="{{ route('san-pham') }}" method="GET">
@@ -102,6 +128,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- category -->
                         <div class="tp-shop-widget mb-50">
                             <h3 class="tp-shop-widget-title">Danh mục</h3>
@@ -190,6 +217,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <!-- product rating -->
                         <div class="tp-shop-widget mb-50">
                             <h3 class="tp-shop-widget-title">Top Rated Products</h3>
@@ -1088,6 +1116,36 @@
                     document.getElementById('product-list').innerHTML = data; // Cập nhật danh sách sản phẩm
                 })
                 .catch(error => console.error('Error:', error));
+        });
+    </script>
+    {{-- Lọc sản phẩm theo giá --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterItems = document.querySelectorAll('#price-filter .filter-item');
+            const priceRangeInput = document.getElementById('price_range');
+            const form = document.getElementById('filter-form');
+
+            // Đặt trạng thái ban đầu (khi đã có lựa chọn từ trước)
+            filterItems.forEach(item => {
+                if (item.dataset.value === priceRangeInput.value) {
+                    item.classList.add('selected');
+                }
+            });
+
+            // Xử lý sự kiện click
+            filterItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Xóa class 'selected' khỏi tất cả các ô
+                    filterItems.forEach(i => i.classList.remove('selected'));
+
+                    // Thêm class 'selected' cho ô được chọn
+                    this.classList.add('selected');
+
+                    // Đặt giá trị cho input hidden và submit form
+                    priceRangeInput.value = this.dataset.value;
+                    form.submit();
+                });
+            });
         });
     </script>
 @endsection

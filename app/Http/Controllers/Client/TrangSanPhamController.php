@@ -13,27 +13,29 @@ use App\Models\MauSac;
 class TrangSanPhamController extends Controller
 {
     public function index(Request $request) {
-        // Lấy tất cả danh mục và dung lượng
         $listDanhMuc = DanhMuc::all();
         $listDungLuong = DungLuong::all();
     
-        // Lấy ID danh mục từ query string (nếu có)
         $categoryId = $request->input('danh_muc_id');
+        $dungLuongIds = $request->input('dung_luong_id', []);
+        $priceRange = $request->input('price_range'); // Nhận giá trị khoảng giá
     
-        // Lấy danh sách dung_luong_id từ request (nếu có)
-        $dungLuongIds = $request->input('dung_luong_id');
-    
-        // Lọc sản phẩm theo danh mục và dung lượng
         $listSanPham = SanPham::when($categoryId, function($query) use ($categoryId) {
-                return $query->where('danh_muc_id', (int)$categoryId);
+                return $query->where('danh_muc_id', $categoryId);
             })
-            ->when($dungLuongIds, function($query) use ($dungLuongIds) {
+            ->when(!empty($dungLuongIds), function($query) use ($dungLuongIds) {
                 return $query->whereHas('bienTheSanPhams', function($q) use ($dungLuongIds) {
                     $q->whereIn('dung_luong_id', $dungLuongIds);
                 });
             })
+            ->when($priceRange, function($query) use ($priceRange) {
+                [$minPrice, $maxPrice] = explode('-', $priceRange);
+                return $query->whereHas('bienTheSanPhams', function($q) use ($minPrice, $maxPrice) {
+                    $q->whereBetween('gia_moi', [(int)$minPrice, (int)$maxPrice]);
+                });
+            })
             ->get();
     
-        return view('clients.trangsanpham', compact('listSanPham', 'listDanhMuc', 'listDungLuong', 'categoryId', 'dungLuongIds'));
-    }    
+        return view('clients.trangsanpham', compact('listSanPham', 'listDanhMuc', 'listDungLuong', 'categoryId', 'dungLuongIds', 'priceRange'));
+    } 
 }
