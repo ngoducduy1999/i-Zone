@@ -22,6 +22,7 @@
       <link rel="stylesheet" href="{{ asset('assets/client/css/flaticon_shofy.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
+      @yield('css')
    </head>
    <body>
       <!--[if lte IE 9]>

@@ -34,7 +34,6 @@ class TrangSanPhamController extends Controller
             })
             ->get();
     
-        // Trả về view và truyền dữ liệu
         return view('clients.trangsanpham', compact('listSanPham', 'listDanhMuc', 'listDungLuong', 'categoryId', 'dungLuongIds'));
     }    
 }

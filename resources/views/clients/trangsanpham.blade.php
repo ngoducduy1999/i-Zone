@@ -1,5 +1,42 @@
 @extends('layouts.client')
 
+@section('css')
+    <style>
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .category-item {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .category-item a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .category-item:hover {
+            border-color: #007bff;
+            background-color: #f0f0f0;
+        }
+
+        .category-item.active {
+            border-color: #007bff;
+            background-color: #007bff;
+        }
+
+        .category-item.active a {
+            color: #fff;
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- breadcrumb area start -->
     <section class="breadcrumb__area include-bg pt-100 pb-50">
@@ -43,14 +80,13 @@
                         </div>
                         <!-- status -->
                         <div class="tp-shop-widget mb-50">
-                            <h3 class="tp-shop-widget-title">Lọc sản phẩm</h3>
+                            <h3 class="tp-shop-widget-title">Dung lượng</h3>
                             <div class="category-filter">
                             </div>
                             <div class="tp-shop-widget-content">
                                 <div class="tp-shop-widget-checkbox">
-                                 <form id="filter-form" action="{{ route('san-pham') }}" method="GET">
-                                    <p>Dung lượng:</p>
-                                    <ul class="filter-items filter-checkbox">                                    
+                                    <form id="filter-form" action="{{ route('san-pham') }}" method="GET">
+                                        <ul class="filter-items filter-checkbox">
                                             @foreach ($listDungLuong as $dungLuong)
                                                 <li class="filter-item checkbox">
                                                     <input id="dung_luong_{{ $dungLuong->id }}" name="dung_luong_id[]"
@@ -59,13 +95,35 @@
                                                         onchange="this.form.submit()">
                                                     <label
                                                         for="dung_luong_{{ $dungLuong->id }}">{{ $dungLuong->ten_dung_luong }}</label>
-                                                </li>                                              
-                                            @endforeach                                   
-                                    </ul><!-- .filter-items -->
-                                 </form>
+                                                </li>
+                                            @endforeach
+                                        </ul><!-- .filter-items -->
+                                    </form>
                                 </div>
                             </div>
                         </div>
+                        <!-- category -->
+                        <div class="tp-shop-widget mb-50">
+                            <h3 class="tp-shop-widget-title">Danh mục</h3>
+                            <div class="tp-shop-widget-content">
+                                <div class="tp-shop-widget-checkbox">
+                                    <form id="filter-form" action="{{ route('san-pham') }}" method="GET">
+                                        <div class="category-list">
+                                            @foreach ($listDanhMuc as $danhMuc)
+                                                <div
+                                                    class="category-item {{ request('danh_muc_id') == $danhMuc->id ? 'active' : '' }}">
+                                                    <a
+                                                        href="{{ route('san-pham', ['danh_muc_id' => $danhMuc->id, 'dung_luong_id' => request('dung_luong_id')]) }}">
+                                                        {{ $danhMuc->ten_danh_muc }}
+                                                    </a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!-- color -->
                         <div class="tp-shop-widget mb-50">
@@ -1015,21 +1073,21 @@
 @endsection
 
 @section('js')
-<script>
-   document.getElementById('filter-form').addEventListener('change', function() {
-       const formData = new FormData(this);
+    <script>
+        document.getElementById('filter-form').addEventListener('change', function() {
+            const formData = new FormData(this);
 
-       fetch('{{ route("san-pham") }}?' + new URLSearchParams(formData).toString(), {
-           method: 'GET',
-           headers: {
-               'X-Requested-With': 'XMLHttpRequest',
-           }
-       })
-       .then(response => response.text())
-       .then(data => {
-           document.getElementById('product-list').innerHTML = data; // Cập nhật danh sách sản phẩm
-       })
-       .catch(error => console.error('Error:', error));
-   });
-</script>
+            fetch('{{ route('san-pham') }}?' + new URLSearchParams(formData).toString(), {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('product-list').innerHTML = data; // Cập nhật danh sách sản phẩm
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
 @endsection
