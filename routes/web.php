@@ -181,6 +181,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::put('changepassword',[TaiKhoanController::class,'changePassword'])->name('changePassword');
     Route::get('/{id}/chitietdonhang',[TaiKhoanController::class,'show'])->name('donhang.chitiet');
     Route::post('/{id}/cancel',[TaiKhoanController::class,'cancelOrder'])->name('cancelOrder');
+    Route::post('/{id}/getOrder',[TaiKhoanController::class,'getOrder'])->name('getOrder');
   });
 
 

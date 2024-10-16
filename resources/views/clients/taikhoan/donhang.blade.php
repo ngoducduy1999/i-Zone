@@ -31,6 +31,8 @@
                                     <p><b>Đã giao hàng</b></p>
                                 @elseif($order->trang_thai == 6)
                                     <p><b>Đã hủy đơn hàng</b></p>
+                                @elseif($order->trang_thai == 7)
+                                    <p><b>Đã nhận đơn hàng</b></p>
                                 @endif
 
                             </td>
@@ -45,11 +47,23 @@
                                         <li> <a href="{{ route('customer.donhang.chitiet', $order->id) }}"
                                                 class="dropdown-item">Chi tiết</a></li>
                                         <li>
-                                            <form action="{{route('customer.cancelOrder',$order->id)}}" method="post"
-                                            onsubmit="return confirm('Bạn có chắc muốn hủy không?')">
-                                                @csrf
-                                                <button   class="dropdown-item" type="submit">Hủy đơn hàng</button>
-                                            </form>
+                                            @if ($order->trang_thai != 6 && $order->trang_thai !=7)
+                                                <form action="{{ route('customer.cancelOrder', $order->id) }}"
+                                                    method="post" onsubmit="return confirm('Bạn có chắc muốn hủy không?')">
+                                                    @csrf
+                                                    <button class="dropdown-item" type="submit">Hủy đơn hàng</button>
+                                                </form>
+                                            @endif
+
+                                        </li>
+                                        <li>
+                                            @if ($order->trang_thai != 7 && $order->trang_thai != 6)
+                                                <form action="{{ route('customer.getOrder', $order->id) }}" method="post"
+                                                    onsubmit="return confirm('Bạn chắc chắn đã nhận được hàng?')">
+                                                    @csrf
+                                                    <button class="dropdown-item" type="submit">Đã nhận hàng</button>
+                                                </form>
+                                            @endif
                                         </li>
 
                                     </ul>
