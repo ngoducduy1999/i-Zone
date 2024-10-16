@@ -23,7 +23,9 @@ class HoaDonController extends Controller
 
         $type_huy_don_hang = HoaDon::HUY_DON_HANG;
 
-        return view('admins.hoadons.index', compact('title', 'listHoaDon', 'trangThaiHoaDon', 'type_huy_don_hang'));
+        $type_da_nhan_hang = HoaDon::DA_NHAN_HANG;
+
+        return view('admins.hoadons.index', compact('title', 'listHoaDon', 'trangThaiHoaDon', 'type_huy_don_hang','type_da_nhan_hang'));
     }
 
     /**
@@ -56,7 +58,7 @@ class HoaDonController extends Controller
     $chiTietHoaDons = $hoaDon->chiTietHoaDons()->with(['bienTheSanPham.sanPham'])->get();
 
     // Các thuộc tính khác của hóa đơn
-    $trangThaiHoaDon = HoaDon::TRANG_THAI;       
+    $trangThaiHoaDon = HoaDon::TRANG_THAI;
     $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
 
     return view('admins.hoadons.show', compact('title', 'hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
@@ -80,7 +82,7 @@ class HoaDonController extends Controller
 
         $currentTrangThai = $hoaDon->trang_thai;
 
-        $newTrangThai = $request->input('trang_thai'); 
+        $newTrangThai = $request->input('trang_thai');
 
         $trangThais = array_keys(HoaDon::TRANG_THAI);
 
