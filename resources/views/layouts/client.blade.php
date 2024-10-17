@@ -23,6 +23,13 @@
       <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
       @yield('css')
+
+      <!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
    </head>
    <body>
       <!--[if lte IE 9]>
@@ -568,6 +575,23 @@
          @include('clients.block.footer')
       </footer>
       <!-- footer area end -->
+      <!-- <script>
+         var swiper = new Swiper('.tp-slider-active', {
+            loop: true,
+            autoplay: {
+            delay: 3000,
+         },
+         navigation: {
+            nextEl: '.tp-slider-button-next',
+            prevEl: '.tp-slider-button-prev',
+         },
+         pagination: {
+            el: '.tp-swiper-dot',
+            clickable: true,
+         },
+      });
+
+      </script> -->
 
 
 
