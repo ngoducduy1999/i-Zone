@@ -22,6 +22,7 @@
       <link rel="stylesheet" href="{{ asset('assets/client/css/flaticon_shofy.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
+      @yield('css')
 
       <!-- Swiper CSS -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
@@ -611,6 +612,7 @@
       <script src="{{ asset('assets/client/js/imagesloaded-pkgd.js') }}"></script>
       <script src="{{ asset('assets/client/js/ajax-form.js') }}"></script>
       <script src="{{ asset('assets/client/js/main.js') }}"></script>
+      @yield('js')
    </body>
 
 <!-- Mirrored from template.wphix.com/shofy-prv/shofy/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 29 Sep 2024 13:19:32 GMT -->
