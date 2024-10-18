@@ -84,30 +84,31 @@ class ChiTietSanPhamController extends Controller
         // Chuyển hướng nếu không tìm thấy sản phẩm
         return redirect()->route('clients.chitietsanpham')->with('error', 'Không tìm thấy sản phẩm');
     }
-    public function layGiaBienThe(Request $request)
-{
-    $sanPhamId = $request->input('san_pham_id');
-    $mauSacId = $request->input('mau_sac_id');
-    $dungLuongId = $request->input('dung_luong_id');
-
-    // Lấy biến thể tương ứng với sản phẩm, màu sắc và dung lượng
-    $bienThe = BienTheSanPham::where('san_pham_id', $sanPhamId)
-        ->where('mau_sac_id', $mauSacId)
-        ->where('dung_luong_id', $dungLuongId)
-        ->first();
-
-    if ($bienThe) {
-        return response()->json([
-            'status' => 'success',
-            'gia_moi' => $bienThe->gia_moi,
-        ]);
+    public function layGiaBienThe(Request $request) {
+        $sanPhamId = $request->input('san_pham_id');
+        $mauSacId = $request->input('mau_sac_id');
+        $dungLuongId = $request->input('dung_luong_id');
+    
+        // Lấy thông tin biến thể sản phẩm từ cơ sở dữ liệu
+        $bienThe = BienTheSanPham::where('san_pham_id', $sanPhamId)
+            ->where('mau_sac_id', $mauSacId)
+            ->where('dung_luong_id', $dungLuongId)
+            ->first();
+    
+        if ($bienThe) {
+            return response()->json([
+                'status' => 'success',
+                'gia_moi' => $bienThe->gia_moi,
+                'gia_cu' => $bienThe->gia_cu // Trả về giá cũ
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Không tìm thấy biến thể sản phẩm.'
+            ]);
+        }
     }
-
-    return response()->json([
-        'status' => 'error',
-        'message' => 'Không tìm thấy biến thể.',
-    ]);
-}
+    
 
 
     

@@ -116,204 +116,200 @@
                   </p>
 
                   @php
-                  // Mảng mã màu tương ứng với tên màu
-                  $mauSacMap = [
-                  'Đen' => '#000000',
-                  'Trắng' => '#FFFFFF',
-                  'Đỏ' => '#FF0000',
-                  'Xanh dương' => '#0000FF',
-                  'Xanh lá' => '#00FF00',
-                  'Vàng' => '#FFFF00',
-                  'Cam' => '#FFA500',
-                  'Hồng' => '#FFC0CB',
-                  ];
+    // Lưu trữ màu sắc và dung lượng đã hiển thị
+    $displayedColors = [];
+    $displayedCapacities = [];
+@endphp
 
-                  // Lưu trữ màu sắc và dung lượng đã hiển thị
-                  $displayedColors = [];
-                  $displayedCapacities = [];
-                  @endphp
+<!-- Price -->
+<div class="tp-product-details-price-wrapper mb-20">
+@php
+    // Tìm giá thấp nhất từ danh sách biến thể sản phẩm
+    $giaThapNhat = $bienthesanphams->max('gia_moi'); // 'gia_ban' là trường chứa giá của biến thể sản phẩm
+    $giaGocThapNhat = $bienthesanphams->min('gia_moi'); // Nếu bạn có trường giá gốc (giá trước khi giảm)
+@endphp
 
-                  <!-- Price -->
-                  <div class="tp-product-details-price-wrapper mb-20">
-                     <span class="tp-product-details-price old-price" id="old-price">$320.00</span>
-                     <span class="tp-product-details-price new-price" id="new-price">$236.00</span>
-                  </div>
+<!-- Price -->
+<div class="tp-product-details-price-wrapper mb-20">
+    <span class="tp-product-details-price old-price" id="old-price">${{ number_format($giaGocThapNhat, 2) }}</span>
+    <span class="tp-product-details-price new-price" id="new-price">${{ number_format($giaThapNhat, 2) }}</span>
+</div>
 
-                  <!-- Variations -->
-                  <div class="tp-product-details-variation">
-                     <!-- Color Variation -->
-                     <div class="tp-product-details-variation-item">
-                        <h4 class="tp-product-details-variation-title">Màu sắc :</h4>
-                        <div class="tp-product-details-variation-list">
-                           @foreach ($bienthesanphams as $bienThe)
-                           @if ($bienThe->mauSac)
-                           @php
-                           // Lấy tên màu từ màu sắc
-                           $tenMau = $bienThe->mauSac->ten_mau_sac;
-                           // Lấy mã màu từ mảng
-                           $maMau = isset($mauSacMap[$tenMau]) ? $mauSacMap[$tenMau] : '#FFFFFF'; // Mặc định là trắng nếu không tìm thấy
+<!-- Variations -->
+<div class="tp-product-details-variation">
+    <!-- Color Variation -->
+    <div class="tp-product-details-variation-item">
+        <h4 class="tp-product-details-variation-title">Màu sắc :</h4>
+        <div class="tp-product-details-variation-list">
+            @foreach ($bienthesanphams as $bienThe)
+                @if ($bienThe->mauSac)
+                    @php
+                        // Lấy tên và mã màu từ đối tượng mauSac
+                        $tenMau = $bienThe->mauSac->ten_mau_sac;
+                        $maMau = $bienThe->mauSac->ma_mau; // Lấy mã màu từ cơ sở dữ liệu
 
-                           // Kiểm tra xem màu đã được hiển thị chưa
-                           if (!in_array($tenMau, $displayedColors)) {
-                           $displayedColors[] = $tenMau; // Thêm vào mảng màu đã hiển thị
-                           @endphp
-                           <button type="button" class="color tp-color-variation-btn disabled" data-mau-sac-id="{{ $bienThe->mau_sac_id }}">
-                              <span data-bg-color="{{ $maMau }}" style="background-color: {{ $maMau }}; border: 2px solid #000000; display: inline-block; width: 20px; height: 20px;"></span>
-                              <span class="tp-color-variation-tootltip">{{$tenMau}}</span>
-                           </button>
+                        // Kiểm tra xem màu đã được hiển thị chưa
+                        if (!in_array($tenMau, $displayedColors)) {
+                            $displayedColors[] = $tenMau; // Thêm vào mảng màu đã hiển thị
+                    @endphp
+                    <button type="button" class="color tp-color-variation-btn disabled" data-mau-sac-id="{{ $bienThe->mau_sac_id }}">
+                        <span data-bg-color="{{ $maMau }}" style="background-color: {{ $maMau }}; border: 2px solid #000000; display: inline-block; width: 20px; height: 20px;"></span>
+                        <span class="tp-color-variation-tootltip">{{ $tenMau }}</span>
+                    </button>
+
+                    @php
+                        } // Đóng điều kiện if kiểm tra màu đã được hiển thị
+                    @endphp
+                @endif
+            @endforeach
+        </div>
+    </div>
+
+    <!-- Dung Lượng Variation -->
+    <div class="tp-product-details-variation-item">
+        <h4 class="tp-product-details-variation-title" id="capacity-title">Dung lượng: ??</h4>
+        <div class="tp-product-details-variation-list">
+            @foreach ($bienthesanphams as $bienthesanpham)
+                @if ($bienthesanpham->dungLuong)
+                    @php
+                        // Lấy tên dung lượng
+                        $tenDungLuong = $bienthesanpham->dungLuong->ten_dung_luong;
+
+                        // Kiểm tra xem dung lượng đã được hiển thị chưa
+                        if (!in_array($tenDungLuong, $displayedCapacities)) {
+                            $displayedCapacities[] = $tenDungLuong; // Thêm vào mảng dung lượng đã hiển thị
+                    @endphp
+                    <button type="button" class="tp-size-variation-btn" data-dung-luong-id="{{ $bienthesanpham->dung_luong_id }}">
+                        <span>{{ $tenDungLuong }}</span>
+                    </button>
+                    @php
+                        } // Đóng điều kiện if kiểm tra dung lượng đã được hiển thị
+                    @endphp
+                @endif
+            @endforeach
+        </div>
+    </div>
+</div>
+
+<style>
+    .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        /* Prevents click events */
+    }
+</style>
+
+<!-- JavaScript để gọi AJAX -->
+<script>
+    let sanPhamId = {{ $sanpham->id }};
+    let selectedMauSacId = null;
+    let selectedDungLuongId = null;
+
+    // Khởi tạo: Kiểm tra tất cả các nút dung lượng và màu sắc
+    document.addEventListener('DOMContentLoaded', function() {
+        checkCapacityButtons(); // Kiểm tra các nút dung lượng lúc đầu
+        checkColorButtons(); // Kiểm tra các nút màu sắc lúc đầu
+    });
+
+    document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            selectedMauSacId = this.getAttribute('data-mau-sac-id');
+            fetchPrice();
+            checkCapacityButtons(); // Kiểm tra các nút dung lượng
+        });
+    });
+
+    document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            selectedDungLuongId = this.getAttribute('data-dung-luong-id');
+            fetchPrice();
+            checkColorButtons(); // Kiểm tra các nút màu sắc
+        });
+    });
+
+    function fetchPrice() {
+    if (selectedMauSacId && selectedDungLuongId) {
+        $.ajax({
+            url: '{{ route("sanpham.lay_gia_bien_the") }}',
+            method: 'GET',
+            data: {
+                san_pham_id: sanPhamId,
+                mau_sac_id: selectedMauSacId,
+                dung_luong_id: selectedDungLuongId
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Cập nhật giá mới và giá cũ với ký hiệu $
+                    document.getElementById('new-price').innerText = '$' + response.gia_moi.toFixed(2);
+                    document.getElementById('old-price').innerText = '$' + response.gia_cu.toFixed(2); // Cập nhật giá cũ
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function() {
+                alert('Đã xảy ra lỗi khi tải giá.');
+            }
+        });
+    }
+}
 
 
-                           @php
-                           } // Đóng điều kiện if kiểm tra màu đã được hiển thị
-                           @endphp
-                           @endif
-                           @endforeach
-                        </div>
-                     </div>
+    // Kiểm tra các nút dung lượng dựa trên màu sắc đã chọn
+    function checkCapacityButtons() {
+        document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
+            const dungLuongId = button.getAttribute('data-dung-luong-id');
+            // Nếu không chọn màu thì cho phép chọn tất cả dung lượng
+            if (!selectedMauSacId) {
+                button.classList.remove('disabled');
+                return;
+            }
+            $.ajax({
+                url: '{{ route("sanpham.lay_gia_bien_the") }}',
+                method: 'GET',
+                data: {
+                    san_pham_id: sanPhamId,
+                    mau_sac_id: selectedMauSacId,
+                    dung_luong_id: dungLuongId
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        button.classList.remove('disabled'); // Bỏ vô hiệu hóa nút nếu có biến thể
+                    } else {
+                        button.classList.add('disabled'); // Vô hiệu hóa nút nếu không có biến thể
+                    }
+                }
+            });
+        });
+    }
 
-                     <!-- Dung Lượng Variation -->
-                     <div class="tp-product-details-variation-item">
-                        <h4 class="tp-product-details-variation-title" id="capacity-title">Dung lượng: ??</h4>
-                        <div class="tp-product-details-variation-list">
-                           @foreach ($bienthesanphams as $bienthesanpham)
-                           @if ($bienthesanpham->dungLuong)
-                           @php
-                           // Lấy tên dung lượng
-                           $tenDungLuong = $bienthesanpham->dungLuong->ten_dung_luong;
-
-                           // Kiểm tra xem dung lượng đã được hiển thị chưa
-                           if (!in_array($tenDungLuong, $displayedCapacities)) {
-                           $displayedCapacities[] = $tenDungLuong; // Thêm vào mảng dung lượng đã hiển thị
-                           @endphp
-                           <button type="button" class="tp-size-variation-btn" data-dung-luong-id="{{ $bienthesanpham->dung_luong_id }}">
-                              <span>{{ $tenDungLuong }}</span>
-                           </button>
-                           @php
-                           } // Đóng điều kiện if kiểm tra dung lượng đã được hiển thị
-                           @endphp
-                           @endif
-                           @endforeach
-                        </div>
-                     </div>
-                  </div>
-
-                  <style>
-                     .disabled {
-                        opacity: 0.5;
-                        pointer-events: none;
-                        /* Prevents click events */
-                     }
-                  </style>
-
-
-                  <!-- JavaScript để gọi AJAX -->
-                  <script>
-                     let sanPhamId = {{ $sanpham->id }};
-                     let selectedMauSacId = null;
-                     let selectedDungLuongId = null;
-
-                     // Khởi tạo: Kiểm tra tất cả các nút dung lượng và màu sắc
-                     document.addEventListener('DOMContentLoaded', function() {
-                        checkCapacityButtons(); // Kiểm tra các nút dung lượng lúc đầu
-                        checkColorButtons(); // Kiểm tra các nút màu sắc lúc đầu
-                     });
-
-                     document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
-                        button.addEventListener('click', function() {
-                           selectedMauSacId = this.getAttribute('data-mau-sac-id');
-                           fetchPrice();
-                           checkCapacityButtons(); // Kiểm tra các nút dung lượng
-                        });
-                     });
-
-                     document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
-                        button.addEventListener('click', function() {
-                           selectedDungLuongId = this.getAttribute('data-dung-luong-id');
-                           fetchPrice();
-                           checkColorButtons(); // Kiểm tra các nút màu sắc
-                        });
-                     });
-
-                     function fetchPrice() {
-                        if (selectedMauSacId && selectedDungLuongId) {
-                           $.ajax({
-                              url: '{{ route("sanpham.lay_gia_bien_the") }}',
-                              method: 'GET',
-                              data: {
-                                 san_pham_id: sanPhamId,
-                                 mau_sac_id: selectedMauSacId,
-                                 dung_luong_id: selectedDungLuongId
-                              },
-                              success: function(response) {
-                                 if (response.status === 'success') {
-                                    document.getElementById('new-price').innerText = response.gia_moi;
-                                 } else {
-                                    alert(response.message);
-                                 }
-                              },
-                              error: function() {
-                                 alert('Đã xảy ra lỗi khi tải giá.');
-                              }
-                           });
-                        }
-                     }
-
-                     // Kiểm tra các nút dung lượng dựa trên màu sắc đã chọn
-                     function checkCapacityButtons() {
-                        document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
-                           const dungLuongId = button.getAttribute('data-dung-luong-id');
-                           // Nếu không chọn màu thì cho phép chọn tất cả dung lượng
-                           if (!selectedMauSacId) {
-                              button.classList.remove('disabled');
-                              return;
-                           }
-                           $.ajax({
-                              url: '{{ route("sanpham.lay_gia_bien_the") }}',
-                              method: 'GET',
-                              data: {
-                                 san_pham_id: sanPhamId,
-                                 mau_sac_id: selectedMauSacId,
-                                 dung_luong_id: dungLuongId
-                              },
-                              success: function(response) {
-                                 if (response.status === 'success') {
-                                    button.classList.remove('disabled'); // Bỏ vô hiệu hóa nút nếu có biến thể
-                                 } else {
-                                    button.classList.add('disabled'); // Vô hiệu hóa nút nếu không có biến thể
-                                 }
-                              }
-                           });
-                        });
-                     }
-
-                     // Kiểm tra các nút màu sắc dựa trên dung lượng đã chọn
-                     function checkColorButtons() {
-                        document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
-                           const mauSacId = button.getAttribute('data-mau-sac-id');
-                           // Nếu không chọn dung lượng thì cho phép chọn tất cả màu
-                           if (!selectedDungLuongId) {
-                              button.classList.remove('disabled');
-                              return;
-                           }
-                           $.ajax({
-                              url: '{{ route("sanpham.lay_gia_bien_the") }}',
-                              method: 'GET',
-                              data: {
-                                 san_pham_id: sanPhamId,
-                                 mau_sac_id: mauSacId,
-                                 dung_luong_id: selectedDungLuongId
-                              },
-                              success: function(response) {
-                                 if (response.status === 'success') {
-                                    button.classList.remove('disabled'); // Bỏ vô hiệu hóa nút nếu có biến thể
-                                 } else {
-                                    button.classList.add('disabled'); // Vô hiệu hóa nút nếu không có biến thể
-                                 }
-                              }
-                           });
-                        });
-                     }
-                  </script>
+    // Kiểm tra các nút màu sắc dựa trên dung lượng đã chọn
+    function checkColorButtons() {
+        document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
+            const mauSacId = button.getAttribute('data-mau-sac-id');
+            // Nếu không chọn dung lượng thì cho phép chọn tất cả màu
+            if (!selectedDungLuongId) {
+                button.classList.remove('disabled');
+                return;
+            }
+            $.ajax({
+                url: '{{ route("sanpham.lay_gia_bien_the") }}',
+                method: 'GET',
+                data: {
+                    san_pham_id: sanPhamId,
+                    mau_sac_id: mauSacId,
+                    dung_luong_id: selectedDungLuongId
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        button.classList.remove('disabled'); // Bỏ vô hiệu hóa nút nếu có biến thể
+                    } else {
+                        button.classList.add('disabled'); // Vô hiệu hóa nút nếu không có biến thể
+                    }
+                }
+            });
+        });
+    }
+</script>
 
 
 
