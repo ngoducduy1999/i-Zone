@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
+Danh sách màu sắc
 @endsection
 
 @section('css')
@@ -8,7 +9,6 @@
 
 @section('content')
     <div class="container">
-
 
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
@@ -34,7 +34,7 @@
                         <div class="alert alert-success" role="alert">{{ session('success') }}</div>
                     @endif
                     @if (session('error'))
-                        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+                        <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
                     @endif
 
                     <div class="card-body">
@@ -43,6 +43,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên màu</th>
+                                    <th>Mã màu</th>
+                                    <th>Màu hiển thị</th>
+                                    <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -51,46 +54,45 @@
                                     <tr>
                                         <td>{{ $mau->id }}</td>
                                         <td>{{ $mau->ten_mau_sac }}</td>
+                                        <td>{{ $mau->ma_mau }}</td>
                                         <td>
-                                            <div class="">
-                                                <div class="btn-group">
-                                                    <button class="btn btn-primary dropdown-toggle" type="button"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">Thao tác<i
-                                                            class="mdi mdi-chevron-down"></i></button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin.mausacs.edit', $mau->id) }}">Sửa</a>
-                                                        @if ($mau->trang_thai == 1)
-                                                            <form
-                                                                action="{{ route('admin.mausacs.onOffMauSac', $mau->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('post')
-                                                                <button class="dropdown-item" href="#">Ngừng hoạt
-                                                                    động</button>
-                                                            </form>
-                                                        @else
-                                                            <form
-                                                                action="{{ route('admin.mausacs.onOffMauSac', $mau->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('post')
-                                                                <button class="dropdown-item" href="#">Hoạt
-                                                                    động</button>
-                                                            </form>
-                                                        @endif
-                                                        <form action="{{ route('admin.mausacs.destroy', $mau->id) }}"
-                                                            method="POST"
-                                                            onsubmit="return confirm('bạn co chắc xóa màu sắc này không?')">
-
+                                            <div style="width: 15px; height: 15px; background-color: {{ $mau->ma_mau }};"></div>
+                                        </td>
+                                        <td>
+                                            @if($mau->trang_thai)
+                                                <span class="badge bg-success">Đang hoạt động</span>
+                                            @else
+                                                <span class="badge bg-danger">Không hoạt động</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">Thao tác<i
+                                                        class="mdi mdi-chevron-down"></i></button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('admin.mausacs.edit', $mau->id) }}">Sửa</a>
+                                                    @if ($mau->trang_thai == 1)
+                                                        <form action="{{ route('admin.mausacs.onOffMauSac', $mau->id) }}"
+                                                            method="post">
                                                             @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-outline-danger">xóa</button>
+                                                            <button class="dropdown-item">Ngừng hoạt động</button>
                                                         </form>
-
-                                                    </div>
+                                                    @else
+                                                        <form action="{{ route('admin.mausacs.onOffMauSac', $mau->id) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            <button class="dropdown-item">Hoạt động</button>
+                                                        </form>
+                                                    @endif
+                                                    <form action="{{ route('admin.mausacs.destroy', $mau->id) }}"
+                                                        method="POST" onsubmit="return confirm('Bạn có chắc xóa màu sắc này không?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item">Xóa</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>

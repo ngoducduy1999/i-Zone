@@ -11,6 +11,7 @@ class MauSac extends Model
     use HasFactory;
     protected $fillable = [
         'ten_mau_sac',
+        'ma_mau',
         'trang_thai',
 
     ];

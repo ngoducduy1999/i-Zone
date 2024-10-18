@@ -28,8 +28,9 @@ class ChiTietSanPhamController extends Controller
     {
         // Tìm sản phẩm mà không bao gồm các sản phẩm đã xóa mềm
         $sanpham = SanPham::withTrashed()->find($id);
-        
         if ($sanpham) {
+            $sanpham->increment('luot_xem');
+
             // Lấy các biến thể của sản phẩm, bao gồm cả những biến thể đã xóa mềm
             $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
             
