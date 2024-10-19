@@ -30,6 +30,9 @@
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
+      <!-- chuyen json len dau -->
+      <script src="{{ asset('assets/client/js/vendor/jquery.js') }}"></script>
+      
    </head>
    <body>
       <!--[if lte IE 9]>
@@ -596,7 +599,7 @@
 
 
       <!-- JS here -->
-      <script data-cfasync="false" src="{{ asset('assets/client/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script><script src="{{ asset('assets/client/js/vendor/jquery.js') }}"></script>
+      <script data-cfasync="false" src="{{ asset('assets/client/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
       <script src="{{ asset('assets/client/js/vendor/waypoints.js') }}"></script>
       <script src="{{ asset('assets/client/js/bootstrap-bundle.js') }}"></script>
       <script src="{{ asset('assets/client/js/meanmenu.js') }}"></script>
@@ -613,6 +616,79 @@
       <script src="{{ asset('assets/client/js/ajax-form.js') }}"></script>
       <script src="{{ asset('assets/client/js/main.js') }}"></script>
       @yield('js')
+
+      {{-- thêm link thông báo ở cuối --}}
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
+
+
+    <script>
+        var dungLuongId;
+        var mauSacId;
+        // lấy màu sắc, dung lượng
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.tp-size-variation-btn');
+            const colorButtons = document.querySelectorAll('.tp-color-variation-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    dungLuongId = parseInt(button.getAttribute('data-dung-luong-id'));
+                    console.log(dungLuongId);
+                });
+            });
+            colorButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    colorButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    mauSacId = parseInt(button.getAttribute('data-mau-sac-id'));
+                    console.log(mauSacId);
+                });
+            });
+        });
+        // thêm sản phẩm vào giỏ hàng
+        function addToCart(id) {
+            var quantityInput = document.querySelector('.tp-cart-input');
+            var quantity = parseInt(quantityInput.value);
+            if (quantity < 1) {
+                alert("Số lượng sản phẩm không được nhỏ hơn 1");
+                return;
+            }
+            if (mauSacId === undefined) {
+                alert("Vui lòng chọn màu sắc sản phẩm!");
+                return;
+            }
+            if (dungLuongId === undefined) {
+                alert("Vui lòng chọn dung lượng sản phẩm!");
+                return;
+            }
+            $.ajax({
+                    url: "/Add-Cart/" + id,
+                    type: "GET",
+                    data: {
+                        quantity: quantity,
+                        mauSacId: mauSacId,
+                        dungLuongId: dungLuongId,
+                    }
+                })
+                .done((response) => {
+                    alertify.success('Đã thêm vào giỏ hàng!');
+                })
+                .fail((jqXHR, textStatus, errorThrown) => {
+                    alertify.error('Thêm vào giỏ hàng thất bại!');
+                    console.error("Error adding to cart:", textStatus, errorThrown);
+                });
+        }
+        
+    </script>
    </body>
 
 <!-- Mirrored from template.wphix.com/shofy-prv/shofy/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 29 Sep 2024 13:19:32 GMT -->
