@@ -159,7 +159,21 @@
                                <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>    
-                            <span class="tp-header-action-badge">13</span>                                                                          
+                           <span class="tp-header-action-badge">
+                              @if (Session::has('cart'))
+                                 <span id="total-quantity-show">
+                                    <span>
+                                       {{ Session::has('cart') ? Session::get('cart')->totalProduct : 0 }}
+                                    </span>
+                                 </span>
+                              @else
+                                 <span id="total-quantity-show">
+                                    <span>
+                                       0
+                                    </span>
+                                 </span>
+                              @endif 
+                           </span>                                                                          
                          </button>
                       </div>
                       <div class="tp-header-action-item d-lg-none">
