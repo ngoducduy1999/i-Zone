@@ -191,5 +191,7 @@ Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
 
 
+
+Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');
 Route::get('/Add-Cart/{id}', [CartController::class, 'AddCart'])->name('cart.add');
 Route::get('/Delete-Item-Cart/{id}', [CartController::class, 'DeleteItemCart'])->name('cart.delete.item');
