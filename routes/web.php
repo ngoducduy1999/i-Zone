@@ -192,3 +192,4 @@ Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
 
 
 Route::get('/Add-Cart/{id}', [CartController::class, 'AddCart'])->name('cart.add');
+Route::get('/Delete-Item-Cart/{id}', [CartController::class, 'DeleteItemCart'])->name('cart.delete.item');

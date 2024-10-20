@@ -36,4 +36,17 @@ class CartController extends Controller
         $request->session()->put('cart', $newCart);
         return view('clients.cart.cart-drop');
     }
+
+    public function DeleteItemCart(Request $request, $idbt)
+    {
+        $oldCart = Session('cart') ? Session('cart') : [];
+        $newCart = new Cart($oldCart);
+        $newCart->DeleteItemCart($idbt);
+        if (count($newCart->products) > 0) {
+            $request->session()->put('cart', $newCart);
+        } else {
+            $request->session()->forget('cart');
+        }
+        return view('clients.cart.cart-drop');
+    }
 }
