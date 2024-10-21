@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\TrangSanPhamController;
 use App\Http\Controllers\Client\YeuThichController;
 
@@ -181,7 +182,6 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
-Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
 Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');
@@ -189,3 +189,12 @@ Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGi
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
+
+
+
+Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');
+Route::get('/Cart-List-Drop', [CartController::class, 'CartListDrop'])->name('cart.list.drop');
+Route::get('/Cart-List', [CartController::class, 'CartList'])->name('cart.list');
+Route::get('/Add-Cart/{id}', [CartController::class, 'AddCart'])->name('cart.add');
+Route::get('/Delete-Item-Cart/{id}', [CartController::class, 'DeleteItemCart'])->name('cart.delete.item');
+Route::get('/Delete-Item-List-Cart/{id}', [CartController::class, 'DeleteItemListCart'])->name('cart.delete.item.list');
