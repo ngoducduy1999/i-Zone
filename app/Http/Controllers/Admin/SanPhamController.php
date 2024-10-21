@@ -24,11 +24,8 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        $sanphams = SanPham::withTrashed()->latest('id')->paginate(5);
-        $tagsanphams = TagSanPham::get();
-        $bienthesanphams = BienTheSanPham::withTrashed()->latest('id')->get();
-        $anhsanphams = HinhAnhSanPham::get();
-        return view('admins.sanphams.index', compact('sanphams', 'bienthesanphams', 'tagsanphams', 'anhsanphams'));
+        $sanphams = SanPham::withTrashed()->latest('id')->with('bienTheSanPhams', 'hinhAnhSanPhams', 'tagSanPhams')->get(); 
+        return view('admins.sanphams.index', compact('sanphams'));
     }
 
     /**
