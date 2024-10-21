@@ -95,7 +95,7 @@ class ChiTietSanPhamController extends Controller
             ->where('dung_luong_id', $dungLuongId)
             ->first();
     
-        if ($bienThe) {
+        if ($bienThe && $bienThe->so_luong > 0) {  // Kiểm tra nếu có tồn kho
             return response()->json([
                 'status' => 'success',
                 'gia_moi' => $bienThe->gia_moi,
@@ -104,12 +104,8 @@ class ChiTietSanPhamController extends Controller
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Không tìm thấy biến thể sản phẩm.'
+                'message' => 'Không tìm thấy biến thể sản phẩm hoặc hết hàng.'
             ]);
         }
     }
-    
-
-
-    
 }

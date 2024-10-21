@@ -458,7 +458,6 @@
                                     data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review"
                                     aria-selected="false">Reviews
                                     (2)</button>
-
                                 <span id="productTabMarker" class="tp-product-details-tab-line"></span>
                             </div>
                         </nav>
@@ -507,7 +506,6 @@
                                             </div>
                                             <div class="tp-product-details-desc-item  pb-75">
                                                 <div class="row">
-
                                                     <div class="col-lg-7">
                                                         <div class="tp-product-details-desc-thumb">
                                                             <img src="{{ asset('assets/client/img/product/details/desc/product-details-desc-2.jpg') }}"
