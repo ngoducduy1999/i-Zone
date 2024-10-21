@@ -190,7 +190,7 @@
 
                 <li>
                     <a class='text-light' href="#promotionSection" data-bs-toggle="collapse">
-                        <i class="text-white" data-feather="archive"></i>
+                        <i class="fas fa-tag"></i>
                         <span> Khuyến mãi </span>
                         <span class="menu-arrow text-white"></span>
                     </a>
@@ -219,6 +219,24 @@
                             </li>
                             <li>
                                 <a class='text-white' href="{{ route('admin.tag.create') }}">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a class='text-light' href="#baiviets" data-bs-toggle="collapse">
+                        <i class="fas fa-newspaper"></i>
+                        <span class="text-white"> Bài viết </span>
+                        <span class="menu-arrow text-white"></span>
+                    </a>
+                    <div class="collapse" id="baiviets">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='text-white' href="{{ route('admin.baiviets.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a class='text-white' href="{{ route('admin.baiviets.create') }}">Thêm mới</a>
                             </li>
                         </ul>
                     </div>
