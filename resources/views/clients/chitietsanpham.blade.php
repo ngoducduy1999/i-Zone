@@ -124,16 +124,16 @@
 <!-- Price -->
 <div class="tp-product-details-price-wrapper mb-20">
 @php
-    // Tìm giá thấp nhất từ danh sách biến thể sản phẩm
-    $giaThapNhat = $bienthesanphams->max('gia_moi'); // 'gia_ban' là trường chứa giá của biến thể sản phẩm
-    $giaGocThapNhat = $bienthesanphams->min('gia_moi'); // Nếu bạn có trường giá gốc (giá trước khi giảm)
+    // Tìm giá thấp nhất và cao nhất từ danh sách biến thể sản phẩm
+    $giaThapNhat = $bienthesanphams->min('gia_moi'); // Giá thấp nhất
+    $giaCaoNhat = $bienthesanphams->max('gia_moi'); // Giá cao nhất
 @endphp
 
-<!-- Price -->
 <div class="tp-product-details-price-wrapper mb-20">
-    <span class="tp-product-details-price old-price" id="old-price">${{ number_format($giaGocThapNhat, 2) }}</span>
+    <span class="tp-product-details-price old-price" id="old-price">${{ number_format($giaCaoNhat, 2) }}</span>
     <span class="tp-product-details-price new-price" id="new-price">${{ number_format($giaThapNhat, 2) }}</span>
 </div>
+
 
 <!-- Variations -->
 <div class="tp-product-details-variation">
@@ -167,7 +167,7 @@
 
     <!-- Dung Lượng Variation -->
     <div class="tp-product-details-variation-item">
-        <h4 class="tp-product-details-variation-title" id="capacity-title">Dung lượng: ??</h4>
+        <h4 class="tp-product-details-variation-title" id="capacity-title">Dung lượng: </h4>
         <div class="tp-product-details-variation-list">
             @foreach ($bienthesanphams as $bienthesanpham)
                 @if ($bienthesanpham->dungLuong)
@@ -239,9 +239,9 @@
             },
             success: function(response) {
                 if (response.status === 'success') {
-                    // Cập nhật giá mới và giá cũ với ký hiệu $
-                    document.getElementById('new-price').innerText = '$' + response.gia_moi.toFixed(2);
-                    document.getElementById('old-price').innerText = '$' + response.gia_cu.toFixed(2); // Cập nhật giá cũ
+                    // Cập nhật giá mới và giá cũ
+                    document.getElementById('new-price').innerText = response.gia_moi;
+                    document.getElementById('old-price').innerText = response.gia_cu; // Cập nhật giá cũ
                 } else {
                     alert(response.message);
                 }
@@ -253,62 +253,67 @@
     }
 }
 
-
     // Kiểm tra các nút dung lượng dựa trên màu sắc đã chọn
-    function checkCapacityButtons() {
-        document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
-            const dungLuongId = button.getAttribute('data-dung-luong-id');
-            // Nếu không chọn màu thì cho phép chọn tất cả dung lượng
-            if (!selectedMauSacId) {
-                button.classList.remove('disabled');
-                return;
-            }
-            $.ajax({
-                url: '{{ route("sanpham.lay_gia_bien_the") }}',
-                method: 'GET',
-                data: {
-                    san_pham_id: sanPhamId,
-                    mau_sac_id: selectedMauSacId,
-                    dung_luong_id: dungLuongId
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        button.classList.remove('disabled'); // Bỏ vô hiệu hóa nút nếu có biến thể
-                    } else {
-                        button.classList.add('disabled'); // Vô hiệu hóa nút nếu không có biến thể
-                    }
+function checkCapacityButtons() {
+    document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
+        const dungLuongId = button.getAttribute('data-dung-luong-id');
+        // Nếu không chọn màu thì cho phép chọn tất cả dung lượng
+        if (!selectedMauSacId) {
+            button.classList.remove('disabled');
+            return;
+        }
+        $.ajax({
+            url: '{{ route("sanpham.lay_gia_bien_the") }}',
+            method: 'GET',
+            data: {
+                san_pham_id: sanPhamId,
+                mau_sac_id: selectedMauSacId,
+                dung_luong_id: dungLuongId
+            },
+            success: function(response) {
+                if (response.status === 'success' && response.gia_moi) {
+                    button.classList.remove('disabled'); // Bỏ vô hiệu hóa nút nếu có biến thể hợp lệ
+                } else {
+                    button.classList.add('disabled'); // Vô hiệu hóa nếu không có biến thể hợp lệ
                 }
-            });
+            },
+            error: function() {
+                button.classList.add('disabled'); // Vô hiệu hóa nếu có lỗi
+            }
         });
-    }
+    });
+}
 
-    // Kiểm tra các nút màu sắc dựa trên dung lượng đã chọn
-    function checkColorButtons() {
-        document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
-            const mauSacId = button.getAttribute('data-mau-sac-id');
-            // Nếu không chọn dung lượng thì cho phép chọn tất cả màu
-            if (!selectedDungLuongId) {
-                button.classList.remove('disabled');
-                return;
-            }
-            $.ajax({
-                url: '{{ route("sanpham.lay_gia_bien_the") }}',
-                method: 'GET',
-                data: {
-                    san_pham_id: sanPhamId,
-                    mau_sac_id: mauSacId,
-                    dung_luong_id: selectedDungLuongId
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        button.classList.remove('disabled'); // Bỏ vô hiệu hóa nút nếu có biến thể
-                    } else {
-                        button.classList.add('disabled'); // Vô hiệu hóa nút nếu không có biến thể
-                    }
+// Kiểm tra các nút màu sắc dựa trên dung lượng đã chọn
+function checkColorButtons() {
+    document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
+        const mauSacId = button.getAttribute('data-mau-sac-id');
+        // Nếu không chọn dung lượng thì cho phép chọn tất cả màu
+        if (!selectedDungLuongId) {
+            button.classList.remove('disabled');
+            return;
+        }
+        $.ajax({
+            url: '{{ route("sanpham.lay_gia_bien_the") }}',
+            method: 'GET',
+            data: {
+                san_pham_id: sanPhamId,
+                mau_sac_id: mauSacId,
+                dung_luong_id: selectedDungLuongId
+            },
+            success: function(response) {
+                if (response.status === 'success' && response.gia_moi) {
+                    button.classList.remove('disabled'); // Bỏ vô hiệu hóa nút nếu có biến thể hợp lệ
+                } else {
+                    button.classList.add('disabled'); // Vô hiệu hóa nếu không có biến thể hợp lệ
                 }
-            });
+            },
+            error: function() {
+                button.classList.add('disabled'); // Vô hiệu hóa nếu có lỗi
+            }
         });
-    }
+    });
+}
 </script>
 
 
@@ -375,7 +380,7 @@
                   </div>
                   <div class="tp-product-details-query-item d-flex align-items-center">
                      <span>Danh mục: </span>
-                     <p>Computers & Tablets</p>
+                     <p>{{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</p>
                   </div>
                   <div class="tp-product-details-query-item d-flex align-items-center">
                      <span>Tag: </span>
@@ -481,25 +486,41 @@
                               <div class="col-xl-10">
                                  <table>
                                     <tbody>
-                                       <tr>
-                                          <td>Standing screen display size</td>
-                                          <td>Screen display Size 10.4</td>
-                                       </tr>
-                                       <tr>
                                           <td>Color</td>
-                                          <td>Gray, Dark gray, Mystic black</td>
+                                          <td>
+                                          @php
+    $displayedColors = [];
+@endphp
+
+@foreach ($bienthesanphams as $bienThe)
+    @if ($bienThe->mauSac && !in_array($bienThe->mauSac->ten_mau_sac, $displayedColors))
+        @php
+            $displayedColors[] = $bienThe->mauSac->ten_mau_sac;
+        @endphp
+    @endif
+@endforeach
+
+{{ implode(', ', $displayedColors) }}
+
+                                          </td>
                                        </tr>
                                        <tr>
-                                          <td>Screen Resolution</td>
-                                          <td>1920 x 1200 Pixels</td>
-                                       </tr>
-                                       <tr>
-                                          <td>Max Screen Resolution</td>
-                                          <td>2000 x 1200</td>
-                                       </tr>
-                                       <tr>
-                                          <td>Processor</td>
-                                          <td>2.3 GHz (128 GB)</td>
+                                          <td>Dung lượng</td>
+                                          <td>@php
+    $displayedCapacities = []; // Mảng để theo dõi các dung lượng đã hiển thị
+@endphp
+
+@foreach ($bienthesanphams as $bienThe)
+    @if ($bienThe->dungLuong && !in_array($bienThe->dungLuong->ten_dung_luong, $displayedCapacities))
+        @php
+            $displayedCapacities[] = $bienThe->dungLuong->ten_dung_luong; // Thêm dung lượng vào mảng đã hiển thị
+        @endphp
+    @endif
+@endforeach
+
+<!-- Hiển thị các dung lượng đã thu thập và nối bằng dấu phẩy -->
+{{ implode(', ', $displayedCapacities) }}
+</td>
                                        </tr>
                                        <tr>
                                           <td>Graphics Coprocessor</td>
@@ -532,10 +553,6 @@
                                        <tr>
                                           <td>Batteries</td>
                                           <td>1 Lithium Polymer batteries required. (included)</td>
-                                       </tr>
-                                       <tr>
-                                          <td>Product Dimensions</td>
-                                          <td>0.28 x 6.07 x 9.63 inches</td>
                                        </tr>
                                     </tbody>
                                  </table>
