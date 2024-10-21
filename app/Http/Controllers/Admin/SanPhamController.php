@@ -177,7 +177,7 @@ class SanPhamController extends Controller
             }
         }
         if (!$flag) {
-            return redirect()->route('admin.sanphams.index')->with('success', 'Thêm thành công sản phẩm. Biến thể trùng sẽ không được thêm!');
+            return redirect()->route('admin.sanphams.edit', ['id' => $sanpham['id']])->with('error', 'Không thể thêm biến thể trùng!');
         }
         return redirect()->route('admin.sanphams.index')->with('success', 'Thêm thành công sản phẩm!');
     }
