@@ -9,7 +9,8 @@
                     <tr>
                         <th scope="col">Mã đơn</th>
                         <th scope="col">Tổng tiền</th>
-                        <th scope="col">Trang thai</th>
+                        <th scope="col">Ngày đặt hàng</th>
+                        <th scope="col">Trạng thái</th>
                         <th scope="col">View</th>
                     </tr>
                 </thead>
@@ -18,6 +19,7 @@
                         <tr>
                             <th scope="row"> #IZD{{ $order->id }}</th>
                             <td data-info="title">{{ $order->tong_tien }}</td>
+                            <td>{{$order->ngay_dat_hang}}</td>
                             <td data-info="status pending">
                                 @if ($order->trang_thai == 1)
                                     <p class=""><b>Chờ xác nhận</b></p>
