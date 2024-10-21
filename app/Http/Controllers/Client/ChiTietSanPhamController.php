@@ -82,7 +82,7 @@ class ChiTietSanPhamController extends Controller
         }
     
         // Chuyển hướng nếu không tìm thấy sản phẩm
-        return redirect()->route('clients.chitietsanpham')->with('error', 'Không tìm thấy sản phẩm');
+        return redirect()->route('trangchu')->with('error', 'Không tìm thấy sản phẩm');
     }
     public function layGiaBienThe(Request $request) {
         $sanPhamId = $request->input('san_pham_id');

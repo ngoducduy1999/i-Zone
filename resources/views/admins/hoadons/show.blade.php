@@ -144,7 +144,7 @@
                                     <div class="d-print-none">
                                         <div class="float-end">
                                             <a href="{{ route('admin.hoadons.index') }}" class="btn btn-dark">Quay lại</a>
-                                            <a href="javascript:window.print()" class="btn btn-primary border-0"><i class="mdi mdi-printer me-1"></i>Print</a>                   
+                                            <a href="javascript:window.print()" class="btn btn-primary border-0"><i class="mdi mdi-printer me-1"></i>In</a>                   
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
