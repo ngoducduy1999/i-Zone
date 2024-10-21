@@ -84,7 +84,7 @@
                     <div class="tp-shop-sidebar mr-10">
                         <!-- Lọc theo giá -->
                         <div class="tp-shop-widget mb-50">
-                            <h3 class="tp-shop-widget-title">Lọc theo giá</h3>
+                            <h3 class="tp-shop-widget-title">Gía sản phẩm</h3>
                             <div class="category-filter"></div>
                             <div class="tp-shop-widget-content">
                                 <div class="tp-shop-widget-checkbox">
@@ -151,73 +151,31 @@
                             </div>
                         </div>
 
-
                         <!-- color -->
-                        <div class="tp-shop-widget mb-50">
-                            <h3 class="tp-shop-widget-title">Filter by Color</h3>
-
-                            <div class="tp-shop-widget-content">
-                                <div class="tp-shop-widget-checkbox-circle-list">
-                                    <ul>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="red">
-                                                <label for="red">Red</label>
-                                                <span data-bg-color="#FF401F"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">8</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="dark_blue">
-                                                <label for="dark_blue">Dark Blue</label>
-                                                <span data-bg-color="#4666FF"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">14</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="oragnge">
-                                                <label for="oragnge">Orange</label>
-                                                <span data-bg-color="#FF9E2C"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">18</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="purple">
-                                                <label for="purple">Purple</label>
-                                                <span data-bg-color="#B615FD"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">23</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="yellow">
-                                                <label for="yellow">Yellow</label>
-                                                <span data-bg-color="#FFD747"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">17</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="green">
-                                                <label for="green">Green</label>
-                                                <span data-bg-color="#41CF0F"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">15</span>
-                                        </li>
-                                    </ul>
+                        <form method="GET" action="{{ route('san-pham') }}">
+                            <div class="tp-shop-widget mb-50">
+                                <h3 class="tp-shop-widget-title">Màu Sắc</h3>
+                                <div class="tp-shop-widget-content">
+                                    <div class="tp-shop-widget-checkbox-circle-list">
+                                        <ul>
+                                            @foreach($listMauSac as $mauSac)
+                                            <li>
+                                                <div class="tp-shop-widget-checkbox-circle">
+                                                    <input type="checkbox" name="mau_sac_id[]" id="mau_{{ $mauSac->id }}" value="{{ $mauSac->id }}"
+                                                           {{ in_array($mauSac->id, $mauSacIds) ? 'checked' : '' }} 
+                                                           onclick="this.form.submit()">
+                                                    <label for="mau_{{ $mauSac->id }}">{{ $mauSac->ten_mau_sac }}</label>
+                                                    <span data-bg-color="{{ $mauSac->ma_mau ?? '#ccc' }}" class="tp-shop-widget-checkbox-circle-self" style="background-color: {{ $mauSac->ma_mau ?? '#ccc' }}"></span>
+                                                </div>
+                                                <span class="tp-shop-widget-checkbox-circle-number">{{ $mauSac->products_count }}</span>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
+                        </form>
+                        
                         <!-- Sản phẩm được đánh giá cao -->
                         <div class="tp-shop-widget mb-50">
                             <h3 class="tp-shop-widget-title">Sản phẩm được đánh giá cao</h3>
@@ -906,4 +864,31 @@
             });
         });
     </script>
+        {{-- Màu sắc --}}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        function filterProducts() {
+            // Lấy tất cả các giá trị màu sắc đã chọn
+            let selectedColors = [];
+            $('input[name="mau_sac_id[]"]:checked').each(function() {
+                selectedColors.push($(this).val());
+            });
+        
+            // Gửi yêu cầu AJAX để lọc sản phẩm
+            $.ajax({
+                url: '{{ route("san-pham") }}', // Đường dẫn đến route lọc sản phẩm
+                type: 'GET',
+                data: {
+                    mau_sac_id: selectedColors, // Gửi các id màu sắc đã chọn
+                },
+                success: function(data) {
+                    // Cập nhật nội dung sản phẩm hiển thị
+                    $('#product-list').html(data); // Cập nhật với dữ liệu mới
+                },
+                error: function(xhr) {
+                    console.error('Có lỗi xảy ra:', xhr);
+                }
+            });
+        }
+    </script>      
 @endsection
