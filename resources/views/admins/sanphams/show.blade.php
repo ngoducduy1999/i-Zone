@@ -203,9 +203,11 @@ span {
                                         <td>{{ $bienthesanpham->id }}</td>
                                         <td>{{ $bienthesanpham->dungLuong->ten_dung_luong }}</td>
                                         <td>{{ $bienthesanpham->mauSac->ten_mau_sac }}</td>
-                                        <td>
-                                            <del class="text-danger">{{ number_format($bienthesanpham->gia_cu, 0, ',', '.') }}đ</del>
-                                           - {{ number_format($bienthesanpham->gia_moi, 0, ',', '.') }}đ
+                                        <td class="text-danger">
+                                            <del class="text-black">{{ number_format($bienthesanpham->gia_cu, 0, ',', '.') }}đ</del>
+                                           <span class="fs-5">
+                                            -{{ number_format($bienthesanpham->gia_moi, 0, ',', '.') }}đ
+                                        </span>
                                         </td>
                                         <td>{{ number_format($bienthesanpham->so_luong, 0, ',', '.') }}</td>
                                     </tr>

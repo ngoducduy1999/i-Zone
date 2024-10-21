@@ -15911,7 +15911,7 @@ div.tp-author-info-avater img {
   height: 100%;
 }
 .tp-product-list-thumb a img {
-  width: 100%;
+  width: 200px;
   height: 100%;
   object-fit: cover;
 }
