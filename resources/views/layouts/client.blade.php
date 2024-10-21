@@ -745,6 +745,7 @@
                 .done((response) => {
                     RenderCartDrop(response);
                     alertify.success('Xóa thành công!');
+                    cartIndex();
                 });
         });
         // hiển thị lại giỏ hàng, giỏ hàng drop sidebar
@@ -758,6 +759,55 @@
                     $("#total-quantity-show span").text(totalQuantity);
                 }
             }
+        }
+        // hiển thị giỏ hàng
+        function RenderListCart(response) {
+            if ($("#list-cart")) {
+                $("#list-cart").empty();
+                $("#list-cart").html(response);
+                let totalQuantity = $("#total-quantity-list-cart").val();
+                if (totalQuantity) {
+                    $("#total-quantity-show").text(totalQuantity);
+                    $("#total-quantity-show span").text(totalQuantity);
+                }
+            }
+        }
+        // danh sach san pham gio hang drop sideber
+        function cartIndex() {
+            if ($("#list-cart")) {
+                $.ajax({
+                        url: "/Cart-List",
+                        type: "GET",
+                    })
+                    .done((response) => {
+                        RenderListCart(response);
+                    });
+            }
+        }
+        // danh sach san pham gio hang
+        function cartDropIndex() {
+            if ($("#change-item-cart")) {
+                $.ajax({
+                        url: "/Cart-List-Drop",
+                        type: "GET",
+                    })
+                    .done((response) => {
+                        RenderCartDrop(response);
+                    });
+            }
+        }
+        // xóa sản phẩm khỏi giỏ hàng
+        function DeleteItemCart(idbt) {
+            console.log(idbt);
+            $.ajax({
+                    url: "/Delete-Item-List-Cart/" + idbt,
+                    type: "GET",
+                })
+                .done((response) => {
+                    RenderListCart(response);
+                    alertify.success('Xóa thành công!');
+                    cartDropIndex();
+                });
         }
     </script>
    </body>

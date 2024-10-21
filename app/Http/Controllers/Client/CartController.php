@@ -52,4 +52,27 @@ class CartController extends Controller
         }
         return view('clients.cart.cart-drop');
     }
+
+    public function DeleteItemListCart(Request $request, $idbt)
+    {
+        $oldCart = Session('cart') ? Session('cart') : [];
+        $newCart = new Cart($oldCart);
+        $newCart->DeleteItemCart($idbt);
+        if (count($newCart->products) > 0) {
+            $request->session()->put('cart', $newCart);
+        } else {
+            $request->session()->forget('cart');
+        }
+        return view('clients.cart.cart-list');
+    }
+
+    public function  CartListDrop()
+    {
+        return view('clients.cart.cart-drop');
+    }
+
+    public function  CartList()
+    {
+        return view('clients.cart.cart-list');
+    }
 }
