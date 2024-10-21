@@ -64,7 +64,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::get('/', [BannerController::class, 'index'])->name('index');
         Route::get('create', [BannerController::class, 'create'])->name('create');
         Route::post('store', [BannerController::class, 'store'])->name('store');
-        Route::get('/{id}', [BannerController::class, 'show'])->name('show');
+        Route::get('/{vi_tri}', [BannerController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BannerController::class, 'update'])->name('update');
         Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
