@@ -66,6 +66,19 @@ class CartController extends Controller
         return view('clients.cart.cart-list');
     }
 
+    public function UpdateItemCart(Request $request, $idbt)
+    {
+        $quantity = intval($request->query('quantity'));
+        if ($quantity < 1) {
+            $quantity = 1;
+        }
+        $oldCart = Session('cart') ? Session('cart') : [];
+        $newCart = new Cart($oldCart);
+        $newCart->UpdateItemCart($idbt, $quantity);
+        $request->session()->put('cart', $newCart);
+        return view('clients.cart.cart-list');
+    }
+
     public function  CartListDrop()
     {
         return view('clients.cart.cart-drop');
