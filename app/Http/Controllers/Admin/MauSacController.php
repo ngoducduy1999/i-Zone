@@ -13,9 +13,8 @@ class MauSacController extends Controller
      */
     public function index()
     {
-        //
         $mausacs = MauSac::all();
-        return view('admins.mausacs.index',compact('mausacs'));
+        return view('admins.mausacs.index', compact('mausacs'));
     }
 
     /**
@@ -23,7 +22,6 @@ class MauSacController extends Controller
      */
     public function create()
     {
-        //
         return view('admins.mausacs.create');
     }
 
@@ -32,33 +30,20 @@ class MauSacController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        if($request->isMethod('POST')){
-            $validMauSac = $request->validate([
-                'ten_mau_sac'=>'required|string|max:255'
-            ],
-            [
-                'ten_mau_sac.required'=>'Tên màu sắc không được để trống !',
-                'teb_mau_sac.string'=>'Tên màu sắc phải là một chuỗi!'
-            ]
-        );
+        $request->validate([
+            'ten_mau_sac' => 'required|string|max:255',
+            'ma_mau' => 'required|string|max:7' // Validation cho ma_mau
+        ], [
+            'ten_mau_sac.required' => 'Tên màu sắc không được để trống!',
+            'ten_mau_sac.string' => 'Tên màu sắc phải là một chuỗi!',
+            'ma_mau.required' => 'Mã màu không được để trống!',
+            'ma_mau.string' => 'Mã màu phải là một chuỗi ký tự!',
+        ]);
 
         $params = $request->except('_token');
-
         MauSac::create($params);
 
-        return redirect()->route('admin.mausacs.index')->with('success','Thêm màu sắc mới thành công');
-
-
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('admin.mausacs.index')->with('success', 'Thêm màu sắc mới thành công!');
     }
 
     /**
@@ -66,10 +51,8 @@ class MauSacController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $mausac = MauSac::query()->findOrFail($id);
-
-        return view('admins.mausacs.update',compact('mausac'));
+        $mausac = MauSac::findOrFail($id);
+        return view('admins.mausacs.update', compact('mausac'));
     }
 
     /**
@@ -77,34 +60,38 @@ class MauSacController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        if($request->isMethod('PUT')){
-            $params = $request->except('_token','_method');
+        $request->validate([
+            'ten_mau_sac' => 'required|string|max:255',
+            'ma_mau' => 'required|string|max:7'
+        ], [
+            'ten_mau_sac.required' => 'Tên màu sắc không được để trống!',
+            'ten_mau_sac.string' => 'Tên màu sắc phải là một chuỗi!',
+            'ma_mau.required' => 'Mã màu không được để trống!',
+            'ma_mau.string' => 'Mã màu phải là một chuỗi ký tự!'
+        ]);
 
-            $mausacs = MauSac::query()->findOrFail($id);
+        $params = $request->except('_token', '_method');
+        $mausac = MauSac::findOrFail($id);
+        $mausac->update($params);
 
-            $mausacs->update($params);
-
-            return redirect()->route('admin.mausacs.index')->with('success','Cập nhật màu thành công!');
-        }
+        return redirect()->route('admin.mausacs.index')->with('success', 'Cập nhật màu thành công!');
     }
 
-
+    /**
+     * Toggle the status of a color (active/inactive).
+     */
     public function onOffMauSac($id)
     {
-        $mausacs = MauSac::find($id);
-        if (!$mausacs) {
+        $mausac = MauSac::find($id);
+        if (!$mausac) {
             return redirect()->route('admin.mausacs.index')->with('error', 'Màu sắc không tồn tại');
         }
-        if ($mausacs->trang_thai == true) {
-            $mausacs->trang_thai = false;
-            $mausacs->save();
-            return redirect()->back()->with('success', 'Ngừng hoạt động màu sắc');
-        } else {
-            $mausacs->trang_thai = true;
-            $mausacs->save();
-            return redirect()->back()->with('success', 'Hoạt hoạt động màu sắc');
-        }
+
+        $mausac->trang_thai = !$mausac->trang_thai;
+        $mausac->save();
+
+        $message = $mausac->trang_thai ? 'Hoạt động màu sắc' : 'Ngừng hoạt động màu sắc';
+        return redirect()->back()->with('success', $message);
     }
 
     /**
@@ -112,11 +99,9 @@ class MauSacController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $mausacs = MauSac::findOrFail($id);
+        $mausac = MauSac::findOrFail($id);
+        $mausac->delete();
 
-        $mausacs->delete();
-
-        return redirect()->route('admin.mausacs.index')->with('success','xóa màu thành công!');
+        return redirect()->route('admin.mausacs.index')->with('success', 'Xóa màu thành công!');
     }
 }
