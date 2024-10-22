@@ -51,6 +51,15 @@ class Cart
         $this->totalProduct = count($this->products);
     }
 
+    public function UpdateItemCart($idbt, $quantity)
+    {
+        if (array_key_exists($idbt, $this->products)) {
+            $this->products[$idbt]['quantity'] = $quantity;
+            $this->totalPrice -= $this->products[$idbt]['price'];
+            $this->products[$idbt]['price'] = $this->products[$idbt]['bienthe']->gia_moi * $quantity;
+            $this->totalPrice += $this->products[$idbt]['price'];
+        }
+    }
     public function DeleteItemCart($idbt)
     {
         if (array_key_exists($idbt, $this->products)) {
