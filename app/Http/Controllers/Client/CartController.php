@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Client;
 use App\Cart;
 use App\Http\Controllers\Controller;
 use App\Models\BienTheSanPham;
+use App\Models\KhuyenMai;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
@@ -87,5 +89,23 @@ class CartController extends Controller
     public function  CartList()
     {
         return view('clients.cart.cart-list');
+    }
+
+    public function discount(string $discountCode)
+    {
+        Log::info("Received discount code: " . $discountCode);
+        $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
+        if ($discount) {
+            $nowDate = now();
+            $startDate = $discount->ngay_bat_dau;
+            $endDate = $discount->ngay_ket_thuc;
+            if ($nowDate->between($startDate, $endDate)) {
+                $discountPercentage = $discount->phan_tram_khuyen_mai;
+                return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
+            } else {
+                return response()->json(['message' => 'Mã giảm giá đã hết hạn.'], 400);
+            }
+        }
+        return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 404);
     }
 }

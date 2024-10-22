@@ -952,7 +952,35 @@
                 };
             });
         }
-        
+        // giảm giá sản phẩm
+        function discount() {
+            const discountCode = document.getElementById('discount-code').value;
+            if (discountCode == "") {
+                alertify.error('Vui lòng nhập mã giảm giá.');
+                return;
+            }
+            console.log(discountCode);
+            $.ajax({
+                url: `/Discount-Cart/${discountCode}`,
+                type: "GET",
+            }).done((response) => {
+                $("#list-cart").empty();
+                $("#list-cart").html(response);
+                alertify.success('Đã giảm giá!');
+                bindCartEvents();
+            }).fail((xhr, status, error) => {
+                console.error('Update failed:', error);
+                let errorMessage;
+                if (xhr.status === 404) {
+                    errorMessage = 'Mã giảm giá không hợp lệ.';
+                } else if (xhr.status === 400) {
+                    errorMessage = 'Mã giảm giá đã hết hạn.';
+                } else {
+                    errorMessage = 'Vui lòng thử lại sau.';
+                }
+                alertify.error(errorMessage);
+            });
+        }
         // khi load lại trang gọi lại sự kiện thay đổi 
         document.addEventListener('DOMContentLoaded', bindCartEvents);
     </script>
