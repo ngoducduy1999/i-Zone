@@ -619,53 +619,44 @@
 
 
                                     <!-- reviews -->
-                                    <div class="tp-product-details-review-list pr-110">
-                                       <h3 class="tp-product-details-review-title">Rating & Review</h3>
-                                       <div class="tp-product-details-review-avater d-flex align-items-start">
-                                          <div class="tp-product-details-review-avater-thumb">
-                                             <a href="#">
-                                                <img src="{{ asset('assets/client/img/users/user-3.jpg') }}" alt="">
-                                             </a>
+                                {{-- show đánh giá và nhận xét --}}
+                                <div class="tp-product-details-review-list pr-110">
+                                 <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
+                                 
+                                 @foreach ($danhgias as $danhgia)
+                                 
+                                 @if ($danhgia->user)
+                                 <div class="tp-product-details-review-avater d-flex align-items-start">
+                                    <div class="tp-product-details-review-avater-thumb">
+                                       <a href="#">
+                                          <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
+                                       </a>
+                                    </div>
+                                    <div class="tp-product-details-review-avater-content">
+                                      
+                                      
+                                          <div class="fs-1.9">
+                                             @for ($i = 1; $i <= 5; $i++)
+                                             <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
+                                         @endfor
                                           </div>
-                                          <div class="tp-product-details-review-avater-content">
-                                             <div class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                             </div>
-                                             <h3 class="tp-product-details-review-avater-title">Eleanor Fant</h3>
-                                             <span class="tp-product-details-review-avater-meta">06 March, 2023 </span>
+                                      
+                                       
+                                          <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }}</h3>
 
-                                             <div class="tp-product-details-review-avater-comment">
-                                                <p>Designed very similarly to the nearly double priced Galaxy tab S6, with the only removal being.</p>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <div class="tp-product-details-review-avater d-flex align-items-start">
-                                          <div class="tp-product-details-review-avater-thumb">
-                                             <a href="#">
-                                                <img src="{{ asset('assets/client/img/users/user-2.jpg') }}" alt="">
-                                             </a>
-                                          </div>
-                                          <div class="tp-product-details-review-avater-content">
-                                             <div class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                             </div>
-                                             <h3 class="tp-product-details-review-avater-title">Shahnewaz Sakil</h3>
-                                             <span class="tp-product-details-review-avater-meta">06 March, 2023 </span>
+                                       <span class="tp-product-details-review-avater-meta">  {{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }} </span>
 
-                                             <div class="tp-product-details-review-avater-comment">
-                                                <p>This review is for the Samsung Tab S6 Lite, 64gb wifi in blue. purchased this product performed.</p>
-                                             </div>
-                                          </div>
+                                       <div class="tp-product-details-review-avater-comment">
+                                          <p>{{ $danhgia->nhan_xet }}</p>
                                        </div>
                                     </div>
+                                 </div>
+                                 @endif
+                                 @endforeach   
+                              </div>
+                              {{-- show đánh giá và nhận xét --}}
+
+
                                  </div>
                               </div> <!-- end col -->
                               <div class="col-lg-6">
