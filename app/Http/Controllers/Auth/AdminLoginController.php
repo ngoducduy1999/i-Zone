@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class AdminLoginController extends Controller
 {
-      // Hiển thị form đăng nhập
-      public function showLoginForm()
-      {
-          return view('auth.admin_login');
-      }
+    // Hiển thị form đăng nhập
+    public function showLoginForm()
+    {
+        // khi vào admin bắt buộc phải đăng nhập lại
+        return view('auth.admin_login');
+        // // khi đăng nhập ở client có role:admin,staff thì không cần đăng nhập
+        // if (Auth::check()) {
+        //     return redirect()->route('admin.dashboard');
+        // } else {
+        //     return view('auth.admin_login');
+        // }
+    }
        // Xử lý đăng nhập
     public function login(Request $request)
     {
