@@ -1145,45 +1145,8 @@
                <div class="tp-blog-main-slider-active swiper-container">
                   <div class="swiper-wrapper">
                      @foreach($baiViets as $baiViet)
-                     <div class="tp-blog-item mb-30 swiper-slide">
-                        <div class="tp-blog-thumb p-relative fix">
-                           <a href="{{ route('blog.details', $baiViet->id) }}"> <!-- Đường dẫn đến trang chi tiết -->
-                              <img src="{{ asset($baiViet->anh_bai_viet) }}" alt="{{ $baiViet->tieu_de }}">
-                           </a>
-                           <div class="tp-blog-meta tp-blog-meta-date">
-                              <span>{{ \Carbon\Carbon::parse($baiViet->created_at)->format('d F, Y') }}</span> <!-- Hiển thị ngày -->
-                           </div>
-                        </div>
-                        <div class="tp-blog-content">
-                    <h3 class="tp-blog-title">
-                        <a href="{{ route('blog.details', $baiViet->id) }}">{{ $baiViet->tieu_de }}</a>
-                    </h3>
-                    <div class="tp-blog-tag">
-                        <span><i class="fa-light fa-tag"></i></span>
-                        @if($baiViet->danhMuc)
-                            <a href="#">{{ $baiViet->danhMuc->ten_danh_muc }}</a> <!-- Hiển thị danh mục -->
-                        @endif
-                    </div>
-                    <p>{{ Str::limit($baiViet->noi_dung, 100) }}</p> <!-- Hiển thị nội dung ngắn -->
-                    <div class="tp-blog-btn">
-                        <a href="{{ route('blog.details', $baiViet->id) }}" class="tp-btn-2 tp-btn-border-2">
-                            Read More
-                            <span>
-                                <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-
-
-                     <!-- @foreach($baiViets as $baiViet)
-                     <div class="tp-blog-item mb-30 swiper-slide">
-                        <div class="tp-blog-thumb p-relative fix">
+                     <div class="tp-blog-item mb-30 swiper-slide tp-product-item transition-3 mb-25 swiper-slide">
+                        <div class="tp-blog-thumb p-relative fix tp-product-thumb p-relative fix m-img">
                            <a href="{{  $baiViet->id }}">
                               <img src="{{ asset('storage/' . $baiViet->anh_bai_viet) }}" alt="{{ $baiViet->tieu_de }}">
                            </a>
@@ -1197,13 +1160,14 @@
                            </h3>
                            <div class="tp-blog-tag">
                               <span><i class="fa-light fa-tag"></i></span>
-                              <a href="#">Tablet,</a>
-                              <a href="#">News</a>
+                              @if($baiViet->danhMuc)
+                                 <a href="#">{{ $baiViet->danhMuc->ten_danh_muc }}</a>
+                              @endif
                            </div>
                            <p>{{ Str::limit(strip_tags($baiViet->noi_dung), 60) }}</p>
                         </div>
                      </div>
-                     @endforeach -->
+                     @endforeach
                      
                      <!-- <div class="tp-blog-item mb-30 swiper-slide">
                         <div class="tp-blog-thumb p-relative fix">
