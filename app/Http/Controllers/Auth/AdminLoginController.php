@@ -14,7 +14,10 @@ class AdminLoginController extends Controller
         return view('auth.admin_login');
         // // khi đăng nhập ở client có role:admin,staff thì không cần đăng nhập
         // if (Auth::check()) {
-        //     return redirect()->route('admin.dashboard');
+        //     if(Auth::user()->vai_tro=='admin' || Auth::user()->vai_tro=='staff'){
+        //         return redirect()->route('admin.dashboard');
+        //     }
+        //     return view('auth.admin_login');
         // } else {
         //     return view('auth.admin_login');
         // }
