@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class AdminLoginController extends Controller
 {
-      // Hiển thị form đăng nhập
-      public function showLoginForm()
-      {
-          return view('auth.admin_login');
-      }
+    // Hiển thị form đăng nhập
+    public function showLoginForm()
+    {
+        // khi vào admin bắt buộc phải đăng nhập lại
+        return view('auth.admin_login');
+        // // khi đăng nhập ở client có role:admin,staff thì không cần đăng nhập
+        // if (Auth::check()) {
+        //     return redirect()->route('admin.dashboard');
+        // } else {
+        //     return view('auth.admin_login');
+        // }
+    }
        // Xử lý đăng nhập
     public function login(Request $request)
     {
@@ -37,11 +44,12 @@ class AdminLoginController extends Controller
 
             // Chuyển hướng dựa trên vai trò
             // Chuyển hướng dựa trên vai trò
-            if ($user->vai_tro == 'admin') {
+            if ($user->vai_tro == 'admin' || $user->vai_tro == 'staff') {
                 return redirect()->route('admin.dashboard');
-            } elseif ($user->vai_tro == 'staff') {
-                return redirect()->route('staff.dashboard'); // Thêm route dành cho staff
-            }
+            } 
+            // elseif ($user->vai_tro == 'staff') {
+            //     return redirect()->route('staff.dashboard'); // Thêm route dành cho staff
+            // }
             else {
                 Auth::logout();
                 return redirect()->back()->withErrors(['email' => 'Bạn không có quyền truy cập']);

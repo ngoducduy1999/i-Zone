@@ -36,7 +36,7 @@
                 </li>
                 @else
                 <li>
-                    <a class='text-light' href='{{ route('staff.dashboard') }}'>
+                    <a class='text-light' href='{{ route('admin.dashboard') }}'>
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
@@ -59,7 +59,7 @@
                             </li>
                             @else
                             <li>
-                                <a class='text-white' href='{{ route('staff.khachhangs') }}'>Quản lý khách hàng</a>
+                                <a class='text-white' href='{{ route('admin.khachhangs') }}'>Quản lý khách hàng</a>
                             </li>
                             @endif
                         </ul>
