@@ -181,7 +181,6 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
-Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
 Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');
