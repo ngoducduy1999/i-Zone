@@ -274,7 +274,7 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="new-tab-pane" role="tabpanel" aria-labelledby="new-tab" tabindex="0">
                     <div class="row">
-                        @foreach ($featuredProducts as $sanpham)
+                        @foreach ($sanPhamsNoiBat as $sanpham)
                         <div class="col-xl-3 col-lg-3 col-sm-6">
                             <div class="tp-product-item p-relative transition-3 mb-25">
                                 <div class="tp-product-thumb p-relative fix m-img">
@@ -520,13 +520,13 @@
                                  </a>
                            </h3>
                            <div class="tp-product-rating d-flex align-items-center">
-                              <div class="tp-product-rating-icon">
+                              <!-- <div class="tp-product-rating-icon">
                                  <span><i class="fa-solid fa-star"></i></span>
                                  <span><i class="fa-solid fa-star"></i></span>
                                  <span><i class="fa-solid fa-star"></i></span>
                                  <span><i class="fa-solid fa-star"></i></span>
                                  <span><i class="fa-solid fa-star-half-stroke"></i></span>
-                              </div>
+                              </div> -->
                               <!-- <div class="tp-product-rating-text">
                                  <span>(6 Review)</span>
                               </div> -->
@@ -657,7 +657,7 @@
       <div class="row align-items-end">
          <div class="col-xl-5 col-sm-6">
             <div class="tp-section-title-wrapper mb-40">
-               <h3 class="tp-section-title">New Arrivals
+               <h3 class="tp-section-title">Gợi ý cho bạn
                   <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round" />
                   </svg>

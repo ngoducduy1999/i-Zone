@@ -15,7 +15,7 @@ class TrangChuController extends Controller
     public function index()
     {
          // Lấy các banner có trạng thái là hiển thị (ví dụ trang_thai = 1)
-         $banners = Banner::where('trang_thai', 1)->orderBy('created_at', 'desc')->first(); // Bản ghi mới nhất
+        $banners = Banner::where('trang_thai', 1)->orderBy('created_at', 'desc')->first(); // Bản ghi mới nhất
         $banners1 = Banner::where('trang_thai', 1)->orderBy('created_at', 'desc')->skip(1)->first(); // Bản ghi mới thứ 2
         $banners2 = Banner::where('trang_thai', 1)->orderBy('created_at', 'desc')->skip(2)->first(); // Bản ghi mới thứ 3
  
@@ -28,7 +28,7 @@ class TrangChuController extends Controller
          ->get();
 
         // Lấy 10 sản phẩm nổi bật (có lượt xem cao)
-        $featuredProducts = SanPham::with('bienThe')
+        $sanPhamsNoiBat = SanPham::with('bienThe')
             ->whereNull('deleted_at') // Chỉ lấy sản phẩm chưa xóa
             ->orderBy('luot_xem', 'desc') // Sắp xếp theo lượt xem
             ->take(8) // Lấy 8 sản phẩm
@@ -42,7 +42,12 @@ class TrangChuController extends Controller
             ->take(6) // Lấy 5 sản phẩm
             ->get();
 
+        $sanPhams = SanPham::with('bienThe')
+            ->whereNull('deleted_at') // Bỏ qua những sản phẩm đã bị xóa mềm
+            ->inRandomOrder() // Lấy ngẫu nhiên
+            ->limit(8) // Giới hạn số lượng sản phẩm muốn lấy
+            ->get();    
         // Trả về view và truyền dữ liệu sang
-       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','featuredProducts','danhMucs','sanPhamsMoiNhat'));
+       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams'));
     }
 }
