@@ -8,6 +8,7 @@ use App\Models\SanPham;
 use App\Models\Banner;
 use App\Models\KhuyenMai;
 use App\Models\DanhMuc;
+use App\Models\BaiViet;
 
 class TrangChuController extends Controller
 {
@@ -39,7 +40,7 @@ class TrangChuController extends Controller
         $sanPhamsMoiNhat = SanPham::with('bienThe')
             ->whereNull('deleted_at') // Bỏ qua sản phẩm đã bị xóa mềm
             ->orderBy('created_at', 'desc') // Sắp xếp theo ngày tạo mới nhất
-            ->take(6) // Lấy 5 sản phẩm
+            ->take(6) // Lấy 6 sản phẩm
             ->get();
 
         $sanPhams = SanPham::with('bienThe')
@@ -47,7 +48,13 @@ class TrangChuController extends Controller
             ->inRandomOrder() // Lấy ngẫu nhiên
             ->limit(8) // Giới hạn số lượng sản phẩm muốn lấy
             ->get();    
+
+        // Lấy danh sách bài viết với trạng thái là 'active' (ví dụ trang_thai = 1)
+        $baiViets = BaiViet::where('trang_thai', 0)
+            ->orderBy('created_at', 'desc') // Sắp xếp bài viết theo ngày tạo mới nhất
+            ->get();    
+
         // Trả về view và truyền dữ liệu sang
-       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams'));
+       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams','baiViets'));
     }
 }
