@@ -686,13 +686,12 @@
             <div class="tp-product-arrival-slider fix">
                <div class="tp-product-arrival-active swiper-container">
                   <div class="swiper-wrapper">
-                     @foreach($sanPhams as $sanPham)
+                     @foreach($sanPhams as $sanPhams)
                      <div class="tp-product-item transition-3 mb-25 swiper-slide">
                         <!-- Hình ảnh sản phẩm -->
-                        <div class="tp-product-thumb p-relative fix m-img">
-                        <!-- <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}"> -->
-                           <a href="{{  $sanPham->id }}">
-                              <img src="{{ asset($sanPham->anh_san_pham) }}" alt="{{ $sanPham->ten_san_pham }}">
+                        <div class="tp-product-thumb p-relative fix m-img">                      
+                           <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
+                              <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}">
                            </a>
                            <div class="tp-product-badge">                            
                                  <span class="product-gray">Trả góp 0%</span>                             
@@ -742,13 +741,13 @@
                         <div class="tp-product-content">
                            <!-- Danh mục sản phẩm -->
                            <div class="tp-product-category">
-                              <a href="shop.html">{{ $sanPham->danhMuc->ten_danh_muc ?? 'Không rõ danh mục' }}</a>
+                              <a href="shop.html">{{ $sanPhams->danhMuc->ten_danh_muc ?? 'Không rõ danh mục' }}</a>
                            </div>
 
                            <!-- Tên sản phẩm -->
                            <h3 class="tp-product-title">
-                              <a href="{{  $sanPham->id }}">
-                                 {{ $sanPham->ten_san_pham }}
+                              <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
+                                 {{ $sanPhams->ten_san_pham }}
                               </a>
                            </h3>
 
@@ -767,11 +766,11 @@
                            <!-- Giá sản phẩm -->
                            <div class="tp-product-price-wrapper">
                            <!-- Giá cũ (nếu có) -->
-                              @if($sanPham->bienTheSanPhams->min('gia_cu'))
-                                 <span class="tp-product-price old-price">${{ number_format($sanPham->bienTheSanPhams->min('gia_cu'), 2) }}</span>
+                              @if($sanPhams->bienTheSanPhams->min('gia_cu'))
+                                 <span class="tp-product-price old-price">${{ number_format($sanPhams->bienTheSanPhams->min('gia_cu'), 2) }}</span>
                               @endif
                            <!-- Giá mới -->
-                              <span class="tp-product-price new-price">${{ number_format($sanPham->bienTheSanPhams->min('gia_moi'), 2) }}</span>
+                              <span class="tp-product-price new-price">${{ number_format($sanPhams->bienTheSanPhams->min('gia_moi'), 2) }}</span>
                            </div>
                         </div>
                      </div>
