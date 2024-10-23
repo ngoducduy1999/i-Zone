@@ -690,17 +690,15 @@
                      <div class="tp-product-item transition-3 mb-25 swiper-slide">
                         <!-- Hình ảnh sản phẩm -->
                         <div class="tp-product-thumb p-relative fix m-img">
+                        <!-- <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}"> -->
                            <a href="{{  $sanPham->id }}">
                               <img src="{{ asset($sanPham->anh_san_pham) }}" alt="{{ $sanPham->ten_san_pham }}">
                            </a>
-                           <div class="tp-product-badge">
-                           <!-- Kiểm tra sản phẩm đang trending hoặc mới -->
-                              @if($sanPham->is_trending)
-                                 <span class="product-trending">Trending</span>
-                              @endif
+                           <div class="tp-product-badge">                            
+                                 <span class="product-gray">Trả góp 0%</span>                             
                            </div>
                            <!-- product action -->
-                           <div class="tp-product-action">
+                           <!-- <div class="tp-product-action">
                               <div class="tp-product-action-item d-flex flex-column">
                                  <button type="button" class="tp-product-action-btn tp-product-add-cart-btn">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -735,7 +733,7 @@
                                     <span class="tp-product-tooltip">Add To Wishlist</span>
                                  </button>
                               </div>
-                           </div>
+                           </div> -->
                            <!-- product badge -->
                            
                         </div>
