@@ -732,15 +732,30 @@
                            </div>
                         </div>
                         <!-- product content -->
-                        <div class="tp-product-content">
-                           <div class="tp-product-category">
-                              <a href="shop.html">Fast Charger</a>
-                           </div>
-                           <h3 class="tp-product-title">
-                              <a href="product-details.html">
-                                 Fast Charger 6.5A Type-C Cable For OPPO Find X3 Pro
-                              </a>
-                           </h3>
+                        @foreach($sanPhams as $sanPham)
+                       <div class="tp-product-item transition-3 mb-25 swiper-slide">
+                     <!-- Hình ảnh sản phẩm -->
+        <div class="tp-product-thumb p-relative fix m-img">
+            <a href="{{  $sanPham->id }}">
+                <img src="{{ asset($sanPham->anh_san_pham) }}" alt="{{ $sanPham->ten_san_pham }}">
+            </a>
+        </div>
+
+        <!-- Nội dung sản phẩm -->
+        <div class="tp-product-content">
+            <!-- Danh mục sản phẩm -->
+            <div class="tp-product-category">
+                <a href="{{  $sanPham->danh_muc_id }}">
+                    {{ $sanPham->danhMuc->ten_danh_muc ?? 'Uncategorized' }}
+                </a>
+            </div>
+
+            <!-- Tên sản phẩm -->
+            <h3 class="tp-product-title">
+                <a href="{{  $sanPham->id }}">
+                    {{ $sanPham->ten_san_pham }}
+                </a>
+            </h3>
                            <div class="tp-product-rating d-flex align-items-center">
                               <div class="tp-product-rating-icon">
                                  <span><i class="fa-solid fa-star"></i></span>
@@ -753,17 +768,20 @@
                                  <span>(7 Review)</span>
                               </div>
                            </div>
-                           <div class="tp-product-price-wrapper">
-                              <span class="tp-product-price old-price">$475.00</span>
-                              <span class="tp-product-price new-price">$7350.00</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="tp-product-item transition-3 mb-25 swiper-slide ">
-                        <div class="tp-product-thumb p-relative fix m-img">
-                           <a href="product-details.html">
-                              <img src="{{ asset('assets/client/img/product/product-7.jpg') }}" alt="product-electronic">
-                           </a>
+                           <!-- Giá sản phẩm -->
+            <div class="tp-product-price-wrapper">
+                @if($sanPham->bienTheSanPhams->min('gia_cu'))
+                    <span class="tp-product-price old-price">
+                        ${{ number_format($sanPham->bienTheSanPhams->min('gia_cu'), 2) }}
+                    </span>
+                @endif
+                <span class="tp-product-price new-price">
+                    ${{ number_format($sanPham->bienTheSanPhams->min('gia_moi'), 2) }}
+                </span>
+            </div>
+        </div>
+    </div>
+@endforeach
 
                            <!-- product action -->
                            <div class="tp-product-action">
