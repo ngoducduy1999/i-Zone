@@ -690,9 +690,15 @@
                      <div class="tp-product-item transition-3 mb-25 swiper-slide">
                         <!-- Hình ảnh sản phẩm -->
                         <div class="tp-product-thumb p-relative fix m-img">
-                           <a href="{{ route('product.details', $sanPham->id) }}">
+                           <a href="{{  $sanPham->id }}">
                               <img src="{{ asset($sanPham->anh_san_pham) }}" alt="{{ $sanPham->ten_san_pham }}">
                            </a>
+                           <div class="tp-product-badge">
+                           <!-- Kiểm tra sản phẩm đang trending hoặc mới -->
+                              @if($sanPham->is_trending)
+                                 <span class="product-trending">Trending</span>
+                              @endif
+                           </div>
                            <!-- product action -->
                            <div class="tp-product-action">
                               <div class="tp-product-action-item d-flex flex-column">
@@ -731,12 +737,7 @@
                               </div>
                            </div>
                            <!-- product badge -->
-                           <div class="tp-product-badge">
-                           <!-- Kiểm tra sản phẩm đang trending hoặc mới -->
-                              @if($sanPham->is_trending)
-                                 <span class="product-trending">Trending</span>
-                              @endif
-                           </div>
+                           
                         </div>
 
                         <!-- product content -->
@@ -748,12 +749,12 @@
 
                            <!-- Tên sản phẩm -->
                            <h3 class="tp-product-title">
-                              <a href="{{ route('product.details', $sanPham->id) }}">
+                              <a href="{{  $sanPham->id }}">
                                  {{ $sanPham->ten_san_pham }}
                               </a>
                            </h3>
 
-                           <div class="tp-product-rating d-flex align-items-center">
+                           <!-- <div class="tp-product-rating d-flex align-items-center">
                               <div class="tp-product-rating-icon">
                                  <span><i class="fa-solid fa-star"></i></span>
                                  <span><i class="fa-solid fa-star"></i></span>
@@ -764,7 +765,7 @@
                               <div class="tp-product-rating-text">
                                  <span>(2 Review)</span>
                               </div>
-                           </div>
+                           </div> -->
                            <!-- Giá sản phẩm -->
                            <div class="tp-product-price-wrapper">
                            <!-- Giá cũ (nếu có) -->
