@@ -1179,43 +1179,6 @@
                         </div>
                      </div>
                      @endforeach
-                     
-                     <!-- <div class="tp-blog-item mb-30 swiper-slide">
-                        <div class="tp-blog-thumb p-relative fix">
-                           <a href="blog-details.html">
-                              <img src="{{ asset('assets/client/img/blog/blog-3.jpg') }}" alt="">
-                           </a>
-                           <div class="tp-blog-meta tp-blog-meta-date">
-                              <span>20 June, 2023</span>
-                           </div>
-                        </div>
-                        <div class="tp-blog-content">
-                           <h3 class="tp-blog-title">
-                              <a href="blog-details.html">The Sound Of Fashion: Malcolm</a>
-                           </h3>
-
-                           <div class="tp-blog-tag">
-                              <span><i class="fa-light fa-tag"></i></span>
-                              <a href="#">Microphone,</a>
-                              <a href="#">Computer</a>
-                           </div>
-
-                           <p>The world is an amazing place providing an incredible assortment of interesting locations across.</p>
-
-                           <div class="tp-blog-btn">
-                              <a href="blog-details.html" class="tp-btn-2 tp-btn-border-2">
-                                 Read More
-                                 <span>
-                                    <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                       <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                 </span>
-                              </a>
-                           </div>
-                        </div>
-                     </div> -->
-
                   </div>
                </div>
             </div>
