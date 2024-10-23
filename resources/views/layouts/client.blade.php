@@ -22,6 +22,7 @@
       <link rel="stylesheet" href="{{ asset('assets/client/css/flaticon_shofy.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
+      <link rel="stylesheet" href="{{ asset('assets/client/css/danhgia.css') }}">
       @yield('css')
 
       <!-- Swiper CSS -->

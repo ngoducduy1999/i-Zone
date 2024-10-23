@@ -660,57 +660,63 @@
                                  </div>
                               </div> <!-- end col -->
                               <div class="col-lg-6">
-                                 <div class="tp-product-details-review-form">
-                                    <h3 class="tp-product-details-review-form-title">Review this product</h3>
-                                    <p>Your email address will not be published. Required fields are marked *</p>
-                                    <form action="#">
-                                       <div class="tp-product-details-review-form-rating d-flex align-items-center">
-                                          <p>Your Rating :</p>
-                                          <div class="tp-product-details-review-form-rating-icon d-flex align-items-center">
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <span><i class="fa-solid fa-star"></i></span>
+
+
+                                {{-- form đánh giá và nhận xét --}}
+                                <div class="tp-product-details-review-form">
+                                 <h3 class="tp-product-details-review-form-title">Đánh giá sản phẩm</h3>
+                              
+                                 <form action="{{route('admin.sanphams.admin.sanpham.danhgias',$sanpham->id)}}" method="POST">
+                                    @csrf
+                                    
+                                       <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+                                       <label>Đánh giá :</label>
+                                    
+                                       <div class="star-rating">
+                                          <input type="radio" id="star5" name="diem_so" value="5" />
+                                          <label for="star5" title="5 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star4" name="diem_so" value="4" />
+                                          <label for="star4" title="4 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star3" name="diem_so" value="3" />
+                                          <label for="star3" title="3 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star2" name="diem_so" value="2" />
+                                          <label for="star2" title="2 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star1" name="diem_so" value="1" />
+                                          <label for="star1" title="1 sao">&#9733;</label>
+                                      </div> 
+                                    <div class="tp-product-details-review-input-wrapper">
+                                       <div class="tp-product-details-review-input-box">
+                                          <div class="tp-product-details-review-input">
+                                             <textarea id="nhan_xet" name="nhan_xet" placeholder="Write your review here..."></textarea>
                                           </div>
+                                      
+                                          <div class="tp-product-details-review-input-title">
+                                             <label for="nhan_xet">Nhận xét</label>
+                                          </div>
+
+                                       
                                        </div>
-                                       <div class="tp-product-details-review-input-wrapper">
-                                          <div class="tp-product-details-review-input-box">
-                                             <div class="tp-product-details-review-input">
-                                                <textarea id="msg" name="msg" placeholder="Write your review here..."></textarea>
-                                             </div>
-                                             <div class="tp-product-details-review-input-title">
-                                                <label for="msg">Your Name</label>
-                                             </div>
-                                          </div>
-                                          <div class="tp-product-details-review-input-box">
-                                             <div class="tp-product-details-review-input">
-                                                <input name="name" id="name" type="text" placeholder="Shahnewaz Sakil">
-                                             </div>
-                                             <div class="tp-product-details-review-input-title">
-                                                <label for="name">Your Name</label>
-                                             </div>
-                                          </div>
-                                          <div class="tp-product-details-review-input-box">
-                                             <div class="tp-product-details-review-input">
-                                                <input name="email" id="email" type="email" placeholder="shofy@mail.com">
-                                             </div>
-                                             <div class="tp-product-details-review-input-title">
-                                                <label for="email">Your Email</label>
-                                             </div>
-                                          </div>
+                                     
+                                    </div>
+                                    <div class="tp-product-details-review-suggetions mb-20">
+                                       <div class="tp-product-details-review-remeber">
+                                          <input id="remeber" type="checkbox">
+                                          <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
                                        </div>
-                                       <div class="tp-product-details-review-suggetions mb-20">
-                                          <div class="tp-product-details-review-remeber">
-                                             <input id="remeber" type="checkbox">
-                                             <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
-                                          </div>
-                                       </div>
-                                       <div class="tp-product-details-review-btn-wrapper">
-                                          <button class="tp-product-details-review-btn">Submit</button>
-                                       </div>
-                                    </form>
-                                 </div>
+                                    </div>
+                                    <div class="tp-product-details-review-btn-wrapper">
+                                       <button type="submit" class="tp-product-details-review-btn">Submit</button>
+                                    </div>
+                                 </form>
+                              </div>
+                              {{-- form đánh giá và nhận xét --}}
+
+
+
                               </div>
                            </div>
                         </div>
