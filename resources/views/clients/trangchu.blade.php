@@ -766,11 +766,15 @@
                            <!-- Giá sản phẩm -->
                            <div class="tp-product-price-wrapper">
                            <!-- Giá cũ (nếu có) -->
-                              @if($sanPhams->bienTheSanPhams->min('gia_cu'))
-                                 <span class="tp-product-price old-price">${{ number_format($sanPhams->bienTheSanPhams->min('gia_cu'), 2) }}</span>
+                              @if($sanPhams->bienThe->min('gia_cu'))
+                                 <span class="tp-product-price old-price">
+                                    {{ isset($sanPhams->bienThe->first()->gia_cu) ? number_format($sanPhams->bienThe->first()->gia_cu, 0, ',', '.') : 'Chưa có giá' }}VNĐ
+                                 </span>
                               @endif
                            <!-- Giá mới -->
-                              <span class="tp-product-price new-price">${{ number_format($sanPhams->bienTheSanPhams->min('gia_moi'), 2) }}</span>
+                              <span class="tp-product-price new-price">
+                                 {{ isset($sanPhams->bienThe->first()->gia_moi) ? number_format($sanPhams->bienThe->first()->gia_moi, 0, ',', '.') : 'Chưa có giá' }}VNĐ
+                              </span>
                            </div>
                         </div>
                      </div>
