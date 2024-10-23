@@ -549,78 +549,74 @@
                               <div class="col-lg-6">
                                  <div class="tp-product-details-review-statics">
                                     <!-- number -->
-                                    <div class="tp-product-details-review-number d-inline-block mb-50">
-                                       <h3 class="tp-product-details-review-number-title">Customer reviews</h3>
-                                       <div class="tp-product-details-review-summery d-flex align-items-center">
-                                          <div class="tp-product-details-review-summery-value">
-                                             <span>4.5</span>
-                                          </div>
-                                          <div class="tp-product-details-review-summery-rating d-flex align-items-center">
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <span><i class="fa-solid fa-star"></i></span>
-                                             <p>(36 Reviews)</p>
-                                          </div>
-                                       </div>
-                                       <div class="tp-product-details-review-rating-list">
-                                          <!-- single item -->
-                                          <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                             <span>5 Start</span>
-                                             <div class="tp-product-details-review-rating-bar">
-                                                <span class="tp-product-details-review-rating-bar-inner" data-width="82%"></span>
-                                             </div>
-                                             <div class="tp-product-details-review-rating-percent">
-                                                <span>82%</span>
-                                             </div>
-                                          </div> <!-- end single item -->
 
-                                          <!-- single item -->
-                                          <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                             <span>4 Start</span>
-                                             <div class="tp-product-details-review-rating-bar">
-                                                <span class="tp-product-details-review-rating-bar-inner" data-width="30%"></span>
-                                             </div>
-                                             <div class="tp-product-details-review-rating-percent">
-                                                <span>30%</span>
-                                             </div>
-                                          </div> <!-- end single item -->
 
-                                          <!-- single item -->
-                                          <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                             <span>3 Start</span>
-                                             <div class="tp-product-details-review-rating-bar">
-                                                <span class="tp-product-details-review-rating-bar-inner" data-width="15%"></span>
-                                             </div>
-                                             <div class="tp-product-details-review-rating-percent">
-                                                <span>15%</span>
-                                             </div>
-                                          </div> <!-- end single item -->
+                                {{-- Bảng người dùng xem đánh giá --}}
+                                <div class="tp-product-details-review-number d-inline-block mb-50">
 
-                                          <!-- single item -->
-                                          <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                             <span>2 Start</span>
-                                             <div class="tp-product-details-review-rating-bar">
-                                                <span class="tp-product-details-review-rating-bar-inner" data-width="6%"></span>
-                                             </div>
-                                             <div class="tp-product-details-review-rating-percent">
-                                                <span>6%</span>
-                                             </div>
-                                          </div> <!-- end single item -->
-
-                                          <!-- single item -->
-                                          <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                             <span>1 Start</span>
-                                             <div class="tp-product-details-review-rating-bar">
-                                                <span class="tp-product-details-review-rating-bar-inner" data-width="10%"></span>
-                                             </div>
-                                             <div class="tp-product-details-review-rating-percent">
-                                                <span>10%</span>
-                                             </div>
-                                          </div> <!-- end single item -->
-                                       </div>
+                                 <h3 class="tp-product-details-review-number-title">Đánh giá của khách hàng</h3>
+                                 <div class="tp-product-details-review-summery d-flex align-items-center">
+                                    @if ($soluotdanhgia > 0)
+                                        <div class="tp-product-details-review-summery-value">
+                                       <span>{{ number_format($diemtrungbinh, 1) }}</span>
                                     </div>
+
+                                 
+
+                                    <div class="tp-product-details-review-summery-rating d-flex align-items-center">
+                                     
+                                      
+                                       <div class="star_warning">
+                                          <p class="fs-2">
+                                              @for ($i = 1; $i <= 5; $i++)
+                                                  @if ($i <= floor($diemtrungbinh))
+                                                      <span class="star text-warning">★</span>
+                                                  @elseif ($i == ceil($diemtrungbinh))
+                                                      @if ($diemtrungbinh - floor($diemtrungbinh) >= 0.3)
+                                                          <span class="star text-warning">☆</span>
+                                                      @else
+                                                          <span class="star text-warning">☆</span>
+                                                      @endif
+                                                  @else
+                                                      <span class="star text-warning">☆</span>
+                                                  @endif
+                                              @endfor
+                                          </p>
+                                      </div>
+                                 
+                                       <p class="ms-auto">({{ $soluotdanhgia }} lượt đánh giá)</p>
+                                    </div> 
+
+                                   
+                                    @endif
+                                   
+                                 </div>
+
+
+
+
+
+                                 <div class="tp-product-details-review-rating-list">
+
+                                    <!-- single item -->
+                                    @foreach ($starPercentage as $star => $percentage)
+                                    <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                             
+                                       <span>{{$star}} Start</span>
+                                  <div class="tp-product-details-review-rating-bar">
+                                     <span class="tp-product-details-review-rating-bar-inner" style="width: {{ number_format($percentage) }}%;"></span>
+                                  </div>
+                                  <div class="tp-product-details-review-rating-percent">
+                                     <span>{{ number_format($percentage) }}%</span>
+                                  </div>
+                    
+                               </div>
+                                 @endforeach
+                              
+                            </div>
+                         </div>
+                         {{-- Bảng người dùng xem đánh giá --}}
+
 
                                     <!-- reviews -->
                                     <div class="tp-product-details-review-list pr-110">
