@@ -37,11 +37,12 @@ class AdminLoginController extends Controller
 
             // Chuyển hướng dựa trên vai trò
             // Chuyển hướng dựa trên vai trò
-            if ($user->vai_tro == 'admin') {
+            if ($user->vai_tro == 'admin' || $user->vai_tro == 'staff') {
                 return redirect()->route('admin.dashboard');
-            } elseif ($user->vai_tro == 'staff') {
-                return redirect()->route('staff.dashboard'); // Thêm route dành cho staff
-            }
+            } 
+            // elseif ($user->vai_tro == 'staff') {
+            //     return redirect()->route('staff.dashboard'); // Thêm route dành cho staff
+            // }
             else {
                 Auth::logout();
                 return redirect()->back()->withErrors(['email' => 'Bạn không có quyền truy cập']);
