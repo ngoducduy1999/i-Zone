@@ -6,6 +6,7 @@ use App\Models\BaiViet;
 use App\Models\DanhMuc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Faker\Provider\Base;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,14 +15,36 @@ class BaiVietController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = "Danh sách bài viết";
 
-        $listBaiViet = BaiViet::query()->get();
+        $author = $request->input('user_id');
+        $date = $request->input('ngay_dang');
+        $status = $request->input('trang_thai');
 
-        return view('admins.baiviets.index', compact('title', 'listBaiViet'));
+        $query = BaiViet::query();
+
+        if ($author) {
+            $query->where('user_id', $author);
+        }
+
+        if ($date) {
+            $query->whereDate('created_at', $date);
+        }
+
+        if (!is_null($status)) { 
+            $query->where('trang_thai', $status);
+        }
+
+        $listBaiViet = $query->get();
+
+        $users = User::all(); 
+
+        return view('admins.baiviets.index', compact('title', 'listBaiViet', 'users'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.

@@ -1,60 +1,7 @@
 @extends('layouts.client')
 
 @section('css')
-    <style>
-        .category-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
 
-        .category-item {
-            padding: 10px 20px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-
-        .category-item a {
-            text-decoration: none;
-            color: #000;
-        }
-
-        .category-item:hover {
-            border-color: #007bff;
-            background-color: #f0f0f0;
-        }
-
-        .category-item.active {
-            border-color: #007bff;
-            background-color: #007bff;
-        }
-
-        .category-item.active a {
-            color: #fff;
-        }
-
-        #price-filter .filter-item {
-            cursor: pointer;
-            border: 2px solid transparent;
-            padding: 10px;
-            margin-bottom: 5px;
-            text-align: center;
-            transition: all 0.3s;
-            border-radius: 10px;
-        }
-
-        #price-filter .filter-item:hover {
-            border-color: #ccc;
-        }
-
-        #price-filter .filter-item.selected {
-            border-color: #007bff;
-            background-color: #f0f0f0;
-            color: #007bff;
-        }
-    </style>
 @endsection
 
 @section('content')
@@ -64,10 +11,10 @@
             <div class="row">
                 <div class="col-xxl-12">
                     <div class="breadcrumb__content p-relative z-index-1">
-                        <h3 class="breadcrumb__title">Shop Grid</h3>
+                        <h3 class="breadcrumb__title">Sản phẩm</h3>
                         <div class="breadcrumb__list">
-                            <span><a href="#">Home</a></span>
-                            <span>Shop Grid</span>
+                            <span><a href="#">Trang chủ</a></span>
+                            <span>Sản phẩm</span>
                         </div>
                     </div>
                 </div>
@@ -82,155 +29,143 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-4">
                     <div class="tp-shop-sidebar mr-10">
-                        <!-- Lọc theo giá -->
-                        <div class="tp-shop-widget mb-50">
-                            <h3 class="tp-shop-widget-title">Gía sản phẩm</h3>
-                            <div class="category-filter"></div>
-                            <div class="tp-shop-widget-content">
-                                <div class="tp-shop-widget-checkbox">
-                                    <form id="filter-form" action="{{ route('san-pham') }}" method="GET">
-                                        <ul class="filter-items filter-checkbox" id="price-filter">
-                                            <li class="filter-item" data-value="0-1000000">Dưới 1 triệu</li>
-                                            <li class="filter-item" data-value="1000000-5000000">1 đến 5 triệu
-                                            </li>
-                                            <li class="filter-item" data-value="5000000-10000000">5 đến 10 triệu
-                                            </li>
-                                            <li class="filter-item" data-value="10000000-20000000">10 đến 20 triệu
-                                            </li>
-                                            <li class="filter-item" data-value="20000000-999999999">Trên 20 triệu</li>
-                                        </ul>
-                                        <input type="hidden" name="price_range" id="price_range"
-                                            value="{{ request('price_range') }}">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- status -->
-                        <div class="tp-shop-widget mb-50">
-                            <h3 class="tp-shop-widget-title">Dung lượng</h3>
-                            <div class="tp-shop-widget-content">
-                                <div class="tp-shop-widget-checkbox">
-                                    <form id="filter-form" action="{{ route('san-pham') }}" method="GET">
-                                        <ul class="filter-items filter-checkbox">
-                                            @foreach ($listDungLuong as $dungLuong)
-                                                <li class="filter-item checkbox">
-                                                    <input id="dung_luong_{{ $dungLuong->id }}" name="dung_luong_id[]"
-                                                        type="checkbox" value="{{ $dungLuong->id }}"
-                                                        {{ is_array(request('dung_luong_id')) && in_array($dungLuong->id, request('dung_luong_id')) ? 'checked' : '' }}
-                                                        onchange="this.form.submit()">
-                                                    <label
-                                                        for="dung_luong_{{ $dungLuong->id }}">{{ $dungLuong->ten_dung_luong }}</label>
-                                                </li>
-                                            @endforeach
-                                        </ul><!-- .filter-items -->
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- category -->
-                        <div class="tp-shop-widget mb-50">
-                            <h3 class="tp-shop-widget-title">Danh mục</h3>
-                            <div class="tp-shop-widget-content">
-                                <div class="tp-shop-widget-checkbox">
-                                    <form id="filter-form" action="{{ route('san-pham') }}" method="GET">
-                                        <div class="category-list">
-                                            @foreach ($listDanhMuc as $danhMuc)
-                                                <div
-                                                    class="category-item {{ request('danh_muc_id') == $danhMuc->id ? 'active' : '' }}">
-                                                    <a
-                                                        href="{{ route('san-pham', ['danh_muc_id' => $danhMuc->id, 'dung_luong_id' => request('dung_luong_id')]) }}">
-                                                        {{ $danhMuc->ten_danh_muc }}
-                                                    </a>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- color -->
-                        <form method="GET" action="{{ route('san-pham') }}">
+                        <form id="filterForm" action="{{ route('trangsanpham') }}" method="GET">
+                            <!-- Lọc theo giá -->
                             <div class="tp-shop-widget mb-50">
-                                <h3 class="tp-shop-widget-title">Màu Sắc</h3>
+                                <h3 class="tp-shop-widget-title">Lọc Theo Giá</h3>
                                 <div class="tp-shop-widget-content">
-                                    <div class="tp-shop-widget-checkbox-circle-list">
-                                        <ul>
-                                            @foreach($listMauSac as $mauSac)
-                                            <li>
-                                                <div class="tp-shop-widget-checkbox-circle">
-                                                    <input type="checkbox" name="mau_sac_id[]" id="mau_{{ $mauSac->id }}" value="{{ $mauSac->id }}"
-                                                           {{ in_array($mauSac->id, $mauSacIds) ? 'checked' : '' }} 
-                                                           onclick="this.form.submit()">
-                                                    <label for="mau_{{ $mauSac->id }}">{{ $mauSac->ten_mau_sac }}</label>
-                                                    <span data-bg-color="{{ $mauSac->ma_mau ?? '#ccc' }}" class="tp-shop-widget-checkbox-circle-self" style="background-color: {{ $mauSac->ma_mau ?? '#ccc' }}"></span>
-                                                </div>
-                                                <span class="tp-shop-widget-checkbox-circle-number">{{ $mauSac->products_count }}</span>
+                                    <div class="tp-shop-widget-checkbox">
+                                        <ul class="filter-items filter-checkbox">
+                                            <li class="filter-item checkbox">
+                                                <input id="price_under_1m" type="checkbox" name="price[]" value="duoi-1-trieu" onchange="submitFilterForm()">
+                                                <label for="price_under_1m">Dưới 1 triệu</label>
                                             </li>
+                                            <li class="filter-item checkbox">
+                                                <input id="price_1m_to_5m" type="checkbox" name="price[]" value="1-den-5-trieu" onchange="submitFilterForm()">
+                                                <label for="price_1m_to_5m">1 triệu - 5 triệu</label>
+                                            </li>
+                                            <li class="filter-item checkbox">
+                                                <input id="price_5m_to_10m" type="checkbox" name="price[]" value="5-den-10-trieu" onchange="submitFilterForm()">
+                                                <label for="price_5m_to_10m">5 triệu - 10 triệu</label>
+                                            </li>
+                                            <li class="filter-item checkbox">
+                                                <input id="price_10m_to_20m" type="checkbox" name="price[]" value="10-den-20-trieu" onchange="submitFilterForm()">
+                                                <label for="price_10m_to_20m">10 triệu - 20 triệu</label>
+                                            </li>
+                                            <li class="filter-item checkbox">
+                                                <input id="price_above_20m" type="checkbox" name="price[]" value="tren-20-trieu" onchange="submitFilterForm()">
+                                                <label for="price_above_20m">Trên 20 triệu</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>                            
+                        
+                            <!-- Lọc theo dung lượng -->
+                            <div class="tp-shop-widget mb-50">
+                                <h3 class="tp-shop-widget-title">Dung Lượng</h3>
+                                <div class="tp-shop-widget-content">
+                                    <div class="tp-shop-widget-checkbox">
+                                        <ul class="filter-items filter-checkbox">
+                                            @foreach ($dungLuongs as $dungLuong)
+                                                <li class="filter-item checkbox">
+                                                    <input id="dung_luong_{{ $dungLuong->id }}" type="checkbox" name="dung_luong[]" value="{{ $dungLuong->id }}" onchange="submitFilterForm()">
+                                                    <label for="dung_luong_{{ $dungLuong->id }}">{{ $dungLuong->ten_dung_luong }}</label>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                        </form>
                         
-                        <!-- Sản phẩm được đánh giá cao -->
-                        <div class="tp-shop-widget mb-50">
-                            <h3 class="tp-shop-widget-title">Sản phẩm được đánh giá cao</h3>
-                            <div class="tp-shop-widget-content">
-                                <div class="tp-shop-widget-product">
-                                    @foreach ($topRatedProducts as $item)
-                                        <div class="tp-shop-widget-product-item d-flex align-items-center">
-                                            <div class="tp-shop-widget-product-thumb">
-                                                <a href="{{ route('chitietsanpham', $item->id) }}">
-                                                    <img src="{{ asset($item->anh_san_pham) }}"
-                                                        alt="{{ $item->ten_san_pham }}">
-                                                </a>
-                                            </div>
-                                            <div class="tp-shop-widget-product-content">
-                                                <div
-                                                    class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
-                                                    <div class="tp-shop-widget-product-rating">
-                                                        @for ($i = 0; $i < 5; $i++)
-                                                            <span>
-                                                                <svg width="12" height="12" viewBox="0 0 12 12"
-                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z"
-                                                                        fill="{{ $i < round($item->avg_rating) ? 'currentColor' : 'none' }}" />
-                                                                </svg>
-                                                            </span>
-                                                        @endfor
-                                                    </div>
-                                                    <div class="tp-shop-widget-product-rating-number">
-                                                        <span>({{ number_format($item->avg_rating, 1) }})</span>
-                                                    </div>
-                                                </div>
-                                                <h4 class="tp-shop-widget-product-title">
-                                                    <a
-                                                        href="{{ route('chitietsanpham', $item->id) }}">{{ $item->ten_san_pham }}</a>
-                                                </h4>
-                                                <div class="tp-shop-widget-product-price-wrapper">
-                                                    @if ($item->bienTheSanPhams->isNotEmpty())
-                                                        <span class="tp-product-price-2 new-price">
-                                                            {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
-                                                        </span>
-                                                        @if (isset($item->bienTheSanPhams->first()->gia_cu))
-                                                            <span class="tp-product-price-2 old-price">
-                                                                {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
-                                                            </span>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                            <!-- Lọc theo danh mục -->
+                            <div class="tp-shop-widget mb-50">
+                                <h3 class="tp-shop-widget-title">Danh Mục</h3>
+                                <div class="tp-shop-widget-content">
+                                    <div class="tp-shop-widget-categories">
+                                        <ul>
+                                            @foreach ($danhMucs as $danhMuc)
+                                                <li>
+                                                    <a href="#" onclick="selectCategory('{{ $danhMuc->id }}'); return false;">
+                                                        {{ $danhMuc->ten_danh_muc }} 
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
+                        
+                            <!-- Lọc theo màu sắc -->
+                            <div class="tp-shop-widget mb-50">
+                                <h3 class="tp-shop-widget-title">Màu Sắc</h3>
+                                <div class="tp-shop-widget-content">
+                                    <div class="tp-shop-widget-checkbox-circle-list">
+                                        <ul>
+                                            @foreach ($mauSacs as $mauSac)
+                                                <li>
+                                                    <div class="tp-shop-widget-checkbox-circle">
+                                                        <input type="checkbox" id="color_{{ $mauSac->id }}" onchange="filterByColor('{{ $mauSac->id }}', this.checked);">
+                                                        <label for="color_{{ $mauSac->id }}">{{ $mauSac->ten_mau_sac }}</label>
+                                                        <span data-bg-color="{{ $mauSac->ma_mau ?? '#FFFFFF' }}" class="tp-shop-widget-checkbox-circle-self" style="background-color: {{ $mauSac->ma_mau ?? '#FFFFFF' }};"></span>
+                                                    </div>
+                                                    <span class="tp-shop-widget-checkbox-circle-number">{{ $mauSac->so_luong }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>  
+                        
+                            <!-- Sản phẩm được đánh giá cao -->
+                            <div class="tp-shop-widget mb-50">
+                                <h3 class="tp-shop-widget-title">Sản phẩm đánh giá cao</h3>
+                                <div class="tp-shop-widget-content">
+                                    <div class="tp-shop-widget-product">
+                                        @foreach($products as $product)
+                                            <div class="tp-shop-widget-product-item d-flex align-items-center">
+                                                <div class="tp-shop-widget-product-thumb">
+                                                    <a href="{{ route('chitietsanpham', $product->id) }}">
+                                                        <img src="{{ asset($product->anh_san_pham) }}" alt="{{ $product->ten_san_pham }}">
+                                                    </a>
+                                                </div>
+                                                <div class="tp-shop-widget-product-content">
+                                                    <div class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
+                                                        <div class="tp-shop-widget-product-rating">
+                                                            @for($i = 0; $i < 5; $i++)
+                                                                <span>
+                                                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M6 0L7.854 3.756L12 4.362L9 7.284L9.708 11.412L6 9.462L2.292 11.412L3 7.284L0 4.362L4.146 3.756L6 0Z" fill="{{ $i < round($product->danhGias->avg('diem_so') ?? 0) ? 'currentColor' : '#ccc' }}"/>
+                                                                    </svg>
+                                                                </span>
+                                                            @endfor
+                                                        </div>
+                                                        <div class="tp-shop-widget-product-rating-number">
+                                                            <span>({{ number_format($product->danhGias->avg('diem_so') ?? 0, 1) }})</span>
+                                                        </div>
+                                                    </div>
+                                                    <h4 class="tp-shop-widget-product-title">
+                                                        <a href="{{ route('chitietsanpham', $product->id) }}">{{ $product->ten_san_pham }}</a>
+                                                    </h4>
+                                                    <div class="tp-shop-widget-product-price-wrapper">
+                                                        @if ($product->bienTheSanPhams->isNotEmpty())
+                                                            <span class="tp-product-price-2 new-price">
+                                                                {{ number_format($product->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
+                                                            </span>
+                                                            @if (isset($product->bienTheSanPhams->first()->gia_cu) && $product->bienTheSanPhams->first()->gia_cu > $product->bienTheSanPhams->first()->gia_moi)
+                                                                <span class="tp-product-price-2 old-price">
+                                                                    {{ number_format($product->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                </span>
+                                                            @endif
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </form>                                                               
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-8">
@@ -451,9 +386,11 @@
                                                         </h3>
                                                         <div class="tp-product-rating-icon tp-product-rating-icon-2">
                                                             @for ($i = 0; $i < 5; $i++)
-                                                                <span><i class="fa-solid fa-star" style="color: {{ $i < round($item->avg_rating) ? 'currentColor' : 'lightgray' }}"></i></span>
+                                                                <span>
+                                                                    <i class="fa-solid fa-star" style="color: {{ $i < round($item->avg_rating) ? 'gold' : 'lightgray' }}"></i>
+                                                                </span>
                                                             @endfor
-                                                        </div>
+                                                        </div>                                  
                                                         @if ($item->bienTheSanPhams->isNotEmpty())
                                                             <span class="tp-product-price-2 new-price">
                                                                 {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
@@ -561,7 +498,7 @@
                                                                 <div class="tp-product-rating-icon tp-product-rating-icon-2">
                                                                     @for ($i = 0; $i < 5; $i++)
                                                                         <span>
-                                                                            <i class="fa-solid fa-star" style="color: {{ $i < round($item->avg_rating) ? 'currentColor' : 'lightgray' }}"></i>
+                                                                            <i class="fa-solid fa-star" style="color: {{ $i < round($item->avg_rating) ? 'gold' : 'lightgray' }}"></i>
                                                                         </span>
                                                                     @endfor
                                                                 </div>
@@ -817,78 +754,39 @@
 @endsection
 
 @section('js')
-    <script>
-        document.getElementById('filter-form').addEventListener('change', function() {
-            const formData = new FormData(this);
+<script>
+    function submitFilterForm() {
+        document.getElementById('filterForm').submit();
+    }
 
-            fetch('{{ route('san-pham') }}?' + new URLSearchParams(formData).toString(), {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                    }
-                })
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('product-list').innerHTML = data; // Cập nhật danh sách sản phẩm
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    </script>
-    {{-- Lọc sản phẩm theo giá --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterItems = document.querySelectorAll('#price-filter .filter-item');
-            const priceRangeInput = document.getElementById('price_range');
-            const form = document.getElementById('filter-form');
-
-            // Đặt trạng thái ban đầu (khi đã có lựa chọn từ trước)
-            filterItems.forEach(item => {
-                if (item.dataset.value === priceRangeInput.value) {
-                    item.classList.add('selected');
-                }
-            });
-
-            // Xử lý sự kiện click
-            filterItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    // Xóa class 'selected' khỏi tất cả các ô
-                    filterItems.forEach(i => i.classList.remove('selected'));
-
-                    // Thêm class 'selected' cho ô được chọn
-                    this.classList.add('selected');
-
-                    // Đặt giá trị cho input hidden và submit form
-                    priceRangeInput.value = this.dataset.value;
-                    form.submit();
-                });
-            });
-        });
-    </script>
-        {{-- Màu sắc --}}
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-        function filterProducts() {
-            // Lấy tất cả các giá trị màu sắc đã chọn
-            let selectedColors = [];
-            $('input[name="mau_sac_id[]"]:checked').each(function() {
-                selectedColors.push($(this).val());
-            });
-        
-            // Gửi yêu cầu AJAX để lọc sản phẩm
-            $.ajax({
-                url: '{{ route("san-pham") }}', // Đường dẫn đến route lọc sản phẩm
-                type: 'GET',
-                data: {
-                    mau_sac_id: selectedColors, // Gửi các id màu sắc đã chọn
-                },
-                success: function(data) {
-                    // Cập nhật nội dung sản phẩm hiển thị
-                    $('#product-list').html(data); // Cập nhật với dữ liệu mới
-                },
-                error: function(xhr) {
-                    console.error('Có lỗi xảy ra:', xhr);
-                }
-            });
+    function filterByColor(colorId, checked) {
+        const filterForm = document.getElementById('filterForm');
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'mau_sac[]';
+        input.value = colorId;
+        if (checked) {
+            filterForm.appendChild(input);
+        } else {
+            // Xóa màu sắc khỏi form nếu không được chọn
+            const existingInput = [...filterForm.querySelectorAll('input[name="mau_sac[]"]')]
+                .find(i => i.value === colorId);
+            if (existingInput) {
+                filterForm.removeChild(existingInput);
+            }
         }
-    </script>      
+        filterForm.submit();
+    }
+
+    function selectCategory(categoryId) {
+        // Xử lý chọn danh mục
+        const filterForm = document.getElementById('filterForm');
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'danh_muc';
+        input.value = categoryId;
+        filterForm.appendChild(input);
+        filterForm.submit();
+    }
+</script>
 @endsection

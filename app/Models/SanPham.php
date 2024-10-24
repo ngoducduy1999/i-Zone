@@ -71,8 +71,12 @@ class SanPham extends Model
     }
 
     public function danhmucs()
-{
+    {
     return $this->belongsTo(DanhMuc::class, 'danh_muc_id');
-}
-
+    }
+    
+    public function getAvgRatingAttribute()
+    {
+        return $this->danhGias()->avg('diem_so');
+    }
 }
