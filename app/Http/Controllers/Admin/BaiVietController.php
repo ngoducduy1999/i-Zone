@@ -19,15 +19,12 @@ class BaiVietController extends Controller
     {
         $title = "Danh sách bài viết";
 
-        // Get filter inputs
         $author = $request->input('user_id');
         $date = $request->input('ngay_dang');
         $status = $request->input('trang_thai');
 
-        // Build the query for articles
         $query = BaiViet::query();
 
-        // Apply filters if available
         if ($author) {
             $query->where('user_id', $author);
         }
@@ -36,15 +33,13 @@ class BaiVietController extends Controller
             $query->whereDate('created_at', $date);
         }
 
-        if (!is_null($status)) { // check for null explicitly for boolean
+        if (!is_null($status)) { 
             $query->where('trang_thai', $status);
         }
 
-        // Get the filtered list of articles
         $listBaiViet = $query->get();
 
-        // Get the list of users for the filter dropdown
-        $users = User::all(); // Assuming you have a User model
+        $users = User::all(); 
 
         return view('admins.baiviets.index', compact('title', 'listBaiViet', 'users'));
     }
