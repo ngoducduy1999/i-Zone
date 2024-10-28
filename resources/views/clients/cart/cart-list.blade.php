@@ -166,3 +166,4 @@
 </div>
 <input type="hidden" name="" id="total-quantity-list-cart"
     value="{{ isset(Session::get('cart')->totalProduct) ? Session::get('cart')->totalProduct : 0 }}">
+<script src="{{ asset('assets/client/js/main.js') }}"></script>
