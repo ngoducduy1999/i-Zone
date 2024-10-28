@@ -13,7 +13,7 @@ class DungLuongController extends Controller
      */
     public function index()
     {
-        //
+    
         $dungluongs = DungLuong::all();
         return view('admins.dungluongs.index',compact('dungluongs'));
     }
