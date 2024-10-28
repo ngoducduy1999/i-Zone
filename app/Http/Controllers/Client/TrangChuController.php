@@ -25,7 +25,7 @@ class TrangChuController extends Controller
          $khuyenMais = KhuyenMai::where('trang_thai', 1) // Kiểm tra trạng thái
          ->where('ngay_ket_thuc', '>=', now()) // Kiểm tra ngày kết thúc
          ->orderBy('ngay_ket_thuc', 'asc') // Sắp xếp theo ngày kết thúc gần nhất
-         ->take(3) // Lấy 3 khuyến mãi
+         ->take(5) // Lấy  khuyến mãi
          ->get();
 
         // Lấy 10 sản phẩm nổi bật (có lượt xem cao)
