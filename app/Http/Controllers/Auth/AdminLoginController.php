@@ -11,7 +11,12 @@ class AdminLoginController extends Controller
     public function showLoginForm()
     {
         // khi vào admin bắt buộc phải đăng nhập lại
-        return view('auth.admin_login');
+        if (Auth::check()) {
+            Auth::logout();
+            return view('auth.admin_login');
+        } else {
+            return view('auth.admin_login');
+        }
         // // khi đăng nhập ở client có role:admin,staff thì không cần đăng nhập
         // if (Auth::check()) {
         //     if(Auth::user()->vai_tro=='admin' || Auth::user()->vai_tro=='staff'){
