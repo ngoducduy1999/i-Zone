@@ -205,3 +205,5 @@ Route::get('/Cart-List', [CartController::class, 'CartList'])->name('cart.list')
 Route::get('/Add-Cart/{id}', [CartController::class, 'AddCart'])->name('cart.add');
 Route::get('/Delete-Item-Cart/{id}', [CartController::class, 'DeleteItemCart'])->name('cart.delete.item');
 Route::get('/Delete-Item-List-Cart/{id}', [CartController::class, 'DeleteItemListCart'])->name('cart.delete.item.list');
+Route::get('/Update-Item-Cart/{id}', [CartController::class, 'UpdateItemCart'])->name('cart.update.item');
+Route::get('/Discount-Cart/{disscountCode}', [CartController::class, 'discount'])->name('cart.disscount');
