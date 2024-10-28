@@ -16,6 +16,7 @@ class HoaDon extends Model
         '4' => 'Đang vận chuyển',
         '5' => 'Đã giao hàng',
         '6' => 'Đơn hàng đã hủy',
+        '7' => 'Đã nhận được hàng'
     ];
 
     const PHUONG_THUC_THANH_TOAN = [
@@ -35,11 +36,13 @@ class HoaDon extends Model
 
     const HUY_DON_HANG = '6';
 
+    const DA_NHAN_HANG = '7';
     const THANH_TOAN_KHI_NHAN_HANG = 'online';
 
     const THANH_TOAN_QUA_CHUYEN_KHOAN = 'offline';
 
     protected $fillable = [
+        'ma_hoa_don',
         'user_id',
         'giam_gia',
         'tong_tien',

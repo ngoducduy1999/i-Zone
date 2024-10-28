@@ -28,7 +28,7 @@ class CustomerLoginController extends Controller
             'email.email' => 'Email không hợp lệ',
             'mat_khau.required' => 'Mật khẩu không được để trống',
         ]);
-        
+
         // Thay đổi tên cột mật khẩu trong việc xác thực
         $credentials = [
             'email' => $request->email,
@@ -49,6 +49,6 @@ class CustomerLoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/login');
+        return redirect('');
     }
 }
