@@ -72,8 +72,8 @@
                                     <div class="mb-3">
                                         <label for="ten_san_pham" class="form-label">Tên sản phẩm</label>
                                         <input type="text" id="ten_san_pham" id="ten_san_pham" name="ten_san_pham"
-                                            class="form-control" placeholder="Tên sản phẩm"
-                                            value=" {{ $sanpham->ten_san_pham }}">
+                                            class="form-control" placeholder="Mã sản phẩm"
+                                            value="{{ $sanpham->ten_san_pham }}">
                                         @error('ten_san_pham')
                                             <p class="text-danger">{{ $message }}</p>
                                         @enderror
@@ -122,6 +122,9 @@
                                         <input class="form-control" type="file" id="hinh_anh" name="hinh_anh[]"
                                             multiple>
                                         @error('hinh_anh.*')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                        @error('hinh_anh')
                                             <p class="text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
@@ -279,11 +282,11 @@
             var variantCount = 1;
 
             function attachInputChangeListener() {
-                var inputs = document.querySelectorAll('input');
+                var inputs = document.querySelectorAll('input[type="number"]');
                 inputs.forEach(function(input) {
                     input.addEventListener('change', function(e) {
                         if (e.target.value < 1) {
-                            e.target.value = 1;
+                            e.target.value = 0;
                         }
                     });
                 });
@@ -305,6 +308,9 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('new_dung_luong_id.0')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label for="new_mau_sac_id-${variantCount}" class="form-label">Màu sắc:</label>
@@ -316,18 +322,30 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('new_mau_sac_id.0')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label for="new_gia_cu-${variantCount}" class="form-label">Giá cũ:</label>
-                                            <input type="number" class="form-control" id="new_gia_cu-${variantCount}" name="new_gia_cu[]" min="0" required>
+                                            <input type="number" class="form-control" id="new_gia_cu-${variantCount}" name="new_gia_cu[]" min="0">
+                                            @error('new_gia_cu.0')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label for="new_gia_moi-${variantCount}" class="form-label">Giá mới:</label>
-                                            <input type="number" class="form-control" id="new_gia_moi-${variantCount}" name="new_gia_moi[]" min="0" required>
+                                            <input type="number" class="form-control" id="new_gia_moi-${variantCount}" name="new_gia_moi[]" min="0">
+                                             @error('new_gia_moi.0')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label for="new_so_luong-${variantCount}" class="form-label">Số lượng:</label>
-                                            <input type="number" class="form-control" id="new_so_luong-${variantCount}" name="new_so_luong[]" min="0" required>
+                                            <input type="number" class="form-control" id="new_so_luong-${variantCount}" name="new_so_luong[]" min="0">
+                                            @error('new_so_luong.0')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <button class="remove-btn btn btn-none">
@@ -338,21 +356,6 @@
                                             </button>
                                         </div>
                                     </div>
-                                    @error('new_dung_luong_id.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    @error('new_mau_sac_id.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    @error('new_gia_cu.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    @error('new_gia_moi.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    @error('new_so_luong.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
                                     <hr>
                                 `;
 
@@ -377,7 +380,11 @@
             attachInputChangeListener();
         });
     </script>
+    
+
     <script>
+
+        // album ảnh
         document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('hinh_anh');
             const previewContainer = document.getElementById('preview');
@@ -385,7 +392,7 @@
             const deletedImagesInput = document.getElementById('deleted_images');
             let selectedFiles = [];
             let deletedImageIds = [];
-
+    
             // Load existing images into selectedFiles
             const existingImages = Array.from(previewContainer.querySelectorAll('.preview-item'));
             existingImages.forEach(previewItem => {
@@ -396,78 +403,54 @@
                     id: id
                 });
             });
-
+    
             function renderPreview() {
                 previewContainer.innerHTML = '';
-
+    
                 selectedFiles.forEach(file => {
                     const previewItem = document.createElement('div');
                     previewItem.className = 'preview-item';
-
-                    if (file instanceof File) {
-                        const reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.className = 'img-fluid';
-                            img.style.maxHeight = '100px';
-                            previewItem.appendChild(img);
-
-                            const deleteButton = document.createElement('button');
-                            deleteButton.className = 'btn btn-danger btn-sm delete-button';
-                            deleteButton.textContent = 'X';
-                            deleteButton.addEventListener('click', function() {
-                                previewItem.remove();
-                                selectedFiles = selectedFiles.filter(f => f !== file);
-                                updateFileInput();
-                            });
-                            previewItem.appendChild(deleteButton);
-
-                            previewContainer.appendChild(previewItem);
-                        };
-
-                        reader.readAsDataURL(file);
-                    } else {
-                        const img = document.createElement('img');
-                        img.src = file.src;
-                        img.className = 'img-fluid';
-                        img.style.maxHeight = '100px';
-                        previewItem.appendChild(img);
-
-                        const deleteButton = document.createElement('button');
-                        deleteButton.className = 'btn btn-danger btn-sm delete-button';
-                        deleteButton.textContent = 'X';
-                        deleteButton.addEventListener('click', function() {
-                            previewItem.remove();
-                            selectedFiles = selectedFiles.filter(f => f.src !== file.src);
+    
+                    const img = document.createElement('img');
+                    img.src = (file instanceof File) ? URL.createObjectURL(file) : file.src;
+                    img.className = 'img-fluid';
+                    img.style.maxHeight = '100px';
+                    previewItem.appendChild(img);
+    
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'btn btn-danger btn-sm delete-button';
+                    deleteButton.textContent = 'X';
+                    deleteButton.addEventListener('click', function() {
+                        previewItem.remove();
+                        selectedFiles = selectedFiles.filter(f => f !== file);
+                        if (file.id) {
                             deletedImageIds.push(file.id);
-                            updateFileInput();
-                            updateDeletedImagesInput();
-                        });
-                        previewItem.appendChild(deleteButton);
-
-                        previewContainer.appendChild(previewItem);
-                    }
+                        }
+                        updateFileInput();
+                        updateDeletedImagesInput();
+                    });
+                    previewItem.appendChild(deleteButton);
+    
+                    previewContainer.appendChild(previewItem);
                 });
-
+    
                 oldImagesInput.value = selectedFiles.filter(f => typeof f === 'object' && f.src).map(f => f.src)
                     .join(',');
             }
-
+    
             input.addEventListener('change', function() {
                 const newFiles = Array.from(input.files);
-
+    
                 newFiles.forEach(file => {
-                    if (!selectedFiles.some(existingFile => existingFile.src === URL
-                            .createObjectURL(file))) {
+                    if (!selectedFiles.some(existingFile => existingFile instanceof File && existingFile.name === file.name)) {
                         selectedFiles.push(file);
                     }
                 });
-
+    
                 renderPreview();
+                updateFileInput();
             });
-
+    
             function updateFileInput() {
                 const dataTransfer = new DataTransfer();
                 selectedFiles.forEach(file => {
@@ -477,14 +460,16 @@
                 });
                 input.files = dataTransfer.files;
             }
-
+    
             function updateDeletedImagesInput() {
                 deletedImagesInput.value = deletedImageIds.join(',');
             }
-
+    
             renderPreview();
         });
     </script>
+
+
     <script>
         // 1 ảnh
         var anh_san_pham = document.querySelector('#anh_san_pham');
@@ -500,4 +485,9 @@
         // mô tả
         CKEDITOR.replace('mo_ta');
     </script>
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            console.log(document.getElementById('ten_san_pham').value);
+        });
+        </script>
 @endsection

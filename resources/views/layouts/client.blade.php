@@ -22,6 +22,17 @@
       <link rel="stylesheet" href="{{ asset('assets/client/css/flaticon_shofy.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
       <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
+      @yield('css')
+
+      <!-- Swiper CSS -->
+      <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+      <!-- Swiper JS -->
+      <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+      <!-- chuyen json len dau -->
+      <script src="{{ asset('assets/client/js/vendor/jquery.js') }}"></script>
+      
    </head>
    <body>
       <!--[if lte IE 9]>
@@ -224,56 +235,92 @@
       <!-- cart mini area start -->
       <div class="cartmini__area tp-all-font-roboto">
          <div class="cartmini__wrapper d-flex justify-content-between flex-column">
-             <div class="cartmini__top-wrapper">
-                 <div class="cartmini__top p-relative">
-                     <div class="cartmini__top-title">
-                         <h4>Shopping cart</h4>
-                     </div>
-                     <div class="cartmini__close">
-                         <button type="button" class="cartmini__close-btn cartmini-close-btn"><i class="fal fa-times"></i></button>
-                     </div>
-                 </div>
-                 <div class="cartmini__shipping">
-                  <p> Free Shipping for all orders over <span>$50</span></p>
-                  <div class="progress">
-                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" data-width="70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                   </div>
-                 </div>
-                 <div class="cartmini__widget">
-                     <div class="cartmini__widget-item">
-                         <div class="cartmini__thumb">
-                           <a href="product-details.html">
-                              <img src="{{ asset('assets/client/img/product/product-1.jpg') }}" alt="">
-                           </a>
-                         </div>
-                         <div class="cartmini__content">
-                           <h5 class="cartmini__title"><a href="product-details.html">Level Bolt Smart Lock</a></h5>
-                           <div class="cartmini__price-wrapper">
-                              <span class="cartmini__price">$46.00</span>
-                              <span class="cartmini__quantity">x2</span>
+
+            <div class="change-item-cart" id="change-item-cart">
+               @if (Session::has('cart') != null)
+                   <div class="cartmini__top-wrapper">
+                       <div class="cartmini__top p-relative">
+                           <div class="cartmini__top-title">
+                               <h4>Shopping cart</h4>
                            </div>
-                         </div>
-                         <a href="#" class="cartmini__del"><i class="fa-regular fa-xmark"></i></a>
-                     </div>
-                 </div>
-                 <!-- for wp -->
-                 <!-- if no item in cart -->
-                 <div class="cartmini__empty text-center d-none">
-                     <img src="{{ asset('assets/client/img/product/cartmini/empty-cart.png') }}" alt="">
-                     <p>Your Cart is empty</p>
-                     <a href="shop.html" class="tp-btn">Go to Shop</a>
-                 </div>
-             </div>
-             <div class="cartmini__checkout">
-                 <div class="cartmini__checkout-title mb-30">
-                     <h4>Subtotal:</h4>
-                     <span>$113.00</span>
-                 </div>
-                 <div class="cartmini__checkout-btn">
-                     <a href="{{ route('giohang') }}" class="tp-btn mb-10 w-100"> view cart</a>
-                     <a href="checkout.html" class="tp-btn tp-btn-border w-100"> checkout</a>
-                 </div>
-             </div>
+                           {{-- <div class="cartmini__close">
+                               <button type="button" class="cartmini__close-btn cartmini-close-btn"><i
+                                       class="fal fa-times"></i></button>
+                           </div> --}}
+                       </div>
+                       <div class="cartmini__widget">
+                           @foreach (Session::get('cart')->products as $idbt => $product)
+                               <div class="cartmini__widget-item">
+                                   <div class="cartmini__thumb">
+                                       <a href="{{ route('chitietsanpham', $product['productInfo']->id) }}">
+                                           <img src="{{ asset($product['productInfo']->anh_san_pham) }}"
+                                               alt="{{ $product['productInfo']->ten_san_pham ?? 'Product Image' }}">
+                                       </a>
+                                   </div>
+                                   <div class="cartmini__content">
+                                       <h5 class="cartmini__title"
+                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">
+                                           <a href="{{ route('chitietsanpham', $product['productInfo']->id) }}"
+                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">
+                                               {{ isset($product['productInfo']->ten_san_pham) ? $product['productInfo']->ten_san_pham : 'Tên sản phẩm không có' }}
+                                           </a>
+                                       </h5>
+                                       <div class="cartmini__price-wrapper">
+                                           <span class="cartmini__price">
+                                               {{ isset($product['bienthe']->gia_moi) ? number_format($product['bienthe']->gia_moi, 0, ',', '.') . ' VNĐ' : 'Chưa có giá' }}
+                                           </span>
+                                           <span class="cartmini__quantity">
+                                               x {{ isset($product['quantity']) ? $product['quantity'] : '...' }}
+                                           </span>
+                                       </div>
+                                       <div class="cartmini__price-wrapper">
+                                           <span>
+                                               {{ isset($product['bienthe']->dungLuong) ? $product['bienthe']->dungLuong->ten_dung_luong : '...' }}
+                                           </span>
+
+                                           <span class="cartmini__quantity">
+                                               x
+                                               {{ isset($product['bienthe']->mauSac) ? $product['bienthe']->mauSac->ten_mau_sac : '...' }}
+                                           </span>
+                                       </div>
+                                   </div>
+                                   <button class="cartmini__del"><i class="fa-regular fa-xmark"
+                                           data-idbt="{{ $idbt }}"></i></button>
+                               </div>
+                           @endforeach
+                       </div>
+                   </div>
+                   <div class="cartmini__checkout">
+                       <div class="cartmini__checkout-title mb-30">
+                           <h4>Total price:</h4>
+                           <span>
+                               {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : '0' }}
+                               VNĐ
+                           </span>
+                           <input type="number" hidden name="" id="total-quantity-cart"
+                               value="{{ isset(Session::get('cart')->totalProduct) ? Session::get('cart')->totalProduct : 0 }}">
+                       </div>
+                       <div class="cartmini__checkout-title mb-30">
+                           <h4>Total product:</h4>
+                           <span>
+                               {{ isset(Session::get('cart')->totalProduct) ? number_format(Session::get('cart')->totalProduct, 0, ',', '.') : '0' }}
+                           </span>
+                       </div>
+                       <div class="cartmini__checkout-btn">
+                           <a href="{{ route('cart.index') }}" class="tp-btn mb-10 w-100"> view cart</a>
+                           <a href="checkout.html" class="tp-btn tp-btn-border w-100"> checkout</a>
+                       </div>
+                   </div>
+               @else
+                   <div class="cartmini__empty text-center">
+                       <img src="{{ asset('assets/client/img/product/cartmini/empty-cart.png') }}" alt="">
+                       <p>Your Cart is empty</p>
+                       <a href="{{ route('trangchu') }}" class="tp-btn">Go to Shop</a>
+                       <input type="number" hidden name="" id="total-quantity-cart"
+                           value="{{ isset(Session::get('cart')->totalProduct) ? Session::get('cart')->totalProduct : 0 }}">
+                   </div>
+               @endif
+           </div>
          </div>
      </div>
      <!-- cart mini area end -->
@@ -536,8 +583,23 @@
                                  <path d="M6.34902 5.5984C6.34902 3.21232 8.28331 1.27803 10.6694 1.27803V1.27803C11.8184 1.27316 12.922 1.72619 13.7362 2.53695C14.5504 3.3477 15.0081 4.44939 15.0081 5.5984V5.5984" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                  <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                  <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                              </svg>
-                              <span class="tp-header-action-badge">13</span>
+
+                              </svg>    
+                              <span class="tp-header-action-badge">
+                                 @if (Session::has('cart'))
+                                       <span id="total-quantity-show">
+                                          <span>
+                                             {{ Session::has('cart') ? Session::get('cart')->totalProduct : 0 }}
+                                          </span>
+                                       </span>
+                                 @else
+                                       <span id="total-quantity-show">
+                                          <span>
+                                             0
+                                          </span>
+                                       </span>
+                                 @endif   
+                              </span>                                                                          
                            </button>
                         </div>
                         <div class="tp-header-action-item d-lg-none">
@@ -567,11 +629,28 @@
          @include('clients.block.footer')
       </footer>
       <!-- footer area end -->
+      <!-- <script>
+         var swiper = new Swiper('.tp-slider-active', {
+            loop: true,
+            autoplay: {
+            delay: 3000,
+         },
+         navigation: {
+            nextEl: '.tp-slider-button-next',
+            prevEl: '.tp-slider-button-prev',
+         },
+         pagination: {
+            el: '.tp-swiper-dot',
+            clickable: true,
+         },
+      });
+
+      </script> -->
 
 
 
       <!-- JS here -->
-      <script data-cfasync="false" src="{{ asset('assets/client/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script><script src="{{ asset('assets/client/js/vendor/jquery.js') }}"></script>
+      <script data-cfasync="false" src="{{ asset('assets/client/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
       <script src="{{ asset('assets/client/js/vendor/waypoints.js') }}"></script>
       <script src="{{ asset('assets/client/js/bootstrap-bundle.js') }}"></script>
       <script src="{{ asset('assets/client/js/meanmenu.js') }}"></script>
@@ -588,7 +667,152 @@
       <script src="{{ asset('assets/client/js/ajax-form.js') }}"></script>
       <script src="{{ asset('assets/client/js/main.js') }}"></script>
 
-    @yield('js')
+      @yield('js')
+
+      {{-- thêm link thông báo ở cuối --}}
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css" />
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
+
+
+    <script>
+        var dungLuongId;
+        var mauSacId;
+        // lấy màu sắc, dung lượng
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.tp-size-variation-btn');
+            const colorButtons = document.querySelectorAll('.tp-color-variation-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    dungLuongId = parseInt(button.getAttribute('data-dung-luong-id'));
+                });
+            });
+            colorButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    colorButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    mauSacId = parseInt(button.getAttribute('data-mau-sac-id'));
+                });
+            });
+        });
+        // thêm sản phẩm vào giỏ hàng
+        function addToCart(id) {
+            var quantityInput = document.querySelector('.tp-cart-input');
+            var quantity = parseInt(quantityInput.value);
+            if (quantity < 1) {
+                alert("Số lượng sản phẩm không được nhỏ hơn 1");
+                return;
+            }
+            if (mauSacId === undefined) {
+                alert("Vui lòng chọn màu sắc sản phẩm!");
+                return;
+            }
+            if (dungLuongId === undefined) {
+                alert("Vui lòng chọn dung lượng sản phẩm!");
+                return;
+            }
+            $.ajax({
+                    url: "/Add-Cart/" + id,
+                    type: "GET",
+                    data: {
+                        quantity: quantity,
+                        mauSacId: mauSacId,
+                        dungLuongId: dungLuongId,
+                    }
+                })
+                .done((response) => {
+                    RenderCartDrop(response);
+                    alertify.success('Đã thêm vào giỏ hàng!');
+                })
+                .fail((jqXHR, textStatus, errorThrown) => {
+                    alertify.error('Thêm vào giỏ hàng thất bại!');
+                    console.error("Error adding to cart:", textStatus, errorThrown);
+                });
+        }
+        // xóa sản phẩm khỏi giỏ hàng, giỏ hàng drop
+        $('#change-item-cart').off("click", ".cartmini__del i").on("click", ".cartmini__del i", function() {
+            console.log("clicked");
+            $.ajax({
+                    url: "/Delete-Item-Cart/" + $(this).data("idbt"),
+                    type: "GET",
+                })
+                .done((response) => {
+                    RenderCartDrop(response);
+                    alertify.success('Xóa thành công!');
+                    cartIndex();
+                });
+        });
+        // hiển thị lại giỏ hàng, giỏ hàng drop sidebar
+        function RenderCartDrop(response) {
+            if ($("#change-item-cart")) {
+                $("#change-item-cart").empty();
+                $("#change-item-cart").html(response);
+                let totalQuantity = $("#total-quantity-cart").val();
+                if (totalQuantity) {
+                    $("#total-quantity-show").text(totalQuantity);
+                    $("#total-quantity-show span").text(totalQuantity);
+                }
+            }
+        }
+        // hiển thị giỏ hàng
+        function RenderListCart(response) {
+            if ($("#list-cart")) {
+                $("#list-cart").empty();
+                $("#list-cart").html(response);
+                let totalQuantity = $("#total-quantity-list-cart").val();
+                if (totalQuantity) {
+                    $("#total-quantity-show").text(totalQuantity);
+                    $("#total-quantity-show span").text(totalQuantity);
+                }
+            }
+        }
+        // danh sach san pham gio hang drop sideber
+        function cartIndex() {
+            if ($("#list-cart")) {
+                $.ajax({
+                        url: "/Cart-List",
+                        type: "GET",
+                    })
+                    .done((response) => {
+                        RenderListCart(response);
+                    });
+            }
+        }
+        // danh sach san pham gio hang
+        function cartDropIndex() {
+            if ($("#change-item-cart")) {
+                $.ajax({
+                        url: "/Cart-List-Drop",
+                        type: "GET",
+                    })
+                    .done((response) => {
+                        RenderCartDrop(response);
+                    });
+            }
+        }
+        // xóa sản phẩm khỏi giỏ hàng
+        function DeleteItemCart(idbt) {
+            console.log(idbt);
+            $.ajax({
+                    url: "/Delete-Item-List-Cart/" + idbt,
+                    type: "GET",
+                })
+                .done((response) => {
+                    RenderListCart(response);
+                    alertify.success('Xóa thành công!');
+                    cartDropIndex();
+                });
+        }
+    </script>
    </body>
 
 <!-- Mirrored from template.wphix.com/shofy-prv/shofy/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 29 Sep 2024 13:19:32 GMT -->

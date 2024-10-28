@@ -16,4 +16,6 @@ class KhuyenMai extends Model
         'ngay_ket_thuc',
         'trang_thai'
     ];
+
+    
 }

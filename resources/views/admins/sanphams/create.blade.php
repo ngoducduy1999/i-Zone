@@ -90,10 +90,11 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="example-multiselect" class="form-label">Tags sản phẩm</label>
-                                        <select id="example-multiselect" multiple class="form-control" id="tag_id" name="tag_id[]">
+                                        <select id="example-multiselect" multiple class="form-control" id="tag_id"
+                                            name="tag_id[]">
                                             @foreach ($tags as $tag)
                                                 <option value="{{ $tag->id }}"
-                                                    {{ old('tag_id') == $tag->id ? 'selected' : '' }}>
+                                                    {{ is_array(old('tag_id')) && in_array($tag->id, old('tag_id')) ? 'selected' : '' }}>
                                                     {{ $tag->ten_tag }}
                                                 </option>
                                             @endforeach
@@ -136,7 +137,7 @@
                                                     <div class="col-md-2">
                                                         <label for="dung_luong_id-0" class="form-label">Dung lượng:</label>
                                                         <select class="form-select" id="dung_luong_id-0"
-                                                            name="dung_luong_id[]" required>
+                                                            name="dung_luong_id[]">
                                                             <option disabled>Ram</option>
                                                             @foreach ($dungluongs as $dungluong)
                                                                 <option value="{{ $dungluong->id }}"
@@ -145,11 +146,14 @@
                                                                 </option>
                                                             @endforeach
                                                         </select>
+                                                        @error('dung_luong_id.0')
+                                                            <p class="text-danger">{{ $message }}</p>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-2">
                                                         <label for="mau_sac_id-0" class="form-label">Màu sắc:</label>
-                                                        <select class="form-select" id="mau_sac_id-0" name="mau_sac_id[]"
-                                                            required>
+                                                        <select class="form-select" id="mau_sac_id-0"
+                                                            name="mau_sac_id[]">
                                                             <option disabled>Color</option>
                                                             @foreach ($mausacs as $mausac)
                                                                 <option value="{{ $mausac->id }}"
@@ -158,42 +162,38 @@
                                                                 </option>
                                                             @endforeach
                                                         </select>
+                                                        @error('mau_sac_id.0')
+                                                            <p class="text-danger">{{ $message }}</p>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-2">
                                                         <label for="gia_cu-0" class="form-label">Giá cũ:</label>
                                                         <input type="number" class="form-control" id="gia_cu-0"
-                                                            name="gia_cu[]" min="0" required
+                                                            name="gia_cu[]" min="0"
                                                             value="{{ old('gia_cu.0') }}">
+                                                        @error('gia_cu.0')
+                                                            <p class="text-danger">{{ $message }}</p>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-2">
                                                         <label for="gia_moi-0" class="form-label">Giá mới:</label>
                                                         <input type="number" class="form-control" id="gia_moi-0"
-                                                            name="gia_moi[]" min="0" required
+                                                            name="gia_moi[]" min="0"
                                                             value="{{ old('gia_moi.0') }}">
-
+                                                        @error('gia_moi.0')
+                                                            <p class="text-danger">{{ $message }}</p>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-2">
                                                         <label for="so_luong-0" class="form-label">Số lượng:</label>
                                                         <input type="number" class="form-control" id="so_luong-0"
-                                                            name="so_luong[]" min="0" required
+                                                            name="so_luong[]" min="0"
                                                             value="{{ old('so_luong.0') }}">
+                                                        @error('so_luong.0')
+                                                            <p class="text-danger">{{ $message }}</p>
+                                                        @enderror
                                                     </div>
                                                 </div>
-                                                @error('dung_luong_id.0')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                @enderror
-                                                @error('mau_sac_id.0')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                @enderror
-                                                @error('gia_cu.0')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                @enderror
-                                                @error('gia_moi.0')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                @enderror
-                                                @error('so_luong.0')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                @enderror
                                                 <hr>
                                             </div>
                                             <button class="btn btn-primary" style="margin-top: 10px"
@@ -224,7 +224,7 @@
             var variantCount = 1;
 
             function attachInputChangeListener() {
-                var inputs = document.querySelectorAll('input');
+                var inputs = document.querySelectorAll('input[type="number"]');
                 inputs.forEach(function(input) {
                     input.addEventListener('change', function(e) {
                         if (e.target.value < 1) {
@@ -264,15 +264,15 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label for="gia_cu-${variantCount}" class="form-label">Giá cũ:</label>
-                                            <input type="number" class="form-control" id="gia_cu-${variantCount}" name="gia_cu[]" min="0" required>
+                                            <input type="number" class="form-control" id="gia_cu-${variantCount}" name="gia_cu[]" min="0">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="gia_moi-${variantCount}" class="form-label">Giá mới:</label>
-                                            <input type="number" class="form-control" id="gia_moi-${variantCount}" name="gia_moi[]" min="0" required>
+                                            <input type="number" class="form-control" id="gia_moi-${variantCount}" name="gia_moi[]" min="0">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="so_luong-${variantCount}" class="form-label">Số lượng:</label>
-                                            <input type="number" class="form-control" id="so_luong-${variantCount}" name="so_luong[]" min="0" required>
+                                            <input type="number" class="form-control" id="so_luong-${variantCount}" name="so_luong[]" min="0">
                                         </div>
                                         <div class="col-md-2">
                                             <button class="remove-btn btn btn-none">
@@ -283,21 +283,6 @@
                                             </button>
                                         </div>
                                     </div>
-                                    @error('dung_luong_id.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    @error('mau_sac_id.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    @error('gia_cu.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    @error('gia_moi.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    @error('so_luong.0')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
                                     <hr>
                                 `;
 
@@ -322,65 +307,91 @@
             attachInputChangeListener();
         });
     </script>
+
     <script>
         // album ảnh
-        const input = document.getElementById('hinh_anh');
-        const previewContainer = document.getElementById('preview');
-        const submitButton = document.getElementById('submitButton');
-        let selectedFiles = []; // Mảng để lưu trữ các file đã chọn
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('hinh_anh');
+            const previewContainer = document.getElementById('preview');
+            const oldImagesInput = document.getElementById('old_images');
+            let selectedFiles = [];
 
-        function renderPreviews() {
-            previewContainer.innerHTML = ''; // Clear previous previews
-            for (let i = 0; i < selectedFiles.length; i++) {
-                const file = selectedFiles[i];
-                const reader = new FileReader();
+            // Load existing images into selectedFiles
+            const existingImages = Array.from(previewContainer.querySelectorAll('.preview-item'));
+            existingImages.forEach(previewItem => {
+                const img = previewItem.querySelector('img');
+                selectedFiles.push({
+                    src: img.src
+                });
+            });
 
-                reader.onload = function(e) {
+            function renderPreview() {
+                previewContainer.innerHTML = '';
+
+                selectedFiles.forEach((file, index) => {
                     const previewItem = document.createElement('div');
                     previewItem.className = 'preview-item';
 
-                    const fileType = file.type.split('/')[0]; // Get file type (image, video, etc.)
+                    const img = document.createElement('img');
+                    img.src = (file instanceof File) ? URL.createObjectURL(file) : file.src;
+                    img.className = 'img-fluid';
+                    img.style.maxHeight = '100px';
+                    previewItem.appendChild(img);
 
-                    if (fileType === 'image') {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.className = 'img-fluid'; // Bootstrap class to make the image responsive
-                        img.style.maxHeight = '100px'; // Adjust height as needed
-                        previewItem.appendChild(img);
-                    } else {
-                        const text = document.createElement('p');
-                        text.textContent = file.name;
-                        previewItem.appendChild(text);
-                    }
                     const deleteButton = document.createElement('button');
                     deleteButton.className = 'btn btn-danger btn-sm delete-button';
                     deleteButton.textContent = 'X';
                     deleteButton.addEventListener('click', function() {
-                        selectedFiles.splice(i, 1); // Remove file from selectedFiles array
-                        renderPreviews(); // Re-render the previews
+                        previewItem.remove();
+                        selectedFiles.splice(index, 1); // Xóa đúng ảnh dựa trên chỉ số
+                        updateFileInput();
                     });
                     previewItem.appendChild(deleteButton);
 
                     previewContainer.appendChild(previewItem);
-                };
+                });
 
-                reader.readAsDataURL(file);
+                updateFileInput();
+                updateOldImagesInput();
             }
-        }
 
-        function showFileNames() {
-            const fileNames = selectedFiles.map(file => file.name).join(', ');
-            alert(`Tên các tệp ảnh: ${fileNames}`);
-        }
+            input.addEventListener('change', function() {
+                const newFiles = Array.from(input.files);
 
-        input.addEventListener('change', function() {
-            const newFiles = Array.from(input.files); // Get new files
-            selectedFiles = selectedFiles.concat(newFiles); // Add new files to the selectedFiles array
-            renderPreviews(); // Render previews for all selected files
+                newFiles.forEach(file => {
+                    // Kiểm tra trùng lặp dựa trên tên và loại tệp
+                    const fileExists = selectedFiles.some(existingFile => {
+                        return existingFile instanceof File && existingFile.name === file
+                            .name && existingFile.size === file.size;
+                    });
+
+                    if (!fileExists) {
+                        selectedFiles.push(file);
+                    }
+                });
+
+                renderPreview();
+            });
+
+            function updateFileInput() {
+                const dataTransfer = new DataTransfer();
+                selectedFiles.forEach(file => {
+                    if (file instanceof File) {
+                        dataTransfer.items.add(file);
+                    }
+                });
+                input.files = dataTransfer.files;
+            }
+
+            function updateOldImagesInput() {
+                oldImagesInput.value = selectedFiles.filter(f => typeof f === 'object' && f.src).map(f => f.src)
+                    .join(',');
+            }
+
+            renderPreview();
         });
-
-        submitButton.addEventListener('click', showFileNames); // Add click event for submit button
     </script>
+
     <script>
         // 1 ảnh
         var anh_san_pham = document.querySelector('#anh_san_pham');

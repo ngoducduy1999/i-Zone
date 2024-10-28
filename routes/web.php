@@ -1,14 +1,12 @@
 <?php
-
-use App\Http\Controllers\Client\DonHangController;
 use App\Http\Controllers\Client\TaiKhoanController;
+use App\Http\Controllers\Admin\BaiVietController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\MauSacController;
-use App\Http\Controllers\Admin\DanhgiaController;
 use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\Client\GioHangController;
@@ -27,6 +25,7 @@ use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\TrangSanPhamController;
 use App\Http\Controllers\Client\YeuThichController;
 
@@ -62,21 +61,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
     Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
     Route::put('/profile/updatePassword', [UserController::class, 'updatePassword'])->name('profile.updatePassword');
 
-    // Đánh giá sản phẩm
-    Route::prefix('danhgias')->name('danhgias.')->group(function () {
-        Route::get('/', [DanhgiaController::class, 'index'])->name('index');
-        Route::get('create', [DanhgiaController::class, 'create'])->name('create');
-        Route::post('store', [DanhgiaController::class, 'store'])->name('store');
-        Route::get('/{id}/show', [DanhgiaController::class, 'show'])->name('show');
-        Route::delete('/{id}/destroy', [DanhgiaController::class, 'destroy'])->name('destroy');
-    });
-
     // Banner management
     Route::prefix('banners')->name('banners.')->group(function () {
         Route::get('/', [BannerController::class, 'index'])->name('index');
         Route::get('create', [BannerController::class, 'create'])->name('create');
         Route::post('store', [BannerController::class, 'store'])->name('store');
-        Route::get('/{id}', [BannerController::class, 'show'])->name('show');
+        Route::get('/{vi_tri}', [BannerController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BannerController::class, 'update'])->name('update');
         Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
@@ -158,6 +148,18 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin')->group(
         Route::delete('/{id}/destroy',[DungLuongController::class,'destroy'])->name('destroy');
     });
 
+    // Bài viết
+    Route::prefix('baiviets')->name('baiviets.')->group(function () {
+        Route::get('/', [BaiVietController::class, 'index'])->name('index');
+        Route::get('create', [BaiVietController::class, 'create'])->name('create');
+        Route::post('store', [BaiVietController::class, 'store'])->name('store');
+        Route::get('/{id}', [BaiVietController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [BaiVietController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [BaiVietController::class, 'update'])->name('update');
+        Route::post('/{id}/onOffKhuyenMai', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
+        Route::delete('/{id}', [BaiVietController::class, 'destroy'])->name('destroy');
+    });
+
 });
 
 // Routes for authenticated users with 'staff' role
@@ -186,8 +188,20 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
+Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
-Route::get('/chitietsanpham', [ChiTietSanPhamController::class, 'index'])->name('chitietsanpham');
+Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');
+Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGiaBienThe'])->name('sanpham.lay_gia_bien_the');
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
+
+
+
+Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');
+Route::get('/Cart-List-Drop', [CartController::class, 'CartListDrop'])->name('cart.list.drop');
+Route::get('/Cart-List', [CartController::class, 'CartList'])->name('cart.list');
+Route::get('/Add-Cart/{id}', [CartController::class, 'AddCart'])->name('cart.add');
+Route::get('/Delete-Item-Cart/{id}', [CartController::class, 'DeleteItemCart'])->name('cart.delete.item');
+Route::get('/Delete-Item-List-Cart/{id}', [CartController::class, 'DeleteItemListCart'])->name('cart.delete.item.list');

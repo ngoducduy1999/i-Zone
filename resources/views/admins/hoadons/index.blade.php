@@ -47,20 +47,20 @@
                                     </div>
                                 @endif
 
-                                <table class="table table-bordered dt-responsive table-responsive nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Ngày đặt hàng</th>
-                                            <th>Tổng tiền</th>
-                                            <th>Phương thức thanh toán</th>
-                                            <th>Trạng thái</th>
-                                            <th>Trạng thái hóa đơn</th>
-                                            <th>Hành động</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($listHoaDon as $item)
+
+                            <table class="table table-bordered dt-responsive table-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Ngày đặt hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Phương thức thanh toán</th>
+                                        <th>Trạng thái đơn hàng</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($listHoaDon as $item)
                                             <tr>
                                                 <th>{{ $item->id }}</th>
                                                 <td>{{ \Carbon\Carbon::parse($item->ngay_dat_hang)->format('d-m-Y') }}</td>
@@ -85,13 +85,6 @@
                                                     </form>
                                                 </td>
                                                 <td>
-                                                    @if ($item->trang_thai !== null)
-                                                        <span class="badge badge-success bg-success">Hoạt động</span>
-                                                    @else
-                                                        <span class="badge badge-danger bg-danger">Ngưng hoạt động</span>
-                                                    @endif
-                                                </td>
-                                                <td>
                                                     <div class="card-body">
                                                         <div class="btn-group">
                                                             <button class="btn btn-primary dropdown-toggle" type="button"
@@ -106,23 +99,19 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <div class="mt-3">
-                                    {{ $listHoaDon->links('pagination::bootstrap-5') }}
-                                </div>
-                            </div>
+                                                </td>                   
+                                            </tr>  
+                                        @endforeach   
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-        </div> <!-- container-fluid -->
-    </div> <!-- content -->
+        </div>
+        
+    </div> <!-- container-fluid -->
+</div> <!-- content -->
 @endsection
 
 @section('js')
