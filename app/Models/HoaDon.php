@@ -42,6 +42,7 @@ class HoaDon extends Model
     const THANH_TOAN_QUA_CHUYEN_KHOAN = 'offline';
 
     protected $fillable = [
+        'ma_hoa_don',
         'user_id',
         'giam_gia',
         'tong_tien',
