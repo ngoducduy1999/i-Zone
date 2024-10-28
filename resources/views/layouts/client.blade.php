@@ -68,6 +68,7 @@
     </div>
     <!-- pre loader area end -->
 
+
     <!-- back to top start -->
     <div class="back-to-top-wrapper">
         <button id="back_to_top" type="button" class="back-to-top-btn">
@@ -82,6 +83,7 @@
     <!-- offcanvas area start -->
     <div class="offcanvas__area offcanvas__radius">
         <div class="offcanvas__wrapper">
+
             <div class="offcanvas__close">
                 <button class="offcanvas__close-btn offcanvas-close-btn">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
@@ -246,6 +248,7 @@
     <!-- cart mini area start -->
     <div class="cartmini__area tp-all-font-roboto">
         <div class="cartmini__wrapper d-flex justify-content-between flex-column">
+
             <div class="change-item-cart" id="change-item-cart">
                 @if (Session::has('cart') != null)
                     <div class="cartmini__top-wrapper">
@@ -372,7 +375,7 @@
                                                             </div>
                                                         </a>
                                                     </div>
-                                                </div>
+                                        </div>
                                                 <div class="col">
                                                     <div class="home-menu-item ">
                                                         <a href="index-2.html">
@@ -583,6 +586,7 @@
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </nav>
+
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-3 col-6">
