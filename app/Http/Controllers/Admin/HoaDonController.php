@@ -42,6 +42,7 @@ class HoaDonController extends Controller
     // Áp dụng lọc theo trạng thái
     if ($trangThai) {
         $query->where('trang_thai', $trangThai);
+
     }
 
     // Lấy danh sách hóa đơn
@@ -84,7 +85,7 @@ class HoaDonController extends Controller
     $chiTietHoaDons = $hoaDon->chiTietHoaDons()->with(['bienTheSanPham.sanPham'])->get();
 
     // Các thuộc tính khác của hóa đơn
-    $trangThaiHoaDon = HoaDon::TRANG_THAI;       
+    $trangThaiHoaDon = HoaDon::TRANG_THAI;
     $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
 
     return view('admins.hoadons.show', compact('title', 'hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
@@ -108,7 +109,7 @@ class HoaDonController extends Controller
 
         $currentTrangThai = $hoaDon->trang_thai;
 
-        $newTrangThai = $request->input('trang_thai'); 
+        $newTrangThai = $request->input('trang_thai');
 
         $trangThais = array_keys(HoaDon::TRANG_THAI);
 

@@ -37,6 +37,7 @@
                 @else
                 <li>
                     <a href='{{ route('staff.dashboard') }}'>
+
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
@@ -60,6 +61,7 @@
                             @else
                             <li>
                                 <a class='tp-link' href='{{ route('staff.khachhangs') }}'>Quản lý khách hàng</a>
+
                             </li>
                             @endif
                         </ul>

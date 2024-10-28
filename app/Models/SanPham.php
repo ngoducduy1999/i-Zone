@@ -62,7 +62,6 @@ class SanPham extends Model
     }
     
 
-
     protected $table = 'san_phams';
 
     public function bienThe()
