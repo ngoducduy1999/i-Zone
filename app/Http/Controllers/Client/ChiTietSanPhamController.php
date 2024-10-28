@@ -19,82 +19,90 @@ use Illuminate\Validation\Rule;
 
 class ChiTietSanPhamController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         return view('clients.chitietsanpham');
-
     }
     public function show(string $id)
     {
-        // Tìm sản phẩm mà không bao gồm các sản phẩm đã xóa mềm
         $sanpham = SanPham::withTrashed()->find($id);
+    
         if ($sanpham) {
             $sanpham->increment('luot_xem');
-
-            // Lấy các biến thể của sản phẩm, bao gồm cả những biến thể đã xóa mềm
+            $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
             $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
-            
-            // Lấy hình ảnh sản phẩm
             $anhsanphams = HinhAnhSanPham::where('san_pham_id', $id)->get();
-            
-            // Lấy màu sắc và dung lượng của từng biến thể
-            $mauSacIds = $bienthesanphams->pluck('mau_sac_id')->unique(); // Lấy id màu sắc từ các biến thể
-            $mauSacs = MauSac::whereIn('id', $mauSacIds)->get(); // Truy vấn màu sắc tương ứng
     
-            $dungLuongIds = $bienthesanphams->pluck('dung_luong_id')->unique(); // Lấy id dung lượng từ các biến thể
-            $dungLuongs = DungLuong::whereIn('id', $dungLuongIds)->get(); // Truy vấn dung lượng tương ứng
-            
-            // Lấy danh sách đánh giá sản phẩm với phân trang
+            $mauSacIds = $bienthesanphams->pluck('mau_sac_id')->unique();
+            $mauSacs = MauSac::whereIn('id', $mauSacIds)->get();
+    
+            $dungLuongIds = $bienthesanphams->pluck('dung_luong_id')->unique();
+            $dungLuongs = DungLuong::whereIn('id', $dungLuongIds)->get();
+    
             $danhgias = DanhGiaSanPham::latest('id')->where('san_pham_id', $id)->paginate(10);
-            
-            // Tính điểm trung bình
             $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
-            
-            // Tính số lượt đánh giá
-            $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count(); // Tổng số đánh giá
+            $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
     
-            // Tính tỷ lệ phần trăm cho mỗi loại sao
             $starCounts = DanhGiaSanPham::select(DB::raw('diem_so, count(*) as count'))
                 ->where('san_pham_id', $id)
                 ->groupBy('diem_so')
                 ->pluck('count', 'diem_so');
     
-            $totalRatings = $starCounts->sum(); // Tổng số đánh giá
-            $starPercentage = [];
-    
+            $tongDanhGia = $starCounts->sum();
+            $phanTramSao = [];
             for ($i = 1; $i <= 5; $i++) {
-                $percentage = $totalRatings > 0 ? ($starCounts->get($i, 0) / $totalRatings) * 100 : 0;
-                $starPercentage[$i] = $percentage;
+                $phantram = $tongDanhGia > 0 ? ($starCounts->get($i, 0) / $tongDanhGia) * 100 : 0;
+                $phanTramSao[$i] = $phantram;
             }
     
-            // Trả về view client với các biến cần thiết
+            // Lấy sản phẩm mới nhất, bán nhiều nhất, xem nhiều nhất, và có giảm giá nhiều nhất trên toàn bộ bảng
+            $sanPhamMoiNhat = SanPham::latest()->first();
+            $sanPhamBanNhieuNhat = SanPham::orderBy('da_ban', 'desc')->first();
+            $sanPhamXemNhieuNhat = SanPham::orderBy('luot_xem', 'desc')->first();
+    
+            // Lấy sản phẩm có giảm giá nhiều nhất từ biến thể
+            $sanPhamGiamGiaNhieuNhat = SanPham::whereHas('bienthesanphams', function ($query) {
+                    $query->orderByRaw('(gia_cu - gia_moi) desc');
+                })
+                ->with(['bienthesanphams' => function ($query) {
+                    $query->orderByRaw('(gia_cu - gia_moi) desc')->limit(1);
+                }])
+                ->first();
+    
             return view('clients.chitietsanpham', compact(
-                'sanpham', 
-                'bienthesanphams', 
-                'anhsanphams', 
-                'mauSacs', // Truyền thông tin màu sắc vào view
-                'dungLuongs', // Truyền thông tin dung lượng vào view
-                'danhgias', 
-                'diemtrungbinh', 
-                'soluotdanhgia', // Tổng số đánh giá
-                'starPercentage' // Truyền tỷ lệ phần trăm sao vào view
+                'sanpham',
+                'bienthesanphams',
+                'anhsanphams',
+                'tagsanphams',
+                'mauSacs',
+                'dungLuongs',
+                'danhgias',
+                'diemtrungbinh',
+                'soluotdanhgia',
+                'phanTramSao',
+                'sanPhamMoiNhat',
+                'sanPhamBanNhieuNhat',
+                'sanPhamXemNhieuNhat',
+                'sanPhamGiamGiaNhieuNhat'
             ));
         }
     
-        // Chuyển hướng nếu không tìm thấy sản phẩm
         return redirect()->route('trangchu')->with('error', 'Không tìm thấy sản phẩm');
     }
-    public function layGiaBienThe(Request $request) {
+    
+    public function layGiaBienThe(Request $request)
+    {
         $sanPhamId = $request->input('san_pham_id');
         $mauSacId = $request->input('mau_sac_id');
         $dungLuongId = $request->input('dung_luong_id');
-    
+
         // Lấy thông tin biến thể sản phẩm từ cơ sở dữ liệu
         $bienThe = BienTheSanPham::where('san_pham_id', $sanPhamId)
             ->where('mau_sac_id', $mauSacId)
             ->where('dung_luong_id', $dungLuongId)
             ->first();
-    
+
         if ($bienThe && $bienThe->so_luong > 0) {  // Kiểm tra nếu có tồn kho
             return response()->json([
                 'status' => 'success',
