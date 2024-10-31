@@ -99,11 +99,15 @@ class CartController extends Controller
             $nowDate = now();
             $startDate = $discount->ngay_bat_dau;
             $endDate = $discount->ngay_ket_thuc;
-            if ($nowDate->between($startDate, $endDate)) {
-                $discountPercentage = $discount->phan_tram_khuyen_mai;
-                return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
-            } else {
-                return response()->json(['message' => 'Mã giảm giá đã hết hạn.'], 400);
+            if($discount->trang_thai!= 0){
+                if ($nowDate->between($startDate, $endDate)) {
+                    $discountPercentage = $discount->phan_tram_khuyen_mai;
+                    return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
+                } else {
+                    return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 400);
+                }
+            }else{
+                return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 400);
             }
         }
         return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 404);
