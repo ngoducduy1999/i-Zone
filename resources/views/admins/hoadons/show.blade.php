@@ -141,6 +141,7 @@
                                         </div>
                                     </div>
 
+
                                     <div class="d-print-none">
                                         <div class="float-end">
                                             <a href="{{ route('admin.hoadons.index') }}" class="btn btn-dark">Quay lại</a>
@@ -156,7 +157,6 @@
                 </div>
 
             </div> <!-- container-fluid -->
-
 </div> <!-- content -->
 @endsection
 

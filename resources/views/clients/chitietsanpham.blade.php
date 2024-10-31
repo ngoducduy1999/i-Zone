@@ -410,11 +410,14 @@
                             </div>
                             <div class="tp-product-details-query-item d-flex align-items-center">
                                 <span>Danh mục: </span>
-                                <p>Computers & Tablets</p>
+                                <p>{{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</p>
                             </div>
                             <div class="tp-product-details-query-item d-flex align-items-center">
                                 <span>Tag: </span>
-                                <p>Android</p>
+                                <p><p>@foreach ($tagsanphams as $tag)
+                                <span class="badge bg-primary">#{{ $tag->tag->ten_tag }}</span>
+                            @endforeach
+                           </p>
                             </div>
                         </div>
                         <div class="tp-product-details-social">
@@ -458,7 +461,6 @@
                                     data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review"
                                     aria-selected="false">Reviews
                                     (2)</button>
-
                                 <span id="productTabMarker" class="tp-product-details-tab-line"></span>
                             </div>
                         </nav>
@@ -468,81 +470,13 @@
                                 <div class="tp-product-details-desc-wrapper pt-80">
                                     <div class="row justify-content-center">
                                         <div class="col-xl-10">
-                                            <div class="tp-product-details-desc-item pb-105">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="tp-product-details-desc-content pt-25">
-                                                            <span>Galaxy A8 tablet</span>
-                                                            <h3 class="tp-product-details-desc-title">Your world at a
-                                                                glance</h3>
-                                                            <p>With a slim design, a vibrant entertainment system, and
-                                                                <br> outstanding
-                                                                performance, the new Galaxy Tab A7 is a stylish new <br>
-                                                                companion for
-                                                                your life.Dive head-first into the things you love, <br>
-                                                                and easily
-                                                                share your favorite moments. Learn, explore, connect
-                                                                <br> and be
-                                                                inspired.</p>
-                                                        </div>
-                                                        <div class="tp-product-details-desc-content">
-                                                            <h3 class="tp-product-details-desc-title">Draw inspiration
-                                                                with S Pen</h3>
-                                                            <p>S Pen is a bundle of writing instruments in one. Its
-                                                                natural grip, <br>
-                                                                low latency and impressive pressure sensitivity will
-                                                                make it your go-to
-                                                                for everything from drawing to editing documents. And S
-                                                                Pen won't get
-                                                                misplaced thanks.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="tp-product-details-desc-thumb">
-                                                            <img src="{{ asset('assets/client/img/product/details/desc/product-details-desc-1.jpg') }}"
-                                                                alt="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tp-product-details-desc-item  pb-75">
-                                                <div class="row">
-
-                                                    <div class="col-lg-7">
-                                                        <div class="tp-product-details-desc-thumb">
-                                                            <img src="{{ asset('assets/client/img/product/details/desc/product-details-desc-2.jpg') }}"
-                                                                alt="">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 order-first order-lg-last">
-                                                        <div
-                                                            class="tp-product-details-desc-content des-content-2 pl-40">
-                                                            <h3 class="tp-product-details-desc-title">Carry with <br>
-                                                                Confidence and
-                                                                style</h3>
-                                                            <p>Wrap your tablet in a sleek case that's as stylish as it
-                                                                is convenient.
-                                                                Galaxy Tab S6 Lite Book Cover folds around and clings
-                                                                magnetically, so
-                                                                you can easily gear up as you're headed out the door.
-                                                                There's even a
-                                                                compartment for S pen, so you can be sure it doesn't get
-                                                                left behind.
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="tp-product-details-desc-item">
                                                 <div class="row">
                                                     <div class="col-xl-12">
                                                         <div class="tp-product-details-desc-banner text-center m-img">
-                                                            <h3
-                                                                class="tp-product-details-desc-banner-title tp-product-details-desc-title">
-                                                                Speed Memory Power = Epic Races</h3>
-                                                            <img src="{{ asset('assets/client/img/product/details/desc/product-details-desc-3.jpg') }}"
-                                                                alt="">
+                                                            <h3 class="text-black">
+                                                                {!! $sanpham->mo_ta !!}
+                                                               </h3>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -559,290 +493,235 @@
                                         <div class="col-xl-10">
                                             <table>
                                                 <tbody>
+                                                    
                                                     <tr>
-                                                        <td>Standing screen display size</td>
-                                                        <td>Screen display Size 10.4</td>
+                                                    <td>Color</td>
+                                                    <td>
+                                          @php
+    $displayedColors = [];
+@endphp
+
+@foreach ($bienthesanphams as $bienThe)
+    @if ($bienThe->mauSac && !in_array($bienThe->mauSac->ten_mau_sac, $displayedColors))
+        @php
+            $displayedColors[] = $bienThe->mauSac->ten_mau_sac;
+        @endphp
+    @endif
+@endforeach
+
+{{ implode(', ', $displayedColors) }}
+
+                                          </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Color</td>
-                                                        <td>Gray, Dark gray, Mystic black</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Screen Resolution</td>
+                                                        <td>Độ phân giải</td>
                                                         <td>1920 x 1200 Pixels</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Max Screen Resolution</td>
+                                                        <td>Độ phân giải tối đa</td>
                                                         <td>2000 x 1200</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Processor</td>
-                                                        <td>2.3 GHz (128 GB)</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Graphics Coprocessor</td>
-                                                        <td>Exynos 9611, Octa Core (4x2.3GHz + 4x1.7GHz)</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Wireless Type</td>
-                                                        <td>802.11a/b/g/n/ac, Bluetooth</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Average Battery Life (in hours)</td>
-                                                        <td>13 Hours</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Series</td>
-                                                        <td>Samsung Galaxy tab S6 Lite WiFi</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Item model number</td>
-                                                        <td>SM-P6102ZAEXOR</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Hardware Platform</td>
-                                                        <td>Android</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Operating System</td>
-                                                        <td>Android 12</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Batteries</td>
-                                                        <td>1 Lithium Polymer batteries required. (included)</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Product Dimensions</td>
-                                                        <td>0.28 x 6.07 x 9.63 inches</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                          <td>Dung lượng</td>
+                                          <td>@php
+    $displayedCapacities = []; // Mảng để theo dõi các dung lượng đã hiển thị
+@endphp
+
+@foreach ($bienthesanphams as $bienThe)
+    @if ($bienThe->dungLuong && !in_array($bienThe->dungLuong->ten_dung_luong, $displayedCapacities))
+        @php
+            $displayedCapacities[] = $bienThe->dungLuong->ten_dung_luong; // Thêm dung lượng vào mảng đã hiển thị
+        @endphp
+    @endif
+@endforeach
+
+<!-- Hiển thị các dung lượng đã thu thập và nối bằng dấu phẩy -->
+{{ implode(', ', $displayedCapacities) }}
+</td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab" tabindex="0">
+                        <div class="tp-product-details-review-wrapper pt-60">
+                           <div class="row">
+                              <div class="col-lg-6">
+                                 <div class="tp-product-details-review-statics">
+                                    <!-- number -->
+
+
+                                {{-- Bảng người dùng xem đánh giá --}}
+                                <div class="tp-product-details-review-number d-inline-block mb-50">
+
+                                 <h3 class="tp-product-details-review-number-title">Đánh giá của khách hàng</h3>
+                                 <div class="tp-product-details-review-summery d-flex align-items-center">
+                                    @if ($soluotdanhgia > 0)
+                                        <div class="tp-product-details-review-summery-value">
+                                       <span>{{ number_format($diemtrungbinh, 1) }}</span>
                                     </div>
-                                </div>
+
+                                 
+
+                                    <div class="tp-product-details-review-summery-rating d-flex align-items-center">
+                                     
+                                      
+                                       <div class="star_warning">
+                                          <p class="fs-2">
+                                              @for ($i = 1; $i <= 5; $i++)
+                                                  @if ($i <= floor($diemtrungbinh))
+                                                      <span class="star text-warning">★</span>
+                                                  @elseif ($i == ceil($diemtrungbinh))
+                                                      @if ($diemtrungbinh - floor($diemtrungbinh) >= 0.3)
+                                                          <span class="star text-warning">☆</span>
+                                                      @else
+                                                          <span class="star text-warning">☆</span>
+                                                      @endif
+                                                  @else
+                                                      <span class="star text-warning">☆</span>
+                                                  @endif
+                                              @endfor
+                                          </p>
+                                      </div>
+                                 
+                                       <p class="ms-auto">({{ $soluotdanhgia }} lượt đánh giá)</p>
+                                    </div> 
+
+                                   
+                                    @endif
+                                   
+                                 </div>
+
+
+
+
+
+                                 <div class="tp-product-details-review-rating-list">
+
+                                    <!-- single item -->
+                                    @foreach ($starPercentage as $star => $percentage)
+                                    <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                             
+                                       <span>{{$star}} Start</span>
+                                  <div class="tp-product-details-review-rating-bar">
+                                     <span class="tp-product-details-review-rating-bar-inner" style="width: {{ number_format($percentage) }}%;"></span>
+                                  </div>
+                                  <div class="tp-product-details-review-rating-percent">
+                                     <span>{{ number_format($percentage) }}%</span>
+                                  </div>
+                    
+                               </div>
+                                 @endforeach
+                              
                             </div>
-                            <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab"
-                                tabindex="0">
-                                <div class="tp-product-details-review-wrapper pt-60">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="tp-product-details-review-statics">
-                                                <!-- number -->
-                                                <div class="tp-product-details-review-number d-inline-block mb-50">
-                                                    <h3 class="tp-product-details-review-number-title">Customer reviews
-                                                    </h3>
-                                                    <div
-                                                        class="tp-product-details-review-summery d-flex align-items-center">
-                                                        <div class="tp-product-details-review-summery-value">
-                                                            <span>4.5</span>
-                                                        </div>
-                                                        <div
-                                                            class="tp-product-details-review-summery-rating d-flex align-items-center">
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <p>(36 Reviews)</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tp-product-details-review-rating-list">
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>5 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="82%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>82%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
+                         </div>
+                         {{-- Bảng người dùng xem đánh giá --}}
 
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>4 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="30%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>30%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
 
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>3 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="15%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>15%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
-
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>2 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="6%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>6%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
-
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>1 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="10%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>10%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
-                                                    </div>
-                                                </div>
-
-                                                <!-- reviews -->
-                                                <div class="tp-product-details-review-list pr-110">
-                                                    <h3 class="tp-product-details-review-title">Rating & Review</h3>
-                                                    <div
-                                                        class="tp-product-details-review-avater d-flex align-items-start">
-                                                        <div class="tp-product-details-review-avater-thumb">
-                                                            <a href="#">
-                                                                <img src="{{ asset('assets/client/img/users/user-3.jpg') }}"
-                                                                    alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="tp-product-details-review-avater-content">
-                                                            <div
-                                                                class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                            </div>
-                                                            <h3 class="tp-product-details-review-avater-title">Eleanor
-                                                                Fant</h3>
-                                                            <span class="tp-product-details-review-avater-meta">06
-                                                                March, 2023 </span>
-
-                                                            <div class="tp-product-details-review-avater-comment">
-                                                                <p>Designed very similarly to the nearly double priced
-                                                                    Galaxy tab S6,
-                                                                    with the only removal being.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="tp-product-details-review-avater d-flex align-items-start">
-                                                        <div class="tp-product-details-review-avater-thumb">
-                                                            <a href="#">
-                                                                <img src="{{ asset('assets/client/img/users/user-2.jpg') }}"
-                                                                    alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="tp-product-details-review-avater-content">
-                                                            <div
-                                                                class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                            </div>
-                                                            <h3 class="tp-product-details-review-avater-title">Shahnewaz
-                                                                Sakil</h3>
-                                                            <span class="tp-product-details-review-avater-meta">06
-                                                                March, 2023 </span>
-
-                                                            <div class="tp-product-details-review-avater-comment">
-                                                                <p>This review is for the Samsung Tab S6 Lite, 64gb wifi
-                                                                    in blue.
-                                                                    purchased this product performed.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> <!-- end col -->
-                                        <div class="col-lg-6">
-                                            <div class="tp-product-details-review-form">
-                                                <h3 class="tp-product-details-review-form-title">Review this product
-                                                </h3>
-                                                <p>Your email address will not be published. Required fields are marked
-                                                    *</p>
-                                                <form action="#">
-                                                    <div
-                                                        class="tp-product-details-review-form-rating d-flex align-items-center">
-                                                        <p>Your Rating :</p>
-                                                        <div
-                                                            class="tp-product-details-review-form-rating-icon d-flex align-items-center">
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tp-product-details-review-input-wrapper">
-                                                        <div class="tp-product-details-review-input-box">
-                                                            <div class="tp-product-details-review-input">
-                                                                <textarea id="msg" name="msg"
-                                                                    placeholder="Write your review here..."></textarea>
-                                                            </div>
-                                                            <div class="tp-product-details-review-input-title">
-                                                                <label for="msg">Your Name</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="tp-product-details-review-input-box">
-                                                            <div class="tp-product-details-review-input">
-                                                                <input name="name" id="name" type="text"
-                                                                    placeholder="Shahnewaz Sakil">
-                                                            </div>
-                                                            <div class="tp-product-details-review-input-title">
-                                                                <label for="name">Your Name</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="tp-product-details-review-input-box">
-                                                            <div class="tp-product-details-review-input">
-                                                                <input name="email" id="email" type="email"
-                                                                    placeholder="shofy@mail.com">
-                                                            </div>
-                                                            <div class="tp-product-details-review-input-title">
-                                                                <label for="email">Your Email</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tp-product-details-review-suggetions mb-20">
-                                                        <div class="tp-product-details-review-remeber">
-                                                            <input id="remeber" type="checkbox">
-                                                            <label for="remeber">Save my name, email, and website in
-                                                                this browser for
-                                                                the next time I comment.</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tp-product-details-review-btn-wrapper">
-                                                        <button class="tp-product-details-review-btn">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                    <!-- reviews -->
+                                {{-- show đánh giá và nhận xét --}}
+                                <div class="tp-product-details-review-list pr-110">
+                                 <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
+                                 
+                                 @foreach ($danhgias as $danhgia)
+                                 
+                                 @if ($danhgia->user)
+                                 <div class="tp-product-details-review-avater d-flex align-items-start">
+                                    <div class="tp-product-details-review-avater-thumb">
+                                       <a href="#">
+                                          <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
+                                       </a>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="tp-product-details-review-avater-content">
+                                      
+                                      
+                                          <div class="fs-1.9">
+                                             @for ($i = 1; $i <= 5; $i++)
+                                             <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
+                                         @endfor
+                                          </div>
+                                      
+                                       
+                                          <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }}</h3>
+
+                                       <span class="tp-product-details-review-avater-meta">  {{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }} </span>
+
+                                       <div class="tp-product-details-review-avater-comment">
+                                          <p>{{ $danhgia->nhan_xet }}</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 @endif
+                                 @endforeach   
+                              </div>
+                              {{-- show đánh giá và nhận xét --}}
+
+
+                                 </div>
+                              </div> <!-- end col -->
+                              <div class="col-lg-6">
+
+
+                                {{-- form đánh giá và nhận xét --}}
+                                <div class="tp-product-details-review-form">
+                                 <h3 class="tp-product-details-review-form-title">Đánh giá sản phẩm</h3>
+                              
+                                 <form action="{{route('admin.sanphams.admin.sanpham.danhgias',$sanpham->id)}}" method="POST">
+                                    @csrf
+                                    
+                                       <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+                                       <label>Đánh giá :</label>
+                                    
+                                       <div class="star-rating">
+                                          <input type="radio" id="star5" name="diem_so" value="5" />
+                                          <label for="star5" title="5 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star4" name="diem_so" value="4" />
+                                          <label for="star4" title="4 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star3" name="diem_so" value="3" />
+                                          <label for="star3" title="3 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star2" name="diem_so" value="2" />
+                                          <label for="star2" title="2 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star1" name="diem_so" value="1" />
+                                          <label for="star1" title="1 sao">&#9733;</label>
+                                      </div> 
+                                    <div class="tp-product-details-review-input-wrapper">
+                                       <div class="tp-product-details-review-input-box">
+                                          <div class="tp-product-details-review-input">
+                                             <textarea id="nhan_xet" name="nhan_xet" placeholder="Write your review here..."></textarea>
+                                          </div>
+                                      
+                                          <div class="tp-product-details-review-input-title">
+                                             <label for="nhan_xet">Nhận xét</label>
+                                          </div>
+
+                                       
+                                       </div>
+                                     
+                                    </div>
+                                    <div class="tp-product-details-review-suggetions mb-20">
+                                       <div class="tp-product-details-review-remeber">
+                                          <input id="remeber" type="checkbox">
+                                          <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
+                                       </div>
+                                    </div>
+                                    <div class="tp-product-details-review-btn-wrapper">
+                                       <button type="submit" class="tp-product-details-review-btn">Submit</button>
+                                    </div>
+                                 </form>
+                              </div>
+                              {{-- form đánh giá và nhận xét --}}
+
+
+
+                              </div>
+                           </div>
+
                         </div>
                     </div>
                 </div>
@@ -857,8 +736,8 @@
     <div class="container">
         <div class="row">
             <div class="tp-section-title-wrapper-6 text-center mb-40">
-                <span class="tp-section-title-pre-6">Next day Products</span>
-                <h3 class="tp-section-title-6">Related Products</h3>
+                <span class="tp-section-title-pre-6">Sản phẩm ngày hôm sau</span>
+                <h3 class="tp-section-title-6">Sản phẩm liên quan</h3>
             </div>
         </div>
         <div class="row">
@@ -869,13 +748,13 @@
                             <div class="tp-product-item-3 tp-product-style-primary mb-50">
                                 <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
                                     <a href="product-details.html">
-                                        <img src="{{ asset('assets/client/img/product/related/product-related-1.jpg') }}"
+                                        <img src="{{ asset($sanPhamGiamGiaNhieuNhat->anh_san_pham) }}"
                                             alt="">
                                     </a>
 
                                     <!-- product badge -->
                                     <div class="tp-product-badge">
-                                        <span class="product-offer">-25%</span>
+                                        <span class="product-offer">{{ round((($sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_cu - $sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_moi) / $sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_cu) * 100, 2) }}%</span>
                                     </div>
 
                                     <!-- product action -->
@@ -907,33 +786,6 @@
                                                 </svg>
                                                 <span class="tp-product-tooltip">Add to Cart</span>
                                             </button>
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-quick-view-btn"
-                                                data-bs-toggle="modal" data-bs-target="#producQuickViewModal">
-                                                <svg width="18" height="15" viewBox="0 0 18 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Quick View</span>
-                                            </button>
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-add-to-wishlist-btn">
-                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Add To Wishlist</span>
-                                            </button>
                                         </div>
                                     </div>
 
@@ -945,14 +797,14 @@
                                 </div>
                                 <div class="tp-product-content-3">
                                     <div class="tp-product-tag-3">
-                                        <span>Tablet</span>
+                                        <span>{{ $sanPhamGiamGiaNhieuNhat->danhMuc ? $sanPhamGiamGiaNhieuNhat->danhMuc->ten_danh_muc : '' }}</span>
                                     </div>
                                     <h3 class="tp-product-title-3">
-                                        <a href="product-details.html">GalaxyS6 Android Tablet</a>
+                                        <a href="product-details.html">{{ $sanPhamGiamGiaNhieuNhat->ten_san_pham }}</a>
                                     </h3>
                                     <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3 new-price">$102.00</span>
-                                        <span class="tp-product-price-3 old-price">$226.00</span>
+                                        <span class="tp-product-price-3 new-price">{{ $sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_moi }}</span>
+                                        <span class="tp-product-price-3 old-price">{{ $sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_cu }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -961,7 +813,7 @@
                             <div class="tp-product-item-3 tp-product-style-primary mb-50">
                                 <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
                                     <a href="product-details.html">
-                                        <img src="{{ asset('assets/client/img/product/related/product-related-2.jpg') }}"
+                                        <img src="{{ asset($sanPhamMoiNhat->anh_san_pham) }}"
                                             alt="">
                                     </a>
 
@@ -995,33 +847,6 @@
                                                 </svg>
                                                 <span class="tp-product-tooltip">Add to Cart</span>
                                             </button>
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-quick-view-btn"
-                                                data-bs-toggle="modal" data-bs-target="#producQuickViewModal">
-                                                <svg width="18" height="15" viewBox="0 0 18 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Quick View</span>
-                                            </button>
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-add-to-wishlist-btn">
-                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Add To Wishlist</span>
-                                            </button>
                                         </div>
                                     </div>
 
@@ -1033,13 +858,13 @@
                                 </div>
                                 <div class="tp-product-content-3">
                                     <div class="tp-product-tag-3">
-                                        <span>SmartPhone</span>
+                                        <span>{{ $sanPhamMoiNhat->danhMuc ? $sanPhamMoiNhat->danhMuc->ten_danh_muc : '' }}</span>
                                     </div>
                                     <h3 class="tp-product-title-3">
-                                        <a href="product-details.html">Microsoft Surface Pro 8-13"</a>
+                                        <a href="product-details.html">{{ $sanPhamMoiNhat->ten_san_pham }}</a>
                                     </h3>
                                     <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3">$240.00</span>
+                                        <span class="tp-product-price-3">{{ $sanPhamMoiNhat->bienthesanphams->first()->gia_moi }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1048,7 +873,7 @@
                             <div class="tp-product-item-3 tp-product-style-primary mb-50">
                                 <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
                                     <a href="product-details.html">
-                                        <img src="{{ asset('assets/client/img/product/related/product-related-3.jpg') }}"
+                                        <img src="{{ asset($sanPhamBanNhieuNhat->anh_san_pham) }}"
                                             alt="">
                                     </a>
 
@@ -1086,33 +911,6 @@
                                                 </svg>
                                                 <span class="tp-product-tooltip">Add to Cart</span>
                                             </button>
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-quick-view-btn"
-                                                data-bs-toggle="modal" data-bs-target="#producQuickViewModal">
-                                                <svg width="18" height="15" viewBox="0 0 18 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Quick View</span>
-                                            </button>
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-add-to-wishlist-btn">
-                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Add To Wishlist</span>
-                                            </button>
                                         </div>
                                     </div>
 
@@ -1124,14 +922,14 @@
                                 </div>
                                 <div class="tp-product-content-3">
                                     <div class="tp-product-tag-3">
-                                        <span>Video & Camera</span>
+                                        <span>{{ $sanPhamBanNhieuNhat->danhMuc ? $sanPhamBanNhieuNhat->danhMuc->ten_danh_muc : '' }}</span>
                                     </div>
                                     <h3 class="tp-product-title-3">
-                                        <a href="product-details.html">4K Digital Video Camera.</a>
+                                        <a href="product-details.html">{{ $sanPhamBanNhieuNhat->ten_san_pham }}</a>
                                     </h3>
                                     <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3 new-price">$76.00</span>
-                                        <span class="tp-product-price-3 old-price">$106.00</span>
+                                        <span class="tp-product-price-3 new-price">{{ $sanPhamBanNhieuNhat->bienthesanphams->first()->gia_moi }}</span>
+                                        <span class="tp-product-price-3 old-price">{{ $sanPhamBanNhieuNhat->bienthesanphams->first()->gia_cu }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1140,7 +938,7 @@
                             <div class="tp-product-item-3 tp-product-style-primary mb-50">
                                 <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
                                     <a href="product-details.html">
-                                        <img src="{{ asset('assets/client/img/product/related/product-related-4.jpg') }}"
+                                        <img src="{{ asset($sanPhamXemNhieuNhat->anh_san_pham) }}"
                                             alt="">
                                     </a>
 
@@ -1178,33 +976,6 @@
                                                 </svg>
                                                 <span class="tp-product-tooltip">Add to Cart</span>
                                             </button>
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-quick-view-btn"
-                                                data-bs-toggle="modal" data-bs-target="#producQuickViewModal">
-                                                <svg width="18" height="15" viewBox="0 0 18 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Quick View</span>
-                                            </button>
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-add-to-wishlist-btn">
-                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Add To Wishlist</span>
-                                            </button>
                                         </div>
                                     </div>
 
@@ -1216,13 +987,13 @@
                                 </div>
                                 <div class="tp-product-content-3">
                                     <div class="tp-product-tag-3">
-                                        <span>Smart Watch</span>
+                                        <span>{{ $sanPhamXemNhieuNhat->danhMuc ? $sanPhamXemNhieuNhat->danhMuc->ten_danh_muc : '' }}</span>
                                     </div>
                                     <h3 class="tp-product-title-3">
-                                        <a href="product-details.html">Discover Skincare watch</a>
+                                        <a href="product-details.html">{{ $sanPhamXemNhieuNhat->ten_san_pham }}</a>
                                     </h3>
                                     <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3">$44.00</span>
+                                        <span class="tp-product-price-3">{{ $sanPhamXemNhieuNhat->bienthesanphams->first()->gia_moi }}</span>
                                     </div>
                                 </div>
                             </div>

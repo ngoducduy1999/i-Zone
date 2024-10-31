@@ -24,11 +24,8 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        $sanphams = SanPham::withTrashed()->latest('id')->paginate(5);
-        $tagsanphams = TagSanPham::get();
-        $bienthesanphams = BienTheSanPham::withTrashed()->latest('id')->get();
-        $anhsanphams = HinhAnhSanPham::get();
-        return view('admins.sanphams.index', compact('sanphams', 'bienthesanphams', 'tagsanphams', 'anhsanphams'));
+        $sanphams = SanPham::withTrashed()->latest('id')->with('bienTheSanPhams', 'hinhAnhSanPhams', 'tagSanPhams')->get(); 
+        return view('admins.sanphams.index', compact('sanphams'));
     }
 
     /**
@@ -177,7 +174,7 @@ class SanPhamController extends Controller
             }
         }
         if (!$flag) {
-            return redirect()->route('admin.sanphams.index')->with('success', 'Thêm thành công sản phẩm. Biến thể trùng sẽ không được thêm!');
+            return redirect()->route('admin.sanphams.edit', ['id' => $sanpham['id']])->with('error', 'Không thể thêm biến thể trùng!');
         }
         return redirect()->route('admin.sanphams.index')->with('success', 'Thêm thành công sản phẩm!');
     }
@@ -243,6 +240,29 @@ class SanPhamController extends Controller
 
         // Trả về HTML của danh sách đánh giá
         return view('admins.sanphams.danh_gia_list', compact('danhgias'));
+    }
+
+    // lưu trữ đánh giá và nhận xét
+    public function storeReview(Request $request, $productId)
+    {
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+     
+
+        // Xác thực dữ liệu
+        $request->validate([
+            'diem_so' => 'required|integer|between:1,5',
+            'nhan_xet' => 'nullable|string|max:500',
+        ]);
+
+        // Tạo đánh giá mới
+        DanhGiaSanPham::create([
+            'user_id' => auth()->id(),
+            'san_pham_id' => $productId,
+            'diem_so' => $request->input('diem_so'),
+            'nhan_xet' => $request->input('nhan_xet'),
+        ]);
+
+        return redirect()->back()->with('success', 'Đánh giá của bạn đã được gửi thành công!');
     }
 
 
