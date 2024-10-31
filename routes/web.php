@@ -23,13 +23,13 @@ use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Auth\ClientForgotController;
 use App\Http\Controllers\Auth\CustomerLoginController;
 use App\Http\Controllers\Auth\ClientRegisterController;
+use App\Http\Controllers\Client\TrangBaiVietController;
 use App\Http\Controllers\Client\TrangSanPhamController;
 use App\Http\Controllers\admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
-
 
 
 // Admin routes
@@ -196,6 +196,7 @@ Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGi
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
+Route::get('/trangbaiviet', [TrangBaiVietController::class, 'index'])->name('trangbaiviet');
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
 
 
