@@ -18501,11 +18501,11 @@ product all slider
   cursor: pointer;
 }
 .tp-shop-widget-categories {
-  height: 288px;
+  /* height: 288px;
   overflow-y: scroll;
   overflow-y: scroll;
   overscroll-behavior-y: contain;
-  scrollbar-width: thin;
+  scrollbar-width: thin; */
   padding-right: 10px;
 }
 .tp-shop-widget-categories ul li {
