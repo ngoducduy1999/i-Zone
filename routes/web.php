@@ -126,6 +126,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->middleware('auth', 'role:admin')->name('restore');
         Route::get('/sanpham/{id}/filterDanhGia/{star}', [SanPhamController::class, 'filterDanhGia'])->name('filterDanhGia');
+        Route::post('/admin/sanpham/{sanpham}/danhgias', [SanPhamController::class, 'storeReview'])
+    ->name('admin.sanpham.danhgias');
     });
 
     Route::prefix('mausacs')->name('mausacs.')->group(function(){
