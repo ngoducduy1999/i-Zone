@@ -620,13 +620,14 @@
 
                                     <!-- reviews -->
                                 {{-- show đánh giá và nhận xét --}}
-                                <div class="tp-product-details-review-list pr-110">
-                                 <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
+                                <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
+                                <div class="tp-product-details-review-list pr-110" style="max-height: 300px; overflow-y: auto;">
+                                 
                                  
                                  @foreach ($danhgias as $danhgia)
                                  
                                  @if ($danhgia->user)
-                                 <div class="tp-product-details-review-avater d-flex align-items-start">
+                                 <div class="tp-product-details-review-avater d-flex align-items-start" >
                                     <div class="tp-product-details-review-avater-thumb">
                                        <a href="#">
                                           <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
@@ -667,8 +668,7 @@
                                  <h3 class="tp-product-details-review-form-title">Đánh giá sản phẩm</h3>
                               
                                  <form action="{{route('admin.sanphams.admin.sanpham.danhgias',$sanpham->id)}}" method="POST">
-                                    @csrf
-                                    
+                                    @csrf 
                                        <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
                                        <label>Đánh giá :</label>
                                     
