@@ -36,7 +36,7 @@
                 </li>
                 @else
                 <li>
-                    <a href='{{ route('staff.dashboard') }}'>
+                    <a href='{{ route('admin.dashboard') }}'>
 
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
@@ -60,7 +60,7 @@
                             </li>
                             @else
                             <li>
-                                <a class='tp-link' href='{{ route('staff.khachhangs') }}'>Quản lý khách hàng</a>
+                                <a class='tp-link' href='{{ route('admin.khachhangs') }}'>Quản lý khách hàng</a>
 
                             </li>
                             @endif

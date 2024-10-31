@@ -50,8 +50,9 @@ class HoaDonController extends Controller
 
     $trangThaiHoaDon = HoaDon::TRANG_THAI;
     $type_huy_don_hang = HoaDon::HUY_DON_HANG;
+    $type_da_nhan_hang = HoaDon::DA_NHAN_HANG;
 
-    return view('admins.hoadons.index', compact('title', 'listHoaDon', 'trangThaiHoaDon', 'type_huy_don_hang'));
+    return view('admins.hoadons.index', compact('title', 'listHoaDon', 'trangThaiHoaDon', 'type_huy_don_hang', 'type_da_nhan_hang'));
 }
 
 
