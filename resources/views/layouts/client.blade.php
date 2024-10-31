@@ -4,6 +4,7 @@
 <!-- Mirrored from template.wphix.com/shofy-prv/shofy/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 29 Sep 2024 13:18:58 GMT -->
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Shofy - Multipurpose eCommerce HTML Template</title>
@@ -23,6 +24,7 @@
     <link rel="stylesheet" href="{{ asset('assets/client/css/flaticon_shofy.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/danhgia.css') }}">
     @yield('css')
 
     <!-- Swiper CSS -->
@@ -734,8 +736,8 @@
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
 
-
-    <script>
+    <script src="{{ asset('assets/client/js/anhnt.js') }}"></script>
+    {{-- <script>
         var dungLuongId;
         var mauSacId;
         // lấy màu sắc, dung lượng
@@ -987,7 +989,7 @@
         }
         // khi load lại trang gọi lại sự kiện thay đổi 
         document.addEventListener('DOMContentLoaded', bindCartEvents);
-    </script>
+    </script> --}}
 </body>
 
 <!-- Mirrored from template.wphix.com/shofy-prv/shofy/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 29 Sep 2024 13:19:32 GMT -->

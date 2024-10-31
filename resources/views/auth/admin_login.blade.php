@@ -56,15 +56,7 @@
                 </div>
             </div>
         </div>
-        @if (Auth::check() && Auth::user()->vai_tro == 'staff')
-            <div class="form-group mb-0 row pt-1">
-                <div class="col-12">
-                    <div class="d-grid">
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary" type="submit">Quay lại</a>
-                    </div>
-                </div>
-            </div>
-        @endif
+        
     </form>
  </div>
 @endsection

@@ -1,0 +1,25 @@
+.star-rating {
+    direction: rtl; /* Đảo ngược hướng hiển thị */
+    display: inline-block;
+    margin-bottom: 20px; /* Thêm khoảng cách dưới để tách khỏi dòng dưới */
+}
+
+.star-rating input {
+    display: none; /* Ẩn các nút radio */
+}
+
+.star-rating label {
+    font-size: 30px; /* Kích thước sao */
+    color: #ccc; /* Màu sao không được chọn */
+    cursor: pointer; /* Con trỏ khi di chuột */
+    transition: color 0.2s; /* Hiệu ứng chuyển màu */
+}
+
+.star-rating input:checked ~ label {
+    color: #f39c12; /* Màu sao khi được chọn */
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #f39c12; /* Màu sao khi di chuột qua */
+}

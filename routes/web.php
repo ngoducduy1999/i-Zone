@@ -51,7 +51,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
 
     // CRUD routes for User management
     Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
-    Route::get('/nhanviens', [UserController::class, 'nhanviens'])->name('nhanviens'); // Display users list
+    Route::get('/nhanviens', [UserController::class, 'nhanviens'])->middleware('auth', 'role:admin')->name('nhanviens'); // Display users list
     Route::get('/taikhoans/create', [UserController::class, 'create'])->name('taikhoans.create'); // Create new user
     Route::post('/taikhoans', [UserController::class, 'store'])->name('taikhoans.store'); // Store new user
     Route::get('/taikhoans/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
@@ -127,6 +127,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->middleware('auth', 'role:admin')->name('restore');
         Route::get('/sanpham/{id}/filterDanhGia/{star}', [SanPhamController::class, 'filterDanhGia'])->name('filterDanhGia');
+        Route::post('/admin/sanpham/{sanpham}/danhgias', [SanPhamController::class, 'storeReview'])
+    ->name('admin.sanpham.danhgias');
     });
 
     Route::prefix('mausacs')->name('mausacs.')->group(function(){
