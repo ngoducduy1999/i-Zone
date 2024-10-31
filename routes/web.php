@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Client\TaiKhoanController;
 use App\Http\Controllers\Admin\BaiVietController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\TagController;
@@ -167,8 +167,8 @@ Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(
     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
     Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
-    
-    
+
+
 });
 // Routes for unauthenticated users
 Route::prefix('customer')->name('customer.')->group(function () {
@@ -176,7 +176,14 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
     Route::get('register', [CustomerRegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('register', [CustomerRegisterController::class, 'register'])->name('register.post');
-    Route::post('logout', [CustomerRegisterController::class, 'logout'])->name('logout');
+    Route::post('logout', [CustomerLoginController::class, 'logout'])->name('logout');
+    Route::get('profile',[TaiKhoanController::class,'profileUser'])->name('profileUser');
+    Route::put('/editProfile/{id}',[TaiKhoanController::class,'update'])->name('update.profileUser');
+    Route::get('/donhang',[TaiKhoanController::class,'index'])->name('donhang');
+    Route::put('changepassword',[TaiKhoanController::class,'changePassword'])->name('changePassword');
+    Route::get('/{id}/chitietdonhang',[TaiKhoanController::class,'show'])->name('donhang.chitiet');
+    Route::post('/{id}/cancel',[TaiKhoanController::class,'cancelOrder'])->name('cancelOrder');
+    Route::post('/{id}/getOrder',[TaiKhoanController::class,'getOrder'])->name('getOrder');
   });
 
 
