@@ -1,33 +1,34 @@
 <?php
-use App\Http\Controllers\Client\TaiKhoanController;
-use App\Http\Controllers\Admin\BaiVietController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\MauSacController;
+use App\Http\Controllers\Admin\BaiVietController;
 use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\admin\SanPhamController;
+use App\Http\Controllers\Client\LienHeController;
 use App\Http\Controllers\Client\GioHangController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DungLuongController;
 use App\Http\Controllers\admin\KhuyenMaiController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Client\TaiKhoanController;
 use App\Http\Controllers\Client\TrangChuController;
+use App\Http\Controllers\Client\YeuThichController;
 use App\Http\Controllers\Auth\ClientLoginController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Auth\ClientForgotController;
 use App\Http\Controllers\Auth\CustomerLoginController;
 use App\Http\Controllers\Auth\ClientRegisterController;
+use App\Http\Controllers\Client\TrangSanPhamController;
 use App\Http\Controllers\admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
-use App\Http\Controllers\Client\CartController;
-use App\Http\Controllers\Client\TrangSanPhamController;
-use App\Http\Controllers\Client\YeuThichController;
 
 
 
@@ -195,6 +196,7 @@ Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGi
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
+Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
 
 
 

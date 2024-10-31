@@ -463,7 +463,7 @@
                                   <li><a href="blog-details.html">Blog Details</a></li>
                                </ul>
                             </li>
-                            <li><a href="contact.html">Liên hệ</a></li>
+                            <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                          </ul>
                       </nav>
                    </div>
