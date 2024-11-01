@@ -199,6 +199,8 @@ Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
 Route::get('/trangbaiviet', [TrangBaiVietController::class, 'index'])->name('trangbaiviet');
+Route::get('/baiviet/{danh_muc}', [TrangBaiVietController::class, 'filterByCategory'])->name('baiviet.danhmuc');
+Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chitietbaiviet');
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
 
 

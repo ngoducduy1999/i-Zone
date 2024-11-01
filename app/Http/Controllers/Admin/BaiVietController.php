@@ -53,28 +53,34 @@ class BaiVietController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'tieu_de' => 'required|string|max:255',
-            'noi_dung' => 'required|string',
-            'anh_bai_viet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'danh_muc_id' => 'required|exists:danh_mucs,id',
-        ]);
+{
+    // Xác thực dữ liệu đầu vào
+    $request->validate([
+        'tieu_de' => 'required|string|max:255',
+        'noi_dung' => 'required|string',
+        'anh_bai_viet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'danh_muc_id' => 'required|exists:danh_mucs,id',
+    ]);
 
-        $param = $request->except('_token');
+    $param = $request->except('_token');
 
-        if ($request->hasFile('anh_bai_viet')) {
-            $filename = $request->file('anh_bai_viet')->store('baiviets', 'public');
-            $param['anh_bai_viet'] = $filename;
-        } else {
-            $param['anh_bai_viet'] = null;
-        }
-
-        $param['user_id'] = auth()->id(); // Lấy ID của người dùng hiện tại
-        BaiViet::create($param);
-
-        return redirect()->route('admin.baiviets.index')->with('success', 'Thêm bài viết thành công');
+    // Kiểm tra và lưu ảnh bài viết nếu có
+    if ($request->hasFile('anh_bai_viet')) {
+        $filename = $request->file('anh_bai_viet')->store('baiviets', 'public');
+        $param['anh_bai_viet'] = $filename;
+    } else {
+        $param['anh_bai_viet'] = null; // Nếu không có ảnh, gán là null
     }
+
+    $param['user_id'] = auth()->id(); // Lấy ID của người dùng hiện tại
+    $param['trang_thai'] = false; // Đặt trạng thái bài viết là chưa duyệt
+
+    // Tạo bài viết mới
+    BaiViet::create($param);
+
+    return redirect()->route('admin.baiviets.index')->with('success', 'Thêm bài viết thành công');
+}
+
 
     public function edit($id)
 {
@@ -132,24 +138,26 @@ class BaiVietController extends Controller
 
 
     public function onOffBaiViet($id)
-    {
-        // Tìm kiếm bản ghi bài viết theo ID
-        $BaiViet= BaiViet::find($id);
+{
+    // Tìm kiếm bản ghi bài viết theo ID
+    $BaiViet = BaiViet::find($id);
 
-        if (!$BaiViet) {
-            return redirect()->route('admin.baiviets.index')->with('error', 'Bài viết không tồn tại.');
-        }
-
-        if ($BaiViet->trang_thai) {
-            // Nếu trạng thái hiện tại là đang hoạt động, chuyển sang ngừng hoạt động
-            $BaiViet->trang_thai = false;
-            $BaiViet->save();
-            return redirect()->back()->with('success', 'Bài viết đã được duyệt');
-        } else {
-            // Nếu trạng thái hiện tại là ngừng hoạt động, chuyển sang hoạt động
-            $BaiViet->trang_thai = true;
-            $BaiViet->save();
-            return redirect()->back()->with('error', 'Bài viết chưa được duyệt');
-        }
+    if (!$BaiViet) {
+        return redirect()->route('admin.baiviets.index')->with('error', 'Bài viết không tồn tại.');
     }
+
+    // Chuyển đổi trạng thái bài viết
+    $BaiViet->trang_thai = !$BaiViet->trang_thai; // Đảo ngược trạng thái hiện tại
+
+    // Lưu trạng thái mới
+    $BaiViet->save();
+
+    // Gửi thông báo thành công dựa trên trạng thái mới
+    if ($BaiViet->trang_thai) {
+        return redirect()->back()->with('success', 'Bài viết đã được duyệt');
+    } else {
+        return redirect()->back()->with('error', 'Bài viết chưa được duyệt');
+    }
+}
+
 }
