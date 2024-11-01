@@ -51,8 +51,8 @@
                             <label for="trang_thai" style="display: block; font-weight: bold; margin-bottom: 5px;">Trạng thái:</label>
                             <select name="trang_thai" id="trang_thai" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
                                 <option value="">Tất cả</option>
-                                <option value="1" {{ request('trang_thai') == '1' ? 'selected' : '' }}>Hoạt động</option>
-                                <option value="0" {{ request('trang_thai') == '0' ? 'selected' : '' }}>Không hoạt động</option>
+                                <option value="1" {{ request('trang_thai') == '1' ? 'selected' : '' }}>Chưa duyệt</option>
+                                <option value="0" {{ request('trang_thai') == '0' ? 'selected' : '' }}>Đã duyệt</option>
                             </select>
                         </div>
                     
@@ -93,50 +93,56 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($listBaiViet as $item)
-                                            <tr>
-                                                <th>{{ $item->id }}</th>
-                                                <td>{{ $item->tieu_de }}</td>
-                                                <td><img src="{{ Storage::url($item->anh_bai_viet) }}" alt="" width="100px"></td>
-                                                <td>{{ $item->user->ten }}</td>
-                                                <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                                                <td>
-                                                    @if ($item->trang_thai == 1)
+                                        <tr>
+                                            <th>{{ $item->id }}</th>
+                                            <td>{{ $item->tieu_de }}</td>
+                                            <td>
+                                                @if($item->anh_bai_viet)
+                                                    <img src="{{ Storage::url($item->anh_bai_viet) }}" alt="" width="100px">
+                                                @else
+                                                    <span>Không có ảnh</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $item->user->ten }}</td>
+                                            <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                                            <td>
+                                                @if ($item->trang_thai == 1)
                                                     <span class="badge badge-danger bg-danger">Chưa duyệt</span>
-                                                    @else
+                                                @else
                                                     <span class="badge badge-success bg-success">Đã duyệt</span>
-                                                    @endif
-                                                </td>             
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            Thao tác <i class="mdi mdi-chevron-down"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="{{ route('admin.baiviets.edit', $item->id) }}">Sửa</a>
-                                                            @if ($item->trang_thai == 1)
-                                                                <form action="{{ route('admin.baiviets.onOffBaiViet', $item->id) }}" method="post" class="m-0">
-                                                                    @csrf
-                                                                    @method('post')
-                                                                    <button class="dropdown-item" type="submit">Duyệt bài viết</button>
-                                                                </form>
-                                                            @else
-                                                                <form action="{{ route('admin.baiviets.onOffBaiViet', $item->id) }}" method="post" class="m-0">
-                                                                    @csrf
-                                                                    @method('post')
-                                                                    <button class="dropdown-item" type="submit">Bỏ duyệt bài viết</button>
-                                                                </form>
-                                                            @endif
-                                                
-                                                            <form action="{{ route('admin.baiviets.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này?');" class="m-0">
-                                                                @method('DELETE')
+                                                @endif
+                                            </td>             
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Thao tác <i class="mdi mdi-chevron-down"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="{{ route('admin.baiviets.edit', $item->id) }}">Sửa</a>
+                                                        @if ($item->trang_thai == 1)
+                                                            <form action="{{ route('admin.baiviets.onOffBaiViet', $item->id) }}" method="post" class="m-0">
                                                                 @csrf
-                                                                <button type="submit" class="dropdown-item">Xóa</button>
+                                                                @method('post')
+                                                                <button class="dropdown-item" type="submit">Duyệt bài viết</button>
                                                             </form>
-                                                        </div>
+                                                        @else
+                                                            <form action="{{ route('admin.baiviets.onOffBaiViet', $item->id) }}" method="post" class="m-0">
+                                                                @csrf
+                                                                @method('post')
+                                                                <button class="dropdown-item" type="submit">Bỏ duyệt bài viết</button>
+                                                            </form>
+                                                        @endif
+                                                        
+                                                        <form action="{{ route('admin.baiviets.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bài viết này?');" class="m-0">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button type="submit" class="dropdown-item">Xóa</button>
+                                                        </form>
                                                     </div>
-                                                </td>    
-                                            </tr>  
-                                        @endforeach   
+                                                </div>
+                                            </td>    
+                                        </tr>  
+                                    @endforeach   
                                 </tbody>
                             </table>
                         </div>

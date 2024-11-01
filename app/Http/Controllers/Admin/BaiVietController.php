@@ -2,150 +2,131 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\BaiViet;
 use App\Models\DanhMuc;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Faker\Provider\Base;
 use Illuminate\Support\Facades\Storage;
 
 class BaiVietController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
-    {
-        $title = "Danh sách bài viết";
+{
+    $title = "Danh sách bài viết";
 
-        $author = $request->input('user_id');
-        $date = $request->input('ngay_dang');
-        $status = $request->input('trang_thai');
+    // Khởi tạo truy vấn cho bài viết
+    $query = BaiViet::with(['user', 'danhMuc']);
 
-        $query = BaiViet::query();
-
-        if ($author) {
-            $query->where('user_id', $author);
-        }
-
-        if ($date) {
-            $query->whereDate('created_at', $date);
-        }
-
-        if (!is_null($status)) { 
-            $query->where('trang_thai', $status);
-        }
-
-        $listBaiViet = $query->get();
-
-        $users = User::all(); 
-
-        return view('admins.baiviets.index', compact('title', 'listBaiViet', 'users'));
+    // Lọc theo người đăng
+    if ($request->filled('user_id')) {
+        $query->where('user_id', $request->user_id);
     }
 
+    // Lọc theo ngày đăng
+    if ($request->filled('ngay_dang')) {
+        $query->whereDate('created_at', $request->ngay_dang);
+    }
 
+    // Lọc theo trạng thái
+    if ($request->filled('trang_thai')) {
+        $query->where('trang_thai', $request->trang_thai);
+    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Lấy danh sách bài viết với các điều kiện lọc
+    $listBaiViet = $query->paginate(10); // Sử dụng phân trang nếu cần
+
+    // Lấy tất cả người dùng
+    $users = User::all();
+
+    // Trả về view với dữ liệu cần thiết
+    return view('admins.baiviets.index', compact('title', 'listBaiViet', 'users'));
+}
+
     public function create()
     {
         $title = "Thêm mới bài viết";
-
-        $listDanhMuc = DanhMuc::query()->get();
-
+        $listDanhMuc = DanhMuc::all(); // Lấy danh sách danh mục
+        
         return view('admins.baiviets.create', compact('title', 'listDanhMuc'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        if($request->isMethod('POST')){
-            $param = $request->except('_token');
+        $request->validate([
+            'tieu_de' => 'required|string|max:255',
+            'noi_dung' => 'required|string',
+            'anh_bai_viet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'danh_muc_id' => 'required|exists:danh_mucs,id',
+        ]);
 
-            if($request->has('anh_bai_viet')){
-                $filename = $request->file('anh_bai_viet')->store('baiviets', 'public');
-            }else{
-                $filename = null;
-            }
+        $param = $request->except('_token');
 
+        if ($request->hasFile('anh_bai_viet')) {
+            $filename = $request->file('anh_bai_viet')->store('baiviets', 'public');
             $param['anh_bai_viet'] = $filename;
-
-            $param['user_id'] = auth()->id(); // Hoặc một giá trị user_id cụ thể nếu bạn không dùng auth
-
-            BaiViet::create($param);
-
-            return redirect()->route('admin.baiviets.index')->with('success', 'Thêm bài viết thành công');
+        } else {
+            $param['anh_bai_viet'] = null;
         }
+
+        $param['user_id'] = auth()->id(); // Lấy ID của người dùng hiện tại
+        BaiViet::create($param);
+
+        return redirect()->route('admin.baiviets.index')->with('success', 'Thêm bài viết thành công');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+    public function edit($id)
+{
+    // Lấy bài viết theo ID
+    $baiViet = BaiViet::findOrFail($id);
+    
+    // Lấy danh mục để hiển thị trong dropdown
+    $listDanhMuc = DanhMuc::all();
+    
+    // Trả về view edit với dữ liệu cần thiết
+    return view('admins.baiviets.update', [
+        'title' => 'Sửa bài viết',
+        'baiViet' => $baiViet,
+        'listDanhMuc' => $listDanhMuc,
+    ]);
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        $title = "Chỉnh sửa bài viết";
-
-        $listDanhMuc = DanhMuc::query()->get();
+        $request->validate([
+            'tieu_de' => 'required|string|max:255',
+            'noi_dung' => 'required|string',
+            'anh_bai_viet' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'danh_muc_id' => 'required|exists:danh_mucs,id',
+        ]);
 
         $baiViet = BaiViet::findOrFail($id);
+        $param = $request->except('_token', '_method');
 
-        return view('admins.baiviets.update', compact('title', 'baiViet', 'listDanhMuc'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        if($request->isMethod('PUT')){
-            $param = $request->except('_token', '_method');
-
-            $baiViet = BaiViet::findOrFail($id);
-
-            if($request->has('anh_bai_viet')){
-                if($baiViet->anh_bai_viet && Storage::disk('public')->exists($baiViet->anh_bai_viet)){
-                    Storage::disk('public')->delete($baiViet->anh_bai_viet);
-                }
-                $filename = $request->file('anh_bai_viet')->store('baiviets', 'public');
-            }else{
-                $filename = $baiViet->anh_bai_viet;
+        if ($request->hasFile('anh_bai_viet')) {
+            // Xóa hình ảnh cũ nếu có
+            if ($baiViet->anh_bai_viet && Storage::disk('public')->exists($baiViet->anh_bai_viet)) {
+                Storage::disk('public')->delete($baiViet->anh_bai_viet);
             }
-
+            $filename = $request->file('anh_bai_viet')->store('baiviets', 'public');
             $param['anh_bai_viet'] = $filename;
-
-            $baiViet->update($param);
-
-            return redirect()->route('admin.baiviets.index')->with('success', 'Cập nhật bài viết thành công');
         }
+
+        $baiViet->update($param);
+        return redirect()->route('admin.baiviets.index')->with('success', 'Cập nhật bài viết thành công');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $baiViet = BaiViet::query()->findOrFail($id);
+        $baiViet = BaiViet::findOrFail($id);
         
-        // Xóa hình ảnh đại diện của bai viết
-        if($baiViet->anh_bai_viet && Storage::disk('public')->exists($baiViet->anh_bai_viet)){
+        // Xóa hình ảnh nếu có
+        if ($baiViet->anh_bai_viet && Storage::disk('public')->exists($baiViet->anh_bai_viet)) {
             Storage::disk('public')->delete($baiViet->anh_bai_viet);
         }
 
-        // Xóa bài viết
         $baiViet->delete();
-
         return redirect()->route('admin.baiviets.index')->with('success', 'Xóa bài viết thành công');
     }
 

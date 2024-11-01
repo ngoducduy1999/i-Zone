@@ -159,7 +159,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::get('/{id}', [BaiVietController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [BaiVietController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BaiVietController::class, 'update'])->name('update');
-        Route::post('/{id}/onOffKhuyenMai', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
+        Route::post('/{id}/onOffBaiViet', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
         Route::delete('/{id}', [BaiVietController::class, 'destroy'])->name('destroy');
     });
 
