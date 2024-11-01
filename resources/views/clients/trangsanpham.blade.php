@@ -280,11 +280,11 @@
                                             <div class="col-xl-4 col-md-6 col-sm-6 infinite-item">
                                                 <div class="tp-product-item-2 mb-40">
                                                     <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
-                                                        <a href="product-details.html">
+                                                        <a href="{{ route('chitietsanpham', ['id'=>$item->id]) }}">
                                                             <img src="{{ asset($item->anh_san_pham) }}" alt="">
                                                         </a>
                                                         <!-- product action -->
-                                                        <div class="tp-product-action-2 tp-product-action-blackStyle">
+                                                        {{-- <div class="tp-product-action-2 tp-product-action-blackStyle">
                                                             <div class="tp-product-action-item-2 d-flex flex-column">
                                                                 <button type="button"
                                                                     class="tp-product-action-btn-2 tp-product-add-cart-btn">
@@ -375,7 +375,7 @@
                                                                         To Compare</span>
                                                                 </button>
                                                             </div>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                     <div class="tp-product-content-2 pt-15">
                                                         <div class="tp-product-tag-2">
@@ -421,7 +421,7 @@
                                                             </a>
 
                                                             <!-- product action -->
-                                                            <div class="tp-product-action-2 tp-product-action-blackStyle">
+                                                            {{-- <div class="tp-product-action-2 tp-product-action-blackStyle">
                                                                 <div class="tp-product-action-item-2 d-flex flex-column">
                                                                     <button type="button"
                                                                         class="tp-product-action-btn-2 tp-product-quick-view-btn"
@@ -485,7 +485,7 @@
                                                                             To Compare</span>
                                                                     </button>
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                         <div class="tp-product-list-content">
                                                             <div class="tp-product-content-2 pt-15">
@@ -512,7 +512,7 @@
                                                                         </span>
                                                                     @endif
                                                                 @endif
-                                                                <p>{{ $item->mo_ta }}</p>
+                                                                <p>{{ Str::limit(strip_tags($item->mo_ta), 100) }}</p>
                                                                 <div class="tp-product-list-add-to-cart">
                                                                     <button class="tp-product-list-add-to-cart-btn">Add To Cart</button>
                                                                 </div>
