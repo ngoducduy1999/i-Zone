@@ -15911,7 +15911,7 @@ div.tp-author-info-avater img {
   height: 100%;
 }
 .tp-product-list-thumb a img {
-  width: 100%;
+  width: 200px;
   height: 100%;
   object-fit: cover;
 }
@@ -18501,11 +18501,11 @@ product all slider
   cursor: pointer;
 }
 .tp-shop-widget-categories {
-  height: 288px;
+  /* height: 288px;
   overflow-y: scroll;
   overflow-y: scroll;
   overscroll-behavior-y: contain;
-  scrollbar-width: thin;
+  scrollbar-width: thin; */
   padding-right: 10px;
 }
 .tp-shop-widget-categories ul li {

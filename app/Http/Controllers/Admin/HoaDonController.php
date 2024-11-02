@@ -13,18 +13,48 @@ class HoaDonController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $title = "Danh sách hóa đơn";
+    public function index(Request $request)
+{
+    $title = "Danh sách hóa đơn";
 
-        $listHoaDon = HoaDon::query()->paginate(5);
+    // Lấy tham số từ request
+    $ngayBatDau = $request->input('ngay_bat_dau');
+    $ngayKetThuc = $request->input('ngay_ket_thuc');
+    $phuongThucThanhToan = $request->input('phuong_thuc_thanh_toan');
+    $trangThai = $request->input('trang_thai');
 
-        $trangThaiHoaDon = HoaDon::TRANG_THAI;
+    $query = HoaDon::query();
 
-        $type_huy_don_hang = HoaDon::HUY_DON_HANG;
-
-        return view('admins.hoadons.index', compact('title', 'listHoaDon', 'trangThaiHoaDon', 'type_huy_don_hang'));
+    // Áp dụng lọc theo ngày tháng
+    if ($ngayBatDau) {
+        $query->whereDate('ngay_dat_hang', '>=', $ngayBatDau);
     }
+
+    if ($ngayKetThuc) {
+        $query->whereDate('ngay_dat_hang', '<=', $ngayKetThuc);
+    }
+
+    // Áp dụng lọc theo phương thức thanh toán
+    if ($phuongThucThanhToan) {
+        $query->where('phuong_thuc_thanh_toan', $phuongThucThanhToan);
+    }
+
+    // Áp dụng lọc theo trạng thái
+    if ($trangThai) {
+        $query->where('trang_thai', $trangThai);
+
+    }
+
+    // Lấy danh sách hóa đơn
+    $listHoaDon = $query->get();
+
+    $trangThaiHoaDon = HoaDon::TRANG_THAI;
+    $type_huy_don_hang = HoaDon::HUY_DON_HANG;
+    $type_da_nhan_hang = HoaDon::DA_NHAN_HANG;
+
+    return view('admins.hoadons.index', compact('title', 'listHoaDon', 'trangThaiHoaDon', 'type_huy_don_hang', 'type_da_nhan_hang'));
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -46,17 +76,22 @@ class HoaDonController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        $title = "Thông tin chi tiết hóa đơn";
+{
+    $title = "Thông tin chi tiết hóa đơn";
 
-        $hoaDon = HoaDon::query()->findOrFail($id);
+    // Lấy hóa đơn theo ID
+    $hoaDon = HoaDon::query()->findOrFail($id);
 
-        $trangThaiHoaDon = HoaDon::TRANG_THAI;       
+    // Lấy thông tin chi tiết sản phẩm theo hóa đơn cùng với biến thể sản phẩm và sản phẩm
+    $chiTietHoaDons = $hoaDon->chiTietHoaDons()->with(['bienTheSanPham.sanPham'])->get();
 
-        $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
+    // Các thuộc tính khác của hóa đơn
+    $trangThaiHoaDon = HoaDon::TRANG_THAI;
+    $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
 
-        return view('admins.hoadons.show', compact('title', 'hoaDon', 'trangThaiHoaDon', 'phuongThucThanhToan'));
-    }
+    return view('admins.hoadons.show', compact('title', 'hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
+}
+
 
     /**
      * Show the form for editing the specified resource.
@@ -75,7 +110,7 @@ class HoaDonController extends Controller
 
         $currentTrangThai = $hoaDon->trang_thai;
 
-        $newTrangThai = $request->input('trang_thai'); 
+        $newTrangThai = $request->input('trang_thai');
 
         $trangThais = array_keys(HoaDon::TRANG_THAI);
 

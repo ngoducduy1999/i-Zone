@@ -28,7 +28,7 @@ class CustomerLoginController extends Controller
             'email.email' => 'Email không hợp lệ',
             'mat_khau.required' => 'Mật khẩu không được để trống',
         ]);
-        
+
         // Thay đổi tên cột mật khẩu trong việc xác thực
         $credentials = [
             'email' => $request->email,
@@ -37,14 +37,6 @@ class CustomerLoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-
-            // Chuyển hướng dựa trên vai trò
-            if ($user->vai_tro == 'admin') {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->vai_tro == 'staff') {
-                return redirect()->route('staff'); // Thêm route dành cho staff
-            }
-
             // Đăng nhập thành công (không phải admin hoặc staff)
             return redirect()->intended('/');
         }
@@ -57,6 +49,6 @@ class CustomerLoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/login');
+        return redirect('');
     }
 }

@@ -60,4 +60,22 @@ class SanPham extends Model
     {
         return $this->hasMany(ChiTietHoaDon::class, 'bien_the_san_pham_id', 'id'); // Sử dụng cột đúng
     }
+    
+
+    protected $table = 'san_phams';
+
+    public function bienThe()
+    {
+        return $this->hasMany(BienTheSanPham::class, 'san_pham_id');
+    }
+
+    public function danhmucs()
+    {
+    return $this->belongsTo(DanhMuc::class, 'danh_muc_id');
+    }
+    
+    public function getAvgRatingAttribute()
+    {
+        return $this->danhGias()->avg('diem_so');
+    }
 }

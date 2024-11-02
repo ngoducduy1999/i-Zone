@@ -1,5 +1,18 @@
 @extends('layouts.admin')
 @section('title', 'Danh sách sản phẩm')
+@section('css')
+    <!-- Include custom CSS if needed -->
+    <link href="{{ asset('assets/admin/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('assets/admin/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('assets/admin/libs/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('assets/admin/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}"
+        rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/admin/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css') }}" rel="stylesheet"
+        type="text/css" />
+@endsection
 @section('content')
     <div class="container-xxl">
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
@@ -14,23 +27,20 @@
         @if (session('error'))
             <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
         @endif
-        <!-- Datatables  -->
         <div class="row">
             <div class="col-12">
                 <div class="card">
 
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Danh sách sản phẩm</h5>
+                        <h5 class="card-title mb-0">Basic Datatable</h5>
                     </div><!-- end card header -->
 
                     <div class="card-body">
-                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap">
+                        <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th style="width: 20%">Sản phẩm</th>
+                                    <th>Sản phẩm</th>
                                     <th>Biến thể</th>
-                                    <th>Tags</th>
                                     <th>Ảnh</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
@@ -39,47 +49,67 @@
                             <tbody>
                                 @foreach ($sanphams as $sanpham)
                                     <tr>
-                                        <td>{{ $sanpham->id }}</td>
-                                        <td>
-                                            <ul>
-                                                <li>Mã sản phẩm: {{ $sanpham->ma_san_pham }}</li>
-                                                <li>Tên sản phẩm: {{ $sanpham->ten_san_pham }}</li>
-                                                <li>Danh mục: {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</li>
-                                                <li>Ảnh : <br> <img src="{{ asset($sanpham->anh_san_pham) }}"
-                                                        alt="{{ $sanpham->ten_san_pham }}" width="50px"></li>
-                                                <li>Ngày tạo: {{ $sanpham->created_at->format('d-m-Y') }}</li>
+                                        <td style="max-width: 250px;">
+                                            <ul style="list-style-type: none; margin: 0px; padding: 0px">
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    Mã: {{ $sanpham->ma_san_pham }}</li>
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    Tên: {{ $sanpham->ten_san_pham }}</li>
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    Danh mục:
+                                                    {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</li>
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    Ảnh : <br> <img src="{{ asset($sanpham->anh_san_pham) }}"
+                                                        alt="{{ $sanpham->ten_san_pham }}" width="50px"
+                                                        class="rounded-3"></li>
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    Ngày tạo: {{ $sanpham->created_at->format('d-m-Y') }}</li>
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    Tags:
+                                                    @foreach ($sanpham->tagSanPhams as $tagsanpham)
+                                                        <span class="text-primary">#{{ $tagsanpham->tag->ten_tag }}</span>
+                                                    @endforeach
+                                                </li>
                                             </ul>
                                         </td>
                                         <td>
-                                            @foreach ($bienthesanphams as $bienthe)
+                                            @foreach ($sanpham->bienTheSanPhams as $bienthe)
                                                 @if ($sanpham->id == $bienthe->san_pham_id)
-                                                    <ul>
-                                                        <li>{{ $bienthe->dungLuong->ten_dung_luong }}-{{ $bienthe->mauSac->ten_mau_sac }}
+                                                    <ul style="list-style-type: none; margin: 10px; padding: 0px">
+                                                        <li>
+                                                            {{ $bienthe->dungLuong->ten_dung_luong }} -
+                                                            <span style="display: inline-block; margin-left: 5px;">
+                                                                <div
+                                                                    style="width: 15px; height: 15px; background-color: {{ $bienthe->mauSac->ma_mau }}; border-radius: 50%; border: 1px solid;">
+                                                                </div>
+                                                            </span>
                                                         </li>
                                                         <li>Số lượng: {{ $bienthe->so_luong }}</li>
                                                         <li>
-                                                            <del class="text-danger">
+                                                            <del>
                                                                 {{ number_format($bienthe->gia_cu, 0, ',', '.') }}đ
                                                             </del>
-                                                            -{{ number_format($bienthe->gia_moi, 0, ',', '.') }}đ
+                                                            -
+                                                            <span class="text-danger">
+                                                                {{ number_format($bienthe->gia_moi, 0, ',', '.') }}đ
+                                                            </span>
                                                         </li>
                                                     </ul>
                                                 @endif
                                             @endforeach
                                         </td>
-                                        <td>
-                                            @foreach ($tagsanphams as $tagsanpham)
-                                                @if ($sanpham->id == $tagsanpham->san_pham_id)
-                                                    <span class="text-primary">#{{ $tagsanpham->tag->ten_tag }}</span>
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        <td>
-
-                                            @foreach ($anhsanphams as $anhsanpham)
+                                        <td style="max-width: 200px; overflow: hidden; white-space: normal;">
+                                            @foreach ($sanpham->hinhAnhSanPhams as $anhsanpham)
                                                 @if ($sanpham->id == $anhsanpham->san_pham_id)
                                                     <img src="{{ asset($anhsanpham->hinh_anh) }}"
-                                                        alt="{{ $anhsanpham->san_pham_id }}" width="50px">
+                                                        alt="{{ $anhsanpham->san_pham_id }}" width="50px"
+                                                        style="margin: 5px;" class="rounded-3">
                                                 @endif
                                             @endforeach
                                         </td>
@@ -135,4 +165,24 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <!-- DataTables JS -->
+    <script src="{{ asset('assets/admin/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-keytable-bs5/js/keyTable.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/libs/datatables.net-select-bs5/js/select.bootstrap5.min.js') }}"></script>
+
+    <!-- DataTable Demo App JS -->
+    <script src="{{ asset('assets/admin/js/pages/datatable.init.js') }}"></script>
 @endsection
