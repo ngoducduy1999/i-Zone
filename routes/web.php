@@ -1,34 +1,35 @@
 <?php
-use App\Http\Controllers\Client\TaiKhoanController;
-use App\Http\Controllers\Admin\BaiVietController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\MauSacController;
+use App\Http\Controllers\Admin\BaiVietController;
 use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\admin\SanPhamController;
+use App\Http\Controllers\Client\LienHeController;
 use App\Http\Controllers\Client\GioHangController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DungLuongController;
 use App\Http\Controllers\admin\KhuyenMaiController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Client\TaiKhoanController;
 use App\Http\Controllers\Client\TrangChuController;
+use App\Http\Controllers\Client\YeuThichController;
 use App\Http\Controllers\Auth\ClientLoginController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Auth\ClientForgotController;
 use App\Http\Controllers\Auth\CustomerLoginController;
 use App\Http\Controllers\Auth\ClientRegisterController;
+use App\Http\Controllers\Client\TrangBaiVietController;
+use App\Http\Controllers\Client\TrangSanPhamController;
 use App\Http\Controllers\admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
-use App\Http\Controllers\Client\CartController;
-use App\Http\Controllers\Client\TrangSanPhamController;
-use App\Http\Controllers\Client\YeuThichController;
-
 
 
 // Admin routes
@@ -126,6 +127,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->middleware('auth', 'role:admin')->name('restore');
         Route::get('/sanpham/{id}/filterDanhGia/{star}', [SanPhamController::class, 'filterDanhGia'])->name('filterDanhGia');
+        Route::post('/admin/sanpham/{sanpham}/danhgias', [SanPhamController::class, 'storeReview'])
+    ->name('admin.sanpham.danhgias');
     });
 
     Route::prefix('mausacs')->name('mausacs.')->group(function(){
@@ -198,6 +201,8 @@ Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGi
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
+Route::get('/trangbaiviet', [TrangBaiVietController::class, 'index'])->name('trangbaiviet');
+Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
 
 
 

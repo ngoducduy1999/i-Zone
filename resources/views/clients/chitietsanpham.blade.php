@@ -539,254 +539,189 @@
 {{ implode(', ', $displayedCapacities) }}
 </td>
                                        </tr>
-                                                    <tr>
-                                                        <td>Tuổi thọ pin trung bình</td>
-                                                        <td>13 tiếng</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tên</td>
-                                                        <td>{{ $sanpham->ten_san_pham }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Mã sản phẩm</td>
-                                                        <td>{{ $sanpham->ma_san_pham }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Loại sản phẩm</td>
-                                                        <td>{{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pin</td>
-                                                        <td>Cần có 1 pin Lithium Polymer. (có kèm theo)</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab" tabindex="0">
+                        <div class="tp-product-details-review-wrapper pt-60">
+                           <div class="row">
+                              <div class="col-lg-6">
+                                 <div class="tp-product-details-review-statics">
+                                    <!-- number -->
+
+
+                                {{-- Bảng người dùng xem đánh giá --}}
+                                <div class="tp-product-details-review-number d-inline-block mb-50">
+
+                                 <h3 class="tp-product-details-review-number-title">Đánh giá của khách hàng</h3>
+                                 <div class="tp-product-details-review-summery d-flex align-items-center">
+                                    @if ($soluotdanhgia > 0)
+                                        <div class="tp-product-details-review-summery-value">
+                                       <span>{{ number_format($diemtrungbinh, 1) }}</span>
                                     </div>
-                                </div>
+
+                                 
+
+                                    <div class="tp-product-details-review-summery-rating d-flex align-items-center">
+                                     
+                                      
+                                       <div class="star_warning">
+                                          <p class="fs-2">
+                                              @for ($i = 1; $i <= 5; $i++)
+                                                  @if ($i <= floor($diemtrungbinh))
+                                                      <span class="star text-warning">★</span>
+                                                  @elseif ($i == ceil($diemtrungbinh))
+                                                      @if ($diemtrungbinh - floor($diemtrungbinh) >= 0.3)
+                                                          <span class="star text-warning">☆</span>
+                                                      @else
+                                                          <span class="star text-warning">☆</span>
+                                                      @endif
+                                                  @else
+                                                      <span class="star text-warning">☆</span>
+                                                  @endif
+                                              @endfor
+                                          </p>
+                                      </div>
+                                 
+                                       <p class="ms-auto">({{ $soluotdanhgia }} lượt đánh giá)</p>
+                                    </div> 
+
+                                   
+                                    @endif
+                                   
+                                 </div>
+
+
+
+
+
+                                 <div class="tp-product-details-review-rating-list">
+
+                                    <!-- single item -->
+                                    @foreach ($starPercentage as $star => $percentage)
+                                    <div class="tp-product-details-review-rating-item d-flex align-items-center">
+                                             
+                                       <span>{{$star}} Start</span>
+                                  <div class="tp-product-details-review-rating-bar">
+                                     <span class="tp-product-details-review-rating-bar-inner" style="width: {{ number_format($percentage) }}%;"></span>
+                                  </div>
+                                  <div class="tp-product-details-review-rating-percent">
+                                     <span>{{ number_format($percentage) }}%</span>
+                                  </div>
+                    
+                               </div>
+                                 @endforeach
+                              
                             </div>
-                            <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab"
-                                tabindex="0">
-                                <div class="tp-product-details-review-wrapper pt-60">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="tp-product-details-review-statics">
-                                                <!-- number -->
-                                                <div class="tp-product-details-review-number d-inline-block mb-50">
-                                                    <h3 class="tp-product-details-review-number-title">Customer reviews
-                                                    </h3>
-                                                    <div
-                                                        class="tp-product-details-review-summery d-flex align-items-center">
-                                                        <div class="tp-product-details-review-summery-value">
-                                                            <span>4.5</span>
-                                                        </div>
-                                                        <div
-                                                            class="tp-product-details-review-summery-rating d-flex align-items-center">
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <p>(36 Reviews)</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tp-product-details-review-rating-list">
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>5 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="82%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>82%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
+                         </div>
+                         {{-- Bảng người dùng xem đánh giá --}}
 
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>4 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="30%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>30%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
 
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>3 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="15%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>15%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
-
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>2 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="6%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>6%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
-
-                                                        <!-- single item -->
-                                                        <div
-                                                            class="tp-product-details-review-rating-item d-flex align-items-center">
-                                                            <span>1 Start</span>
-                                                            <div class="tp-product-details-review-rating-bar">
-                                                                <span class="tp-product-details-review-rating-bar-inner"
-                                                                    data-width="10%"></span>
-                                                            </div>
-                                                            <div class="tp-product-details-review-rating-percent">
-                                                                <span>10%</span>
-                                                            </div>
-                                                        </div> <!-- end single item -->
-                                                    </div>
-                                                </div>
-
-                                                <!-- reviews -->
-                                                <div class="tp-product-details-review-list pr-110">
-                                                    <h3 class="tp-product-details-review-title">Rating & Review</h3>
-                                                    <div
-                                                        class="tp-product-details-review-avater d-flex align-items-start">
-                                                        <div class="tp-product-details-review-avater-thumb">
-                                                            <a href="#">
-                                                                <img src="{{ asset('assets/client/img/users/user-3.jpg') }}"
-                                                                    alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="tp-product-details-review-avater-content">
-                                                            <div
-                                                                class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                            </div>
-                                                            <h3 class="tp-product-details-review-avater-title">Eleanor
-                                                                Fant</h3>
-                                                            <span class="tp-product-details-review-avater-meta">06
-                                                                March, 2023 </span>
-
-                                                            <div class="tp-product-details-review-avater-comment">
-                                                                <p>Designed very similarly to the nearly double priced
-                                                                    Galaxy tab S6,
-                                                                    with the only removal being.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="tp-product-details-review-avater d-flex align-items-start">
-                                                        <div class="tp-product-details-review-avater-thumb">
-                                                            <a href="#">
-                                                                <img src="{{ asset('assets/client/img/users/user-2.jpg') }}"
-                                                                    alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="tp-product-details-review-avater-content">
-                                                            <div
-                                                                class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                            </div>
-                                                            <h3 class="tp-product-details-review-avater-title">Shahnewaz
-                                                                Sakil</h3>
-                                                            <span class="tp-product-details-review-avater-meta">06
-                                                                March, 2023 </span>
-
-                                                            <div class="tp-product-details-review-avater-comment">
-                                                                <p>This review is for the Samsung Tab S6 Lite, 64gb wifi
-                                                                    in blue.
-                                                                    purchased this product performed.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> <!-- end col -->
-                                        <div class="col-lg-6">
-                                            <div class="tp-product-details-review-form">
-                                                <h3 class="tp-product-details-review-form-title">Review this product
-                                                </h3>
-                                                <p>Your email address will not be published. Required fields are marked
-                                                    *</p>
-                                                <form action="#">
-                                                    <div
-                                                        class="tp-product-details-review-form-rating d-flex align-items-center">
-                                                        <p>Your Rating :</p>
-                                                        <div
-                                                            class="tp-product-details-review-form-rating-icon d-flex align-items-center">
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                            <span><i class="fa-solid fa-star"></i></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tp-product-details-review-input-wrapper">
-                                                        <div class="tp-product-details-review-input-box">
-                                                            <div class="tp-product-details-review-input">
-                                                                <textarea id="msg" name="msg"
-                                                                    placeholder="Write your review here..."></textarea>
-                                                            </div>
-                                                            <div class="tp-product-details-review-input-title">
-                                                                <label for="msg">Your Name</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="tp-product-details-review-input-box">
-                                                            <div class="tp-product-details-review-input">
-                                                                <input name="name" id="name" type="text"
-                                                                    placeholder="Shahnewaz Sakil">
-                                                            </div>
-                                                            <div class="tp-product-details-review-input-title">
-                                                                <label for="name">Your Name</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="tp-product-details-review-input-box">
-                                                            <div class="tp-product-details-review-input">
-                                                                <input name="email" id="email" type="email"
-                                                                    placeholder="shofy@mail.com">
-                                                            </div>
-                                                            <div class="tp-product-details-review-input-title">
-                                                                <label for="email">Your Email</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tp-product-details-review-suggetions mb-20">
-                                                        <div class="tp-product-details-review-remeber">
-                                                            <input id="remeber" type="checkbox">
-                                                            <label for="remeber">Save my name, email, and website in
-                                                                this browser for
-                                                                the next time I comment.</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tp-product-details-review-btn-wrapper">
-                                                        <button class="tp-product-details-review-btn">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                    <!-- reviews -->
+                                {{-- show đánh giá và nhận xét --}}
+                                <div class="tp-product-details-review-list pr-110">
+                                 <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
+                                 
+                                 @foreach ($danhgias as $danhgia)
+                                 
+                                 @if ($danhgia->user)
+                                 <div class="tp-product-details-review-avater d-flex align-items-start">
+                                    <div class="tp-product-details-review-avater-thumb">
+                                       <a href="#">
+                                          <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
+                                       </a>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="tp-product-details-review-avater-content">
+                                      
+                                      
+                                          <div class="fs-1.9">
+                                             @for ($i = 1; $i <= 5; $i++)
+                                             <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
+                                         @endfor
+                                          </div>
+                                      
+                                       
+                                          <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }}</h3>
+
+                                       <span class="tp-product-details-review-avater-meta">  {{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }} </span>
+
+                                       <div class="tp-product-details-review-avater-comment">
+                                          <p>{{ $danhgia->nhan_xet }}</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 @endif
+                                 @endforeach   
+                              </div>
+                              {{-- show đánh giá và nhận xét --}}
+
+
+                                 </div>
+                              </div> <!-- end col -->
+                              <div class="col-lg-6">
+
+
+                                {{-- form đánh giá và nhận xét --}}
+                                <div class="tp-product-details-review-form">
+                                 <h3 class="tp-product-details-review-form-title">Đánh giá sản phẩm</h3>
+                              
+                                 <form action="{{route('admin.sanphams.admin.sanpham.danhgias',$sanpham->id)}}" method="POST">
+                                    @csrf
+                                    
+                                       <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+                                       <label>Đánh giá :</label>
+                                    
+                                       <div class="star-rating">
+                                          <input type="radio" id="star5" name="diem_so" value="5" />
+                                          <label for="star5" title="5 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star4" name="diem_so" value="4" />
+                                          <label for="star4" title="4 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star3" name="diem_so" value="3" />
+                                          <label for="star3" title="3 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star2" name="diem_so" value="2" />
+                                          <label for="star2" title="2 sao">&#9733;</label>
+                                          
+                                          <input type="radio" id="star1" name="diem_so" value="1" />
+                                          <label for="star1" title="1 sao">&#9733;</label>
+                                      </div> 
+                                    <div class="tp-product-details-review-input-wrapper">
+                                       <div class="tp-product-details-review-input-box">
+                                          <div class="tp-product-details-review-input">
+                                             <textarea id="nhan_xet" name="nhan_xet" placeholder="Write your review here..."></textarea>
+                                          </div>
+                                      
+                                          <div class="tp-product-details-review-input-title">
+                                             <label for="nhan_xet">Nhận xét</label>
+                                          </div>
+
+                                       
+                                       </div>
+                                     
+                                    </div>
+                                    <div class="tp-product-details-review-suggetions mb-20">
+                                       <div class="tp-product-details-review-remeber">
+                                          <input id="remeber" type="checkbox">
+                                          <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
+                                       </div>
+                                    </div>
+                                    <div class="tp-product-details-review-btn-wrapper">
+                                       <button type="submit" class="tp-product-details-review-btn">Submit</button>
+                                    </div>
+                                 </form>
+                              </div>
+                              {{-- form đánh giá và nhận xét --}}
+
+
+
+                              </div>
+                           </div>
+
                         </div>
                     </div>
                 </div>

@@ -453,17 +453,10 @@
                                <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
                             </li>
                             <li><a href="coupon.html">Kho hàng</a></li>
-                            <li class="has-dropdown">
-                               <a href="blog.html">Bài viết</a>
-                               <ul class="tp-submenu">
-                                  <li><a href="blog.html">Blog Standard</a></li>
-                                  <li><a href="blog-grid.html">Blog Grid</a></li>
-                                  <li><a href="blog-list.html">Blog List</a></li>
-                                  <li><a href="blog-details-2.html">Blog Details Full Width</a></li>
-                                  <li><a href="blog-details.html">Blog Details</a></li>
-                               </ul>
+                            <li>
+                               <a href="{{ route('trangbaiviet') }}">Bài viết</a>                             
                             </li>
-                            <li><a href="contact.html">Liên hệ</a></li>
+                            <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                          </ul>
                       </nav>
                    </div>
