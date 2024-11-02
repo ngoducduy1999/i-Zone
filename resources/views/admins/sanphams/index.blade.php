@@ -165,9 +165,7 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-@endsection
-=======
+
 @endsection
 @section('js')
     <!-- DataTables JS -->
@@ -189,4 +187,4 @@
     <!-- DataTable Demo App JS -->
     <script src="{{ asset('assets/admin/js/pages/datatable.init.js') }}"></script>
 @endsection
->>>>>>> 97daa0ad56b978c8af866fb40ba0f0c473e83815
+
