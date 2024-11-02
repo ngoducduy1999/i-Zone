@@ -39,7 +39,7 @@
             </div>
             <div class="col-xl-12">
                 <div class="tp-postbox-details-thumb">
-                    <img src="{{ Storage::url($post->anh_bai_viet) }}" alt="{{ $post->tieu_de }}" >
+                    <img src="{{ Storage::url($post->anh_bai_viet) }}" alt="{{ $post->tieu_de }}" style="width: 100%; height: 400px; object-fit: cover;">
                 </div>
             </div>
         </div>
@@ -104,7 +104,6 @@
                                     <span class="tp-sidebar-about-designation">
                                         {{ isset($user) ? $user->vai_tro : 'Vai trò không xác định' }}
                                     </span>
-                                    <p>Lorem ligula eget dolor. Aenean massa. Cum sociis que penatibus magnis dis parturient</p>
                                     <div class="tp-sidebar-about-signature">
                                         <img src="assets/img/blog/signature/signature.png" alt="">
                                     </div>

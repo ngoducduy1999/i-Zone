@@ -142,8 +142,7 @@
                                         <span class="tp-sidebar-about-designation">
                                             {{ isset($user) ? $user->vai_tro : 'Vai trò không xác định' }}
                                         </span>                                        
-                                        <p>Lorem ligula eget dolor. Aenean massa. Cum sociis que penatibus magnis dis
-                                            parturient</p>
+                                        
                                         <div class="tp-sidebar-about-signature">
                                             <img src="assets/img/blog/signature/signature.png" alt="">
                                         </div>

@@ -219,12 +219,9 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="tp-shop-top-result">
-                                            <p>Showing 1–14 of 26 results</p>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-6">
+                                {{-- <div class="col-xl-6">
                                     <div class="tp-shop-top-right d-sm-flex align-items-center justify-content-xl-end">
                                         <div class="tp-shop-top-select">
                                             <select>
@@ -268,7 +265,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="tp-shop-items-wrapper tp-shop-item-primary">
