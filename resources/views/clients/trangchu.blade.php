@@ -281,7 +281,7 @@
                             <div class="tp-product-item p-relative transition-3 mb-25">
                                 <div class="tp-product-thumb p-relative fix m-img">
                                     <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
-                                        <img src="{{ asset($sanpham->anh_san_pham) }}" alt="{{ $sanpham->ten_san_pham }}">
+                                        <img src="{{ asset($sanpham->anh_san_pham) }}" alt="{{ $sanpham->ten_san_pham }}" style=" width:320px;height:180px;">
                                     </a>
 
                                     <!-- product badge -->
@@ -479,7 +479,7 @@
                      <div class="tp-product-item p-relative transition-3 mb-25">
                         <div class="tp-product-thumb p-relative fix m-img">
                            <a href="{{ route('chitietsanpham', ['id'=>$sanphamNew->id]) }}">
-                              <img src="{{ asset($sanphamNew->anh_san_pham) }}" alt="{{ $sanphamNew->ten_san_pham }}">
+                              <img src="{{ asset($sanphamNew->anh_san_pham) }}" alt="{{ $sanphamNew->ten_san_pham }}" style=" width:300px;height:150px;" >
                            </a>
 
                            <!-- product badge -->
@@ -693,7 +693,7 @@
                         <!-- Hình ảnh sản phẩm -->
                         <div class="tp-product-thumb p-relative fix m-img">                      
                            <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
-                              <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}">
+                              <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}" style=" width:300px;height:160px;">
                            </a>
                            <div class="tp-product-badge">                            
                                  <span class="product-gray">Trả góp 0%</span>                             
