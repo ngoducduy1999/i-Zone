@@ -155,11 +155,13 @@
          @foreach($danhMucs as $danhMuc)
          <div class="col">
             <div class="tp-product-category-item text-center mb-40">
-               <div class="tp-product-category-thumb fix">
-                  <a href="{{ url('shop-category/' . $danhMuc->id) }}"> <!-- Link đến trang danh mục -->
-                     <img src="{{ asset( $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}">
+               <div class="tp-product-category-thumb" style="position: relative; width: 100%; overflow: hidden; border-radius: 10px;">
+                  <a href="{{ url('shop-category/' . $danhMuc->id) }}" style="display: block;">
+                     <img src="{{ asset( $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}"
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: transform 0.3s;">
                   </a>
                </div>
+
                <div class="tp-product-category-content">
                   <h3 class="tp-product-category-title">
                      <a href="{{ url('shop-category/' . $danhMuc->id) }}">{{ $danhMuc->ten_danh_muc }}</a>
