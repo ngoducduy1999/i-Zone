@@ -155,11 +155,13 @@
          @foreach($danhMucs as $danhMuc)
          <div class="col">
             <div class="tp-product-category-item text-center mb-40">
-               <div class="tp-product-category-thumb fix">
-                  <a href="{{ url('shop-category/' . $danhMuc->id) }}"> <!-- Link đến trang danh mục -->
-                     <img src="{{ asset( $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}">
+               <div class="tp-product-category-thumb" style="position: relative; width: 100%; overflow: hidden; border-radius: 10px;">
+                  <a href="{{ url('shop-category/' . $danhMuc->id) }}" style="display: block;">
+                     <img src="{{ asset( $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}"
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: transform 0.3s;">
                   </a>
                </div>
+
                <div class="tp-product-category-content">
                   <h3 class="tp-product-category-title">
                      <a href="{{ url('shop-category/' . $danhMuc->id) }}">{{ $danhMuc->ten_danh_muc }}</a>
@@ -1259,16 +1261,16 @@
       <div class="row align-items-center">
          <div class="col-xl-7 col-lg-7">
             <div class="tp-subscribe-content">
-               <span>Sale 20% off all store</span>
-               <h3 class="tp-subscribe-title">Subscribe our Newsletter</h3>
+               <span>Giảm giá 20% các sản phẩm</span>
+               <h3 class="tp-subscribe-title">Đăng ký nhận bản tin của chúng tôi</h3>
             </div>
          </div>
          <div class="col-xl-5 col-lg-5">
             <div class="tp-subscribe-form">
                <form action="#">
                   <div class="tp-subscribe-input">
-                     <input type="email" placeholder="Enter Your Email">
-                     <button type="submit">Subscribe</button>
+                     <input type="email" placeholder="Nhập Email">
+                     <button type="submit">Đăng ký</button>
                   </div>
                </form>
             </div>

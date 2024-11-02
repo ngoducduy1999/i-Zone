@@ -10,7 +10,7 @@
                             <img src="{{ asset('assets/client/img/logo/logo.svg') }}" alt="logo">
                          </a>
                       </div>
-                      <p class="tp-footer-desc">We are a team of designers and developers that create high quality WordPress</p>
+                      <p class="tp-footer-desc">Chúng tôi là một nhóm các nhà thiết kế và phát triển tạo ra I-Zone chất lượng cao.</p>
                       <div class="tp-footer-social">
                          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                          <a href="#"><i class="fa-brands fa-twitter"></i></a>
@@ -22,41 +22,40 @@
              </div>
              <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                 <div class="tp-footer-widget footer-col-2 mb-50">
-                   <h4 class="tp-footer-widget-title">My Account</h4>
+                   <h4 class="tp-footer-widget-title">Tài khoản của tôi</h4>
                    <div class="tp-footer-widget-content">
                       <ul>
-                         <li><a href="#">Track Orders</a></li>
-                         <li><a href="#">Shipping</a></li>
-                         <li><a href="#">Wishlist</a></li>
-                         <li><a href="#">My Account</a></li>
-                         <li><a href="#">Order History</a></li>
-                         <li><a href="#">Returns</a></li>
+                         <li><a href="#">Theo dõi đơn hàng</a></li>
+                         <li><a href="#">Vận chuyển</a></li>
+                         <li><a href="#">Danh sách yêu thích</a></li>
+                         <li><a href="#">Tài khoản của tôi</a></li>
+                         <li><a href="#">Lịch sử đơn hàng</a></li>
                       </ul>
                    </div>
                 </div>
              </div>
              <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                 <div class="tp-footer-widget footer-col-3 mb-50">
-                   <h4 class="tp-footer-widget-title">Infomation</h4>
+                   <h4 class="tp-footer-widget-title">Thông tin</h4>
                    <div class="tp-footer-widget-content">
                       <ul>
-                         <li><a href="#">Our Story</a></li>
-                         <li><a href="#">Careers</a></li>
-                         <li><a href="#">Privacy Policy</a></li>
-                         <li><a href="#">Terms & Conditions</a></li>
-                         <li><a href="#">Latest News</a></li>
-                         <li><a href="#">Contact Us</a></li>
+                         
+                         <li><a href="#">Chính sách bảo mật</a></li>
+                         <li><a href="#">Điều khoản & Điều kiện</a></li>
+                         <li><a href="#">Tin tức mới nhất</a></li>
+                         <li><a href="#">Liên hệ với chúng tôi</a></li>
+                         <li><a href="#">Hướng dẫn mua online</a></li>
                       </ul>
                    </div>
                 </div>
              </div>
              <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                 <div class="tp-footer-widget footer-col-4 mb-50">
-                   <h4 class="tp-footer-widget-title">Talk To Us</h4>
+                   <h4 class="tp-footer-widget-title" Talk To Us>Liên hệ</h4>
                    <div class="tp-footer-widget-content">
                       <div class="tp-footer-talk mb-20">
-                         <span>Got Questions? Call us</span>
-                         <h4><a href="tel:670-413-90-762">+670 413 90 762</a></h4>
+                         <span>Có thắc mắc? Gọi cho chúng tôi</span>
+                         <h4><a href="tel:670-413-90-762">+84987654321</a></h4>
                       </div>
                       <div class="tp-footer-contact">
                          <div class="tp-footer-contact-item d-flex align-items-start">
@@ -84,7 +83,7 @@
                                </span>
                             </div>
                             <div class="tp-footer-contact-content">
-                               <p><a href="https://www.google.com/maps/place/Sleepy+Hollow+Rd,+Gouverneur,+NY+13642,+USA/@44.3304966,-75.4552367,17z/data=!3m1!4b1!4m6!3m5!1s0x4cccddac8972c5eb:0x56286024afff537a!8m2!3d44.3304928!4d-75.453048!16s%2Fg%2F1tdsjdj4" target="_blank">79 Sleepy Hollow St. <br> Jamaica, New York 1432</a></p>
+                               <p><a href="https://www.google.com/maps/place/Sleepy+Hollow+Rd,+Gouverneur,+NY+13642,+USA/@44.3304966,-75.4552367,17z/data=!3m1!4b1!4m6!3m5!1s0x4cccddac8972c5eb:0x56286024afff537a!8m2!3d44.3304928!4d-75.453048!16s%2Fg%2F1tdsjdj4" target="_blank">Số 1 Trịnh Văn Bô <br> Hà Nội, Việt Nam</a></p>
                             </div>
                          </div>
                       </div>
@@ -100,16 +99,16 @@
              <div class="row align-items-center">
                 <div class="col-md-6">
                    <div class="tp-footer-copyright">
-                      <p>© 2023 All Rights Reserved  |  HTML Template by <a href="index.html">Themepure</a>.</p>
+                      <p>© 2024 Công ty cổ phần I-Zone <a href="index.html">.</a>.</p>
                    </div>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                    <div class="tp-footer-payment text-md-end">
                       <p>
                          <img src="{{ asset('assets/client/img/footer/footer-pay.png') }}" alt="">
                       </p>
                    </div>
-                </div>
+                </div> -->
              </div>
           </div>
        </div>
