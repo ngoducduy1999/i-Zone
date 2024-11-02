@@ -39,7 +39,7 @@
             </div>
             <div class="col-xl-12">
                 <div class="tp-postbox-details-thumb">
-                    <img src="{{ Storage::url($post->anh_bai_viet) }}" alt="{{ $post->tieu_de }}" style="width: 100%; height: 400px; object-fit: cover;">
+                    <img src="{{ Storage::url($post->anh_bai_viet) }}" alt="{{ $post->tieu_de }}" style="width: 100%; height: 600px; object-fit: cover;">
                 </div>
             </div>
         </div>
