@@ -159,7 +159,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::get('/{id}', [BaiVietController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [BaiVietController::class, 'edit'])->name('edit');
         Route::put('/{id}', [BaiVietController::class, 'update'])->name('update');
-        Route::post('/{id}/onOffKhuyenMai', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
+        Route::post('/{id}/onOffBaiViet', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
         Route::delete('/{id}', [BaiVietController::class, 'destroy'])->name('destroy');
     });
 
@@ -202,6 +202,8 @@ Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
 Route::get('/trangbaiviet', [TrangBaiVietController::class, 'index'])->name('trangbaiviet');
+Route::get('/baiviet/{danh_muc}', [TrangBaiVietController::class, 'filterByCategory'])->name('baiviet.danhmuc');
+Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chitietbaiviet');
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
 
 
