@@ -1261,16 +1261,16 @@
       <div class="row align-items-center">
          <div class="col-xl-7 col-lg-7">
             <div class="tp-subscribe-content">
-               <span>Sale 20% off all store</span>
-               <h3 class="tp-subscribe-title">Subscribe our Newsletter</h3>
+               <span>Giảm giá 20% các sản phẩm</span>
+               <h3 class="tp-subscribe-title">Đăng ký nhận bản tin của chúng tôi</h3>
             </div>
          </div>
          <div class="col-xl-5 col-lg-5">
             <div class="tp-subscribe-form">
                <form action="#">
                   <div class="tp-subscribe-input">
-                     <input type="email" placeholder="Enter Your Email">
-                     <button type="submit">Subscribe</button>
+                     <input type="email" placeholder="Nhập Email">
+                     <button type="submit">Đăng ký</button>
                   </div>
                </form>
             </div>
