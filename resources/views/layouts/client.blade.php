@@ -361,9 +361,10 @@
                         <div class="tp-header-sticky-menu main-menu menu-style-1">
                             <nav id="mobile-menu">
                                 <ul>
-                                    <li class="has-dropdown has-mega-menu">
-                                        <a href="index.html">Home</a>
-                                        <div class="home-menu tp-submenu tp-mega-menu">
+                                    <!-- <li class="has-dropdown has-mega-menu"> -->
+                                    <li class="has-mega-menu">
+                                        <a href="{{ route('trangchu') }}">Trang chủ</a>
+                                        <!-- <div class="home-menu tp-submenu tp-mega-menu">
                                             <div class="row row-cols-1 row-cols-lg-4 row-cols-xl-5">
                                                 <div class="col">
                                                     <div class="home-menu-item ">
@@ -426,16 +427,16 @@
                                                             </div>
                                                             <div class="home-menu-content">
                                                                 <h5 class="home-menu-title">Grocery</h5>
-                                                            </div>
-                                                        </a>
+                                                            </div> -->
+                                                        <!-- </a>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </li>
-                                    <li class="has-dropdown has-mega-menu">
-                                        <a href="shop.html">Shop</a>
-                                        <div class="shop-mega-menu tp-submenu tp-mega-menu">
+                                    <li class=" has-mega-menu">
+                                        <a href="shop.html">Giới thiệu</a>
+                                        <!-- <div class="shop-mega-menu tp-submenu tp-mega-menu">
                                             <div class="row">
                                                 <div class="col-lg-2">
                                                     <div class="shop-mega-menu-list">
@@ -507,13 +508,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </li>
-                                    <li class="has-dropdown has-mega-menu ">
-
-                                        <a href="shop.html">Products</a>
-                                        <ul class="tp-submenu tp-mega-menu mega-menu-style-2">
-                                            <!-- first col -->
+                                    <li class="has-mega-menu ">
+                                        <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
+                                        <!-- <ul class="tp-submenu tp-mega-menu mega-menu-style-2">
+                                             first col 
                                             <li class="has-dropdown">
                                                 <a href="shop.html" class="mega-menu-title">Shop Page</a>
                                                 <ul class="tp-submenu">
@@ -527,7 +527,7 @@
                                                             Progress</a></li>
                                                 </ul>
                                             </li>
-                                            <!-- third col -->
+                                             third col 
                                             <li class="has-dropdown">
                                                 <a href="product-details.html" class="mega-menu-title">Products</a>
                                                 <ul class="tp-submenu">
@@ -545,7 +545,7 @@
                                                     <li><a href="product-details-slider.html">With Slider</a></li>
                                                 </ul>
                                             </li>
-                                            <!-- third col -->
+                                            third col 
                                             <li class="has-dropdown">
                                                 <a href="shop.html" class="mega-menu-title">eCommerce</a>
                                                 <ul class="tp-submenu">
@@ -558,7 +558,7 @@
                                                 </ul>
                                             </li>
 
-                                            <!-- second col -->
+                                            second col 
                                             <li class="has-dropdown">
                                                 <a href="shop.html" class="mega-menu-title">More Pages</a>
                                                 <ul class="tp-submenu">
@@ -572,20 +572,20 @@
                                                 </ul>
                                             </li>
 
-                                        </ul>
+                                        </ul> -->
                                     </li>
-                                    <li><a href="coupon.html">Coupons</a></li>
-                                    <li class="has-dropdown">
-                                        <a href="blog.html">Blog</a>
-                                        <ul class="tp-submenu">
+                                    <li><a href="coupon.html">Kho hàng</a></li>
+                                    <li>
+                                        <a href="{{ route('trangbaiviet') }}">Bài viết</a> 
+                                        <!-- <ul class="tp-submenu">
                                             <li><a href="blog.html">Blog Standard</a></li>
                                             <li><a href="blog-grid.html">Blog Grid</a></li>
                                             <li><a href="blog-list.html">Blog List</a></li>
                                             <li><a href="blog-details-2.html">Blog Details Full Width</a></li>
                                             <li><a href="blog-details.html">Blog Details</a></li>
-                                        </ul>
+                                        </ul> -->
                                     </li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                                 </ul>
                             </nav>
 
