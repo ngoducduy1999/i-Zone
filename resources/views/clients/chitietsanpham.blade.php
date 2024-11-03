@@ -601,19 +601,7 @@
                                  <div class="tp-product-details-review-rating-list">
 
                                     <!-- single item -->
-                                    @foreach ($starPercentage as $star => $percentage)
-                                    <div class="tp-product-details-review-rating-item d-flex align-items-center">
-                                             
-                                       <span>{{$star}} Start</span>
-                                  <div class="tp-product-details-review-rating-bar">
-                                     <span class="tp-product-details-review-rating-bar-inner" style="width: {{ number_format($percentage) }}%;"></span>
-                                  </div>
-                                  <div class="tp-product-details-review-rating-percent">
-                                     <span>{{ number_format($percentage) }}%</span>
-                                  </div>
-                    
-                               </div>
-                                 @endforeach
+                               
                               
                             </div>
                          </div>
