@@ -156,20 +156,19 @@
          <div class="col">
             <div class="tp-product-category-item text-center mb-40">
                <div class="tp-product-category-thumb" style="position: relative; width: 100%; overflow: hidden; border-radius: 10px;">
-                  <a href="{{ route('trangsanpham') }}" style="display: block;">
-                     <img src="{{ asset( $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}"
+                  <a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}" style="display: block;">
+                     <img src="{{ asset($danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}"
                      style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: transform 0.3s;">
                   </a>
                </div>
 
                <div class="tp-product-category-content">
                   <h3 class="tp-product-category-title">
-                     <!-- <a href="{{ url('shop-category/' . $danhMuc->id) }}">{{ $danhMuc->ten_danh_muc }}</a> -->
-                     <a href="{{ route('trangsanpham') }}" onclick="selectCategory('{{ $danhMuc->id }}'); return false;">
-                                                        {{ $danhMuc->ten_danh_muc }} 
+                     <a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}">
+                        {{ $danhMuc->ten_danh_muc }}
                      </a>
                   </h3>
-                  <p>{{ $danhMuc->san_phams_count }} Product</p> <!-- Số lượng sản phẩm -->
+                  <p>{{ $danhMuc->san_phams_count }} Product</p>
                </div>
             </div>
          </div>
@@ -177,6 +176,7 @@
       </div>
    </div>
 </section>
+
 
 <!-- product category area end -->
 
