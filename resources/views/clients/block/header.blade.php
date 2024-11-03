@@ -57,10 +57,10 @@
                                <a href="{{route('customer.profileUser')}}">My Profile</a>
                             </li>
                             <li>
-                               <a href="wishlist.html">Wishlist</a>
+                               <a href="{{ route('yeuthich') }}">Wishlist</a>
                             </li>
                             <li>
-                               <a href="cart.html">Cart</a>
+                               <a href="{{ route('cart.index') }}">Cart</a>
                             </li>
                             <li>
                                 <form id="logout-form-clients"

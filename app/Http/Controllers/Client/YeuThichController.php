@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\DanhMuc;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,8 +16,12 @@ class YeuThichController extends Controller
         return view('clients.yeuthich');
 
     }
-
-
+    
+    public function showYeuThich(Request $request)
+    {
+        $danhMucs = DanhMuc::get();
+        return view('clients.yeuthich', compact('danhMucs'));
+    }
     public function addToLove(Request $request, string $id)
     {
         $product = SanPham::findOrFail($id);
