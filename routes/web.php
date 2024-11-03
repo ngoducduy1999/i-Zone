@@ -216,3 +216,5 @@ Route::get('/Delete-Item-Cart/{id}', [CartController::class, 'DeleteItemCart'])-
 Route::get('/Delete-Item-List-Cart/{id}', [CartController::class, 'DeleteItemListCart'])->name('cart.delete.item.list');
 Route::get('/Update-Item-Cart/{id}', [CartController::class, 'UpdateItemCart'])->name('cart.update.item');
 Route::get('/Discount-Cart/{disscountCode}', [CartController::class, 'discount'])->name('cart.disscount');
+// sản phẩm yêu thích
+Route::get('/Add-To-Love/{id}', [YeuThichController::class, 'addToLove'])->name('love.add');

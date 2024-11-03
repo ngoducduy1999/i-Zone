@@ -620,7 +620,21 @@
                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                    <span class="tp-header-action-badge">4</span>
+                                    <span class="tp-header-action-badge">
+                                        @if (Auth::user())
+                                            <span id="favorite-count">
+                                                <span>
+                                                    {{ Auth::user()->sanPhamYeuThichs()->count() }}
+                                                </span>
+                                            </span>
+                                        @else
+                                            <span id="favorite-count">
+                                                <span>
+                                                    0
+                                                </span>
+                                            </span>
+                                        @endif
+                                    </span>
                                 </a>
                             </div>
                             <div class="tp-header-action-item">

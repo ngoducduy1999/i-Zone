@@ -45,10 +45,10 @@ class User extends Authenticatable
         return $this->hasMany(BaiViet::class);
     }
 
-    public function yeuThichs()
-    {
-        return $this->hasMany(YeuThich::class);
-    }
+    // public function yeuThichs()
+    // {
+    //     return $this->hasMany(YeuThich::class);
+    // }
 
     public function danhGias()
     {
@@ -58,5 +58,10 @@ class User extends Authenticatable
     public function hoaDons()
     {
         return $this->hasMany(HoaDon::class);
+    }
+
+    public function sanPhamYeuThichs()
+    {
+        return $this->belongsToMany(SanPham::class, 'yeu_thichs', 'user_id', 'san_pham_id');
     }
 }
