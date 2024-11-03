@@ -392,7 +392,7 @@
                      @foreach($khuyenMais as $khuyenMai)
                      <div class="tp-product-offer-item tp-product-item transition-3 swiper-slide">
                         <div class="tp-product-content">
-                           <h3 class="tp-product-title">Khuyến mãi: {{ $khuyenMai->ma_khuyen_mai }}</h3>
+                           <h3 class="tp-product-title">Mã khuyến mãi: {{ $khuyenMai->ma_khuyen_mai }}</h3>
                            <div class="tp-product-price-wrapper">
                               <span class="tp-product-price new-price">{{ $khuyenMai->phan_tram_khuyen_mai }}% Off</span>
                            </div>
@@ -429,19 +429,16 @@
                   <div class="tp-product-gadget-thumb">
                      <img src="{{ asset('assets/client/img/product/gadget/gadget-girl.png') }}" alt="">
                   </div>
-                  <h3 class="tp-product-gadget-categories-title">Electronics <br> Gadgets</h3>
+                  <h3 class="tp-product-gadget-categories-title">Sản phẩm <br> Tiện ích</h3>
+                  @foreach($danhMucs as $danhMuc)
                   <div class="tp-product-gadget-categories-list">
                      <ul>
-                        <li><a href="shop-category.html">Micrscope</a></li>
-                        <li><a href="shop-category.html">Remote Control</a></li>
-                        <li><a href="shop-category.html">Monitor</a></li>
-                        <li><a href="shop-category.html">Thermometer</a></li>
-                        <li><a href="shop-category.html">Backpack</a></li>
-                        <li><a href="shop-category.html">Headphones</a></li>
+                        <li><a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}">{{ $danhMuc->ten_danh_muc }}</a></li>
                      </ul>
                   </div>
+                  @endforeach
                   <div class="tp-product-gadget-btn">
-                     <a href="shop-category.html" class="tp-link-btn">More Products
+                     <a href="{{ route('trangsanpham') }}" class="tp-link-btn">Sản phẩm khác
                         <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                            <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
