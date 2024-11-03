@@ -35,4 +35,20 @@ class YeuThichController extends Controller
             return Auth::user()->sanPhamYeuThichs()->count();
         }
     }
+
+    public function deleteLove(Request $request, string $id)
+    {
+        $product = SanPham::findOrFail($id);
+        $userId = $request->user()->id;
+        $danhMucs = DanhMuc::get();
+        if ($product->users()->where('user_id', $userId)->exists()) {
+            $product->users()->detach($userId);
+            Auth::user()->sanPhamYeuThichs();
+            return view('clients.loved.loved-list', compact('danhMucs'));
+        }
+    }
+
+    public function lovedList(){
+        return Auth::user()->sanPhamYeuThichs()->count();
+    }
 }

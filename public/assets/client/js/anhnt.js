@@ -310,3 +310,24 @@ function Love(productId, index) {
             });
     }
 }
+
+function deleteLove(id) {
+    $.ajax({
+            url: "/Delete-From-Love/" + id,
+            type: "GET",
+        })
+        .done((response) => {
+            $("#loved-loves-list").empty().html(response);
+            const itemCount = $("#loved-loves-list tr").length;
+            $("#favorite-count").empty().html(itemCount);
+            $("#favorite-count span").empty().html(itemCount);
+            alertify.success('Xóa khỏi yêu thích!');
+        }).fail(() => {
+            alertify.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+        });
+}
+
+function PleaseLogin(){
+    console.log('chưa đăng nhập');
+    alertify.error('Vui lòng đăng nhập!');
+}

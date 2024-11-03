@@ -220,3 +220,5 @@ Route::get('/Discount-Cart/{disscountCode}', [CartController::class, 'discount']
 // yêu thích
 Route::get('/Add-To-Love/{id}', [YeuThichController::class, 'addToLove'])->name('love.add');
 Route::get('/yeuthich', [YeuThichController::class, 'showYeuThich'])->name('yeuthich');
+Route::get('/Delete-From-Love/{id}', [YeuThichController::class, 'deleteLove'])->name('love.delete');
+Route::get('/Loved-List', [YeuThichController::class, 'lovedList'])->name('love.list');

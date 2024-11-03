@@ -429,7 +429,7 @@
                                 </button> --}}
                                 <button type="button" class="tp-product-details-action-sm-btn"
                                     id="wishlist-button-{{ $sanpham->id }}"
-                                    onclick="Love({{ $sanpham->id }}, {{ $sanpham->id }})">
+                                    onclick="PleaseLogin()">
                                     <span id="wishlist-icon-{{ $sanpham->id }}">
                                     @if (isset($isLoved[$sanpham->id]) && $isLoved[$sanpham->id])
                                     <svg width="20" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
