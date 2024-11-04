@@ -13,6 +13,7 @@ use App\Models\SanPham;
 use App\Models\Tag;
 use App\Models\TagSanPham;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -69,7 +70,16 @@ class ChiTietSanPhamController extends Controller
                     $query->orderByRaw('(gia_cu - gia_moi) desc')->limit(1);
                 }])
                 ->first();
-    
+                $isLoved = [];
+                $products = [];
+            if(Auth::user()){
+                $isLoved = [];
+                $products = SanPham::with('bienTheSanPhams', 'hinhAnhSanPhams')->get(); 
+                $yeuThichs = Auth::user()->sanPhamYeuThichs()->pluck('san_pham_id')->toArray();
+                foreach ($products as $product) {
+                    $isLoved[$product->id] = in_array($product->id, $yeuThichs);
+                }
+            }
             return view('clients.chitietsanpham', compact(
                 'sanpham',
                 'bienthesanphams',
@@ -84,7 +94,9 @@ class ChiTietSanPhamController extends Controller
                 'sanPhamMoiNhat',
                 'sanPhamBanNhieuNhat',
                 'sanPhamXemNhieuNhat',
-                'sanPhamGiamGiaNhieuNhat'
+                'sanPhamGiamGiaNhieuNhat',
+                'products',
+                'isLoved'
             ));
         }
     

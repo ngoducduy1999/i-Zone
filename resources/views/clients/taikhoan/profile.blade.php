@@ -160,7 +160,11 @@
                                                     <div class="profile__main-info-item">
                                                         <div class="profile__main-info-icon">
                                                             <span>
-                                                                <span class="profile-icon-count profile-wishlist">10</span>
+                                                                <span class="profile-icon-count profile-wishlist">
+                                                                    @if (Auth::user())
+                                                                        {{ Auth::user()->sanPhamYeuThichs()->count() }}
+                                                                    @endif
+                                                                </span>
                                                                 <svg viewBox="0 -20 480 480"
                                                                     xmlns="http://www.w3.org/2000/svg">
                                                                     <path
