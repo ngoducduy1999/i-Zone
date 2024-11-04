@@ -57,7 +57,7 @@
                                                                 <li>Ngày đặt hàng: <b>{{ \Carbon\Carbon::parse($hoaDon->ngay_dat_hang)->format('d-m-Y') }}</b></li>
                                                                 <li>Ghi chú: <b>{{ $hoaDon->ghi_chu }}</b></li>
                                                                 <li>Trạng thái đơn hàng: <b>{{ $trangThaiHoaDon[$hoaDon->trang_thai] }}</b></li>
-                                                                <li>Trạng thái thanh toán: <b>{{ $phuongThucThanhToan[$hoaDon->phuong_thuc_thanh_toan] }}</b></li>                                      
+                                                                <li>Phương thức thanh toán: <b>{{ $phuongThucThanhToan[$hoaDon->phuong_thuc_thanh_toan] }}</b></li>                                      
                                                             </ul>                       
                                                         </td>
                                                     </tr>
@@ -111,17 +111,17 @@
                                                                                     <p class="mb-0">Tiền ship :</p>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <p class="mb-0 fw-medium fs-15">30.000đ</p>
+                                                                                    <p class="mb-0 fw-medium fs-15">50.000đ</p>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td scope="row">
-                                                                                    <p class="mb-0">Giảm giá <span class="text-danger">(20%)</span> :</p>
+                                                                                    <p class="mb-0">Giảm giá <span class="text-danger">({{ $chiTiet->hoaDon->khuyenMai->phan_tram_khuyen_mai }}%)</span> :</p>
                                                                                 </td>
                                                                                 <td>
                                                                                     <p class="mb-0 fw-medium fs-15">{{ $chiTiet->hoaDon->giam_gia }}</p>
                                                                                 </td>
-                                                                            </tr>                               
+                                                                            </tr>                                                                                                        
                                                                             <tr>
                                                                                 <td scope="row">
                                                                                     <p class="mb-0 fs-14">Tổng tiền :</p>
