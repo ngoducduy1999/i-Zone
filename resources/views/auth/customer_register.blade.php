@@ -106,18 +106,7 @@
                              <div class="tp-login-input-box">
                         
                           </div>
-                          <div class="tp-login-input-box">
-                             <div class="tp-login-input">
-                                <input class="form-control" type="email" name="email" id="email" required="" placeholder="Nhập địa chỉ email" value="{{ old('email') }}">
-                                @error('email')
-                                <div class="text-danger">{{ $message }}</div>
-                                 @enderror
-                            </div>                             <div class="tp-login-input-title">
-                                <label for="email">Your Email</label>
-                             </div>
-                             <div class="tp-login-input-box">
-                        
-                          </div>
+                          
                           <div class="tp-login-input-box">
                              <div class="tp-login-input">
                                

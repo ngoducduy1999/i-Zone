@@ -190,7 +190,7 @@
                 </div>
                 <div class="col">
                     <div class="tp-mobile-item text-center">
-                        <a href="wishlist.html" class="tp-mobile-item-btn">
+                        <a href="{{ route('yeuthich') }}" class="tp-mobile-item-btn">
                             <i class="flaticon-love"></i>
                             <span>Wishlist</span>
                         </a>
@@ -256,7 +256,7 @@
                     <div class="cartmini__top-wrapper">
                         <div class="cartmini__top p-relative">
                             <div class="cartmini__top-title">
-                                <h4>Shopping cart</h4>
+                                <h4>Giỏ hàng</h4>
                             </div>
                             {{-- <div class="cartmini__close">
                                <button type="button" class="cartmini__close-btn cartmini-close-btn"><i
@@ -307,7 +307,7 @@
                     </div>
                     <div class="cartmini__checkout">
                         <div class="cartmini__checkout-title mb-30">
-                            <h4>Total price:</h4>
+                            <h4>Tổng giá:</h4>
                             <span>
                                 {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : '0' }}
                                 VNĐ
@@ -316,21 +316,21 @@
                                 value="{{ isset(Session::get('cart')->totalProduct) ? Session::get('cart')->totalProduct : 0 }}">
                         </div>
                         <div class="cartmini__checkout-title mb-30">
-                            <h4>Total product:</h4>
+                            <h4>Tổng sản phẩm:</h4>
                             <span>
                                 {{ isset(Session::get('cart')->totalProduct) ? number_format(Session::get('cart')->totalProduct, 0, ',', '.') : '0' }}
                             </span>
                         </div>
                         <div class="cartmini__checkout-btn">
-                            <a href="{{ route('cart.index') }}" class="tp-btn mb-10 w-100"> view cart</a>
-                            <a href="checkout.html" class="tp-btn tp-btn-border w-100"> checkout</a>
+                            <a href="{{ route('cart.index') }}" class="tp-btn mb-10 w-100"> Xem giỏ hàng</a>
+                            <a href="checkout.html" class="tp-btn tp-btn-border w-100"> Thanh toán</a>
                         </div>
                     </div>
                 @else
                     <div class="cartmini__empty text-center">
                         <img src="{{ asset('assets/client/img/product/cartmini/empty-cart.png') }}" alt="">
-                        <p>Your Cart is empty</p>
-                        <a href="{{ route('trangchu') }}" class="tp-btn">Go to Shop</a>
+                        <p>Giỏ hàng của bạn trống</p>
+                        <a href="{{ route('trangchu') }}" class="tp-btn">Đi tới cửa hàng</a>
                         <input type="number" hidden name="" id="total-quantity-cart"
                             value="{{ isset(Session::get('cart')->totalProduct) ? Session::get('cart')->totalProduct : 0 }}">
                     </div>
@@ -361,229 +361,18 @@
                         <div class="tp-header-sticky-menu main-menu menu-style-1">
                             <nav id="mobile-menu">
                                 <ul>
-                                    <!-- <li class="has-dropdown has-mega-menu"> -->
-                                    <li class="has-mega-menu">
-                                        <a href="{{ route('trangchu') }}">Trang chủ</a>
-                                        <!-- <div class="home-menu tp-submenu tp-mega-menu">
-                                            <div class="row row-cols-1 row-cols-lg-4 row-cols-xl-5">
-                                                <div class="col">
-                                                    <div class="home-menu-item ">
-                                                        <a href="index.html">
-                                                            <div class="home-menu-thumb p-relative fix">
-                                                                <img src="{{ asset('assets/client/img/menu/menu-home-1.jpg') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="home-menu-content">
-                                                                <h5 class="home-menu-title">Electronics </h5>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                        </div>
-                                                <div class="col">
-                                                    <div class="home-menu-item ">
-                                                        <a href="index-2.html">
-                                                            <div class="home-menu-thumb p-relative fix">
-                                                                <img src="{{ asset('assets/client/img/menu/menu-home-2.jpg') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="home-menu-content">
-                                                                <h5 class="home-menu-title">Fashion</h5>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="home-menu-item ">
-                                                        <a href="index-3.html">
-                                                            <div class="home-menu-thumb p-relative fix">
-                                                                <img src="{{ asset('assets/client/img/menu/menu-home-3.jpg') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="home-menu-content">
-                                                                <h5 class="home-menu-title">Beauty</h5>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="home-menu-item ">
-                                                        <a href="index-4.html">
-                                                            <div class="home-menu-thumb p-relative fix">
-                                                                <img src="{{ asset('assets/client/img/menu/menu-home-4.jpg') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="home-menu-content">
-                                                                <h5 class="home-menu-title">Jewelry </h5>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="home-menu-item ">
-                                                        <a href="index-5.html">
-                                                            <div class="home-menu-thumb p-relative fix">
-                                                                <img src="{{ asset('assets/client/img/menu/menu-home-5.jpg') }}"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="home-menu-content">
-                                                                <h5 class="home-menu-title">Grocery</h5>
-                                                            </div> -->
-                                                        <!-- </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
+                                <li class="has-mega-menu">
+                                        <a href="{{ route('trangchu') }}">Trang chủ</a>                                   
                                     </li>
-                                    <li class=" has-mega-menu">
-                                        <a href="shop.html">Giới thiệu</a>
-                                        <!-- <div class="shop-mega-menu tp-submenu tp-mega-menu">
-                                            <div class="row">
-                                                <div class="col-lg-2">
-                                                    <div class="shop-mega-menu-list">
-                                                        <a href="shop.html" class="shop-mega-menu-title">Shop
-                                                            Pages</a>
-                                                        <ul>
-                                                            <li><a href="shop-category.html">Grid Category</a></li>
-                                                            <li><a href="shop.html">Grid Layout</a></li>
-                                                            <li><a href="shop-list.html">List Layout</a></li>
-                                                            <li><a href="shop-masonary.html">Masonary Layout</a></li>
-                                                            <li><a href="shop-full-width.html">Full width Layout</a>
-                                                            </li>
-                                                            <li><a href="shop-1600.html">1600px Layout</a></li>
-                                                            <li><a href="shop.html">Left Sidebar</a></li>
-                                                            <li><a href="shop-right-sidebar.html">Right Sidebar</a>
-                                                            </li>
-                                                            <li><a href="shop-no-sidebar.html">Hidden Sidebar</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <div class="shop-mega-menu-list">
-                                                        <a href="shop.html" class="shop-mega-menu-title">Features</a>
-                                                        <ul>
-                                                            <li><a href="shop-filter-dropdown.html">Filter Dropdown</a>
-                                                            </li>
-                                                            <li><a href="shop-filter-offcanvas.html">Filters
-                                                                    Offcanvas</a></li>
-                                                            <li><a href="shop.html">Filters Sidebar</a></li>
-                                                            <li><a href="shop-load-more.html">Load More button</a></li>
-                                                            <li><a href="shop-infinite-scroll.html">Infinit
-                                                                    scrolling</a></li>
-                                                            <li><a href="shop-list.html">Collections list</a></li>
-                                                            <li><a href="shop.html">Hidden search</a></li>
-                                                            <li><a href="shop.html">Search Full screen</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <div class="shop-mega-menu-list">
-                                                        <a href="shop.html" class="shop-mega-menu-title">Hover
-                                                            Style</a>
-                                                        <ul>
-                                                            <li><a href="shop.html">Hover Style 1</a></li>
-                                                            <li><a href="shop.html">Hover Style 2</a></li>
-                                                            <li><a href="shop.html">Hover Style 3</a></li>
-                                                            <li><a href="shop.html">Hover Style 4</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="shop-mega-menu-img">
-                                                        <img src="{{ asset('assets/client/img/menu/product/menu-product-img-1.jpg') }}"
-                                                            alt="">
-                                                        <div class="shop-mega-menu-btn">
-                                                            <a href="shop-category.html"
-                                                                class="tp-menu-showcase-btn tp-menu-showcase-btn-2">Phones</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="shop-mega-menu-img">
-                                                        <img src="{{ asset('assets/client/img/menu/product/menu-product-img-2.jpg') }}"
-                                                            alt="">
-                                                        <div class="shop-mega-menu-btn">
-                                                            <a href="shop-category.html"
-                                                                class="tp-menu-showcase-btn tp-menu-showcase-btn-2">Cameras</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
+                                    <li class="has-mega-menu">
+                                        <a href="shop.html">Giới thiệu</a>                                       
                                     </li>
                                     <li class="has-mega-menu ">
-                                        <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
-                                        <!-- <ul class="tp-submenu tp-mega-menu mega-menu-style-2">
-                                             first col 
-                                            <li class="has-dropdown">
-                                                <a href="shop.html" class="mega-menu-title">Shop Page</a>
-                                                <ul class="tp-submenu">
-                                                    <li><a href="shop-category.html">Only Categories</a></li>
-                                                    <li><a href="shop-filter-offcanvas.html">Shop Grid</a></li>
-                                                    <li><a href="shop.html">Shop Grid with Sideber</a></li>
-                                                    <li><a href="shop-list.html">Shop List</a></li>
-                                                    <li><a href="shop-category.html">Categories</a></li>
-                                                    <li><a href="product-details.html">Product Details</a></li>
-                                                    <li><a href="product-details-progress.html">Product Details
-                                                            Progress</a></li>
-                                                </ul>
-                                            </li>
-                                             third col 
-                                            <li class="has-dropdown">
-                                                <a href="product-details.html" class="mega-menu-title">Products</a>
-                                                <ul class="tp-submenu">
+                                        <a href="{{ route('trangsanpham') }}">Sản phẩm</a>                                    
+                                    </li>                                 
+                                    <li class="">
+                                        <a href="{{ route('trangbaiviet') }}">Bài viết</a>
 
-                                                    <li><a href="product-details.html">Product Simple</a></li>
-                                                    <li><a href="product-details-video.html">With Video</a></li>
-                                                    <li><a href="product-details-countdown.html">With Countdown
-                                                            Timer</a></li>
-                                                    <li><a href="product-details-presentation.html">Product
-                                                            Presentation</a></li>
-                                                    <li><a href="product-details-swatches.html">Variations Swatches</a>
-                                                    </li>
-                                                    <li><a href="product-details-list.html">List View</a></li>
-                                                    <li><a href="product-details-gallery.html">Details Gallery</a></li>
-                                                    <li><a href="product-details-slider.html">With Slider</a></li>
-                                                </ul>
-                                            </li>
-                                            third col 
-                                            <li class="has-dropdown">
-                                                <a href="shop.html" class="mega-menu-title">eCommerce</a>
-                                                <ul class="tp-submenu">
-                                                    <li><a href="cart.html">Shopping Cart</a></li>
-                                                    <li><a href="order.html">Track Your Order</a></li>
-                                                    <li><a href="compare.html">Compare</a></li>
-                                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="profile.html">My account</a></li>
-                                                </ul>
-                                            </li>
-
-                                            second col 
-                                            <li class="has-dropdown">
-                                                <a href="shop.html" class="mega-menu-title">More Pages</a>
-                                                <ul class="tp-submenu">
-
-
-                                                    <li><a href="about.html">About</a></li>
-                                                    <li><a href="login.html">Login</a></li>
-                                                    <li><a href="register.html">Register</a></li>
-                                                    <li><a href="forgot.html">Forgot Password</a></li>
-                                                    <li><a href="404.html">404 Error</a></li>
-                                                </ul>
-                                            </li>
-
-                                        </ul> -->
-                                    </li>
-                                    <li><a href="coupon.html">Kho hàng</a></li>
-                                    <li>
-                                        <a href="{{ route('trangbaiviet') }}">Bài viết</a> 
-                                        <!-- <ul class="tp-submenu">
-                                            <li><a href="blog.html">Blog Standard</a></li>
-                                            <li><a href="blog-grid.html">Blog Grid</a></li>
-                                            <li><a href="blog-list.html">Blog List</a></li>
-                                            <li><a href="blog-details-2.html">Blog Details Full Width</a></li>
-                                            <li><a href="blog-details.html">Blog Details</a></li>
-                                        </ul> -->
                                     </li>
                                     <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                                 </ul>
@@ -609,7 +398,7 @@
                                 </a>
                             </div>
                             <div class="tp-header-action-item d-none d-lg-block">
-                                <a href="wishlist.html" class="tp-header-action-btn">
+                                <a href="{{ route('yeuthich') }}" class="tp-header-action-btn">
                                     <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -620,7 +409,21 @@
                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                    <span class="tp-header-action-badge">4</span>
+                                    <span class="tp-header-action-badge">
+                                        @if (Auth::user())
+                                            <span id="favorite-count">
+                                                <span>
+                                                    {{ Auth::user()->sanPhamYeuThichs()->count() }}
+                                                </span>
+                                            </span>
+                                        @else
+                                            <span id="favorite-count">
+                                                <span>
+                                                    0
+                                                </span>
+                                            </span>
+                                        @endif
+                                    </span>
                                 </a>
                             </div>
                             <div class="tp-header-action-item">
