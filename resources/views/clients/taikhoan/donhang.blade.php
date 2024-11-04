@@ -17,7 +17,7 @@
                 <tbody>
                     @foreach ($orders as $order)
                         <tr>
-                            <th scope="row"> #IZD{{ $order->id }}</th>
+                            <th scope="row"> {{ $order->ma_hoa_don }}</th>
                             <td data-info="title">{{ $order->tong_tien }}</td>
                             <td>{{$order->ngay_dat_hang}}</td>
                             <td data-info="status pending">

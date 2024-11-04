@@ -9,20 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('hoa_dons', function (Blueprint $table) {
-            $table->string('ma_hoa_don')->after('id'); // Thêm cột ma_hoa_don sau id
-        });
-    }
+    public function up()
+{
+    Schema::table('hoa_dons', function (Blueprint $table) {
+        $table->string('ma_hoa_don')->unique()->nullable(false);
+    });
+}
+
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::table('hoa_dons', function (Blueprint $table) {
-            $table->dropColumn('ma_hoa_don'); // Xóa cột ma_hoa_don nếu rollback
-        });
-    }
+    public function down()
+{
+    Schema::table('hoa_dons', function (Blueprint $table) {
+        $table->dropColumn('ma_hoa_don');
+    });
+}
+
 };

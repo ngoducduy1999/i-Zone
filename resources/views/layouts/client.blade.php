@@ -190,7 +190,7 @@
                 </div>
                 <div class="col">
                     <div class="tp-mobile-item text-center">
-                        <a href="wishlist.html" class="tp-mobile-item-btn">
+                        <a href="{{ route('yeuthich') }}" class="tp-mobile-item-btn">
                             <i class="flaticon-love"></i>
                             <span>Wishlist</span>
                         </a>
@@ -256,7 +256,7 @@
                     <div class="cartmini__top-wrapper">
                         <div class="cartmini__top p-relative">
                             <div class="cartmini__top-title">
-                                <h4>Shopping cart</h4>
+                                <h4>Giỏ hàng</h4>
                             </div>
                             {{-- <div class="cartmini__close">
                                <button type="button" class="cartmini__close-btn cartmini-close-btn"><i
@@ -307,7 +307,7 @@
                     </div>
                     <div class="cartmini__checkout">
                         <div class="cartmini__checkout-title mb-30">
-                            <h4>Total price:</h4>
+                            <h4>Tổng giá:</h4>
                             <span>
                                 {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : '0' }}
                                 VNĐ
@@ -316,21 +316,21 @@
                                 value="{{ isset(Session::get('cart')->totalProduct) ? Session::get('cart')->totalProduct : 0 }}">
                         </div>
                         <div class="cartmini__checkout-title mb-30">
-                            <h4>Total product:</h4>
+                            <h4>Tổng sản phẩm:</h4>
                             <span>
                                 {{ isset(Session::get('cart')->totalProduct) ? number_format(Session::get('cart')->totalProduct, 0, ',', '.') : '0' }}
                             </span>
                         </div>
                         <div class="cartmini__checkout-btn">
-                            <a href="{{ route('cart.index') }}" class="tp-btn mb-10 w-100"> view cart</a>
-                            <a href="checkout.html" class="tp-btn tp-btn-border w-100"> checkout</a>
+                            <a href="{{ route('cart.index') }}" class="tp-btn mb-10 w-100"> Xem giỏ hàng</a>
+                            <a href="checkout.html" class="tp-btn tp-btn-border w-100"> Thanh toán</a>
                         </div>
                     </div>
                 @else
                     <div class="cartmini__empty text-center">
                         <img src="{{ asset('assets/client/img/product/cartmini/empty-cart.png') }}" alt="">
-                        <p>Your Cart is empty</p>
-                        <a href="{{ route('trangchu') }}" class="tp-btn">Go to Shop</a>
+                        <p>Giỏ hàng của bạn trống</p>
+                        <a href="{{ route('trangchu') }}" class="tp-btn">Đi tới cửa hàng</a>
                         <input type="number" hidden name="" id="total-quantity-cart"
                             value="{{ isset(Session::get('cart')->totalProduct) ? Session::get('cart')->totalProduct : 0 }}">
                     </div>
@@ -361,7 +361,7 @@
                         <div class="tp-header-sticky-menu main-menu menu-style-1">
                             <nav id="mobile-menu">
                                 <ul>
-                                    <li class="has-mega-menu">
+                                <li class="has-mega-menu">
                                         <a href="{{ route('trangchu') }}">Trang chủ</a>                                   
                                     </li>
                                     <li class="has-mega-menu">
@@ -372,6 +372,7 @@
                                     </li>                                 
                                     <li class="">
                                         <a href="{{ route('trangbaiviet') }}">Bài viết</a>
+
                                     </li>
                                     <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                                 </ul>
@@ -397,7 +398,7 @@
                                 </a>
                             </div>
                             <div class="tp-header-action-item d-none d-lg-block">
-                                <a href="wishlist.html" class="tp-header-action-btn">
+                                <a href="{{ route('yeuthich') }}" class="tp-header-action-btn">
                                     <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -408,7 +409,21 @@
                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                    <span class="tp-header-action-badge">4</span>
+                                    <span class="tp-header-action-badge">
+                                        @if (Auth::user())
+                                            <span id="favorite-count">
+                                                <span>
+                                                    {{ Auth::user()->sanPhamYeuThichs()->count() }}
+                                                </span>
+                                            </span>
+                                        @else
+                                            <span id="favorite-count">
+                                                <span>
+                                                    0
+                                                </span>
+                                            </span>
+                                        @endif
+                                    </span>
                                 </a>
                             </div>
                             <div class="tp-header-action-item">

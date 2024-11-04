@@ -1,166 +1,122 @@
 @extends('layouts.client')
 
 @section('content')
-    <!-- breadcrumb area start -->
+    <!-- khu vực breadcrumb bắt đầu -->
     <section class="breadcrumb__area include-bg pt-95 pb-50" data-bg-color="#EFF1F5">
         <div class="container">
            <div class="row">
               <div class="col-xxl-12">
                  <div class="breadcrumb__content p-relative z-index-1">
-                    <h3 class="breadcrumb__title">Checkout</h3>
+                    <h3 class="breadcrumb__title">Thanh toán</h3>
                     <div class="breadcrumb__list">
-                       <span><a href="#">Home</a></span>
-                       <span>Checkout</span>
+                       <span><a href="#">Trang chủ</a></span>
+                       <span>Thanh toán</span>
                     </div>
                  </div>
               </div>
            </div>
         </div>
      </section>
-     <!-- breadcrumb area end -->
+     <!-- khu vực breadcrumb kết thúc -->
 
-     <!-- checkout area start -->
+     <!-- khu vực thanh toán bắt đầu -->
      <section class="tp-checkout-area pb-120" data-bg-color="#EFF1F5">
         <div class="container">
            <div class="row">
               <div class="col-xl-7 col-lg-7">
                  <div class="tp-checkout-verify">
                     <div class="tp-checkout-verify-item">
-                       <p class="tp-checkout-verify-reveal">Returning customer? <button type="button" class="tp-checkout-login-form-reveal-btn">Click here to login</button></p>
+                       <p class="tp-checkout-verify-reveal">Khách hàng quay lại? <button type="button" class="tp-checkout-login-form-reveal-btn">Nhấn vào đây để đăng nhập</button></p>
 
                        <div id="tpReturnCustomerLoginForm" class="tp-return-customer">
                           <form action="#">
-                             
                              <div class="tp-return-customer-input">
                                 <label>Email</label>
-                                <input type="text" placeholder="Your Email">
+                                <input type="text" placeholder="Email của bạn">
                              </div>
                              <div class="tp-return-customer-input">
-                                <label>Password</label>
-                                <input type="password" placeholder="Password">
+                                <label>Mật khẩu</label>
+                                <input type="password" placeholder="Mật khẩu">
                              </div>
 
                              <div class="tp-return-customer-suggetions d-sm-flex align-items-center justify-content-between mb-20">
                                 <div class="tp-return-customer-remeber">
                                    <input id="remeber" type="checkbox">
-                                   <label for="remeber">Remember me</label>
+                                   <label for="remeber">Ghi nhớ tôi</label>
                                 </div>
                                 <div class="tp-return-customer-forgot">
-                                   <a href="forgot.html">Forgot Password?</a>
+                                   <a href="forgot.html">Quên mật khẩu?</a>
                                 </div>
                              </div>
-                             <button type="submit" class="tp-return-customer-btn tp-checkout-btn">Login</button>
+                             <button type="submit" class="tp-return-customer-btn tp-checkout-btn">Đăng nhập</button>
                           </form>
                        </div>
                     </div>
                     <div class="tp-checkout-verify-item">
-                       <p class="tp-checkout-verify-reveal">Have a coupon? <button type="button" class="tp-checkout-coupon-form-reveal-btn">Click here to enter your code</button></p>
+                       <p class="tp-checkout-verify-reveal">Có mã giảm giá? <button type="button" class="tp-checkout-coupon-form-reveal-btn">Nhấn vào đây để nhập mã</button></p>
 
                        <div id="tpCheckoutCouponForm" class="tp-return-customer">
-                          <form action="#">
-                             <div class="tp-return-customer-input">
-                                <label>Coupon Code :</label>
-                                <input type="text" placeholder="Coupon">
-                             </div>
-                             <button type="submit" class="tp-return-customer-btn tp-checkout-btn">Apply</button>
-                          </form>
+                        <form action="{{ route('applyDiscount') }}" method="POST">
+                           @csrf
+                           <div class="tp-return-customer-input">
+                               <label>Mã giảm giá:</label>
+                               <input type="text" name="discount_code" placeholder="Mã giảm giá" required>
+                           </div>
+                           <button type="submit" class="tp-return-customer-btn tp-checkout-btn">Áp dụng</button>
+                       </form>
+                       
+                       @if (session('success'))
+                           <div class="alert alert-success">
+                               {{ session('success') }}
+                           </div>
+                       @endif
+                       
+                       @if (session('error'))
+                           <div class="alert alert-danger">
+                               {{ session('error') }}
+                           </div>
+                       @endif
+                       
                        </div>
                     </div>
                  </div>
               </div>
               <div class="col-lg-7">
                  <div class="tp-checkout-bill-area">
-                    <h3 class="tp-checkout-bill-title">Billing Details</h3>
+                    <h3 class="tp-checkout-bill-title">Chi tiết thanh toán</h3>
 
                     <div class="tp-checkout-bill-form">
-                       <form action="#">
+                       <form id="orderForm">
                           <div class="tp-checkout-bill-inner">
                              <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                    <div class="tp-checkout-input">
-                                      <label>First Name <span>*</span></label>
-                                      <input type="text" placeholder="First Name">
+                                      <label>Liên hệ <span>*</span></label>
+                                      <input type="text" id="name" placeholder="Họ và tên" required>
                                    </div>
-                                </div>
-                                <div class="col-md-6">
                                    <div class="tp-checkout-input">
-                                      <label>Last Name <span>*</span></label>
-                                      <input type="text" placeholder="Last Name">
+                                      <input type="text" id="phone" placeholder="Số điện thoại" required>
                                    </div>
                                 </div>
                                 <div class="col-md-12">
-                                   <div class="tp-checkout-input">
-                                      <label>Company name (optional)</label>
-                                      <input type="text" placeholder="Example LTD.">
-                                   </div>
-                                </div>
+                                 <div class="tp-checkout-input">
+                                    <input type="text" id="email" placeholder="Email" required>
+                                 </div>
+                              </div>
                                 <div class="col-md-12">
                                    <div class="tp-checkout-input">
-                                      <label>Country / Region </label>
-                                      <input type="text" placeholder="United States (US)">
+                                      <label>Địa chỉ </label>
+                                      <input type="text" id="address" placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã" required>
+                                   </div>
+                                   <div class="tp-checkout-input">
+                                      <input type="text" id="street" placeholder="Tên đường, Tòa nhà, Số nhà." required>
                                    </div>
                                 </div>
-                                <div class="col-md-12">
-                                   <div class="tp-checkout-input">
-                                      <label>Street address</label>
-                                      <input type="text" placeholder="House number and street name">
-                                   </div>
 
-                                   <div class="tp-checkout-input">
-                                      <input type="text" placeholder="Apartment, suite, unit, etc. (optional)">
-                                   </div>
-                                </div>
                                 <div class="col-md-12">
                                    <div class="tp-checkout-input">
-                                      <label>Town / City</label>
-                                      <input type="text" placeholder="">
-                                   </div>
-                                </div>
-                                <div class="col-md-6">
-                                   <div class="tp-checkout-input">
-                                      <label>State / County</label>
-                                      <select>
-                                         <option>New York US</option>
-                                         <option>Berlin Germany</option>
-                                         <option>Paris France</option>
-                                         <option>Tokiyo Japan</option>
-                                      </select>
-                                   </div>
-                                </div>
-                                <div class="col-md-6">
-                                   <div class="tp-checkout-input">
-                                      <label>Postcode ZIP</label>
-                                      <input type="text" placeholder="">
-                                   </div>
-                                </div>
-                                <div class="col-md-12">
-                                   <div class="tp-checkout-input">
-                                      <label>Phone <span>*</span></label>
-                                      <input type="text" placeholder="">
-                                   </div>
-                                </div>
-                                <div class="col-md-12">
-                                   <div class="tp-checkout-input">
-                                      <label>Email address <span>*</span></label>
-                                      <input type="email" placeholder="">
-                                   </div>
-                                </div>
-                                <div class="col-md-12">
-                                   <div class="tp-checkout-option-wrapper">
-                                      <div class="tp-checkout-option">
-                                         <input id="create_free_account" type="checkbox">
-                                         <label for="create_free_account">Create an account?</label>
-                                      </div>
-                                      <div class="tp-checkout-option">
-                                         <input id="ship_to_diff_address" type="checkbox">
-                                         <label for="ship_to_diff_address">Ship to a different address?</label>
-                                      </div>
-                                   </div>
-                                </div>
-                                <div class="col-md-12">
-                                   <div class="tp-checkout-input">
-                                      <label>Order notes (optional)</label>
-                                      <textarea placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                      <label>Ghi chú đơn hàng (tùy chọn)</label>
+                                      <textarea id="note" placeholder="Ghi chú về đơn hàng của bạn, ví dụ như các yêu cầu đặc biệt khi giao hàng."></textarea>
                                    </div>
                                 </div>
                              </div>
@@ -170,109 +126,120 @@
                  </div>
               </div>
               <div class="col-lg-5">
-                 <!-- checkout place order -->
                  <div class="tp-checkout-place white-bg">
-                    <h3 class="tp-checkout-place-title">Your Order</h3>
+                    <h3 class="tp-checkout-place-title">Đơn hàng của bạn</h3>
 
                     <div class="tp-order-info-list">
                        <ul>
-
-                          <!-- header -->
                           <li class="tp-order-info-list-header">
-                             <h4>Product</h4>
-                             <h4>Total</h4>
+                             <h4>Sản phẩm</h4>
+                             <h4>Tổng</h4>
                           </li>
-
-                          <!-- item list -->
+                          @foreach($cart->products as $product)
                           <li class="tp-order-info-list-desc">
-                             <p>Xiaomi Redmi Note 9 Global V. <span> x 2</span></p>
-                             <span>$274:00</span>
+                             <p>{{ $product['productInfo']->ten_san_pham }}  <span> x  {{ $product['quantity'] }}</span></p>
+                             <span>{{ number_format($product['quantity'] * $product['bienthe']->gia_moi) }} VND</span>
                           </li>
-                          <li class="tp-order-info-list-desc">
-                             <p>Office Chair Multifun <span> x 1</span></p>
-                             <span>$74:00</span>
-                          </li>
-                          <li class="tp-order-info-list-desc">
-                             <p>Apple Watch Series 6 Stainless  <span> x 3</span></p>
-                             <span>$362:00</span>
-                          </li>
-                          <li class="tp-order-info-list-desc">
-                             <p>Body Works Mens Collection <span> x 1</span></p>
-                             <span>$145:00</span>
-                          </li>
-
-                          <!-- subtotal -->
+                          @endforeach
                           <li class="tp-order-info-list-subtotal">
-                             <span>Subtotal</span>
-                             <span>$507.00</span>
+                             <span>Tổng phụ</span>
+                             <span>{{ number_format($cart->totalPrice) }} VND</span>
                           </li>
-
-                          <!-- shipping -->
+                          <li class="tp-order-info-list-discount">
+                             <span>Mã giảm giá</span>
+                             <span>- {{ number_format($discountAmount, 0, ',', '.') }} VND</span>
+                          </li>
                           <li class="tp-order-info-list-shipping">
-                             <span>Shipping</span>
+                             <span>Vận chuyển</span>
                              <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                                 <span>
                                    <input id="flat_rate" type="radio" name="shipping">
-                                   <label for="flat_rate">Flat rate: <span>$20.00</span></label>
-                                </span>
-                                <span>
-                                   <input id="local_pickup" type="radio" name="shipping">
-                                   <label for="local_pickup">Local pickup: <span>$25.00</span></label>
+                                   <label for="flat_rate">Giao hàng tận nơi: 50.000 VNĐ</label>
                                 </span>
                                 <span>
                                    <input id="free_shipping" type="radio" name="shipping">
-                                   <label for="free_shipping">Free shipping</label>
+                                   <label for="free_shipping">Miễn phí vận chuyển</label>
                                 </span>
                              </div>
                           </li>
-
-                          <!-- total -->
                           <li class="tp-order-info-list-total">
-                             <span>Total</span>
-                             <span>$1,476.00</span>
+                             <span>Tổng đơn hàng</span>
+                             <span>{{ number_format($discountedTotal, 0, ',', '.') }} VND</span>
                           </li>
                        </ul>
                     </div>
+
                     <div class="tp-checkout-payment">
+                       <h3 class="tp-checkout-payment-title">Phương thức thanh toán</h3>
+
                        <div class="tp-checkout-payment-item">
-                          <input type="radio" id="back_transfer" name="payment">
-                          <label for="back_transfer" data-bs-toggle="direct-bank-transfer">Direct Bank Transfer</label>
-                          <div class="tp-checkout-payment-desc direct-bank-transfer">
-                             <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                          </div>
-                       </div>
-                       <div class="tp-checkout-payment-item">
-                          <input type="radio" id="cheque_payment" name="payment">
-                          <label for="cheque_payment">Cheque Payment</label>
-                          <div class="tp-checkout-payment-desc cheque-payment">
-                             <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                          </div>
-                       </div>
-                       <div class="tp-checkout-payment-item">
-                          <input type="radio" id="cod" name="payment">
-                          <label for="cod">Cash on Delivery</label>
-                          <div class="tp-checkout-payment-desc cash-on-delivery">
-                             <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                          </div>
-                       </div>
-                       <div class="tp-checkout-payment-item paypal-payment">
-                          <input type="radio" id="paypal" name="payment">
-                          <label for="paypal">PayPal <img src="assets/img/icon/payment-option.png" alt=""> <a href="#">What is PayPal?</a></label>
-                       </div>
+                        <input id="direct-bank-transfer" type="radio" name="payment" value="online" required>
+                        <label for="direct-bank-transfer">Chuyển khoản ngân hàng</label>
+                        <p>Thực hiện thanh toán của bạn trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng ID đơn hàng của bạn như một mã tham chiếu thanh toán.</p>
+                     </div>
+
+                     <div class="tp-checkout-payment-item">
+                        <input id="cash-on-delivery" type="radio" name="payment" value="offline" required>
+                        <label for="cash-on-delivery">Thanh toán khi nhận hàng</label>
+                     </div>
                     </div>
-                    <div class="tp-checkout-agree">
-                       <div class="tp-checkout-option">
-                          <input id="read_all" type="checkbox">
-                          <label for="read_all">I have read and agree to the website.</label>
-                       </div>
-                    </div>
-                    <div class="tp-checkout-btn-wrapper">
-                       <a href="#" class="tp-checkout-btn w-100">Place Order</a>
-                    </div>
+                    <button type="button" class="tp-checkout-btn" id="submitOrder">Đặt hàng</button>
                  </div>
               </div>
            </div>
         </div>
      </section>
-     <!-- checkout area end -->
+     <!-- khu vực thanh toán kết thúc -->
+
+     <script>
+      document.getElementById('submitOrder').addEventListener('click', function(event) {
+          event.preventDefault();
+  
+          const name = document.getElementById('name').value;
+          const phone = document.getElementById('phone').value;
+          const address = document.getElementById('address').value;
+          const street = document.getElementById('street').value;
+          const note = document.getElementById('note').value;
+          const email = document.getElementById('email').value;
+          const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+  
+          fetch('{{ route("placeOrder") }}', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}'
+              },
+              body: JSON.stringify({
+                  name: name,
+                  phone: phone,
+                  address: address,
+                  street: street,
+                  email: email,
+                  payment_method: paymentMethod,
+                  note: note
+              })
+          })
+          .then(response => response.json())
+          .then(data => {
+    console.log(data); // Ghi log để kiểm tra phản hồi
+    if (data.success) {
+        if (data.order_url) {
+            window.location.href = data.order_url; // Chuyển hướng đến ZaloPay
+        } else {
+            window.location.href = '/thank-you';
+            alert('Đặt hàng thành công!');
+        }
+    } else {
+        alert('Có lỗi xảy ra: ' + data.message);
+    }
+})
+
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      });
+  </script>
+  
+    
+  
 @endsection
