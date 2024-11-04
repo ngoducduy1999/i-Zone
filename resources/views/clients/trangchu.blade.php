@@ -156,17 +156,19 @@
          <div class="col">
             <div class="tp-product-category-item text-center mb-40">
                <div class="tp-product-category-thumb" style="position: relative; width: 100%; overflow: hidden; border-radius: 10px;">
-                  <a href="{{ url('shop-category/' . $danhMuc->id) }}" style="display: block;">
-                     <img src="{{ asset( $danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}"
+                  <a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}" style="display: block;">
+                     <img src="{{ asset($danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}"
                      style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: transform 0.3s;">
                   </a>
                </div>
 
                <div class="tp-product-category-content">
                   <h3 class="tp-product-category-title">
-                     <a href="{{ url('shop-category/' . $danhMuc->id) }}">{{ $danhMuc->ten_danh_muc }}</a>
+                     <a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}">
+                        {{ $danhMuc->ten_danh_muc }}
+                     </a>
                   </h3>
-                  <p>{{ $danhMuc->san_phams_count }} Product</p> <!-- Số lượng sản phẩm -->
+                  <p>{{ $danhMuc->san_phams_count }} Product</p>
                </div>
             </div>
          </div>
@@ -174,6 +176,7 @@
       </div>
    </div>
 </section>
+
 
 <!-- product category area end -->
 
@@ -281,7 +284,7 @@
                             <div class="tp-product-item p-relative transition-3 mb-25">
                                 <div class="tp-product-thumb p-relative fix m-img">
                                     <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
-                                        <img src="{{ asset($sanpham->anh_san_pham) }}" alt="{{ $sanpham->ten_san_pham }}">
+                                        <img src="{{ asset($sanpham->anh_san_pham) }}" alt="{{ $sanpham->ten_san_pham }}" style=" width:320px;height:180px;">
                                     </a>
 
                                     <!-- product badge -->
@@ -389,7 +392,7 @@
                      @foreach($khuyenMais as $khuyenMai)
                      <div class="tp-product-offer-item tp-product-item transition-3 swiper-slide">
                         <div class="tp-product-content">
-                           <h3 class="tp-product-title">Khuyến mãi: {{ $khuyenMai->ma_khuyen_mai }}</h3>
+                           <h3 class="tp-product-title">Mã khuyến mãi: {{ $khuyenMai->ma_khuyen_mai }}</h3>
                            <div class="tp-product-price-wrapper">
                               <span class="tp-product-price new-price">{{ $khuyenMai->phan_tram_khuyen_mai }}% Off</span>
                            </div>
@@ -426,19 +429,16 @@
                   <div class="tp-product-gadget-thumb">
                      <img src="{{ asset('assets/client/img/product/gadget/gadget-girl.png') }}" alt="">
                   </div>
-                  <h3 class="tp-product-gadget-categories-title">Electronics <br> Gadgets</h3>
+                  <h3 class="tp-product-gadget-categories-title">Sản phẩm <br> Tiện ích</h3>
+                  @foreach($danhMucs as $danhMuc)
                   <div class="tp-product-gadget-categories-list">
                      <ul>
-                        <li><a href="shop-category.html">Micrscope</a></li>
-                        <li><a href="shop-category.html">Remote Control</a></li>
-                        <li><a href="shop-category.html">Monitor</a></li>
-                        <li><a href="shop-category.html">Thermometer</a></li>
-                        <li><a href="shop-category.html">Backpack</a></li>
-                        <li><a href="shop-category.html">Headphones</a></li>
+                        <li><a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}">{{ $danhMuc->ten_danh_muc }}</a></li>
                      </ul>
                   </div>
+                  @endforeach
                   <div class="tp-product-gadget-btn">
-                     <a href="shop-category.html" class="tp-link-btn">More Products
+                     <a href="{{ route('trangsanpham') }}" class="tp-link-btn">Sản phẩm khác
                         <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                            <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -479,7 +479,7 @@
                      <div class="tp-product-item p-relative transition-3 mb-25">
                         <div class="tp-product-thumb p-relative fix m-img">
                            <a href="{{ route('chitietsanpham', ['id'=>$sanphamNew->id]) }}">
-                              <img src="{{ asset($sanphamNew->anh_san_pham) }}" alt="{{ $sanphamNew->ten_san_pham }}">
+                              <img src="{{ asset($sanphamNew->anh_san_pham) }}" alt="{{ $sanphamNew->ten_san_pham }}" style=" width:300px;height:150px;" >
                            </a>
 
                            <!-- product badge -->
@@ -693,7 +693,7 @@
                         <!-- Hình ảnh sản phẩm -->
                         <div class="tp-product-thumb p-relative fix m-img">                      
                            <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
-                              <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}">
+                              <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}" style=" width:300px;height:160px;">
                            </a>
                            <div class="tp-product-badge">                            
                                  <span class="product-gray">Trả góp 0%</span>                             
