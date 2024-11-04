@@ -452,7 +452,6 @@
                             <li>                               
                                <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
                             </li>
-                            <li><a href="coupon.html">Kho hàng</a></li>
                             <li>
                                <a href="{{ route('trangbaiviet') }}">Bài viết</a>                             
                             </li>
