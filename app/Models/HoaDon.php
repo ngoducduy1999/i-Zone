@@ -37,9 +37,10 @@ class HoaDon extends Model
     const HUY_DON_HANG = '6';
 
     const DA_NHAN_HANG = '7';
-    const THANH_TOAN_KHI_NHAN_HANG = 'online';
+    
+    const THANH_TOAN_KHI_NHAN_HANG = 'offline';
 
-    const THANH_TOAN_QUA_CHUYEN_KHOAN = 'offline';
+    const THANH_TOAN_QUA_CHUYEN_KHOAN = 'online';
 
     protected $fillable = [
         'ma_hoa_don',
