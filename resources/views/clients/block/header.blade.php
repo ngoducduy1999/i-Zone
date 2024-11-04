@@ -100,15 +100,14 @@
                    <form action="#">
                       <div class="tp-header-search-wrapper d-flex align-items-center">
                          <div class="tp-header-search-box">
-                            <input type="text" placeholder="Search for Products...">
+                            <input type="text" placeholder="Tìm kiếm sản phẩm...">
                          </div>
-                         <div class="tp-header-search-category">
+                         <div class="tp-header-search-category">                   
                             <select>
-                               <option>Select Category</option>
-                               <option>Mobile</option>
-                               <option>Digital Watch</option>
-                               <option>Computer</option>
-                               <option>Watch</option>
+                               <option>Chọn danh mục</option>
+                               <option>1</option>
+                               <option>2</option>
+                               <option>3</option>
                             </select>
                          </div>
                          <div class="tp-header-search-btn">
@@ -139,7 +138,7 @@
                          </div>
                          <div class="tp-header-login-content d-none d-xl-block">
                             <span>Xin chào {{Auth::user()->ten}}</span>
-                            <h5 class="tp-header-login-title">Your Account</h5>
+                            <h5 class="tp-header-login-title">Tài khoản của bạn</h5>
                          </div>
                     </a>
                     @else

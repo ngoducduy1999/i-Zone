@@ -392,9 +392,9 @@
                      @foreach($khuyenMais as $khuyenMai)
                      <div class="tp-product-offer-item tp-product-item transition-3 swiper-slide">
                         <div class="tp-product-content">
-                           <h3 class="tp-product-title">Mã khuyến mãi: {{ $khuyenMai->ma_khuyen_mai }}</h3>
+                           <h4>Tên mã : {{ $khuyenMai->ma_khuyen_mai }}</h4>
                            <div class="tp-product-price-wrapper">
-                              <span class="tp-product-price new-price">{{ $khuyenMai->phan_tram_khuyen_mai }}% Off</span>
+                              <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}% </span>
                            </div>
                            <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
                               <div class="tp-product-countdown-inner">
