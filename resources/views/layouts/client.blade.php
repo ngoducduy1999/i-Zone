@@ -190,7 +190,7 @@
                 </div>
                 <div class="col">
                     <div class="tp-mobile-item text-center">
-                        <a href="wishlist.html" class="tp-mobile-item-btn">
+                        <a href="{{ route('yeuthich') }}" class="tp-mobile-item-btn">
                             <i class="flaticon-love"></i>
                             <span>Wishlist</span>
                         </a>
@@ -549,10 +549,10 @@
                                             <li class="has-dropdown">
                                                 <a href="shop.html" class="mega-menu-title">eCommerce</a>
                                                 <ul class="tp-submenu">
-                                                    <li><a href="cart.html">Shopping Cart</a></li>
+                                                    <li><a href="{{ route('cart.index') }}">Shopping Cart</a></li>
                                                     <li><a href="order.html">Track Your Order</a></li>
                                                     <li><a href="compare.html">Compare</a></li>
-                                                    <li><a href="wishlist.html">Wishlist</a></li>
+                                                    <li><a href="{{ route('yeuthich') }}">Wishlist</a></li>
                                                     <li><a href="checkout.html">Checkout</a></li>
                                                     <li><a href="profile.html">My account</a></li>
                                                 </ul>
@@ -609,7 +609,7 @@
                                 </a>
                             </div>
                             <div class="tp-header-action-item d-none d-lg-block">
-                                <a href="wishlist.html" class="tp-header-action-btn">
+                                <a href="{{ route('yeuthich') }}" class="tp-header-action-btn">
                                     <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -620,7 +620,21 @@
                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                    <span class="tp-header-action-badge">4</span>
+                                    <span class="tp-header-action-badge">
+                                        @if (Auth::user())
+                                            <span id="favorite-count">
+                                                <span>
+                                                    {{ Auth::user()->sanPhamYeuThichs()->count() }}
+                                                </span>
+                                            </span>
+                                        @else
+                                            <span id="favorite-count">
+                                                <span>
+                                                    0
+                                                </span>
+                                            </span>
+                                        @endif
+                                    </span>
                                 </a>
                             </div>
                             <div class="tp-header-action-item">

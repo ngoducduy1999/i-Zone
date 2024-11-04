@@ -78,4 +78,10 @@ class SanPham extends Model
     {
         return $this->danhGias()->avg('diem_so');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'yeu_thichs', 'san_pham_id', 'user_id');
+    }
+    
 }

@@ -207,7 +207,7 @@ Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chi
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
 
 
-
+// giỏ hàng
 Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');
 Route::get('/Cart-List-Drop', [CartController::class, 'CartListDrop'])->name('cart.list.drop');
 Route::get('/Cart-List', [CartController::class, 'CartList'])->name('cart.list');
@@ -216,3 +216,9 @@ Route::get('/Delete-Item-Cart/{id}', [CartController::class, 'DeleteItemCart'])-
 Route::get('/Delete-Item-List-Cart/{id}', [CartController::class, 'DeleteItemListCart'])->name('cart.delete.item.list');
 Route::get('/Update-Item-Cart/{id}', [CartController::class, 'UpdateItemCart'])->name('cart.update.item');
 Route::get('/Discount-Cart/{disscountCode}', [CartController::class, 'discount'])->name('cart.disscount');
+
+// yêu thích
+Route::get('/Add-To-Love/{id}', [YeuThichController::class, 'addToLove'])->name('love.add');
+Route::get('/yeuthich', [YeuThichController::class, 'showYeuThich'])->name('yeuthich');
+Route::get('/Delete-From-Love/{id}', [YeuThichController::class, 'deleteLove'])->name('love.delete');
+Route::get('/Loved-List', [YeuThichController::class, 'lovedList'])->name('love.list');
