@@ -57,7 +57,8 @@
                                                                 <li>Ngày đặt hàng: <b>{{ \Carbon\Carbon::parse($hoaDon->ngay_dat_hang)->format('d-m-Y') }}</b></li>
                                                                 <li>Ghi chú: <b>{{ $hoaDon->ghi_chu }}</b></li>
                                                                 <li>Trạng thái đơn hàng: <b>{{ $trangThaiHoaDon[$hoaDon->trang_thai] }}</b></li>
-                                                                <li>Trạng thái thanh toán: <b>{{ $phuongThucThanhToan[$hoaDon->phuong_thuc_thanh_toan] }}</b></li>                                      
+                                                                <li>Phương thức thanh toán: <b>{{ $phuongThucThanhToan[$hoaDon->phuong_thuc_thanh_toan] }}</b></li>
+                                                                                                    
                                                             </ul>                       
                                                         </td>
                                                     </tr>
