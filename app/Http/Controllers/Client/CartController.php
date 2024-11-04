@@ -143,6 +143,9 @@ class CartController extends Controller
                         continue;
                     }
                     $totalPrice += $cart->products[$idbt]['quantity'] * $bienThe->gia_moi;
+                } else {
+                    unset($cart->products[$idbt]);
+                    continue;
                 }
             }
             $cart->totalProduct = count($cart->products);
