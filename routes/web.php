@@ -221,3 +221,10 @@ Route::get('/Add-To-Love/{id}', [YeuThichController::class, 'addToLove'])->name(
 Route::get('/yeuthich', [YeuThichController::class, 'showYeuThich'])->name('yeuthich');
 Route::get('/Delete-From-Love/{id}', [YeuThichController::class, 'deleteLove'])->name('love.delete');
 Route::get('/Loved-List', [YeuThichController::class, 'lovedList'])->name('love.list');
+//thanh toan 
+Route::post('/apply-discount', [ThanhToanController::class, 'applyDiscount'])->name('applyDiscount');
+Route::post('/clear-discount', [ThanhToanController::class, 'clearDiscount'])->name('clear.discount');
+Route::post('/place-order', [ThanhToanController::class, 'placeOrder'])->name('placeOrder');
+Route::get('/payment/callback', [ThanhToanController::class, 'callback'])->name('payment.callback');
+Route::post('/payment/notify', [ThanhToanController::class, 'notify'])->name('payment.notify');
+Route::post('/zalopay/callback', [ThanhToanController::class, 'handleZaloPayCallback'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
