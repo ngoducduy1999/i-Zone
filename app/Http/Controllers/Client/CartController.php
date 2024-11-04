@@ -130,16 +130,24 @@ class CartController extends Controller
     {
         if (Session::has('cart')) {
             $cart = Session::get('cart');
+            $totalPrice = 0;
             foreach ($cart->products as $idbt => $product) {
                 $bienThe = BienTheSanPham::where('id', $idbt)->first();
                 if ($bienThe) {
                     $cart->products[$idbt]['bienthe'] = $bienThe;
-                    if ($product['quantity'] > $bienThe->so_luong) {
+                    if ($product['quantity'] >= $bienThe->so_luong) {
                         $cart->products[$idbt]['quantity'] = $bienThe->so_luong;
                     }
+                    if ($bienThe->so_luong <= 0) {
+                        unset($cart->products[$idbt]);
+                        continue;
+                    }
+                    $totalPrice += $cart->products[$idbt]['quantity'] * $bienThe->gia_moi;
                 }
             }
-            Session::put('cart', $cart);
+            $cart->totalProduct = count($cart->products);
+            $cart->totalPrice = $totalPrice;
+            Session::put('cart', value: $cart);
         }
     }
 }
