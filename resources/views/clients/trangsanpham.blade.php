@@ -1,52 +1,7 @@
 @extends('layouts.client')
 
 @section('css')
-    <style>
-   /* Định dạng chung cho form */
-.search-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-    max-width: 400px; /* Giảm chiều rộng tối đa */
-    width: 100%;
-    padding: 5px; /* Giảm padding của form */
-    border-radius: 5px;
-    background-color: #f5f5f5; /* Màu nền nhạt */
-}
-
-/* Định dạng ô nhập liệu */
-.search-input {
-    flex: 1;
-    padding: 5px; /* Điều chỉnh padding cho ô nhập */
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px; /* Kích thước chữ */
-    height: 30px; /* Chiều cao ô nhập */
-    min-height: 30px; /* Đảm bảo chiều cao tối thiểu */
-    line-height: 20px; /* Giảm khoảng cách giữa các dòng văn bản */
-    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều cao tổng thể */
-}
-
-/* Định dạng nút tìm kiếm */
-.search-button {
-    margin-left: 10px;
-    padding: 0 10px; /* Giảm padding cho nút */
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    height: 30px; /* Chiều cao nút tìm kiếm */
-    border-radius: 4px;
-    font-size: 14px; /* Kích thước chữ */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.search-button:hover {
-    background-color: #0056b3; /* Màu khi di chuột */
-}
-
-    </style>
+    
 @endsection
 
 @section('content')
