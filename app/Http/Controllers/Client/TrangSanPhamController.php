@@ -18,25 +18,29 @@ class TrangSanPhamController extends Controller
         $mauSacs = MauSac::all();
         $query = SanPham::with(['bienTheSanPhams', 'danhGias']); // Tải trước các quan hệ
     
+        if ($request->filled('search')) {
+            $query->where('ten_san_pham', 'like', '%' . $request->search . '%');
+        }
+        
         // Lọc theo danh mục
-        if ($request->has('danh_muc') && $request->danh_muc != '') {
+        if ($request->filled('danh_muc')) {
             $query->where('danh_muc_id', $request->danh_muc);
         }
-    
+
         // Lọc theo dung lượng
-        if ($request->has('dung_luong') && !empty($request->dung_luong)) {
+        if ($request->filled('dung_luong')) {
             $query->whereHas('bienTheSanPhams', function($q) use ($request) {
                 $q->whereIn('dung_luong_id', $request->dung_luong);
             });
         }
-    
+
         // Lọc theo màu sắc
-        if ($request->has('mau_sac') && !empty($request->mau_sac)) {
+        if ($request->filled('mau_sac')) {
             $query->whereHas('bienTheSanPhams', function($q) use ($request) {
                 $q->whereIn('mau_sac_id', $request->mau_sac);
             });
         }
-    
+
         // Lọc theo giá
         if ($request->has('price') && is_array($request->price)) {
             $query->whereHas('bienTheSanPhams', function($q) use ($request) {
@@ -66,16 +70,18 @@ class TrangSanPhamController extends Controller
     
         // Lấy tất cả sản phẩm và đánh giá của chúng
         $listSanPham = $query->paginate(9);
-    
+
+        // Kiểm tra xem có sản phẩm nào không
+        $hasProducts = $listSanPham->isNotEmpty(); // true nếu có sản phẩm, false nếu không có
+
         // Lấy 4 sản phẩm với điểm số đánh giá trung bình cao nhất
         $products = SanPham::with('danhGias')
-        ->whereHas('danhGias') // Chỉ lấy sản phẩm có đánh giá
-        ->get()
-        ->sortByDesc(function($product) {
-            return $product->danhGias->count() > 0 ? $product->danhGias->avg('diem_so') : 0; // Kiểm tra có đánh giá hay không
-        })->take(4); // Lấy 4 sản phẩm đánh giá cao nhất
-    
-        return view('clients.trangsanpham', compact('listSanPham', 'danhMucs', 'dungLuongs', 'mauSacs', 'products'));
+            ->whereHas('danhGias') // Chỉ lấy sản phẩm có đánh giá
+            ->withAvg('danhGias', 'diem_so') // Tính điểm trung bình trực tiếp
+            ->orderByDesc('danh_gias_avg_diem_so') // Sắp xếp theo điểm trung bình
+            ->take(4)
+            ->get();
+
+        return view('clients.trangsanpham', compact('listSanPham', 'danhMucs', 'dungLuongs', 'mauSacs', 'products', 'hasProducts'));
     }
-      
-}    
+}
