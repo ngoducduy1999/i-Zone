@@ -446,29 +446,7 @@
                      </a>
                   </div>
                </div>
-               <div class="tp-product-gadget-banner">
-                  <div class="tp-product-gadget-banner-slider-active swiper-container">
-                     <div class="swiper-wrapper">
-                        <div class="tp-product-gadget-banner-item swiper-slide include-bg" data-background="{{ asset('assets/client/img/product/gadget/gadget-banner-1.jpg') }}">
-                           <div class="tp-product-gadget-banner-content">
-                              <span class="tp-product-gadget-banner-price">Only $99.00</span>
-                              <h3 class="tp-product-gadget-banner-title">
-                                 <a href="product-details.html">Selected novelty <br> Products</a>
-                              </h3>
-                           </div>
-                        </div>
-                        <div class="tp-product-gadget-banner-item swiper-slide include-bg" data-background="{{ asset('assets/client/img/product/gadget/gadget-banner-2.jpg') }}">
-                           <div class="tp-product-gadget-banner-content">
-                              <span class="tp-product-gadget-banner-price">Only $55.00</span>
-                              <h3 class="tp-product-gadget-banner-title">
-                                 <a href="product-details.html">Top Rated <br> Products</a>
-                              </h3>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="tp-product-gadget-banner-slider-dot tp-swiper-dot"></div>
-                  </div>
-               </div>
+             
             </div>
          </div>
          <div class="col-xl-8 col-lg-7">
@@ -559,18 +537,18 @@
          <div class="tp-product-banner-slider-active swiper-container">
             <div class="swiper-wrapper">
                <div class="tp-product-banner-inner theme-bg p-relative z-index-1 fix swiper-slide">
-                  <h4 class="tp-product-banner-bg-text">tablet</h4>
+                  <h4 class="tp-product-banner-bg-text">Máy tính bảng</h4>
                   <div class="row align-items-center">
                      <div class="col-xl-6 col-lg-6">
                         <div class="tp-product-banner-content p-relative z-index-1">
-                           <span class="tp-product-banner-subtitle">Tablet Collection 2023</span>
+                           <span class="tp-product-banner-subtitle">Bộ sưu tập máy tính bảng 2023</span>
                            <h3 class="tp-product-banner-title">Samsung Galaxy Tab S6, Wifi Tablet</h3>
                            <div class="tp-product-banner-price mb-40">
                               <span class="old-price">$1240.00</span>
                               <p class="new-price">$975.00</p>
                            </div>
                            <div class="tp-product-banner-btn">
-                              <a href="shop.html" class="tp-btn tp-btn-2">Shop now</a>
+                              <a href="shop.html" class="tp-btn tp-btn-2">Mua ngay</a>
                            </div>
                         </div>
                      </div>
