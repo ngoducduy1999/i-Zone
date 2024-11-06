@@ -105,7 +105,7 @@
                                             <tr>
                                                 <td>{{ $item->ma_hoa_don }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($item->ngay_dat_hang)->format('d-m-Y') }}</td>
-                                                <td>{{ number_format($item->tong_tien, 0, '', '.') }}</td>
+                                                <td class="text-danger">{{ number_format($item->tong_tien, 0, '', '.') }}</td>
                                                 <td>{{ $item->phuong_thuc_thanh_toan }}</td>
                                                 <td>
                                                     <form action="{{ route('admin.hoadons.update', $item->id) }}"

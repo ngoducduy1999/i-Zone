@@ -31,9 +31,12 @@
                                 aria-labelledby="nav-list-tab" tabindex="0">
                                 <!-- blog list wrapper -->
                                 <div class="tp-blog-list-item-wrapper">
+                                    @if($baiViet->isEmpty() && request('search'))
+                                        <p>Không tìm thấy bài viết nào phù hợp với tìm kiếm của bạn.</p>
+                                    @endif
                                     @foreach ($baiViet as $baiviet)
                                         <div class="tp-blog-list-item d-md-flex d-lg-block d-xl-flex">
-                                            <div class="tp-blog-list-thumb">
+                                            <div class="tp-blog-list-thumb">                                           
                                                 <a href="{{ route('chitietbaiviet', ['id' => $baiviet->id]) }}">
                                                     <img src="{{ $baiviet->anh_bai_viet ? asset('storage/' . $baiviet->anh_bai_viet) : 'assets/img/blog/grid/blog-grid-1.jpg' }}"
                                                         alt="{{ $baiviet->tieu_de }}">
@@ -106,22 +109,18 @@
                     <div class="tp-sidebar-wrapper tp-sidebar-ml--24">
                         <div class="tp-sidebar-widget mb-35">
                             <div class="tp-sidebar-search">
-                                <form action="#">
+                                <form action="{{ route('trangbaiviet') }}" method="GET">
                                     <div class="tp-sidebar-search-input">
-                                        <input type="text" placeholder="Search...">
+                                        <input type="text" name="search" placeholder="Tìm kiếm bài viết..." value="{{ request('search') }}">
                                         <button type="submit">
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M16.9995 17L13.1328 13.1333" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.9995 17L13.1328 13.1333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </button>
                                     </div>
                                 </form>
+                                
                             </div>
                         </div>
 
