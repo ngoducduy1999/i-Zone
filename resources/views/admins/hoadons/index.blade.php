@@ -48,8 +48,8 @@
                             <label for="phuong_thuc_thanh_toan" style="display: block; font-weight: bold; margin-bottom: 5px;">Phương thức thanh toán:</label>
                             <select name="phuong_thuc_thanh_toan" id="phuong_thuc_thanh_toan" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
                                 <option value="">Tất cả</option>
-                                <option value="online" {{ request('phuong_thuc_thanh_toan') == 'online' ? 'selected' : '' }}>Online</option>
-                                <option value="offline" {{ request('phuong_thuc_thanh_toan') == 'offline' ? 'selected' : '' }}>Offline</option>
+                                <option value="Thanh toán qua chuyển khoản ngân hàng" {{ request('phuong_thuc_thanh_toan') == 'Thanh toán qua chuyển khoản ngân hàng' ? 'selected' : '' }}>Thanh toán qua chuyển khoản ngân hàng</option>
+                                <option value="Thanh toán khi nhận hàng" {{ request('phuong_thuc_thanh_toan') == 'Thanh toán khi nhận hàng' ? 'selected' : '' }}>Thanh toán khi nhận hàng</option>
                             </select>
                         </div>
                     
