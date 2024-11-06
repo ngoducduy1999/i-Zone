@@ -50,11 +50,11 @@ class TrangChuController extends Controller
             ->get();    
 
         // Lấy danh sách bài viết với trạng thái là 'active' (ví dụ trang_thai = 1)
-        $baiViet = BaiViet::where('trang_thai', 1)
+        $baiViets = BaiViet::where('trang_thai', 1)
             ->orderBy('created_at', 'desc') // Sắp xếp bài viết theo ngày tạo mới nhất
             ->get();    
 
         // Trả về view và truyền dữ liệu sang
-       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams','baiViet'));
+       return view('clients.trangchu', compact('khuyenMais','banners', 'banners1', 'banners2','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams','baiViets'));
     }
 }
