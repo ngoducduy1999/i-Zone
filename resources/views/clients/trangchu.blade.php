@@ -1146,7 +1146,7 @@
             <div class="tp-blog-main-slider">
                <div class="tp-blog-main-slider-active swiper-container">
                   <div class="swiper-wrapper">
-                     @foreach($baiViets as $baiViet)
+                     @foreach($baiViet as $baiViet)
                      <div class="tp-blog-item mb-30 swiper-slide">
                         <div class="tp-blog-thumb p-relative fix">
                            <a href="{{  $baiViet->id }}">
