@@ -9,17 +9,20 @@ use App\Models\KhuyenMai;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
-    
+
     public function index()
     {
+        $this->UpdateProducts();
         return view('clients.cart.cart');
     }
 
     public function AddCart(Request $request, string $id)
     {
+        $this->UpdateProducts();
         $quantity = intval($request->query('quantity'));
         $mauSacId = intval($request->query('mauSacId'));
         $dungLuongId = intval($request->query('dungLuongId'));
@@ -44,6 +47,7 @@ class CartController extends Controller
 
     public function DeleteItemCart(Request $request, $idbt)
     {
+        $this->UpdateProducts();
         $oldCart = Session('cart') ? Session('cart') : [];
         $newCart = new Cart($oldCart);
         $newCart->DeleteItemCart($idbt);
@@ -57,6 +61,7 @@ class CartController extends Controller
 
     public function DeleteItemListCart(Request $request, $idbt)
     {
+        $this->UpdateProducts();
         $oldCart = Session('cart') ? Session('cart') : [];
         $newCart = new Cart($oldCart);
         $newCart->DeleteItemCart($idbt);
@@ -70,6 +75,7 @@ class CartController extends Controller
 
     public function UpdateItemCart(Request $request, $idbt)
     {
+        $this->UpdateProducts();
         $quantity = intval($request->query('quantity'));
         if ($quantity < 1) {
             $quantity = 1;
@@ -83,41 +89,68 @@ class CartController extends Controller
 
     public function  CartListDrop()
     {
+        $this->UpdateProducts();
         return view('clients.cart.cart-drop');
     }
 
     public function  CartList()
     {
+        $this->UpdateProducts();
         return view('clients.cart.cart-list');
     }
 
-    
+
     public function discount(Request $request, string $discountCode)
-{
-    Log::info("Received discount code: " . $discountCode);
-    $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
+    {
+        $this->UpdateProducts();
+        Log::info("Received discount code: " . $discountCode);
+        $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
 
-    if ($discount) {
-        $nowDate = now();
-        $startDate = $discount->ngay_bat_dau;
-        $endDate = $discount->ngay_ket_thuc;
+        if ($discount) {
+            $nowDate = now();
+            $startDate = $discount->ngay_bat_dau;
+            $endDate = $discount->ngay_ket_thuc;
 
-        if ($nowDate->between($startDate, $endDate)&&$discount->trang_thai!= 0) {
-            $discountPercentage = $discount->phan_tram_khuyen_mai;
-            
-            // Lưu mã giảm giá và phần trăm giảm giá vào session
-            $request->session()->put('discount_code', $discountCode);
-            $request->session()->put('discount_percentage', $discountPercentage);
+            if ($nowDate->between($startDate, $endDate) && $discount->trang_thai != 0) {
+                $discountPercentage = $discount->phan_tram_khuyen_mai;
 
-            return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
-        } 
-        
-        
-        else {
-            return response()->json(['message' => 'Mã giảm giá đã hết hạn.'], 400);
+                // Lưu mã giảm giá và phần trăm giảm giá vào session
+                $request->session()->put('discount_code', $discountCode);
+                $request->session()->put('discount_percentage', $discountPercentage);
+
+                return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
+            } else {
+                return response()->json(['message' => 'Mã giảm giá đã hết hạn.'], 400);
+            }
+        }
+        return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 404);
+    }
+
+    public function UpdateProducts()
+    {
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
+            $totalPrice = 0;
+            foreach ($cart->products as $idbt => $product) {
+                $bienThe = BienTheSanPham::where('id', $idbt)->first();
+                if ($bienThe) {
+                    $cart->products[$idbt]['bienthe'] = $bienThe;
+                    if ($product['quantity'] >= $bienThe->so_luong) {
+                        $cart->products[$idbt]['quantity'] = $bienThe->so_luong;
+                    }
+                    if ($bienThe->so_luong <= 0) {
+                        unset($cart->products[$idbt]);
+                        continue;
+                    }
+                    $totalPrice += $cart->products[$idbt]['quantity'] * $bienThe->gia_moi;
+                } else {
+                    unset($cart->products[$idbt]);
+                    continue;
+                }
+            }
+            $cart->totalProduct = count($cart->products);
+            $cart->totalPrice = $totalPrice;
+            Session::put('cart', value: $cart);
         }
     }
-    return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 404);
-}
-
 }

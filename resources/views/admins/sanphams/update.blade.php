@@ -72,7 +72,7 @@
                                     <div class="mb-3">
                                         <label for="ten_san_pham" class="form-label">Tên sản phẩm</label>
                                         <input type="text" id="ten_san_pham" id="ten_san_pham" name="ten_san_pham"
-                                            class="form-control" placeholder="Mã sản phẩm"
+                                            class="form-control" placeholder="Mã sản phẩm" style="text-transform: capitalize;"
                                             value="{{ $sanpham->ten_san_pham }}">
                                         @error('ten_san_pham')
                                             <p class="text-danger">{{ $message }}</p>
