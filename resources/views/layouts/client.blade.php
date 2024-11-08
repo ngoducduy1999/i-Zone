@@ -365,7 +365,7 @@
                                         <a href="{{ route('trangchu') }}">Trang chủ</a>                                   
                                     </li>
                                     <li class="has-mega-menu">
-                                        <a href="shop.html">Giới thiệu</a>                                       
+                                        <a href="{{ route('gioithieu') }}">Giới thiệu</a>                                       
                                     </li>
                                     <li class="has-mega-menu ">
                                         <a href="{{ route('trangsanpham') }}">Sản phẩm</a>                                    
