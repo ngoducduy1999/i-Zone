@@ -94,8 +94,8 @@
                     <div class="tp-cart-coupon-input-box">
                         <label>Mã phiếu giảm giá:</label>
                         <div class="tp-cart-coupon-input d-flex align-items-center">
-                            <input type="text" id="discount-code" placeholder="Enter Coupon Code">
-                            <button onclick="discount()">Áp dụng</button>
+                            <input type="text" id="discount-code" placeholder="Nhập mã giảm giá">
+                            <button onclick="discount()" style="font-size: 15px">Áp dụng</button>
                         </div>
                     </div>
                     {{-- </form> --}}

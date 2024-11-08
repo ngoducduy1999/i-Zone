@@ -1,7 +1,7 @@
 @extends('layouts.client')
 
 @section('css')
-
+    
 @endsection
 
 @section('content')
@@ -221,51 +221,26 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="col-xl-6">
+                                <div class="col-xl-6">
                                     <div class="tp-shop-top-right d-sm-flex align-items-center justify-content-xl-end">
-                                        <div class="tp-shop-top-select">
-                                            <select>
-                                                <option>Default Sorting</option>
-                                                <option>Low to Hight</option>
-                                                <option>High to Low</option>
-                                                <option>New Added</option>
-                                                <option>On Sale</option>
-                                            </select>
-                                        </div>
-                                        <div class="tp-shop-top-filter">
-                                            <button type="button" class="tp-filter-btn filter-open-btn">
-                                                <span>
-                                                    <svg width="16" height="15" viewBox="0 0 16 15"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M14.9998 3.45001H10.7998" stroke="currentColor"
-                                                            stroke-width="1.5" stroke-miterlimit="10"
-                                                            stroke-linecap="round" stroke-linejoin="round" />
-                                                        <path d="M3.8 3.45001H1" stroke="currentColor" stroke-width="1.5"
-                                                            stroke-miterlimit="10" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                        <path
-                                                            d="M6.5999 5.9C7.953 5.9 9.0499 4.8031 9.0499 3.45C9.0499 2.0969 7.953 1 6.5999 1C5.2468 1 4.1499 2.0969 4.1499 3.45C4.1499 4.8031 5.2468 5.9 6.5999 5.9Z"
-                                                            stroke="currentColor" stroke-width="1.5"
-                                                            stroke-miterlimit="10" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                        <path d="M15.0002 11.15H12.2002" stroke="currentColor"
-                                                            stroke-width="1.5" stroke-miterlimit="10"
-                                                            stroke-linecap="round" stroke-linejoin="round" />
-                                                        <path d="M5.2 11.15H1" stroke="currentColor" stroke-width="1.5"
-                                                            stroke-miterlimit="10" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                        <path
-                                                            d="M9.4002 13.6C10.7533 13.6 11.8502 12.5031 11.8502 11.15C11.8502 9.79691 10.7533 8.70001 9.4002 8.70001C8.0471 8.70001 6.9502 9.79691 6.9502 11.15C6.9502 12.5031 8.0471 13.6 9.4002 13.6Z"
-                                                            stroke="currentColor" stroke-width="1.5"
-                                                            stroke-miterlimit="10" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                    </svg>
-                                                </span>
-                                                Filter
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div> --}}
+                                        <div class="tp-sidebar-widget mb-35">
+                                            <div class="tp-sidebar-search">
+                                                {{-- Hiển thị form tìm kiếm --}}
+                                                <form action="{{ route('trangsanpham') }}" method="GET">
+                                                    <div class="tp-sidebar-search-input">
+                                                        <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="{{ request('search') }}">
+                                                        <button type="submit">
+                                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                                <path d="M16.9995 17L13.1328 13.1333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </form>                     
+                                            </div>
+                                        </div>                                                                                                                                                          
+                                     </div>                                                             
+                                </div>
                             </div>
                         </div>
                         <div class="tp-shop-items-wrapper tp-shop-item-primary">
@@ -273,6 +248,10 @@
                                 <div class="tab-pane fade show active" id="grid-tab-pane" role="tabpanel"
                                     aria-labelledby="grid-tab" tabindex="0">
                                     <div class="row infinite-container">
+                                        {{-- Hiển thị danh sách sản phẩm --}}
+                                        @if ($listSanPham->isEmpty())                                    
+                                            <p>Không có sản phẩm nào.</p>
+                                        @endif
                                         @foreach ($listSanPham as $item)
                                             <div class="col-xl-4 col-md-6 col-sm-6 infinite-item">
                                                 <div class="tp-product-item-2 mb-40">

@@ -50,7 +50,7 @@ class TrangChuController extends Controller
             ->get();    
 
         // Lấy danh sách bài viết với trạng thái là 'active' (ví dụ trang_thai = 1)
-        $baiViets = BaiViet::where('trang_thai', 0)
+        $baiViets = BaiViet::where('trang_thai', 1)
             ->orderBy('created_at', 'desc') // Sắp xếp bài viết theo ngày tạo mới nhất
             ->get();    
 

@@ -9,10 +9,11 @@ use App\Models\KhuyenMai;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
-    
+
     public function index()
     {
         return view('clients.cart.cart');
@@ -91,33 +92,31 @@ class CartController extends Controller
         return view('clients.cart.cart-list');
     }
 
-    
+
     public function discount(Request $request, string $discountCode)
-{
-    Log::info("Received discount code: " . $discountCode);
-    $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
+    {
+        Log::info("Received discount code: " . $discountCode);
+        $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
 
-    if ($discount) {
-        $nowDate = now();
-        $startDate = $discount->ngay_bat_dau;
-        $endDate = $discount->ngay_ket_thuc;
+        if ($discount) {
+            $nowDate = now();
+            $startDate = $discount->ngay_bat_dau;
+            $endDate = $discount->ngay_ket_thuc;
 
-        if ($nowDate->between($startDate, $endDate)&&$discount->trang_thai!= 0) {
-            $discountPercentage = $discount->phan_tram_khuyen_mai;
-            
-            // Lưu mã giảm giá và phần trăm giảm giá vào session
-            $request->session()->put('discount_code', $discountCode);
-            $request->session()->put('discount_percentage', $discountPercentage);
+            if ($nowDate->between($startDate, $endDate) && $discount->trang_thai != 0) {
+                $discountPercentage = $discount->phan_tram_khuyen_mai;
 
-            return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
-        } 
-        
-        
-        else {
-            return response()->json(['message' => 'Mã giảm giá đã hết hạn.'], 400);
+                // Lưu mã giảm giá và phần trăm giảm giá vào session
+                $request->session()->put('discount_code', $discountCode);
+                $request->session()->put('discount_percentage', $discountPercentage);
+
+                return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
+            } else {
+                return response()->json(['message' => 'Mã giảm giá đã hết hạn.'], 400);
+            }
         }
+        return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 404);
     }
-    return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 404);
-}
 
+    
 }
