@@ -1,0 +1,27 @@
+/* Sidebar width and alignment */
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    text-align: center;
+}
+
+/* Hover effect */
+.sidebar .nav-link:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+/* Content width limit */
+.content {
+    max-width: 1200px;  /* Giới hạn chiều rộng */
+    margin: 0 auto;    /* Căn giữa nội dung */
+    text-align: left;  /* Đảm bảo văn bản luôn căn trái */
+    line-height: 1.6;  /* Tăng khoảng cách giữa các dòng để dễ đọc */
+}
+.content h1 {
+    font-size: 2rem;  /* Kích thước chữ cho tiêu đề */
+    margin-bottom: 20px;
+}
+.content p {
+    font-size: 1.2rem;  /* Kích thước chữ cho đoạn văn */
+}
