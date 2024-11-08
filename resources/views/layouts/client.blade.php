@@ -14,18 +14,19 @@
     <!-- Place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/client/img/logo/favicon.png') }}">
 
-      <!-- CSS here -->
-      <link rel="stylesheet" href="{{ asset('assets/client/css/bootstrap.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/animate.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/swiper-bundle.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/slick.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/magnific-popup.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/font-awesome-pro.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/flaticon_shofy.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
-      <link rel="stylesheet" href="{{ asset('assets/client/css/danhgia.css') }}">
-      @yield('css')
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{{ asset('assets/client/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/swiper-bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/font-awesome-pro.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/flaticon_shofy.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/spacing.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/danhgia.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/client/css/gioithieu.css') }}">
+    @yield('css')
 
 
     <!-- Swiper CSS -->
@@ -366,7 +367,7 @@
                                         <a href="{{ route('trangchu') }}">Trang chủ</a>                                   
                                     </li>
                                     <li class="has-mega-menu">
-                                        <a href="shop.html">Giới thiệu</a>                                       
+                                        <a href="{{ route('gioithieu') }}">Giới thiệu</a>                                       
                                     </li>
                                     <li class="has-mega-menu ">
                                         <a href="{{ route('trangsanpham') }}">Sản phẩm</a>                                    
