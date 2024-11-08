@@ -271,7 +271,7 @@
 
                             </li>
                             <li>
-                               <a href="shop.html">Giới thiệu</a>
+                               <a href="{{ route('gioithieu') }}">Giới thiệu</a>
                            </li>
                             <li>                               
                                <a href="{{ route('trangsanpham') }}">Sản phẩm</a>

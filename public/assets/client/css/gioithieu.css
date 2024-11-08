@@ -25,3 +25,11 @@
 .content p {
     font-size: 1.2rem;  /* Kích thước chữ cho đoạn văn */
 }
+
+.content-img {
+    width: 1150px;    /* Giới hạn chiều rộng ảnh theo khung nội dung */
+    height: 900px;        /* Tự động điều chỉnh chiều cao theo chiều rộng */
+    display: block;      /* Đảm bảo ảnh được hiển thị dưới dạng khối */
+    margin-top: 20px;    /* Tạo khoảng cách giữa văn bản và ảnh */
+    margin-bottom: 20px;
+}
