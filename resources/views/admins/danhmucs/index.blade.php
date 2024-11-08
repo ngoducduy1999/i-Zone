@@ -66,12 +66,19 @@
                                                     href="{{ route('admin.danhmucs.show', $danh_muc->id) }}">Xem</a>
                                                 <a class="dropdown-item"
                                                     href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
-                                                    <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}"
-                                                        method="post">
+                                                    @if ($danh_muc->deleted_at == NULL)
+                                                    <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}" method="post">
                                                         @csrf
                                                         @method('delete')
-                                                        <button class="dropdown-item" onclick="return confirm('Xóa danh mục ?')">Xóa</button>
+                                                        <button class="dropdown-item" type="submit">Xóa</button>
                                                     </form>
+                                                @else
+                                                    <form action="{{ route('admin.danhmucs.restore', $danh_muc->id) }}" method="post">
+                                                        @csrf
+                                                        @method('post')
+                                                        <button class="dropdown-item" type="submit">Khôi phục</button>
+                                                    </form>
+                                                @endif
 
                                                 </div>
                                             </div>

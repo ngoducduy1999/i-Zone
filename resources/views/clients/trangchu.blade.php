@@ -392,9 +392,9 @@
                      @foreach($khuyenMais as $khuyenMai)
                      <div class="tp-product-offer-item tp-product-item transition-3 swiper-slide">
                         <div class="tp-product-content">
-                           <h3 class="tp-product-title">Mã khuyến mãi: {{ $khuyenMai->ma_khuyen_mai }}</h3>
+                           <h4>Tên mã : {{ $khuyenMai->ma_khuyen_mai }}</h4>
                            <div class="tp-product-price-wrapper">
-                              <span class="tp-product-price new-price">{{ $khuyenMai->phan_tram_khuyen_mai }}% Off</span>
+                              <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}% </span>
                            </div>
                            <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
                               <div class="tp-product-countdown-inner">
@@ -1127,7 +1127,7 @@
                      @foreach($baiViets as $baiViet)
                      <div class="tp-blog-item mb-30 swiper-slide">
                         <div class="tp-blog-thumb p-relative fix">
-                           <a href="{{  $baiViet->id }}">
+                        <a href="{{ route('chitietbaiviet', ['id' => $baiViet->id]) }}">
                               <img src="{{ asset('storage/' . $baiViet->anh_bai_viet) }}" alt="{{ $baiViet->tieu_de }}">
                            </a>
                            <div class="tp-blog-meta tp-blog-meta-date">
@@ -1136,17 +1136,18 @@
                         </div>
                         <div class="tp-blog-content">
                            <h3 class="tp-blog-title">
-                              <a href="{{  $baiViet->id }}">{{ $baiViet->tieu_de }}</a>
+                              <a href="{{  route('chitietbaiviet', ['id' => $baiViet->id]) }}">{{ $baiViet->tieu_de }}</a>
                            </h3>
                            <div class="tp-blog-tag">
                               <span><i class="fa-light fa-tag"></i></span>
                               @if($baiViet->danhMuc)
-                                 <a href="#">{{ $baiViet->danhMuc->ten_danh_muc }}</a>
+                                 <a href="{{ route('trangbaiviet', ['danh_muc' => $danhMuc->id]) }}">
+                                    {{ $baiViet->danhMuc->ten_danh_muc }}</a>
                               @endif
                            </div>
                            <p>{{ Str::limit(strip_tags($baiViet->noi_dung), 60) }}</p>
                            <div class="tp-blog-btn">
-                              <a href="blog-details.html" class="tp-btn-2 tp-btn-border-2">
+                              <a href="{{ route('chitietbaiviet', ['id' => $baiViet->id]) }}" class="tp-btn-2 tp-btn-border-2">
                                  Xem thêm
                                  <span>
                                     <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">

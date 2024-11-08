@@ -122,6 +122,9 @@ class SanPhamController extends Controller
             'anh_san_pham',
             'mo_ta',
         ]);
+        if (isset($datasanpham['ten_san_pham'])) {
+            $datasanpham['ten_san_pham'] = ucfirst(mb_strtolower(trim($datasanpham['ten_san_pham'])));
+        }
         if ($request->hasFile('anh_san_pham')) {
             $path_anh_san_pham = $request->file('anh_san_pham')->store('thumbnail', 'public');
             $datasanpham['anh_san_pham'] = 'storage/' . $path_anh_san_pham;
@@ -398,6 +401,9 @@ class SanPhamController extends Controller
             'anh_san_pham',
             'mo_ta',
         ]);
+        if (isset($datasanpham['ten_san_pham'])) {
+            $datasanpham['ten_san_pham'] = ucfirst(mb_strtolower(trim($datasanpham['ten_san_pham'])));
+        }
         if (isset($request['anh_san_pham'])) {
             $path_anh_san_pham = $request->file('anh_san_pham')->store('thumbnail', 'public');
             $datasanpham['anh_san_pham'] = 'storage/' . $path_anh_san_pham;
