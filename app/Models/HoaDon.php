@@ -20,8 +20,9 @@ class HoaDon extends Model
     ];
 
     const PHUONG_THUC_THANH_TOAN = [
-        'offline' => 'Thanh toán offline',
-        'online' => 'Thanh toán online',
+
+        'Thanh toán khi nhận hàng' => 'Thanh toán khi nhận hàng',
+        'Thanh toán qua chuyển khoản ngân hàng' => 'Thanh toán qua chuyển khoản ngân hàng',
     ];
 
     const CHO_XAC_NHAN = '1';

@@ -108,6 +108,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
         Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
+        Route::post('/{id}/restore', [DanhMucController::class, 'restore'])->name('restore');
         Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
     });
     // Route hóa đơn

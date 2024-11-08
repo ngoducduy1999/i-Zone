@@ -26,6 +26,12 @@ class TrangBaiVietController extends Controller
         $baiVietQuery->where('danh_muc_id', $danhMucId);
     }
 
+    // Kiểm tra xem có từ khóa tìm kiếm không
+    if ($request->filled('search')) {
+        $baiVietQuery->where('tieu_de', 'like', '%' . $request->search . '%')
+                      ->orWhere('noi_dung', 'like', '%' . $request->search . '%');
+    }
+
     // Phân trang
     $baiViet = $baiVietQuery->paginate(10); 
 
@@ -38,6 +44,7 @@ class TrangBaiVietController extends Controller
     // Trả về view với các biến cần thiết
     return view('clients.baiviet', compact('baiViet', 'user', 'latestPosts', 'danhMucs'));
 }
+
 
 public function show($id, Request $request)
 {

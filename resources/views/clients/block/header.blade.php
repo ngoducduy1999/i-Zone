@@ -102,13 +102,14 @@
                          <div class="tp-header-search-box">
                             <input type="text" placeholder="Tìm kiếm sản phẩm...">
                          </div>
-                         <div class="tp-header-search-category">
+                         <div class="tp-header-search-category">                   
                             <select>
                                <option>Chọn danh mục</option>
                                <option>Điện thoại</option>
                                <option>Đồng hồ thông minh</option>
                                <option>Máy tính</option>
                                <option>Đồng hồ đeo tay</option>
+
                             </select>
                          </div>
                          <div class="tp-header-search-btn">
@@ -139,7 +140,7 @@
                          </div>
                          <div class="tp-header-login-content d-none d-xl-block">
                             <span>Xin chào {{Auth::user()->ten}}</span>
-                            <h5 class="tp-header-login-title">Your Account</h5>
+                            <h5 class="tp-header-login-title">Tài khoản của bạn</h5>
                          </div>
                     </a>
                     @else

@@ -151,5 +151,13 @@ class DanhMucController extends Controller
         // Chuyển hướng và thông báo thành công
         return back()->with('msg', 'Xóa danh mục thành công!');
     }
-
+    public function restore(string $id)
+    {
+        $danhmucs = DanhMuc::withTrashed()->find($id);
+        if (!$danhmucs) {
+            return redirect()->back()->with('error', 'Danh mục không tồn tại');
+        }
+        $danhmucs->restore();
+        return redirect()->back()->with('success', 'Khôi phục danh mục thành công');
+    }
 }

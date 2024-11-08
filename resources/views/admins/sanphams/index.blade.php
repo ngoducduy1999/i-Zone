@@ -56,6 +56,9 @@
                                                     Mã: {{ $sanpham->ma_san_pham }}</li>
                                                 <li
                                                     style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    ID: {{ $sanpham->id }}</li>
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
                                                     Tên: {{ $sanpham->ten_san_pham }}</li>
                                                 <li
                                                     style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
