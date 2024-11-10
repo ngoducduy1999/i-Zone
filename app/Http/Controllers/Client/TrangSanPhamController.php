@@ -84,10 +84,4 @@ class TrangSanPhamController extends Controller
 
         return view('clients.trangsanpham', compact('listSanPham', 'danhMucs', 'dungLuongs', 'mauSacs', 'products', 'hasProducts'));
     }
-
-    public function filterByCategory($danh_muc_id)
-{
-    $sanPhams = SanPham::where('danh_muc_id', $danh_muc_id)->get();
-    return view('trangsanpham', compact('sanPhams'));
-}
 }
