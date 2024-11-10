@@ -27,7 +27,7 @@ class ChiTietSanPhamController extends Controller
     }
     public function show(string $id)
     {
-        $sanpham = SanPham::withTrashed()->find($id);
+        $sanpham = SanPham::find($id);
     
         if ($sanpham) {
             $sanpham->increment('luot_xem');
