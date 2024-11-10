@@ -10,7 +10,7 @@
                     <div class="tp-postbox-details-category">
                         <span>
                             @if($post->danhMuc)  <!-- Ensure that danhMuc exists -->
-                                <a href="{{ route('trangbaiviet', ['danh_muc' => $post->danhMuc->id]) }}">
+                                <a href="{{ route('bai-viet', ['danh_muc' => $post->danhMuc->id]) }}">
                                     {{ $post->danhMuc->ten_danh_muc }}
                                 </a>
                             @else
@@ -145,7 +145,7 @@
                             <ul>
                                 @foreach ($danhMucs as $danhMuc)
                                     <li>
-                                        <a href="{{ route('trangbaiviet', ['danh_muc' => $danhMuc->id]) }}">
+                                        <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
                                             {{ $danhMuc->ten_danh_muc }}
                                             <span>({{ $danhMuc->bai_viets_count }})</span>
                                         </a>

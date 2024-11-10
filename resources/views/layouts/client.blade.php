@@ -373,7 +373,7 @@
                                         <a href="{{ route('trangsanpham') }}">Sản phẩm</a>                                    
                                     </li>                                 
                                     <li class="">
-                                        <a href="{{ route('trangbaiviet') }}">Bài viết</a>
+                                        <a href="{{ route('bai-viet') }}">Tin tức</a>
 
                                     </li>
                                     <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>

@@ -277,8 +277,15 @@
                             <li>                               
                                <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
                             </li>
+                            @foreach($danhMucs as $danhMuc)
+                              <li>
+                                 <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
+                                    {{ $danhMuc->ten_danh_muc }}
+                                 </a>
+                              </li>
+                           @endforeach
                             <li>
-                               <a href="{{ route('trangbaiviet') }}">Bài viết</a>                             
+                               <a href="{{ route('bai-viet') }}">Tin tức</a>                             
                             </li>
                             <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                          </ul>

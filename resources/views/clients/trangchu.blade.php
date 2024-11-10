@@ -1141,7 +1141,7 @@
                            <div class="tp-blog-tag">
                               <span><i class="fa-light fa-tag"></i></span>
                               @if($baiViet->danhMuc)
-                                 <a href="{{ route('trangbaiviet', ['danh_muc' => $danhMuc->id]) }}">
+                                 <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
                                     {{ $baiViet->danhMuc->ten_danh_muc }}</a>
                               @endif
                            </div>
