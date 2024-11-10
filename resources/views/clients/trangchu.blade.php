@@ -156,7 +156,7 @@
          <div class="col">
             <div class="tp-product-category-item text-center mb-40">
                <div class="tp-product-category-thumb" style="position: relative; width: 100%; overflow: hidden; border-radius: 10px;">
-                  <a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}" style="display: block;">
+                  <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
                      <img src="{{ asset($danhMuc->anh_danh_muc) }}" alt="{{ $danhMuc->ten_danh_muc }}"
                      style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: transform 0.3s;">
                   </a>
@@ -164,7 +164,7 @@
 
                <div class="tp-product-category-content">
                   <h3 class="tp-product-category-title">
-                     <a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}">
+                     <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
                         {{ $danhMuc->ten_danh_muc }}
                      </a>
                   </h3>
@@ -284,7 +284,7 @@
                             <div class="tp-product-item p-relative transition-3 mb-25">
                                 <div class="tp-product-thumb p-relative fix m-img">
                                     <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
-                                        <img src="{{ asset($sanpham->anh_san_pham) }}" alt="{{ $sanpham->ten_san_pham }}" style=" width:320px;height:180px;">
+                                        <img src="{{ asset($sanpham->anh_san_pham) }}" alt="{{ $sanpham->ten_san_pham }}" >
                                     </a>
 
                                     <!-- product badge -->
@@ -339,14 +339,16 @@
                                             <span>(7 Review)</span>
                                         </div> -->
                                     </div>
-                                    <div class="tp-product-price-wrapper">
-                                       <span class="tp-product-price old-price">
-                                          {{ isset($sanpham->bienThe->first()->gia_cu) ? number_format($sanpham->bienThe->first()->gia_cu, 0, ',', '.') : 'Chưa có giá' }}VNĐ
-                                       </span>
-                                       <span class="tp-product-price new-price">
-                                          {{ isset($sanpham->bienThe->first()->gia_moi) ? number_format($sanpham->bienThe->first()->gia_moi, 0, ',', '.') : 'Chưa có giá' }}VNĐ
-                                       </span>
-                                    </div>
+                                    @if ($sanpham->bienTheSanPhams->isNotEmpty())
+                                                            <span class="tp-product-price-2 new-price">
+                                                                {{ number_format($sanpham->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
+                                                            </span>
+                                                            @if (isset($sanpham->bienTheSanPhams->first()->gia_cu) && $sanpham->bienTheSanPhams->first()->gia_cu > $sanpham->bienTheSanPhams->first()->gia_moi)
+                                                                <span class="tp-product-price-2 old-price">
+                                                                    {{ number_format($sanpham->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                </span>
+                                                            @endif
+                                                        @endif
                                 </div>
                             </div>
                         </div>
@@ -457,7 +459,7 @@
                      <div class="tp-product-item p-relative transition-3 mb-25">
                         <div class="tp-product-thumb p-relative fix m-img">
                            <a href="{{ route('chitietsanpham', ['id'=>$sanphamNew->id]) }}">
-                              <img src="{{ asset($sanphamNew->anh_san_pham) }}" alt="{{ $sanphamNew->ten_san_pham }}" style=" width:300px;height:150px;" >
+                              <img src="{{ asset($sanphamNew->anh_san_pham) }}" alt="{{ $sanphamNew->ten_san_pham }}" >
                            </a>
 
                            <!-- product badge -->
@@ -511,14 +513,16 @@
                                  <span>(6 Review)</span>
                               </div> -->
                            </div>
-                           <div class="tp-product-price-wrapper">
-                              <span class="tp-product-price old-price">
-                                 {{ isset($sanphamNew->bienThe->first()->gia_cu) ? number_format($sanphamNew->bienThe->first()->gia_cu, 0, ',', '.') : 'Chưa có giá' }}VNĐ
-                              </span>
-                              <span class="tp-product-price new-price">
-                                 {{ isset($sanphamNew->bienThe->first()->gia_moi) ? number_format($sanphamNew->bienThe->first()->gia_moi, 0, ',', '.') : 'Chưa có giá' }}VNĐ
-                              </span>
-                           </div>
+                           @if ($sanpham->bienTheSanPhams->isNotEmpty())
+                                                            <span class="tp-product-price-2 new-price">
+                                                                {{ number_format($sanpham->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
+                                                            </span>
+                                                            @if (isset($sanpham->bienTheSanPhams->first()->gia_cu) && $sanpham->bienTheSanPhams->first()->gia_cu > $sanpham->bienTheSanPhams->first()->gia_moi)
+                                                                <span class="tp-product-price-2 old-price">
+                                                                    {{ number_format($sanpham->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                </span>
+                                                            @endif
+                                                        @endif
                         </div>
                      </div>
                   </div>
@@ -671,7 +675,7 @@
                         <!-- Hình ảnh sản phẩm -->
                         <div class="tp-product-thumb p-relative fix m-img">                      
                            <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
-                              <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}" style=" width:300px;height:160px;">
+                              <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}">
                            </a>
                            <div class="tp-product-badge">                            
                                  <span class="product-gray">Trả góp 0%</span>                             

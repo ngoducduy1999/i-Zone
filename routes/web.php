@@ -208,7 +208,6 @@ Route::get('/bai-viet', [TrangBaiVietController::class, 'index'])->name('bai-vie
 Route::get('/baiviet/{danh_muc}', [TrangBaiVietController::class, 'filterByCategory'])->name('baiviet.danhmuc');
 Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chitietbaiviet');
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
-Route::get('/gioithieu', [GioithieuController::class, 'index'])->name('gioithieu');
 
 // giỏ hàng
 Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');

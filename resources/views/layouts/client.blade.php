@@ -363,21 +363,25 @@
                         <div class="tp-header-sticky-menu main-menu menu-style-1">
                             <nav id="mobile-menu">
                                 <ul>
-                                <li class="has-mega-menu">
-                                        <a href="{{ route('trangchu') }}">Trang chủ</a>                                   
-                                    </li>
                                     <li class="has-mega-menu">
-                                        <a href="{{ route('gioithieu') }}">Giới thiệu</a>                                       
+                                       <a href="{{ route('trangchu') }}">Trang chủ</a>                              
+        
                                     </li>
-                                    <li class="has-mega-menu ">
-                                        <a href="{{ route('trangsanpham') }}">Sản phẩm</a>                                    
-                                    </li>                                 
-                                    <li class="">
-                                        <a href="{{ route('bai-viet') }}">Tin tức</a>
-
+                                    <li>                               
+                                       <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
+                                    </li>
+                                    @foreach($danhMucs as $danhMuc)
+                                      <li>
+                                         <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
+                                            {{ $danhMuc->ten_danh_muc }}
+                                         </a>
+                                      </li>
+                                   @endforeach
+                                    <li>
+                                       <a href="{{ route('bai-viet') }}">Tin tức</a>                             
                                     </li>
                                     <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
-                                </ul>
+                                 </ul>
                             </nav>
 
                         </div>
