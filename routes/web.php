@@ -30,6 +30,7 @@ use App\Http\Controllers\admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\StaffDashboardController;
 use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
+use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
 
 
@@ -197,16 +198,16 @@ Route::prefix('customer')->name('customer.')->group(function () {
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
+Route::get('/danh-muc/{danh_muc_id}', [SanPhamDanhMucController::class, 'index'])->name('sanpham.danhmuc');
 Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');
 Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGiaBienThe'])->name('sanpham.lay_gia_bien_the');
 Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
-Route::get('/trangbaiviet', [TrangBaiVietController::class, 'index'])->name('trangbaiviet');
+Route::get('/bai-viet', [TrangBaiVietController::class, 'index'])->name('bai-viet');
 Route::get('/baiviet/{danh_muc}', [TrangBaiVietController::class, 'filterByCategory'])->name('baiviet.danhmuc');
 Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chitietbaiviet');
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
-Route::get('/gioithieu', [GioithieuController::class, 'index'])->name('gioithieu');
 
 // giỏ hàng
 Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');
