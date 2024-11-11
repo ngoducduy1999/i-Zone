@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\DanhMuc;
 use App\Models\HoaDon;
 use Auth;
 use Hash;
@@ -124,8 +125,9 @@ class TaiKhoanController extends Controller
     }
 
     public function profileUser(){
+        $danhMucs = DanhMuc::all();
         $profile = Auth::user();
-        return view('clients.taikhoan.profile',compact('profile'));
+        return view('clients.taikhoan.profile',compact('danhMucs','profile'));
     }
 
     public function changePassword(Request $request){
