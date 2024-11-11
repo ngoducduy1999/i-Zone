@@ -22,12 +22,13 @@ class TaiKhoanController extends Controller
         //lấy thông tin ng dùng đang đăng nhập
         $user = Auth::user();
 
+        $danhMucs = DanhMuc::all();
         // lấy thông tin đơn hàng người dùng đã mua
         $orders = $user->hoaDons()->get();
         // lấy thuộc tính
         $trang_thai_don_hang = HoaDon::TRANG_THAI;
 
-        return view('clients.taikhoan.donhang',compact('orders','trang_thai_don_hang'));
+        return view('clients.taikhoan.donhang',compact('danhMucs','orders','trang_thai_don_hang'));
     }
 
     /**
