@@ -91,8 +91,8 @@
              <div class="col-xl-2 col-lg-2 col-md-4 col-6">
                 <div class="logo">
                    <a href="{{ route('trangchu') }}">
-                      <img src="{{ asset('assets/client/img/logo/logo.svg') }}" alt="logo">
-                   </a>
+                     <img src="{{ asset('assets/client/img/logo/logo.png') }}" alt="logo" style="width:150px; height:40px;">
+                  </a>
                 </div>
              </div>
              <div class="col-xl-6 col-lg-7 d-none d-lg-block">
