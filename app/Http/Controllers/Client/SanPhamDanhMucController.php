@@ -79,6 +79,7 @@ class SanPhamDanhMucController extends Controller
 
     // Lấy danh mục hiện tại và danh sách tất cả danh mục
     $danhMuc = DanhMuc::findOrFail($danh_muc_id);
+    $danhMucs = DanhMuc::all();
 
     // Lấy danh sách màu sắc và dung lượng
     $mauSacs = MauSac::all();
