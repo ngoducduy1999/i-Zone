@@ -489,7 +489,7 @@
                             </div>
                         </div>
                         <div class="tp-product-details-social">
-                            <span>Share: </span>
+                            <span>Chia sẻ: </span>
                             <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                             <a href="#"><i class="fa-brands fa-twitter"></i></a>
                             <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
@@ -497,13 +497,13 @@
                         </div>
                         <div class="tp-product-details-msg mb-15">
                             <ul>
-                                <li>30 days easy returns</li>
-                                <li>Order yours before 2.30pm for same day dispatch</li>
+                                <li>30 ngày trả hàng dễ dàng</li>
+                                <li>Đặt hàng trước 2:30 chiều để được giao hàng trong ngày</li>
                             </ul>
                         </div>
                         <div
                             class="tp-product-details-payment d-flex align-items-center flex-wrap justify-content-between">
-                            <p>Guaranteed safe <br> & secure checkout</p>
+                            <p>Thanh toán an toàn<br>và bảo mật</p>
                             <img src="{{ asset('assets/client/img/product/icons/payment-option.png') }}" alt="">
                         </div>
                     </div>
@@ -521,14 +521,15 @@
                                 id="navPresentationTab" role="tablist">
                                 <button class="nav-link" id="nav-description-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-description" type="button" role="tab"
-                                    aria-controls="nav-description" aria-selected="true">Description</button>
+                                    aria-controls="nav-description" aria-selected="true">Mô tả</button>
                                 <button class="nav-link active" id="nav-addInfo-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-addInfo" type="button" role="tab" aria-controls="nav-addInfo"
-                                    aria-selected="false">Additional information</button>
+                                    aria-selected="false">Thông tin sản phẩm</button>
                                 <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review"
-                                    aria-selected="false">Reviews
-                                    (2)</button>
+                                    aria-selected="false">
+                                    Đánh giá
+                                </button>
                                 <span id="productTabMarker" class="tp-product-details-tab-line"></span>
                             </div>
                         </nav>
