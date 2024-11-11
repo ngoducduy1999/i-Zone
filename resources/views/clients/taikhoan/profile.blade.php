@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="profile__main-info">
                                             <div class="row gx-3">
-                                                <div class="col-md-3 col-sm-6">
+                                                {{-- <div class="col-md-3 col-sm-6">
                                                     <div class="profile__main-info-item">
                                                         <div class="profile__main-info-icon">
                                                             <span>
@@ -125,7 +125,7 @@
                                                         </div>
                                                         <h4 class="profile__main-info-title">Downlaods</h4>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="col-md-3 col-sm-6">
                                                     <div class="profile__main-info-item">
                                                         <div class="profile__main-info-icon">
@@ -153,7 +153,10 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <h4 class="profile__main-info-title">Orders</h4>
+                                                        <a href="{{route('customer.donhang')}}">
+                                                             <h4 class="profile__main-info-title">Đơn hàng</h4>
+                                                        </a>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-sm-6">
@@ -172,10 +175,10 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <h4 class="profile__main-info-title">Wishlist</h4>
+                                                        <h4 class="profile__main-info-title">Yêu thích</h4>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-sm-6">
+                                                {{-- <div class="col-md-3 col-sm-6">
                                                     <div class="profile__main-info-item">
                                                         <div class="profile__main-info-icon">
                                                             <span>
@@ -210,7 +213,7 @@
                                                         </div>
                                                         <h4 class="profile__main-info-title">Gift Box</h4>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
