@@ -1,5 +1,5 @@
-{{-- resources/views/admin/blog/show.blade.php --}}
-@extends('layouts.client') {{-- or any other layout you are using --}}
+
+@extends('layouts.client') 
 
 @section('content')
 <section class="tp-postbox-details-area pb-120 pt-95">
@@ -9,7 +9,7 @@
                 <div class="tp-postbox-details-top">
                     <div class="tp-postbox-details-category">
                         <span>
-                            @if($post->danhMuc)  <!-- Ensure that danhMuc exists -->
+                            @if($post->danhMuc) 
                                 <a href="{{ route('bai-viet', ['danh_muc' => $post->danhMuc->id]) }}">
                                     {{ $post->danhMuc->ten_danh_muc }}
                                 </a>
@@ -47,7 +47,7 @@
             <div class="col-xl-9 col-lg-8">
                 <div class="tp-postbox-details-main-wrapper">
                     <div class="tp-postbox-details-content" style="overflow: hidden;">
-                        {!! $post->noi_dung !!} <!-- Render HTML content safely -->
+                        {!! $post->noi_dung !!} 
                         <div class="tp-postbox-details-share-wrapper">
                             <div class="row">
                                 <div class="col-xl-8 col-lg-6">

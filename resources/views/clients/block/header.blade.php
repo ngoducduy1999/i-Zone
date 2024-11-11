@@ -91,8 +91,8 @@
              <div class="col-xl-2 col-lg-2 col-md-4 col-6">
                 <div class="logo">
                    <a href="{{ route('trangchu') }}">
-                      <img src="{{ asset('assets/client/img/logo/logo.svg') }}" alt="logo">
-                   </a>
+                     <img src="{{ asset('assets/client/img/logo/logo.png') }}" alt="logo" style="width:150px; height:40px;">
+                  </a>
                 </div>
              </div>
              <div class="col-xl-6 col-lg-7 d-none d-lg-block">
@@ -177,16 +177,7 @@
                       </a> --}}
                    </div>
                    <div class="tp-header-action d-flex align-items-center ml-50">
-                      <div class="tp-header-action-item d-none d-lg-block">
-                         <a href="compare.html"  class="tp-header-action-btn">
-                            <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                               <path d="M14.8396 17.3319V3.71411" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                               <path d="M19.1556 13L15.0778 17.0967L11 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                               <path d="M4.91115 1.00056V14.6183" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                               <path d="M0.833496 5.09667L4.91127 1L8.98905 5.09667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                         </a>
-                      </div>
+                      
                       <div class="tp-header-action-item d-none d-lg-block">
                          <a href="{{ route('yeuthich') }}" class="tp-header-action-btn">
                             <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -258,12 +249,12 @@
        <div class="container">
           <div class="tp-mega-menu-wrapper p-relative">
              <div class="row align-items-center">
-                <div class="col-xl-3 col-lg-3">
+                <div class="col-xl-2 col-lg-2">
 
                 
 
                 </div>
-                <div class="col-xl-6 col-lg-6">
+                <div class="col-xl-8 col-lg-6">
                    <div class="main-menu menu-style-1">
                       <nav class="tp-main-menu-content">
                          <ul>
@@ -289,7 +280,7 @@
                       </nav>
                    </div>
                 </div>
-                <div class="col-xl-3 col-lg-3">
+                <div class="col-xl-2 col-lg-3">
                    <div class="tp-header-contact d-flex align-items-center justify-content-end">
                       <div class="tp-header-contact-icon">
                          <span>

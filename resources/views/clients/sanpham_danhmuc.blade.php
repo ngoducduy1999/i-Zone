@@ -1,5 +1,51 @@
 @extends('layouts.client')
 
+@section('css')
+<style>
+    .filter-container {
+        background-color: #f8f9fa; /* Màu nền cho khung chứa */
+        border: 1px solid #ddd; /* Viền mờ cho khung */
+        border-radius: 8px; /* Bo tròn viền khung */
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Thêm hiệu ứng đổ bóng nhẹ */
+        max-width: 700px; /* Giới hạn chiều rộng khung */
+        margin: 0 auto; /* Căn giữa khung */
+        height: 60px;
+    }
+
+    .product-filter-form .d-flex {
+        display: flex;
+        align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+        justify-content: flex-start; /* Căn chỉnh theo chiều ngang */
+        gap: 10px; /* Khoảng cách giữa các phần tử */
+    }
+
+    .product-filter-form .filter-item {
+        margin-bottom: 0; /* Xóa khoảng cách dưới mỗi phần tử */
+        width: 180px; /* Cố định chiều rộng cho các phần tử select */
+    }
+
+    .product-filter-form .filter-item label {
+        font-size: 14px;
+        margin-bottom: 0; /* Xóa khoảng cách dưới chữ */
+    }
+
+    .product-filter-form .form-control {
+        width: 100%;
+        padding: 8px 12px; /* Điều chỉnh padding bên trong select */
+        font-size: 14px;
+        line-height: 1.5; /* Đảm bảo mũi tên giữa */
+        padding-right: 30px; /* Thêm không gian cho mũi tên */
+        
+        appearance: none; /* Xóa mũi tên mặc định */
+        background-size: 10px 5px; /* Căn chỉnh mũi tên */
+    }
+
+    .product-filter-form .d-flex > .filter-item:last-child {
+        margin-right: 0;
+    }
+</style>
+@endsection
+
 @section('content')
  <!-- breadcrumb area start -->
  <section class="breadcrumb__area include-bg pt-100 pb-50">
@@ -27,7 +73,7 @@
             <div class="tp-shop-main-wrapper">
                 <div class="tp-shop-top mb-45">
                     <div class="row">
-                        <div class="col-xl-6">
+                        <div class="col-xl-2">
                             <div class="tp-shop-top-left d-flex align-items-center ">
                                 <div class="tp-shop-top-tab tp-tab">
                                     <ul class="nav nav-tabs" id="productTab" role="tablist">
@@ -70,12 +116,70 @@
                                                         stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
                                             </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                                        </li>                                      
+                                    </ul>                                                       
+                                </div>                                            
+                            </div>                        
                         </div>
                         <div class="col-xl-6">
+                            <form action="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danh_muc_id]) }}" method="GET" class="product-filter-form">
+                                <div class="filter-container p-2 border rounded">
+                                    <!-- Dòng chứa Tiêu đề và các select -->
+                                    <div class="d-flex align-items-center mb-3">
+                                        <!-- Tiêu đề Bộ Lọc -->
+                                        <div class="filter-item pr-3">
+                                            <label for="price_range" class="font-weight-bold mb-0">Bộ Lọc:</label>
+                                        </div>
+                        
+                                        <!-- Lọc theo giá -->
+                                        <div class="filter-item pr-3">
+                                            <select name="price_range" id="price_range" onchange="this.form.submit()" class="form-control">
+                                                <option value="">Chọn mức giá</option>
+                                                <option value="under_1m" {{ request('price_range') == 'under_1m' ? 'selected' : '' }}>Dưới 1 triệu</option>
+                                                <option value="1m_5m" {{ request('price_range') == '1m_5m' ? 'selected' : '' }}>1 triệu - 5 triệu</option>
+                                                <option value="5m_10m" {{ request('price_range') == '5m_10m' ? 'selected' : '' }}>5 triệu - 10 triệu</option>
+                                                <option value="10m_20m" {{ request('price_range') == '10m_20m' ? 'selected' : '' }}>10 triệu - 20 triệu</option>
+                                                <option value="above_20m" {{ request('price_range') == 'above_20m' ? 'selected' : '' }}>Trên 20 triệu</option>
+                                            </select>
+                                        </div>
+                        
+                                        <!-- Lọc theo màu sắc -->
+                                        <div class="filter-item pr-3">
+                                            <select name="mau_sac_id" id="mau_sac_id" onchange="this.form.submit()" class="form-control">
+                                                <option value="">Chọn màu sắc</option>
+                                                @foreach ($mauSacs as $mauSac)
+                                                    <option value="{{ $mauSac->id }}" {{ request('mau_sac_id') == $mauSac->id ? 'selected' : '' }}>
+                                                        {{ $mauSac->ten_mau_sac }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                        
+                                        <!-- Lọc theo dung lượng -->
+                                        <div class="filter-item">
+                                            <select name="dung_luong_id" id="dung_luong_id" onchange="this.form.submit()" class="form-control">
+                                                <option value="">Chọn dung lượng</option>
+                                                @foreach ($dungLuongs as $dungLuong)
+                                                    <option value="{{ $dungLuong->id }}" {{ request('dung_luong_id') == $dungLuong->id ? 'selected' : '' }}>
+                                                        {{ $dungLuong->ten_dung_luong }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                         <!-- Sắp xếp giá -->
+                                        <div class="filter-item pr-3">
+                                            <select name="price_order" id="price_order" onchange="this.form.submit()" class="form-control">
+                                                <option value="">Sắp xếp</option>
+                                                <option value="asc" {{ request('price_order') == 'asc' ? 'selected' : '' }}>Giá thấp nhất</option>
+                                                <option value="desc" {{ request('price_order') == 'desc' ? 'selected' : '' }}>Giá cao nhất</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-xl-4">                                
                             <div class="tp-shop-top-right d-sm-flex align-items-center justify-content-xl-end">
                                 <div class="tp-sidebar-widget mb-35">
                                     <div class="tp-sidebar-search">

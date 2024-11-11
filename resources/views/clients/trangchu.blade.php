@@ -1,152 +1,50 @@
 @extends('layouts.client')
 
 @section('content')
-<!-- slider area start -->
-<section class="tp-slider-area p-relative z-index-1">
-   <div class="tp-slider-active tp-slider-variation swiper-container">
-      <div class="swiper-wrapper">
-         <div class="tp-slider-item tp-slider-height d-flex align-items-center swiper-slide green-dark-bg">
-            <div class="tp-slider-shape">
+<div class="tp-slider-active tp-slider-variation swiper-container" > <!-- Giới hạn chiều rộng -->
+   <div class="swiper-wrapper">
+       @foreach ($banners->where('vi_tri', 'header')->where('trang_thai', 1) as $banner)
+       <div class="tp-slider-item tp-slider-height d-flex align-items-center swiper-slide green-dark-bg">
+           <div class="tp-slider-shape">
                <img class="tp-slider-shape-1" src="{{ asset('assets/client/img/slider/shape/slider-shape-1.png') }}" alt="slider-shape">
                <img class="tp-slider-shape-2" src="{{ asset('assets/client/img/slider/shape/slider-shape-2.png') }}" alt="slider-shape">
                <img class="tp-slider-shape-3" src="{{ asset('assets/client/img/slider/shape/slider-shape-3.png') }}" alt="slider-shape">
                <img class="tp-slider-shape-4" src="{{ asset('assets/client/img/slider/shape/slider-shape-4.png') }}" alt="slider-shape">
-            </div>
-            <div class="container">
+           </div>
+           <div class="container">
                <div class="row align-items-center">
-                  <div class="col-xl-5 col-lg-6 col-md-6">
-                     <div class="tp-slider-content p-relative z-index-1">
-                     <span>I -<b>Zone</b></span>
-                        <h3 class="tp-slider-title">Đại tiệc mùa thu  <br> Ưu đãi vù vù</h3>
-                        <p>Giảm đến
-                           <span>50%
-                              <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335" fill="currentColor" />
-                              </svg>
-                           </span>                         
-                        </p>
-
-                        <div class="tp-slider-btn">
-                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Mua ngay
-                              <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                 <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                              </svg>
-                           </a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-xl-7 col-lg-6 col-md-6">
-                     @if($banners)
-                     <div class="tp-slider-thumb text-end">
-                        <img src="{{ asset($banners->anh_banner) }}" alt="{{ $banners->ten_banner }}" width="580">
-                     </div>
-                     @endif
-                  </div>
+                   <div class="col-xl-5 col-lg-6 col-md-6">
+                       <div class="tp-slider-content p-relative z-index-1">
+                           <h3 class="tp-slider-title">{{ $banner->ten_banner }}</h3>
+                           <div class="tp-slider-btn">
+                               <a href="{{ $banner->url_lien_ket }}" class="tp-btn tp-btn-2 tp-btn-white">Mua Ngay</a>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="col-xl-7 col-lg-6 col-md-6">
+                       <div class="tp-slider-thumb text-end">
+                           <img src="{{ asset('storage/' . $banner->anh_banner) }}" alt="slider-img" style="max-width: 100%; height: auto;"> <!-- Giới hạn chiều rộng ảnh -->
+                       </div>
+                   </div>
                </div>
-            </div>
-         </div>
-         <div class="tp-slider-item tp-slider-height d-flex align-items-center swiper-slide green-dark-bg">
-            <div class="tp-slider-shape">
-               <img class="tp-slider-shape-1" src="{{ asset('assets/client/img/slider/shape/slider-shape-1.png') }}" alt="slider-shape">
-               <img class="tp-slider-shape-2" src="{{ asset('assets/client/img/slider/shape/slider-shape-2.png') }}" alt="slider-shape">
-               <img class="tp-slider-shape-3" src="{{ asset('assets/client/img/slider/shape/slider-shape-3.png') }}" alt="slider-shape">
-               <img class="tp-slider-shape-4" src="{{ asset('assets/client/img/slider/shape/slider-shape-4.png') }}" alt="slider-shape">
-            </div>
-            <div class="container">
-               <div class="row align-items-center">
-                  <div class="col-xl-5 col-lg-6 col-md-6">
-                     <div class="tp-slider-content p-relative z-index-1">
-                     <span>I -<b>Zone</b></span>
-                        <h3 class="tp-slider-title">Uy tín Chất lượng <br> Giá rẻ bất ngờ</h3>
-                        <p>Giảm giá
-                           <span>-10%
-                              <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335" fill="currentColor" />
-                              </svg>
-                           </span>
-                           các sản phẩm
-                        </p>
-
-                        <div class="tp-slider-btn">
-                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Mua ngay
-                              <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                 <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                              </svg>
-                           </a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-xl-7 col-lg-6 col-md-6">
-                     @if($banners2)
-                     <div class="tp-slider-thumb text-end">
-                        <img src="{{ asset($banners2->anh_banner) }}" alt="{{ $banners2->ten_banner }}" width="580">
-                     </div>
-                     @endif
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="tp-slider-item is-light tp-slider-height d-flex align-items-center swiper-slide" data-bg-color="#E3EDF6">
-            <div class="tp-slider-shape">
-               <img class="tp-slider-shape-1" src="{{ asset('assets/client/img/slider/shape/slider-shape-1.png') }}" alt="slider-shape">
-               <img class="tp-slider-shape-2" src="{{ asset('assets/client/img/slider/shape/slider-shape-2.png') }}" alt="slider-shape">
-               <img class="tp-slider-shape-3" src="{{ asset('assets/client/img/slider/shape/slider-shape-3.png') }}" alt="slider-shape">
-               <img class="tp-slider-shape-4" src="{{ asset('assets/client/img/slider/shape/slider-shape-4.png') }}" alt="slider-shape">
-            </div>
-            <div class="container">
-               <div class="row align-items-center">
-                  <div class="col-xl-5 col-lg-6 col-md-6">
-                     <div class="tp-slider-content p-relative z-index-1">
-                        <span>I -<b>Zone</b></span>
-                        <h3 class="tp-slider-title">Điện thoại thông minh <br> Mới nhất 2024</h3>
-                        <p>Các
-                           <span>khuyến mãi
-                              <svg width="94" height="20" viewBox="0 0 94 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335" fill="currentColor" />
-                              </svg>
-                           </span>
-                           cực hot
-                        </p>
-
-                        <div class="tp-slider-btn">
-                           <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Mua ngay
-                              <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                 <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                              </svg>
-                           </a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-xl-7 col-lg-6 col-md-6">
-                     @if($banners1)
-                     <div class="tp-slider-thumb text-end">
-                        <img src="{{ asset($banners1->anh_banner) }}" alt="{{ $banners1->ten_banner }}" width="580">
-                     </div>
-                     @endif
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="tp-slider-arrow tp-swiper-arrow d-none d-lg-block">
-         <button type="button" class="tp-slider-button-prev">
-            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M7 13L1 7L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-         </button>
-         <button type="button" class="tp-slider-button-next">
-            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M1 13L7 7L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-         </button>
-      </div>
-      <div class="tp-slider-dot tp-swiper-dot"></div>
+           </div>
+       </div>
+       @endforeach
    </div>
-</section>
-<!-- slider area end -->
+   <div class="tp-slider-arrow tp-swiper-arrow d-none d-lg-block">
+       <button type="button" class="tp-slider-button-prev">
+           <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M7 13L1 7L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+           </svg>                        
+       </button>
+       <button type="button" class="tp-slider-button-next">
+           <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M1 13L7 7L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+           </svg>                        
+       </button>
+   </div>
+   <div class="tp-slider-dot tp-swiper-dot"></div>
+</div>
 
 <!-- product category area start -->
 <section class="tp-product-category pt-60 pb-15">
@@ -419,7 +317,55 @@
       </div>
    </div>
 </section>
-
+<!-- banner area start -->
+<section class="tp-banner-area pb-70">
+   <div class="container">
+       <div class="row">
+           @foreach ($banners->where('vi_tri', 'sidebar')->where('trang_thai', 1) as $index => $banner)
+               @if ($index % 2 == 0)
+                   <div class="col-xl-8 col-lg-7">
+                       <div class="tp-banner-item tp-banner-height p-relative mb-30 z-index-1 fix">
+                           <div class="tp-banner-thumb include-bg transition-3" style="background-image: url('{{ asset('storage/' . $banner->anh_banner) }}');"></div>
+                           <div class="tp-banner-content">
+                               <h3 class="tp-banner-title sidebar-title" data-index="{{ $index }}">
+                                   <a href="{{ $banner->url_lien_ket }}">{{ $banner->ten_banner }}</a>
+                               </h3>
+                               <div class="tp-banner-btn">
+                                   <a href="{{ $banner->url_lien_ket }}" class="tp-link-btn">Mua Ngay 
+                                       <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                           <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                           <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       </svg>
+                                   </a>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               @else
+                   <div class="col-xl-4 col-lg-5">
+                       <div class="tp-banner-item tp-banner-item-sm tp-banner-height p-relative mb-30 z-index-1 fix">
+                           <div class="tp-banner-thumb include-bg transition-3" style="background-image: url('{{ asset('storage/' . $banner->anh_banner) }}');"></div>
+                           <div class="tp-banner-content">
+                               <h3 class="tp-banner-title sidebar-title">
+                                   <a href="{{ $banner->url_lien_ket }}">{{ $banner->ten_banner }}</a>
+                               </h3>
+                               <div class="tp-banner-btn">
+                                   <a href="{{ $banner->url_lien_ket }}" class="tp-link-btn">Mua Ngay 
+                                       <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                           <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                           <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       </svg>
+                                   </a>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               @endif
+           @endforeach
+       </div>
+   </div>
+</section>
+<!-- banner area end --> 
 <!-- product deal area end -->
 
 <section class="tp-product-gadget-area pt-80 pb-75">
@@ -629,11 +575,91 @@
                </div>
             </div>
             <div class="tp-product-banner-slider-dot tp-swiper-dot"></div>
+
+       <!-- banner area start -->
+       <section class="tp-banner-area pb-70">
+         <div class="container">
+             <div class="row">
+                 @foreach ($banners->where('vi_tri', 'sidebar')->where('trang_thai', 1) as $index => $banner)
+                     @if ($index % 2 == 0)
+                         <div class="col-xl-8 col-lg-7">
+                             <div class="tp-banner-item tp-banner-height p-relative mb-30 z-index-1 fix">
+                                 <div class="tp-banner-thumb include-bg transition-3" style="background-image: url('{{ asset('storage/' . $banner->anh_banner) }}');"></div>
+                                 <div class="tp-banner-content">
+                                     <h3 class="tp-banner-title sidebar-title" data-index="{{ $index }}">
+                                         <a href="{{ $banner->url_lien_ket }}">{{ $banner->ten_banner }}</a>
+                                     </h3>
+                                     <div class="tp-banner-btn">
+                                         <a href="{{ $banner->url_lien_ket }}" class="tp-link-btn">Mua Ngay 
+                                             <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                 <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                 <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                             </svg>
+                                         </a>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     @else
+                         <div class="col-xl-4 col-lg-5">
+                             <div class="tp-banner-item tp-banner-item-sm tp-banner-height p-relative mb-30 z-index-1 fix">
+                                 <div class="tp-banner-thumb include-bg transition-3" style="background-image: url('{{ asset('storage/' . $banner->anh_banner) }}');"></div>
+                                 <div class="tp-banner-content">
+                                     <h3 class="tp-banner-title sidebar-title">
+                                         <a href="{{ $banner->url_lien_ket }}">{{ $banner->ten_banner }}</a>
+                                     </h3>
+                                     <div class="tp-banner-btn">
+                                         <a href="{{ $banner->url_lien_ket }}" class="tp-link-btn">Mua Ngay 
+                                             <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                 <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                 <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                             </svg>
+                                         </a>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     @endif
+                 @endforeach
+             </div>
          </div>
-      </div>
-   </div>
+     </section>
+     <!-- banner area end --> 
+
+     <div class="tp-product-banner-area pb-90" >
+     <div class="container">
+        <div class="tp-product-banner-slider fix">
+           <div class="tp-product-banner-slider-active swiper-container" >
+              <div class="swiper-wrapper">
+             @foreach ($banners->where('vi_tri', 'footer')->where('trang_thai', 1) as $banner)
+             <div class="tp-product-banner-inner theme-bg p-relative z-index-1 fix swiper-slide">
+                 <div class="row align-items-center">
+                     <div class="col-xl-6 col-lg-6">
+                         <div class="tp-product-banner-content p-relative z-index-1">
+                             <h3 class="tp-product-banner-title">{{ $banner->ten_banner }}</h3>
+                             <div class="tp-product-banner-btn">
+                                 <a href="" class="tp-btn tp-btn-2">Mua Ngay</a>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-xl-6 col-lg-6">
+                         <div class="tp-product-banner-thumb-wrapper p-relative">
+                             <div class="tp-product-banner-thumb text-end p-relative z-index-1">
+                                 <img src="{{ asset('storage/' . $banner->anh_banner) }}" alt="footer-banner-img">
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             @endforeach
+         
+            
 </div>
-<!-- product banner area end -->
+<div class="tp-product-banner-slider-dot tp-swiper-dot"></div>
+</div>
+</div>
+</div>
+</div>
 
 <!-- product arrival area start -->
 <section class="tp-product-arrival-area pb-55">
@@ -1173,54 +1199,7 @@
 </section>
 <!-- blog area end -->
 
-<!-- instagram area start -->
-<div class="tp-instagram-area pb-70">
-   <div class="container">
-      <div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-2 row-cols-1">
-         <div class="col">
-            <div class="tp-instagram-item p-relative z-index-1 fix mb-30 w-img">
-               <img src="{{ asset('assets/client/img/instagram/instagram-1.jpg') }}" alt="">
-               <div class="tp-instagram-icon">
-                  <a href="{{ asset('assets/client/img/instagram/instagram-1.jpg') }}" class="popup-image"><i class="fa-brands fa-instagram"></i></a>
-               </div>
-            </div>
-         </div>
-         <div class="col">
-            <div class="tp-instagram-item p-relative z-index-1 fix mb-30 w-img">
-               <img src="{{ asset('assets/client/img/instagram/instagram-2.jpg') }}" alt="">
-               <div class="tp-instagram-icon">
-                  <a href="{{ asset('assets/client/img/instagram/instagram-2.jpg') }}" class="popup-image"><i class="fa-brands fa-instagram"></i></a>
-               </div>
-            </div>
-         </div>
-         <div class="col">
-            <div class="tp-instagram-item p-relative z-index-1 fix mb-30 w-img">
-               <img src="{{ asset('assets/client/img/instagram/instagram-3.jpg') }}" alt="">
-               <div class="tp-instagram-icon">
-                  <a href="{{ asset('assets/client/img/instagram/instagram-3.jpg') }}" class="popup-image"><i class="fa-brands fa-instagram"></i></a>
-               </div>
-            </div>
-         </div>
-         <div class="col">
-            <div class="tp-instagram-item p-relative z-index-1 fix mb-30 w-img">
-               <img src="{{ asset('assets/client/img/instagram/instagram-4.jpg') }}" alt="">
-               <div class="tp-instagram-icon">
-                  <a href="{{ asset('assets/client/img/instagram/instagram-4.jpg') }}" class="popup-image"><i class="fa-brands fa-instagram"></i></a>
-               </div>
-            </div>
-         </div>
-         <div class="col">
-            <div class="tp-instagram-item p-relative z-index-1 fix mb-30 w-img">
-               <img src="{{ asset('assets/client/img/instagram/instagram-5.jpg') }}" alt="">
-               <div class="tp-instagram-icon">
-                  <a href="{{ asset('assets/client/img/instagram/instagram-5.jpg') }}" class="popup-image"><i class="fa-brands fa-instagram"></i></a>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
-<!-- instagram area end -->
+
 
 <!-- subscribe area start -->
 <section class="tp-subscribe-area pt-70 pb-65 theme-bg p-relative z-index-1">

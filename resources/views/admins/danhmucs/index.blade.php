@@ -66,7 +66,7 @@
                                                     href="{{ route('admin.danhmucs.show', $danh_muc->id) }}">Xem</a>
                                                 <a class="dropdown-item"
                                                     href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
-                                                    @if ($danh_muc->deleted_at == NULL)
+                                                @if ($danh_muc->deleted_at == NULL)
                                                     <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}" method="post">
                                                         @csrf
                                                         @method('delete')

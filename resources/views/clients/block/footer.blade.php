@@ -7,8 +7,8 @@
                    <div class="tp-footer-widget-content">
                       <div class="tp-footer-logo">
                          <a href="index.html">
-                            <img src="{{ asset('assets/client/img/logo/logo.svg') }}" alt="logo">
-                         </a>
+                           <img src="{{ asset('assets/client/img/logo/logo.png') }}" alt="logo" style="width:150px; height:40px;">
+                        </a>
                       </div>
                       <p class="tp-footer-desc">Chúng tôi là một nhóm các nhà thiết kế và phát triển tạo ra I-Zone chất lượng cao.</p>
                       <div class="tp-footer-social">

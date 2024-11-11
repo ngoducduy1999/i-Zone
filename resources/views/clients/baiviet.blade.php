@@ -7,10 +7,10 @@
             <div class="row">
                 <div class="col-xl-8">
                     <div class="tp-section-title-wrapper-7">
-                        <h3 class="tp-section-title-7">Bài viết</h3>
+                        <h3 class="tp-section-title-7">Tin tức</h3>
                         <div class="breadcrumb__list">
-                            <span><a href="#">Trang chủ</a></span>
-                            <span>Bài viết</span>
+                            <span><a href="{{ route('trangchu') }}">Trang chủ</a></span>
+                            <span>Tin tức</span>
                         </div>
                     </div>
                 </div>
