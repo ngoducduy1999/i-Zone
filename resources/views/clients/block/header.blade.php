@@ -103,15 +103,15 @@
                             <input type="text" placeholder="Tìm kiếm sản phẩm...">
                          </div>
                          <div class="tp-header-search-category">                   
-                            <select>
-                               <option>Chọn danh mục</option>
-                               <option>Điện thoại</option>
-                               <option>Đồng hồ thông minh</option>
-                               <option>Máy tính</option>
-                               <option>Đồng hồ đeo tay</option>
-
-                            </select>
-                         </div>
+                           <select onchange="window.location.href=this.value">
+                               <option value="">Chọn danh mục</option>
+                               @foreach($danhMucs as $danhMuc)
+                                   <option value="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
+                                       {{ $danhMuc->ten_danh_muc }}
+                                   </option>
+                               @endforeach
+                           </select>
+                       </div>
                          <div class="tp-header-search-btn">
                             <button type="submit">
                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -271,14 +271,18 @@
                                <a href="{{ route('trangchu') }}">Trang chủ</a>                              
 
                             </li>
-                            <li>
-                               <a href="{{ route('gioithieu') }}">Giới thiệu</a>
-                           </li>
                             <li>                               
                                <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
                             </li>
+                            @foreach($danhMucs as $danhMuc)
+                              <li>
+                                 <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
+                                    {{ $danhMuc->ten_danh_muc }}
+                                 </a>
+                              </li>
+                           @endforeach
                             <li>
-                               <a href="{{ route('trangbaiviet') }}">Bài viết</a>                             
+                               <a href="{{ route('bai-viet') }}">Tin tức</a>                             
                             </li>
                             <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                          </ul>

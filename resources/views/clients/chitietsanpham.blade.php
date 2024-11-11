@@ -298,7 +298,7 @@
                                         </svg>
                                     @endif
                                     </span>
-                                    Sản phẩm yêu thích
+                                    Add Wishlist
                                 </button>
                             @else
                                 {{-- <button type="button" class="tp-product-details-action-sm-btn">
