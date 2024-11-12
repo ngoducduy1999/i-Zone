@@ -111,6 +111,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
         Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
         Route::delete('/{id}/softDelete', [DanhMucController::class, 'softDelete'])->name('softDelete');
+        Route::post('/{id}/restore', [DanhMucController::class, 'restore'])->name('restore');
     });
     // Route hóa đơn
     Route::prefix('hoadons')->name('hoadons.')->group(function () {
