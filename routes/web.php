@@ -232,3 +232,5 @@ Route::post('/place-order', [ThanhToanController::class, 'placeOrder'])->name('p
 Route::get('/payment/callback', [ThanhToanController::class, 'callback'])->name('payment.callback');
 Route::post('/payment/notify', [ThanhToanController::class, 'notify'])->name('payment.notify');
 Route::post('/zalopay/callback', [ThanhToanController::class, 'handleZaloPayCallback'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+//tim kiem
+Route::get('/search', [TrangSanPhamController::class, 'search'])->name('search.sanpham');
