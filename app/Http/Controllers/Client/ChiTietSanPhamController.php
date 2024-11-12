@@ -27,7 +27,7 @@ class ChiTietSanPhamController extends Controller
     }
     public function show(string $id)
     {
-        $sanpham = SanPham::withTrashed()->find($id);
+        $sanpham = SanPham::find($id);
     
         if ($sanpham) {
             $sanpham->increment('luot_xem');
@@ -44,7 +44,9 @@ class ChiTietSanPhamController extends Controller
             $danhgias = DanhGiaSanPham::latest('id')->where('san_pham_id', $id)->paginate(10);
             $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
             $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
-    
+            $danhMucs = DanhMuc::withCount('sanPhams')->get(); // Lấy danh sách danh mục và số lượng sản phẩm
+            $hasReview = DanhGiaSanPham::where('san_pham_id', $id)->exists(); // Kiểm tra sản phẩm có đánh giá hay chưa
+
             $starCounts = DanhGiaSanPham::select(DB::raw('diem_so, count(*) as count'))
                 ->where('san_pham_id', $id)
                 ->groupBy('diem_so')
@@ -81,6 +83,7 @@ class ChiTietSanPhamController extends Controller
                 }
             }
             return view('clients.chitietsanpham', compact(
+                'danhMucs',
                 'sanpham',
                 'bienthesanphams',
                 'anhsanphams',
@@ -96,7 +99,8 @@ class ChiTietSanPhamController extends Controller
                 'sanPhamXemNhieuNhat',
                 'sanPhamGiamGiaNhieuNhat',
                 'products',
-                'isLoved'
+                'isLoved',
+                'hasReview'
             ));
         }
     

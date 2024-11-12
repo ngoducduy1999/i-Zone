@@ -7,10 +7,10 @@
             <div class="row">
                 <div class="col-xl-8">
                     <div class="tp-section-title-wrapper-7">
-                        <h3 class="tp-section-title-7">Bài viết</h3>
+                        <h3 class="tp-section-title-7">Tin tức</h3>
                         <div class="breadcrumb__list">
-                            <span><a href="#">Trang chủ</a></span>
-                            <span>Bài viết</span>
+                            <span><a href="{{ route('trangchu') }}">Trang chủ</a></span>
+                            <span>Tin tức</span>
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                     <div class="tp-sidebar-wrapper tp-sidebar-ml--24">
                         <div class="tp-sidebar-widget mb-35">
                             <div class="tp-sidebar-search">
-                                <form action="{{ route('trangbaiviet') }}" method="GET">
+                                <form action="{{ route('bai-viet') }}" method="GET">
                                     <div class="tp-sidebar-search-input">
                                         <input type="text" name="search" placeholder="Tìm kiếm bài viết..." value="{{ request('search') }}">
                                         <button type="submit">
@@ -189,7 +189,7 @@
                                 <ul>
                                     @foreach ($danhMucs as $danhMuc)
                                         <li>
-                                            <a href="{{ route('trangbaiviet', ['danh_muc' => $danhMuc->id]) }}">
+                                            <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
                                                 {{ $danhMuc->ten_danh_muc }}
                                                 <span>({{ $danhMuc->bai_viets_count }})</span>
                                             </a>

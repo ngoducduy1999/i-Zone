@@ -22,28 +22,28 @@
                                     <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-profile" type="button" role="tab"
                                         aria-controls="nav-profile" aria-selected="false"><span><i
-                                                class="fa-regular fa-user-pen"></i></span>Profile</button>
+                                                class="fa-regular fa-user-pen"></i></span>Tài khoản</button>
                                     <button class="nav-link" id="nav-information-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-information" type="button" role="tab"
                                         aria-controls="nav-information" aria-selected="false"><span><i
                                                 class="fa-regular fa-circle-info"></i></span>Thông tin tài khoản</button>
-                                    <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab"
+                                    {{-- <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-address" type="button" role="tab"
                                         aria-controls="nav-address" aria-selected="false"><span><i
-                                                class="fa-light fa-location-dot"></i></span> Address </button>
+                                                class="fa-light fa-location-dot"></i></span> Address </button> --}}
                                       <a href="{{route('customer.donhang')}}" class="nav-link"><span><i class="fa-light fa-clipboard-list-check"></i></span>đơn hàng</a>
                                     {{-- <button class="nav-link" id="nav-order-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-order" type="button" role="tab" aria-controls="nav-order"
                                         aria-selected="false"><span><i class="fa-light fa-clipboard-list-check"></i></span>
                                         My Orders </button> --}}
-                                    <button class="nav-link" id="nav-notification-tab" data-bs-toggle="tab"
+                                    {{-- <button class="nav-link" id="nav-notification-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-notification" type="button" role="tab"
                                         aria-controls="nav-notification" aria-selected="false"><span><i
-                                                class="fa-regular fa-bell"></i></span> Notification</button>
+                                                class="fa-regular fa-bell"></i></span> Notification</button> --}}
                                     <button class="nav-link" id="nav-password-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-password" type="button" role="tab"
                                         aria-controls="nav-password" aria-selected="false"><span><i
-                                                class="fa-regular fa-lock"></i></span> Change Password</button>
+                                                class="fa-regular fa-lock"></i></span> Thay đổi mật khẩu</button>
                                     <span id="marker-vertical" class="tp-tab-line d-none d-sm-inline-block"></span>
                                 </div>
                             </nav>
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="profile__main-info">
                                             <div class="row gx-3">
-                                                <div class="col-md-3 col-sm-6">
+                                                {{-- <div class="col-md-3 col-sm-6">
                                                     <div class="profile__main-info-item">
                                                         <div class="profile__main-info-icon">
                                                             <span>
@@ -125,7 +125,7 @@
                                                         </div>
                                                         <h4 class="profile__main-info-title">Downlaods</h4>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="col-md-3 col-sm-6">
                                                     <div class="profile__main-info-item">
                                                         <div class="profile__main-info-icon">
@@ -153,7 +153,10 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <h4 class="profile__main-info-title">Orders</h4>
+                                                        <a href="{{route('customer.donhang')}}">
+                                                             <h4 class="profile__main-info-title">Đơn hàng</h4>
+                                                        </a>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-sm-6">
@@ -172,10 +175,10 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <h4 class="profile__main-info-title">Wishlist</h4>
+                                                        <h4 class="profile__main-info-title">Yêu thích</h4>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-sm-6">
+                                                {{-- <div class="col-md-3 col-sm-6">
                                                     <div class="profile__main-info-item">
                                                         <div class="profile__main-info-icon">
                                                             <span>
@@ -210,7 +213,7 @@
                                                         </div>
                                                         <h4 class="profile__main-info-title">Gift Box</h4>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
