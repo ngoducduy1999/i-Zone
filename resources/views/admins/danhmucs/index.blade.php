@@ -72,18 +72,14 @@
                                                     href="{{ route('admin.danhmucs.show', $danh_muc->id) }}">Xem</a>
                                                 <a class="dropdown-item"
                                                     href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
-                                                @if ($danh_muc->deleted_at == NULL)
-                                                    <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}" method="post">
+                                                    @if($danh_muc->trashed())
+                                                    <!-- Nút khôi phục -->
+                                                    <form action="{{ route('admin.danhmucs.restore', $danh_muc->id) }}" method="POST">
                                                         @csrf
-                                                        @method('delete')
-                                                        <button class="dropdown-item" type="submit">Xóa</button>
+                                                        <button type="submit" class="btn btn-success">Khôi phục</button>
                                                     </form>
                                                 @else
-                                                    <form action="{{ route('admin.danhmucs.restore', $danh_muc->id) }}" method="post">
-                                                        @csrf
-                                                        @method('post')
-                                                        <button class="dropdown-item" type="submit">Khôi phục</button>
-                                                    </form>
+                                                  
                                                 @endif
 
                                                 </div>
