@@ -154,16 +154,18 @@
                            // Tạo HTML cho mỗi sản phẩm trả về (tối đa 5 sản phẩm)
                               data.forEach(function(sanPham) {
                                  html += `
+                                 <a href="/chitietsanpham/${sanPham.id}">
                                     <div class="product-suggestion d-flex align-items-center mb-3">
                                        <div class="product-img">
-                                          <a href="/chitietsanpham/${sanPham.id}">
+                                          
                                              <img src="${sanPham.anh_san_pham}" alt="${sanPham.ten_san_pham}" class="img-fluid" style="width: 60px; height: 60px; object-fit: cover;">
-                                          </a>
+                                          
                                        </div>
                                        <div class="product-info flex-grow-1 pl-3">
-                                          <p class="product-name" style="font-size: 16px; font-weight: bold;">${sanPham.ten_san_pham}</p>
+                                          <p class="product-name" style="font-size: 16px; font-weight: bold;">${sanPham.ten_san_pham}</p>                                        
                                        </div>                                  
-                                    </div>                               
+                                    </div>  
+                                    </a>                             
                                  `;
                               });
                            } else {
