@@ -79,7 +79,12 @@
                                                         <button type="submit" class="btn btn-success">Khôi phục</button>
                                                     </form>
                                                 @else
-                                                  
+                                                    <!-- Nút xóa mềm -->
+                                                    <form action="{{ route('admin.danhmucs.softDelete', $danh_muc->id) }}" method="POST" >
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
                                                 @endif
 
                                                 </div>
