@@ -19,7 +19,7 @@
              <div class="col-md-6">
                 <div class="tp-header-top-right d-flex align-items-center justify-content-end">
                    <div class="tp-header-top-menu d-flex align-items-center justify-content-end">
-                      <div class="tp-header-top-menu-item tp-header-lang">
+                      {{-- <div class="tp-header-top-menu-item tp-header-lang">
                          <span class="tp-header-lang-toggle" id="tp-header-lang-toggle">English</span>
                          <ul>
                             <li>
@@ -32,8 +32,8 @@
                                <a href="#">Portuguese</a>
                             </li>
                          </ul>
-                      </div>
-                      <div class="tp-header-top-menu-item tp-header-currency">
+                      </div> --}}
+                      {{-- <div class="tp-header-top-menu-item tp-header-currency">
                          <span class="tp-header-currency-toggle" id="tp-header-currency-toggle">USD</span>
                          <ul>
                             <li>
@@ -49,18 +49,18 @@
                                <a href="#">KWD</a>
                             </li>
                          </ul>
-                      </div>
+                      </div> --}}
                       <div class="tp-header-top-menu-item tp-header-setting">
-                         <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Setting</span>
+                         <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Cài đặt</span>
                          <ul>
                             <li>
-                               <a href="{{route('customer.profileUser')}}">My Profile</a>
+                               <a href="{{route('customer.profileUser')}}">Tài khoản</a>
                             </li>
                             <li>
-                               <a href="{{ route('yeuthich') }}">Wishlist</a>
+                               <a href="{{ route('yeuthich') }}">Yêu thích</a>
                             </li>
                             <li>
-                               <a href="{{ route('cart.index') }}">Cart</a>
+                               <a href="{{ route('cart.index') }}">Giỏ hàng</a>
                             </li>
                             <li>
                                 <form id="logout-form-clients"
@@ -102,7 +102,7 @@
                          <div class="tp-header-search-box">
                             <input type="text" placeholder="Tìm kiếm sản phẩm...">
                          </div>
-                         <div class="tp-header-search-category">                   
+                         {{-- <div class="tp-header-search-category">
                            <select onchange="window.location.href=this.value">
                                <option value="">Chọn danh mục</option>
                                @foreach($danhMucs as $danhMuc)
@@ -111,7 +111,7 @@
                                    </option>
                                @endforeach
                            </select>
-                       </div>
+                       </div> --}}
                          <div class="tp-header-search-btn">
                             <button type="submit">
                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -177,7 +177,7 @@
                       </a> --}}
                    </div>
                    <div class="tp-header-action d-flex align-items-center ml-50">
-                      
+
                       <div class="tp-header-action-item d-none d-lg-block">
                          <a href="{{ route('yeuthich') }}" class="tp-header-action-btn">
                             <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -209,7 +209,7 @@
                                <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 
-                            </svg>    
+                            </svg>
                            <span class="tp-header-action-badge">
                               @if (Session::has('cart'))
                                  <span id="total-quantity-show">
@@ -223,8 +223,8 @@
                                        0
                                     </span>
                                  </span>
-                              @endif 
-                           </span>                                                                          
+                              @endif
+                           </span>
                          </button>
                       </div>
                       <div class="tp-header-action-item d-lg-none">
@@ -251,7 +251,7 @@
              <div class="row align-items-center">
                 <div class="col-xl-2 col-lg-2">
 
-                
+
 
                 </div>
                 <div class="col-xl-8 col-lg-6">
@@ -259,10 +259,10 @@
                       <nav class="tp-main-menu-content">
                          <ul>
                             <li class="has-mega-menu">
-                               <a href="{{ route('trangchu') }}">Trang chủ</a>                              
+                               <a href="{{ route('trangchu') }}">Trang chủ</a>
 
                             </li>
-                            <li>                               
+                            <li>
                                <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
                             </li>
                             @foreach($danhMucs as $danhMuc)
@@ -273,7 +273,7 @@
                               </li>
                            @endforeach
                             <li>
-                               <a href="{{ route('bai-viet') }}">Tin tức</a>                             
+                               <a href="{{ route('bai-viet') }}">Tin tức</a>
                             </li>
                             <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                          </ul>

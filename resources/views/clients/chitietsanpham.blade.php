@@ -90,7 +90,7 @@
                         <!-- inventory details -->
                         <div class="tp-product-details-inventory d-flex align-items-center mb-10">
                             <div class="tp-product-details-stock mb-10">
-                                <span>In Stock</span>
+                                <span>Đánh giá</span>
                             </div>
                             <div class="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
                                 <div class="star_warning">
@@ -337,7 +337,7 @@
                         </div>
                         <!-- actions -->
                         <div class="tp-product-details-action-wrapper">
-                            <h3 class="tp-product-details-action-title">Quantity</h3>
+                            <h3 class="tp-product-details-action-title">Số lượng</h3>
                             <div class="tp-product-details-action-item-wrapper d-flex align-items-center">
                                 <div class="tp-product-details-quantity">
                                     <div class="tp-product-quantity mb-15 mr-15">
@@ -362,13 +362,13 @@
                                 </div>
                                 <div class="tp-product-details-add-to-cart mb-15 w-100">
                                     <button class="tp-product-details-add-to-cart-btn w-100"
-                                        onclick="addToCart({{$sanpham->id}})">Add To Cart</button>
+                                        onclick="addToCart({{$sanpham->id}})">Thêm vào giỏ hàng</button>
                                 </div>
                             </div>
-                            <button class="tp-product-details-buy-now-btn w-100">Buy Now</button>
+                            <button class="tp-product-details-buy-now-btn w-100">Mua ngay</button>
                         </div>
                         <div class="tp-product-details-action-sm">
-                            <button type="button" class="tp-product-details-action-sm-btn">
+                            <!-- <button type="button" class="tp-product-details-action-sm-btn">
                                 <svg width="14" height="16" viewBox="0 0 14 16" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1 3.16431H10.8622C12.0451 3.16431 12.9999 4.08839 12.9999 5.23315V7.52268"
@@ -385,7 +385,7 @@
                                         stroke-linejoin="round" />
                                 </svg>
                                 Compare
-                            </button>
+                            </button> -->
                            
                             @if (Auth::user())
                                 <button type="button" class="tp-product-details-action-sm-btn"
@@ -407,7 +407,9 @@
                                         </svg>
                                     @endif
                                     </span>
-                                    Add Wishlist
+                                    
+                                    Thêm danh sách mong muốn
+                                
                                 </button>
                             @else
                                 {{-- <button type="button" class="tp-product-details-action-sm-btn">
@@ -440,10 +442,12 @@
                                         </svg>
                                     @endif
                                     </span>
-                                    Add Wishlist
+                                    
+                                    Thêm danh sách mong muốn
+
                                 </button>
                             @endif
-                            <button type="button" class="tp-product-details-action-sm-btn">
+                            <!-- <button type="button" class="tp-product-details-action-sm-btn">
                                 <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -451,7 +455,7 @@
                                         fill="currentColor" stroke="currentColor" stroke-width="0.3" />
                                 </svg>
                                 Ask a question
-                            </button>
+                            </button> -->
                         </div>
                         <div class="tp-product-details-query">
                             <div class="tp-product-details-query-item d-flex align-items-center">
@@ -471,7 +475,7 @@
                             </div>
                         </div>
                         <div class="tp-product-details-social">
-                            <span>Share: </span>
+                            <span>Chia sẻ: </span>
                             <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                             <a href="#"><i class="fa-brands fa-twitter"></i></a>
                             <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
@@ -479,13 +483,13 @@
                         </div>
                         <div class="tp-product-details-msg mb-15">
                             <ul>
-                                <li>30 days easy returns</li>
-                                <li>Order yours before 2.30pm for same day dispatch</li>
+                                <li>30 ngày trả hàng dễ dàng</li>
+                                <li>Đặt hàng trước 2:30 chiều để được giao hàng trong ngày</li>
                             </ul>
                         </div>
                         <div
                             class="tp-product-details-payment d-flex align-items-center flex-wrap justify-content-between">
-                            <p>Guaranteed safe <br> & secure checkout</p>
+                            <p>Thanh toán an toàn<br>và bảo mật</p>
                             <img src="{{ asset('assets/client/img/product/icons/payment-option.png') }}" alt="">
 <style>
     .disabled {
@@ -613,27 +617,6 @@
                </div>
 
                <!-- actions -->
-               <div class="tp-product-details-action-wrapper">
-                  <h3 class="tp-product-details-action-title">Quantity</h3>
-                  <div class="tp-product-details-action-item-wrapper d-flex align-items-center">
-                     <div class="tp-product-details-quantity">
-                        <div class="tp-product-quantity mb-15 mr-15">
-                           <span class="tp-cart-minus">
-                              <svg width="11" height="2" viewBox="0 0 11 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M1 1H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                              </svg>
-                           </span>
-                           <input class="tp-cart-input" type="text" value="1">
-                           <span class="tp-cart-plus">
-                              <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M1 6H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                 <path d="M5.5 10.5V1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                              </svg>
-                           </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <div class="tp-product-details-bottom pb-140">
@@ -646,14 +629,15 @@
                                 id="navPresentationTab" role="tablist">
                                 <button class="nav-link" id="nav-description-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-description" type="button" role="tab"
-                                    aria-controls="nav-description" aria-selected="true">Description</button>
+                                    aria-controls="nav-description" aria-selected="true">Mô tả</button>
                                 <button class="nav-link active" id="nav-addInfo-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-addInfo" type="button" role="tab" aria-controls="nav-addInfo"
-                                    aria-selected="false">Additional information</button>
+                                    aria-selected="false">Thông tin sản phẩm</button>
                                 <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review"
-                                    aria-selected="false">Reviews
-                                    (2)</button>
+                                    aria-selected="false">
+                                    Đánh giá
+                                </button>
                                 <span id="productTabMarker" class="tp-product-details-tab-line"></span>
                             </div>
                         </nav>
@@ -845,58 +829,58 @@
                               <div class="col-lg-6">
 
 
-                                {{-- form đánh giá và nhận xét --}}
-                                <div class="tp-product-details-review-form">
-                                 <h3 class="tp-product-details-review-form-title">Đánh giá sản phẩm</h3>
+                                @if(isset($sanpham) && !$hasReview)
+    <div class="tp-product-details-review-form">
+        <h3 class="tp-product-details-review-form-title">Đánh giá sản phẩm</h3>
 
-                                 <form action="{{route('admin.sanphams.admin.sanpham.danhgias',$sanpham->id)}}" method="POST">
-                                    @csrf
+        <form action="{{ route('admin.sanphams.admin.sanpham.danhgias', $sanpham->id) }}" method="POST">
+            @csrf
 
-                                       <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
-                                       <label>Đánh giá :</label>
+            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+            <label>Đánh giá :</label>
 
-                                       <div class="star-rating">
-                                          <input type="radio" id="star5" name="diem_so" value="5" />
-                                          <label for="star5" title="5 sao">&#9733;</label>
+            <div class="star-rating">
+                <input type="radio" id="star5" name="diem_so" value="5" />
+                <label for="star5" title="5 sao">&#9733;</label>
 
-                                          <input type="radio" id="star4" name="diem_so" value="4" />
-                                          <label for="star4" title="4 sao">&#9733;</label>
+                <input type="radio" id="star4" name="diem_so" value="4" />
+                <label for="star4" title="4 sao">&#9733;</label>
 
-                                          <input type="radio" id="star3" name="diem_so" value="3" />
-                                          <label for="star3" title="3 sao">&#9733;</label>
+                <input type="radio" id="star3" name="diem_so" value="3" />
+                <label for="star3" title="3 sao">&#9733;</label>
 
-                                          <input type="radio" id="star2" name="diem_so" value="2" />
-                                          <label for="star2" title="2 sao">&#9733;</label>
+                <input type="radio" id="star2" name="diem_so" value="2" />
+                <label for="star2" title="2 sao">&#9733;</label>
 
-                                          <input type="radio" id="star1" name="diem_so" value="1" />
-                                          <label for="star1" title="1 sao">&#9733;</label>
-                                      </div> 
-                                    <div class="tp-product-details-review-input-wrapper">
-                                       <div class="tp-product-details-review-input-box">
-                                          <div class="tp-product-details-review-input">
-                                             <textarea id="nhan_xet" name="nhan_xet" placeholder="Write your review here..."></textarea>
-                                          </div>
+                <input type="radio" id="star1" name="diem_so" value="1" />
+                <label for="star1" title="1 sao">&#9733;</label>
+            </div> 
 
-                                          <div class="tp-product-details-review-input-title">
-                                             <label for="nhan_xet">Nhận xét</label>
-                                          </div>
+            <div class="tp-product-details-review-input-wrapper">
+                <div class="tp-product-details-review-input-box">
+                    <div class="tp-product-details-review-input">
+                        <textarea id="nhan_xet" name="nhan_xet" placeholder="Write your review here..."></textarea>
+                    </div>
 
+                    <div class="tp-product-details-review-input-title">
+                        <label for="nhan_xet">Nhận xét</label>
+                    </div>
+                </div>
+            </div>
 
-                                       </div>
+            <div class="tp-product-details-review-suggetions mb-20">
+                <div class="tp-product-details-review-remeber">
+                    <input id="remeber" type="checkbox">
+                    <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
+                </div>
+            </div>
 
-                                    </div>
-                                    <div class="tp-product-details-review-suggetions mb-20">
-                                       <div class="tp-product-details-review-remeber">
-                                          <input id="remeber" type="checkbox">
-                                          <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
-                                       </div>
-                                    </div>
-                                    <div class="tp-product-details-review-btn-wrapper">
-                                       <button type="submit" class="tp-product-details-review-btn">Submit</button>
-                                    </div>
-                                 </form>
-                              </div>
-                              {{-- form đánh giá và nhận xét --}}
+            <div class="tp-product-details-review-btn-wrapper">
+                <button type="submit" class="tp-product-details-review-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+@endif
 
 
 
@@ -971,14 +955,14 @@
                                                         d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
                                                         fill="currentColor" />
                                                 </svg>
-                                                <span class="tp-product-tooltip">Add to Cart</span>
+                                                <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
                                             </button>
                                         </div>
                                     </div>
 
                                     <div class="tp-product-add-cart-btn-large-wrapper">
                                         <button type="button" class="tp-product-add-cart-btn-large">
-                                            Add To Cart
+                                        Thêm vào giỏ hàng
                                         </button>
                                     </div>
                                 </div>
@@ -1032,14 +1016,14 @@
                                                         d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
                                                         fill="currentColor" />
                                                 </svg>
-                                                <span class="tp-product-tooltip">Add to Cart</span>
+                                                <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
                                             </button>
                                         </div>
                                     </div>
 
                                     <div class="tp-product-add-cart-btn-large-wrapper">
                                         <button type="button" class="tp-product-add-cart-btn-large">
-                                            Add To Cart
+                                            Thêm vào giỏ hàng
                                         </button>
                                     </div>
                                 </div>
@@ -1096,14 +1080,14 @@
                                                         d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
                                                         fill="currentColor" />
                                                 </svg>
-                                                <span class="tp-product-tooltip">Add to Cart</span>
+                                                <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
                                             </button>
                                         </div>
                                     </div>
 
                                     <div class="tp-product-add-cart-btn-large-wrapper">
                                         <button type="button" class="tp-product-add-cart-btn-large">
-                                            Add To Cart
+                                            Thêm vào giỏ hàng
                                         </button>
                                     </div>
                                 </div>
@@ -1161,14 +1145,14 @@
                                                         d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
                                                         fill="currentColor" />
                                                 </svg>
-                                                <span class="tp-product-tooltip">Add to Cart</span>
+                                                <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
                                             </button>
                                         </div>
                                     </div>
 
                                     <div class="tp-product-add-cart-btn-large-wrapper">
                                         <button type="button" class="tp-product-add-cart-btn-large">
-                                            Add To Cart
+                                            Thêm vào giỏ hàng
                                         </button>
                                     </div>
                                 </div>
@@ -1263,7 +1247,7 @@
                     <!-- inventory details -->
                     <div class="tp-product-details-inventory d-flex align-items-center mb-10">
                         <div class="tp-product-details-stock mb-10">
-                            <span>In Stock</span>
+                            <span>Đánh giá</span>
                         </div>
                         <div class="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
                             <div class="tp-product-details-rating">
@@ -1340,10 +1324,10 @@
                                 </div>
                             </div>
                             <div class="tp-product-details-add-to-cart mb-15 w-100">
-                                <button class="tp-product-details-add-to-cart-btn w-100">Add To Cart</button>
+                                <button class="tp-product-details-add-to-cart-btn w-100">Thêm vào giỏ hàng</button>
                             </div>
                         </div>
-                        <button class="tp-product-details-buy-now-btn w-100">Buy Now</button>
+                        <button class="tp-product-details-buy-now-btn w-100">Mua ngay</button>
                     </div>
                     <div class="tp-product-details-action-sm">
                         <button type="button" class="tp-product-details-action-sm-btn">
