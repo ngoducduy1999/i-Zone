@@ -129,6 +129,9 @@
                   z-index: 9999;        /* Đảm bảo phần tử hiển thị lên trên các phần tử khác */
                 }
 
+                .product-img {
+                    margin-right: 20px; /* Tạo khoảng cách giữa ảnh và tên */
+                 }
                </style>
                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -153,7 +156,9 @@
                                  html += `
                                     <div class="product-suggestion d-flex align-items-center mb-3">
                                        <div class="product-img">
-                                           <img src="${sanPham.anh_san_pham}" alt="${sanPham.ten_san_pham}" class="img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                          <a href="/chitietsanpham/${sanPham.id}">
+                                             <img src="${sanPham.anh_san_pham}" alt="${sanPham.ten_san_pham}" class="img-fluid" style="width: 60px; height: 60px; object-fit: cover;">
+                                          </a>
                                        </div>
                                        <div class="product-info flex-grow-1 pl-3">
                                           <p class="product-name" style="font-size: 16px; font-weight: bold;">${sanPham.ten_san_pham}</p>
