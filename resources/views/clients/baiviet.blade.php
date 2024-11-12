@@ -154,7 +154,7 @@
 
                         <!-- latest post start -->
                         <div class="tp-sidebar-widget mb-35">
-                            <h3 class="tp-sidebar-widget-title">Bài viết mới nhất</h3>
+                            <h3 class="tp-sidebar-widget-title">Tin tức mới nhất</h3>
                             <div class="tp-sidebar-widget-content">
                                 <div class="tp-sidebar-blog-item-wrapper">
                                     @foreach ($latestPosts as $bai_viet)
