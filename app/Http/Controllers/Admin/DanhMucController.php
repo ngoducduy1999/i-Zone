@@ -161,4 +161,14 @@ class DanhMucController extends Controller
        }
        return redirect()->back()->with('error', 'Không tìm thấy dữ liệu.');
    }
+
+   public function restore($id)
+{
+    $danhMuc = DanhMuc::withTrashed()->find($id);
+    if ($danhMuc) {
+        $danhMuc->restore();
+        return redirect()->back()->with('success', 'Khôi phục thành công.');
+    }
+    return redirect()->back()->with('error', 'Không tìm thấy dữ liệu.');
+}
 }
