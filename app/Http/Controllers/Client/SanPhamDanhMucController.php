@@ -75,7 +75,7 @@ class SanPhamDanhMucController extends Controller
     }
     
     // Lọc sản phẩm theo danh mục
-    $sanPhams = $query->where('danh_muc_id', $danh_muc_id)->paginate(12);
+    $sanPhams = $query->where('danh_muc_id', $danh_muc_id)->paginate(9);
 
     // Lấy danh mục hiện tại và danh sách tất cả danh mục
     $danhMuc = DanhMuc::findOrFail($danh_muc_id);

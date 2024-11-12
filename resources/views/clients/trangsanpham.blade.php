@@ -1,7 +1,7 @@
 @extends('layouts.client')
 
 @section('css')
-    
+
 @endsection
 
 @section('content')
@@ -291,8 +291,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab"
-                                    tabindex="0">
+                                <div class="tab-pane fade" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
                                     <div class="tp-shop-list-wrapper tp-shop-item-primary mb-70">
                                         <div class="row">
                                             <div class="col-xl-12">
@@ -300,10 +299,8 @@
                                                     <div class="tp-product-list-item d-md-flex">
                                                         <div class="tp-product-list-thumb p-relative fix">
                                                             <a href="#">
-                                                                <img src="{{ asset($item->anh_san_pham) }}"
-                                                                    alt="">
+                                                                <img src="{{ asset($item->anh_san_pham) }}" alt="">
                                                             </a>
-                                        
                                                         </div>
                                                         <div class="tp-product-list-content">
                                                             <div class="tp-product-content-2 pt-15">
@@ -332,24 +329,75 @@
                                                                 @endif
                                                                 <p>{{ Str::limit(strip_tags($item->mo_ta), 100) }}</p>
                                                                 <div class="tp-product-list-add-to-cart">
-                                                                    <button class="tp-product-list-add-to-cart-btn" onclick="addToCart({{$item->id}})>Thêm vào giỏ hàng</button>
+                                                                    <button class="tp-product-list-add-to-cart-btn" onclick="addToCart({{ $item->id }})">Thêm vào giỏ hàng</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
                                                     </div>
                                                 @endforeach
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
-                       
+                        
                         <div class="tp-shop-pagination mt-20">
                             <div class="tp-pagination">
                                 <nav>
-                                    {{ $listSanPham->links() }} 
+                                    <ul class="pagination">
+                                        <!-- Nút trang trước -->
+                                        @if ($listSanPham->onFirstPage())
+                                            <li class="disabled">
+                                                <span class="tp-pagination-prev prev page-numbers">
+                                                    <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </span>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{ $listSanPham->previousPageUrl() }}" class="tp-pagination-prev prev page-numbers">
+                                                    <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                        @endif
+                        
+                                        <!-- Các số trang -->
+                                        @foreach ($listSanPham->getUrlRange(1, $listSanPham->lastPage()) as $page => $url)
+                                            @if ($page == $listSanPham->currentPage())
+                                                <li><span class="current">{{ $page }}</span></li>
+                                            @else
+                                                <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                            @endif
+                                        @endforeach
+                        
+                                        <!-- Nút trang sau -->
+                                        @if ($listSanPham->hasMorePages())
+                                            <li>
+                                                <a href="{{ $listSanPham->nextPageUrl() }}" class="next page-numbers">
+                                                    <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>                                     
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li class="disabled">
+                                                <span class="next page-numbers">
+                                                    <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </span>
+                                            </li>
+                                        @endif
+                                    </ul>
                                 </nav>
                             </div>
                         </div>
@@ -359,7 +407,6 @@
             </div>
         </div>
     </section>
-    <!-- shop area end -->
 
 @endsection
 

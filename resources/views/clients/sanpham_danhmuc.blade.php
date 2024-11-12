@@ -304,10 +304,62 @@
                 <div class="tp-shop-pagination mt-20">
                     <div class="tp-pagination">
                         <nav>
-                            {{ $sanPhams->links() }} 
+                            <ul class="pagination">
+                                <!-- Nút trang trước -->
+                                @if ($sanPhams->onFirstPage())
+                                    <li class="disabled">
+                                        <span class="tp-pagination-prev prev page-numbers">
+                                            <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                    </li>
+                                @else
+                                    <li>
+                                        <a href="{{ $sanPhams->previousPageUrl() }}" class="tp-pagination-prev prev page-numbers">
+                                            <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                @endif
+                
+                                <!-- Các số trang -->
+                                @foreach ($sanPhams->getUrlRange(1, $sanPhams->lastPage()) as $page => $url)
+                                    @if ($page == $sanPhams->currentPage())
+                                        <li><span class="current">{{ $page }}</span></li>
+                                    @else
+                                        <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                    @endif
+                                @endforeach
+                
+                                <!-- Nút trang sau -->
+                                @if ($sanPhams->hasMorePages())
+                                    <li>
+                                        <a href="{{ $sanPhams->nextPageUrl() }}" class="next page-numbers">
+                                            <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>                                     
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="disabled">
+                                        <span class="next page-numbers">
+                                            <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                    </li>
+                                @endif
+                            </ul>
                         </nav>
                     </div>
                 </div>
+                
              </div>
           </div>
        </div>
