@@ -53,7 +53,13 @@
                                         <img src="{{ asset($danh_muc->anh_danh_muc) }}" alt="{{ $danh_muc->ten_danh_muc }}"
                                             width="200px">
                                     </td>
-                                
+                                    <td>
+                                        @if($danh_muc->trashed())
+                                            <span class="text-danger">Không hoạt động</span>
+                                        @else
+                                            <span class="text-success">Đang hoạt động</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="card-body">
                                             <div class="btn-group">
@@ -66,17 +72,18 @@
                                                     href="{{ route('admin.danhmucs.show', $danh_muc->id) }}">Xem</a>
                                                 <a class="dropdown-item"
                                                     href="{{ route('admin.danhmucs.edit', $danh_muc->id) }}">Sửa</a>
-                                                @if ($danh_muc->deleted_at == NULL)
-                                                    <form action="{{ route('admin.danhmucs.destroy', $danh_muc->id) }}" method="post">
+                                                    @if($danh_muc->trashed())
+                                                    <!-- Nút khôi phục -->
+                                                    <form action="{{ route('admin.danhmucs.restore', $danh_muc->id) }}" method="POST">
                                                         @csrf
-                                                        @method('delete')
-                                                        <button class="dropdown-item" type="submit">Xóa</button>
+                                                        <button type="submit" class="btn btn-success">Khôi phục</button>
                                                     </form>
                                                 @else
-                                                    <form action="{{ route('admin.danhmucs.restore', $danh_muc->id) }}" method="post">
+                                                    <!-- Nút xóa mềm -->
+                                                    <form action="{{ route('admin.danhmucs.softDelete', $danh_muc->id) }}" method="POST" >
                                                         @csrf
-                                                        @method('post')
-                                                        <button class="dropdown-item" type="submit">Khôi phục</button>
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
                                                     </form>
                                                 @endif
 
