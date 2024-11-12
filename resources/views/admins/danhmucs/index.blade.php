@@ -53,7 +53,13 @@
                                         <img src="{{ asset($danh_muc->anh_danh_muc) }}" alt="{{ $danh_muc->ten_danh_muc }}"
                                             width="200px">
                                     </td>
-                                
+                                    <td>
+                                        @if($danh_muc->trashed())
+                                            <span class="text-danger">Không hoạt động</span>
+                                        @else
+                                            <span class="text-success">Đang hoạt động</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="card-body">
                                             <div class="btn-group">
