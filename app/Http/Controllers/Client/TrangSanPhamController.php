@@ -84,4 +84,21 @@ class TrangSanPhamController extends Controller
 
         return view('clients.trangsanpham', compact('listSanPham', 'danhMucs', 'dungLuongs', 'mauSacs', 'products', 'hasProducts'));
     }
+    public function search(Request $request){
+       $searchTerm = $request->get('search');
+
+       // Nếu không có từ khóa tìm kiếm, trả về mảng rỗng
+       if (empty($searchTerm)) {
+           return response()->json([]);
+       }
+
+       // Tìm kiếm sản phẩm theo từ khóa và giới hạn kết quả là 5 sản phẩm
+       $sanPhams = SanPham::where('ten_san_pham', 'like', '%' . $searchTerm . '%')
+           ->orWhere('ma_san_pham', 'like', '%' . $searchTerm . '%')
+           ->whereNull('deleted_at') // Lọc sản phẩm đã xóa
+           ->limit(5) // Giới hạn kết quả tìm kiếm tối đa 5 sản phẩm
+           ->get();
+        return response()->json($sanPhams);
+    }
+
 }
