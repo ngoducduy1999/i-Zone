@@ -15,7 +15,7 @@ class HoaDonController extends Controller
      */
     public function index(Request $request)
 {
-    $title = "Danh sách hóa đơn";
+    $title = "Danh sách đơn hàng";
 
     // Lấy tham số từ request
     $ngayBatDau = $request->input('ngay_bat_dau');
@@ -77,7 +77,7 @@ class HoaDonController extends Controller
      */
     public function show(string $id)
 {
-    $title = "Thông tin chi tiết hóa đơn";
+    $title = "Thông tin chi tiết đơn hàng";
 
     // Lấy hóa đơn theo ID
     $hoaDon = HoaDon::query()->findOrFail($id);

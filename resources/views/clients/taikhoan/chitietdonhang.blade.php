@@ -1,7 +1,7 @@
 @extends('layouts.client')
 
 @section('content')
-    <div class="container  m-3">
+    <div class="container-xxl">
         <div class="">
             <h5>Chi tiết đơn hàng</h5>
         </div>
