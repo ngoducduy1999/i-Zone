@@ -109,8 +109,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
         Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
         Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
-        Route::post('/{id}/restore', [DanhMucController::class, 'restore'])->name('restore');
         Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
+        Route::delete('/{id}/softDelete', [DanhMucController::class, 'softDelete'])->name('softDelete');
+        Route::post('/{id}/restore', [DanhMucController::class, 'restore'])->name('restore');
     });
     // Route hóa đơn
     Route::prefix('hoadons')->name('hoadons.')->group(function () {
@@ -192,21 +193,25 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('/{id}/getOrder',[TaiKhoanController::class,'getOrder'])->name('getOrder');
   });
 
-
-
-
+  
+// Trang chủ
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
-Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
+
+// Trang sản phẩm
+Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
 Route::get('/danh-muc/{danh_muc_id}', [SanPhamDanhMucController::class, 'index'])->name('sanpham.danhmuc');
+
+// Chi tiết sản phẩm
 Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');
 Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGiaBienThe'])->name('sanpham.lay_gia_bien_the');
-Route::get('/giohang', [GioHangController::class, 'index'])->name('giohang');
-Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
-Route::get('/yeuthich', [YeuThichController::class, 'index'])->name('yeuthich');
+
+// Bài viết
 Route::get('/bai-viet', [TrangBaiVietController::class, 'index'])->name('bai-viet');
 Route::get('/baiviet/{danh_muc}', [TrangBaiVietController::class, 'filterByCategory'])->name('baiviet.danhmuc');
 Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chitietbaiviet');
+
+// Liên hệ
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
 
 // giỏ hàng
@@ -224,10 +229,17 @@ Route::get('/Add-To-Love/{id}', [YeuThichController::class, 'addToLove'])->name(
 Route::get('/yeuthich', [YeuThichController::class, 'showYeuThich'])->name('yeuthich');
 Route::get('/Delete-From-Love/{id}', [YeuThichController::class, 'deleteLove'])->name('love.delete');
 Route::get('/Loved-List', [YeuThichController::class, 'lovedList'])->name('love.list');
+
 //thanh toan 
+Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::post('/apply-discount', [ThanhToanController::class, 'applyDiscount'])->name('applyDiscount');
 Route::post('/clear-discount', [ThanhToanController::class, 'clearDiscount'])->name('clear.discount');
 Route::post('/place-order', [ThanhToanController::class, 'placeOrder'])->name('placeOrder');
 Route::get('/payment/callback', [ThanhToanController::class, 'callback'])->name('payment.callback');
 Route::post('/payment/notify', [ThanhToanController::class, 'notify'])->name('payment.notify');
 Route::post('/zalopay/callback', [ThanhToanController::class, 'handleZaloPayCallback'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
+Route::post('/remove-discount', [ThanhToanController::class, 'removeDiscount'])->name('removeDiscount');
+//tim kiem
+Route::get('/search', [TrangSanPhamController::class, 'search'])->name('search.sanpham');
+

@@ -14,6 +14,7 @@
     <!-- Place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/client/img/logo/favicon.png') }}">
 
+
     <!-- CSS here -->
     <link rel="stylesheet" href="{{ asset('assets/client/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/client/css/animate.css') }}">
@@ -339,7 +340,7 @@
         
                                     </li>
                                     <li>                               
-                                       <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
+                                       <a href="{{ route('san-pham') }}">Sản phẩm</a>
                                     </li>
                                     @foreach($danhMucs as $danhMuc)
                                       <li>

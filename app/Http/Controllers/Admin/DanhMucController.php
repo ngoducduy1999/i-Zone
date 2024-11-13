@@ -15,7 +15,7 @@ class DanhMucController extends Controller
     public function index()
     {
         // Lấy tất cả danh mục
-        $danhmucs = DanhMuc::all();
+        $danhmucs = DanhMuc::withTrashed()->get();
         return view('admins.danhmucs.index', compact('danhmucs'));
     }
 
@@ -151,13 +151,24 @@ class DanhMucController extends Controller
         // Chuyển hướng và thông báo thành công
         return back()->with('msg', 'Xóa danh mục thành công!');
     }
-    public function restore(string $id)
-    {
-        $danhmucs = DanhMuc::withTrashed()->find($id);
-        if (!$danhmucs) {
-            return redirect()->back()->with('error', 'Danh mục không tồn tại');
-        }
-        $danhmucs->restore();
-        return redirect()->back()->with('success', 'Khôi phục danh mục thành công');
+   // Xóa mềm
+   public function softDelete($id)
+   {
+       $danhMuc = DanhMuc::find($id);
+       if ($danhMuc) {
+           $danhMuc->delete();
+           return redirect()->back()->with('success', 'Xóa mềm thành công.');
+       }
+       return redirect()->back()->with('error', 'Không tìm thấy dữ liệu.');
+   }
+
+   public function restore($id)
+{
+    $danhMuc = DanhMuc::withTrashed()->find($id);
+    if ($danhMuc) {
+        $danhMuc->restore();
+        return redirect()->back()->with('success', 'Khôi phục thành công.');
     }
+    return redirect()->back()->with('error', 'Không tìm thấy dữ liệu.');
+}
 }

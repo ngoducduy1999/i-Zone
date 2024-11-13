@@ -117,12 +117,18 @@
                                                                             </tr>
                                                                             <tr>
                                                                                 <td scope="row">
-                                                                                    <p class="mb-0">Giảm giá <span class="text-danger">({{ $chiTiet->hoaDon->khuyenMai->phan_tram_khuyen_mai }}%)</span> :</p>
+                                                                                    <p class="mb-0">
+                                                                                        Giảm giá :
+                                                                                    </p>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <p class="mb-0 fw-medium fs-15">{{ $chiTiet->hoaDon->giam_gia }}</p>
+                                                                                    <p class="mb-0 fw-medium fs-15">
+                                                                                        <span class="text-danger">
+                                                                                            -{{ number_format( $chiTiet->hoaDon->giam_gia, 0, '', '.')}}đ
+                                                                                        </span>
+                                                                                    </p>
                                                                                 </td>
-                                                                            </tr>                                                                                                        
+                                                                            </tr>                                                                                                                                                                              
                                                                             <tr>
                                                                                 <td scope="row">
                                                                                     <p class="mb-0 fs-14">Tổng tiền :</p>

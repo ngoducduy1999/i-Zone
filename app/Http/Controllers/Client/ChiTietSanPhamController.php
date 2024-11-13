@@ -45,6 +45,7 @@ class ChiTietSanPhamController extends Controller
             $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
             $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
             $danhMucs = DanhMuc::withCount('sanPhams')->get(); // Lấy danh sách danh mục và số lượng sản phẩm
+            $hasReview = DanhGiaSanPham::where('san_pham_id', $id)->exists(); // Kiểm tra sản phẩm có đánh giá hay chưa
 
             $starCounts = DanhGiaSanPham::select(DB::raw('diem_so, count(*) as count'))
                 ->where('san_pham_id', $id)
@@ -98,7 +99,8 @@ class ChiTietSanPhamController extends Controller
                 'sanPhamXemNhieuNhat',
                 'sanPhamGiamGiaNhieuNhat',
                 'products',
-                'isLoved'
+                'isLoved',
+                'hasReview'
             ));
         }
     

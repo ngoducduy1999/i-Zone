@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\DanhMuc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class AdminLoginController extends Controller
@@ -10,6 +11,8 @@ class AdminLoginController extends Controller
     // Hiển thị form đăng nhập
     public function showLoginForm()
     {
+
+        $danhMucs=DanhMuc::all();
         // khi vào admin bắt buộc phải đăng nhập lại
        /*  if (Auth::check()) {
             Auth::logout();
@@ -22,9 +25,9 @@ class AdminLoginController extends Controller
             if(Auth::user()->vai_tro=='admin' || Auth::user()->vai_tro=='staff'){
                 return redirect()->route('admin.dashboard');
             }
-            return view('auth.admin_login');
+            return view('auth.admin_login',compact('danhMucs'));
         } else {
-            return view('auth.admin_login');
+            return view('auth.admin_login',compact('danhMucs'));
         }
     }
        // Xử lý đăng nhập

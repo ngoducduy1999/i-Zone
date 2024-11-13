@@ -10,10 +10,18 @@ use Illuminate\Support\Facades\Log; // Thêm dòng này
 use App\Models\KhuyenMai;
 use App\Models\HoaDon;         // Import model HoaDon
 use App\Models\ChiTietHoaDon;   // Import model ChiTietHoaDon
+use Illuminate\Support\Facades\Auth;
 class ThanhToanController extends Controller
 {
     public function index()
-    {
+
+    {  
+        $user = Auth::user();
+        $diaChiDaSuDung = HoaDon::where('user_id', $user->id)
+        ->where('trang_thai', 7)
+        ->distinct()
+        ->pluck('dia_chi_nhan_hang');
+
         // Kiểm tra nếu có giỏ hàng trong session
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
@@ -43,23 +51,30 @@ class ThanhToanController extends Controller
             'cart' => $cart,
             'discountedTotal' => $discountedTotal,
             'discountAmount' => $discountAmount, // Pass the discount amount to the view
-            'discountPercentage' => $discountPercentage // Optionally pass the discount percentage
+            'discountPercentage' => $discountPercentage, // Optionally pass the discount percentage
+            'discountCode' => $discountCode,// Optionally pass the discount percentage
+            'diaChiDaSuDung'=> $diaChiDaSuDung 
+            
         ]);
     }
 
     public function applyDiscount(Request $request)
     {
+        // Kiểm tra nếu có giỏ hàng trong session
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+    
         $discountCode = $request->input('discount_code'); // Lấy mã giảm giá từ form
         Log::info("Received discount code: " . $discountCode);
         
         // Kiểm tra mã giảm giá trong cơ sở dữ liệu
         $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
-
+    
         if ($discount) {
             $nowDate = now();
             $startDate = $discount->ngay_bat_dau;
             $endDate = $discount->ngay_ket_thuc;
-
+    
             // Kiểm tra ngày hiệu lực của mã giảm giá
             if ($nowDate->between($startDate, $endDate)) {
                 $discountPercentage = $discount->phan_tram_khuyen_mai;
@@ -67,15 +82,62 @@ class ThanhToanController extends Controller
                 // Lưu mã giảm giá và phần trăm giảm giá vào session
                 $request->session()->put('discount_code', $discountCode);
                 $request->session()->put('discount_percentage', $discountPercentage);
+               // Tính tổng tiền sau khi giảm giá
+               $discountedTotal = $cart->totalPrice * (1 - $discountPercentage / 100);
+                // Trả về phản hồi JSON thành công
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Mã giảm giá đã được áp dụng.',
+                    'discount_percentage' => $discountPercentage,
+                    'discount_code' => $discountCode,
+                    'new_total' => $discountedTotal // Trả về tổng tiền mới
 
-                return redirect()->route('thanhtoan')->with('success', 'Mã giảm giá đã được áp dụng.');
+                ]);
+
             } else {
-                return redirect()->back()->with('error', 'Mã giảm giá đã hết hạn.');
+                // Trả về phản hồi JSON cho mã hết hạn
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Mã giảm giá đã hết hạn.'
+                ]);
             }
         }
         
-        return redirect()->back()->with('error', 'Mã giảm giá không hợp lệ.');
+        // Trả về phản hồi JSON cho mã không hợp lệ
+        return response()->json([
+            'success' => false,
+            'message' => 'Mã giảm giá không hợp lệ.'
+        ]);
     }
+    public function removeDiscount(Request $request)
+{   // Xóa mã giảm giá trong session
+    $request->session()->forget('discount_code');
+    $request->session()->forget('discount_percentage');
+    // Kiểm tra nếu có giỏ hàng trong session
+    $oldCart = Session::has('cart') ? Session::get('cart') : null;
+    if (!$oldCart) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Giỏ hàng không tồn tại.'
+        ]);
+    }
+    
+    $cart = new Cart($oldCart);
+    $discountPercentage = Session::get('discount_percentage', 0);
+
+    
+    
+    // Tính lại tổng tiền sau khi xóa mã giảm giá
+    $discountedTotal = $cart->totalPrice * (1 - $discountPercentage / 100);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Mã giảm giá đã được xóa.',
+        'new_total' => $discountedTotal // Trả về tổng tiền sau khi xóa mã giảm giá
+    ]);
+}
+
+        
 
   function placeOrder(Request $request)
 {
@@ -101,7 +163,7 @@ class ThanhToanController extends Controller
         }
 
         // Kiểm tra phương thức thanh toán
-        if ($request->payment_method == 'online') {
+        if ($request->payment_method == 'Thanh toán qua chuyển khoản ngân hàng') {
              // Tạo hóa đơn
     $hoaDon = HoaDon::create([
         'ma_hoa_don' => date("ymd") . "_" . rand(0, 1000000),
