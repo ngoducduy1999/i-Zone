@@ -26,7 +26,10 @@
               <div class="col-xl-7 col-lg-7">
                  <div class="tp-checkout-verify">
                     <div class="tp-checkout-verify-item">
+                     @guest
+
                        <p class="tp-checkout-verify-reveal">Khách hàng quay lại? <button type="button" class="tp-checkout-login-form-reveal-btn">Nhấn vào đây để đăng nhập</button></p>
+                     @endguest
 
                        <div id="tpReturnCustomerLoginForm" class="tp-return-customer">
                           <form action="#">
@@ -52,33 +55,7 @@
                           </form>
                        </div>
                     </div>
-                    <div class="tp-checkout-verify-item">
-                       <p class="tp-checkout-verify-reveal">Có mã giảm giá? <button type="button" class="tp-checkout-coupon-form-reveal-btn">Nhấn vào đây để nhập mã</button></p>
-
-                       <div id="tpCheckoutCouponForm" class="tp-return-customer">
-                        <form action="{{ route('applyDiscount') }}" method="POST">
-                           @csrf
-                           <div class="tp-return-customer-input">
-                               <label>Mã giảm giá:</label>
-                               <input type="text" name="discount_code" placeholder="Mã giảm giá" required>
-                           </div>
-                           <button type="submit" class="tp-return-customer-btn tp-checkout-btn">Áp dụng</button>
-                       </form>
-                       
-                       @if (session('success'))
-                           <div class="alert alert-success">
-                               {{ session('success') }}
-                           </div>
-                       @endif
-                       
-                       @if (session('error'))
-                           <div class="alert alert-danger">
-                               {{ session('error') }}
-                           </div>
-                       @endif
-                       
-                       </div>
-                    </div>
+                    
                  </div>
               </div>
               <div class="col-lg-7">
@@ -145,27 +122,46 @@
                              <span>Tổng phụ</span>
                              <span>{{ number_format($cart->totalPrice) }} VND</span>
                           </li>
-                          <li class="tp-order-info-list-discount">
-                             <span>Mã giảm giá</span>
-                             <span>- {{ number_format($discountAmount, 0, ',', '.') }} VND</span>
-                          </li>
-                          <li class="tp-order-info-list-shipping">
+                         
+                          <li >
                              <span>Vận chuyển</span>
                              <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                                 <span>
-                                   <input id="flat_rate" type="radio" name="shipping">
-                                   <label for="flat_rate">Giao hàng tận nơi: 50.000 VNĐ</label>
+                                  {{--  <input id="flat_rate" type="radio" name="shipping"> --}}
+                                   <label for="flat_rate">Phí vận chuyển: 50.000 VNĐ</label>
                                 </span>
                                 <span>
-                                   <input id="free_shipping" type="radio" name="shipping">
-                                   <label for="free_shipping">Miễn phí vận chuyển</label>
+                                 {{--   <input id="free_shipping" type="radio" name="shipping">
+                                   <label for="free_shipping">Miễn phí vận chuyển</label> --}}
                                 </span>
                              </div>
                           </li>
+                          <li class="tp-checkout-verify-item">
+                           <span id="discountApplySection" class="tp-checkout-verify-reveal">
+                               Có mã giảm giá? <button type="button" id="showCouponForm" class="tp-checkout-coupon-form-reveal-btn">Nhập mã</button>
+                           </span>
+                           
+                           <span id="tpCheckoutCouponForm" class="tp-return-customer" style="display: none;">
+                               <form id="discountForm" onsubmit="return false;">
+                                   @csrf
+                                   <div class="tp-return-customer-input">
+                                       <label>Mã giảm giá:</label>
+                                       <input type="text" name="discount_code" placeholder="Mã giảm giá" required>
+                                   </div>
+                                   <button type="button" id="applyDiscountButton" class="tp-return-customer-btn tp-checkout-btn">Áp dụng</button>
+                               </form>
+                           </span>
+                       </li>
+                       
+                       <li id="discountAppliedMessage" style="display: none;">
+                           Mã giảm giá: <span id="appliedDiscountCode">{{$discountCode}}</span> 
+                           <button type="button" id="removeDiscountButton">x</button>
+                       </li>
+                       
                           <li class="tp-order-info-list-total">
                              <span>Tổng đơn hàng</span>
-                             <span>{{ number_format($discountedTotal, 0, ',', '.') }} VND</span>
-                          </li>
+                             <span id="totalPrice">{{ number_format($discountedTotal, 0, ',', '.') }} VND</span>
+                           </li>
                        </ul>
                     </div>
 
@@ -238,6 +234,84 @@
               console.error('Error:', error);
           });
       });
+//them mã
+document.addEventListener('DOMContentLoaded', function() {
+        let discountCode = "{{$discountCode}}";
+
+        // Kiểm tra mã giảm giá từ đầu, nếu có mã đã áp dụng
+        if (discountCode) {
+            document.getElementById('discountAppliedMessage').style.display = 'block';
+            document.getElementById('discountApplySection').style.display = 'none';
+        } else {
+            document.getElementById('discountApplySection').style.display = 'block';
+            document.getElementById('tpCheckoutCouponForm').style.display = 'none';
+        }
+
+        // Mở form nhập mã khi nhấn "Nhập mã"
+        document.getElementById('showCouponForm').addEventListener('click', function() {
+            document.getElementById('tpCheckoutCouponForm').style.display = 'block';
+            document.getElementById('discountApplySection').style.display = 'none';
+        });
+
+        // Áp dụng mã giảm giá
+        document.getElementById('applyDiscountButton').addEventListener('click', function() {
+            let discountCodeInput = document.querySelector('input[name="discount_code"]').value;
+
+            fetch('{{ route('applyDiscount') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ discount_code: discountCodeInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('totalPrice').innerText = new Intl.NumberFormat('vi-VN').format(data.new_total) + ' VND';
+                    document.getElementById('discountApplySection').style.display = 'none';
+                    document.getElementById('tpCheckoutCouponForm').style.display = 'none';
+                    document.getElementById('discountAppliedMessage').style.display = 'block';
+                    document.getElementById('appliedDiscountCode').innerText = discountCodeInput;
+
+                    alert(data.message);
+                } else {
+                    alert("Có lỗi khi áp dụng mã giảm giá.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            });
+        });
+
+        // Xóa mã giảm giá
+        document.getElementById('removeDiscountButton').addEventListener('click', function() {
+            fetch('{{ route('removeDiscount') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('totalPrice').innerText = new Intl.NumberFormat('vi-VN').format(data.new_total) + ' VND';
+                    document.getElementById('discountAppliedMessage').style.display = 'none';
+                    document.getElementById('discountApplySection').style.display = 'block';
+                    alert(data.message);
+                } else {
+                    alert("Có lỗi khi xóa mã giảm giá.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            });
+        });
+    });
+
   </script>
   
     
