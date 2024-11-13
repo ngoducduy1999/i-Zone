@@ -6,11 +6,11 @@
            <div class="row">
               <div class="col-xxl-12">
                  <div class="breadcrumb__content p-relative z-index-1">
-                    <h3 class="breadcrumb__title">Register Now</h3>
-                    <div class="breadcrumb__list">
+                    <h3 class="breadcrumb__title">Đăng ký ngay</h3>
+                    {{-- <div class="breadcrumb__list">
                        <span><a href="#">Home</a></span>
                        <span>Register</span>
-                    </div>
+                    </div> --}}
                  </div>
               </div>
            </div>
@@ -31,12 +31,12 @@
               <div class="col-xl-6 col-lg-8">
                  <div class="tp-login-wrapper">
                     <div class="tp-login-top text-center mb-30">
-                       <h3 class="tp-login-title">Sign Up Shofy.</h3>
-                       <p>Already have an account?  <span><a href="login.html">Sign In</a></span></p>
+                       <h3 class="tp-login-title">Đăng ký Izone.</h3>
+                       <p>Bạn đã có tài khoản  <span><a href="{{route('customer.login')}}">Đăng nhập</a></span></p>
                     </div>
                     <div class="tp-login-option">
                        <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
-                          <div class="tp-login-option-item has-google">
+                          {{-- <div class="tp-login-option-item has-google">
                              <a href="#">
                                 <img src="{{ asset('assets/client/img/icon/login/google.svg') }}" alt="">
                                 Sign up with google
@@ -51,10 +51,10 @@
                              <a href="#">
                                 <img class="apple" src="{{ asset('assets/client/img/icon/login/apple.svg') }}" alt="">
                              </a>
-                          </div>
+                          </div> --}}
                        </div>
                        <div class="tp-login-mail text-center mb-40">
-                          <p>or Sign up with <a href="#">Email</a></p>
+                          <p>Đăng ký với <a href="#">Email</a></p>
                        </div>
                        <form method="POST" action="{{ route('customer.register.post') }}" class="my-4">
                         @csrf
@@ -67,7 +67,7 @@
                                  @enderror
                             </div>
                              <div class="tp-login-input-title">
-                                <label for="name">Your Name</label>
+                                <label for="name">Tên tài khoản</label>
                              </div>
                           </div>
 
@@ -101,16 +101,16 @@
                                 <div class="text-danger">{{ $message }}</div>
                                  @enderror
                             </div>                             <div class="tp-login-input-title">
-                                <label for="email">Your Email</label>
+                                <label for="email">Email</label>
                              </div>
                              <div class="tp-login-input-box">
-                        
+
                           </div>
-                          
+
                           <div class="tp-login-input-box">
                              <div class="tp-login-input">
-                               
-                                <input id="tp_password" type="password" name="mat_khau" required="" placeholder="Min. 6 character">
+
+                                <input id="tp_password" type="password" name="mat_khau" required="" placeholder="Nhập mật khẩu">
                                 @error('mat_khau')
                                 <div class="text-danger">{{ $message }}</div>
                                  @enderror
@@ -134,15 +134,15 @@
                                 </span>
                              </div>
                              <div class="tp-login-input-title">
-                                <label for="tp_password">Password</label>
+                                <label for="tp_password">Mật khẩu</label>
                              </div>
                           </div>
                        </div>
                        <div class="tp-login-suggetions d-sm-flex align-items-center justify-content-between mb-20">
-                          <div class="tp-login-remeber">
+                          {{-- <div class="tp-login-remeber">
                              <input id="remeber" type="checkbox">
                              <label for="remeber">I accept the terms of the Service & <a href="#">Privacy Policy</a>.</label>
-                          </div>
+                          </div> --}}
                        </div>
                        <div class="tp-login-bottom">
                         <button class="tp-login-btn w-100" type="submit">Đăng ký</button>
