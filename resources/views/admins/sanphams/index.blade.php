@@ -40,8 +40,8 @@
                             <thead>
                                 <tr>
                                     <th>Sản phẩm</th>
-                                    <th>Biến thể</th>
-                                    <th>Ảnh</th>
+                                    <th>Danh mục</th>
+                                    <th>Ngày tạo</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -53,68 +53,30 @@
                                             <ul style="list-style-type: none; margin: 0px; padding: 0px">
                                                 <li
                                                     style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
-                                                    Mã: {{ $sanpham->ma_san_pham }}</li>
-                                                <li
-                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
                                                     ID: {{ $sanpham->id }}</li>
                                                 <li
                                                     style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    Mã: {{ $sanpham->ma_san_pham }}</li>
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
                                                     Tên: {{ $sanpham->ten_san_pham }}</li>
-                                                <li
-                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
-                                                    Danh mục:
-                                                    {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</li>
-                                                <li
-                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
-                                                    Ảnh : <br> <img src="{{ asset($sanpham->anh_san_pham) }}"
-                                                        alt="{{ $sanpham->ten_san_pham }}" width="50px"
-                                                        class="rounded-3"></li>
-                                                <li
-                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
-                                                    Ngày tạo: {{ $sanpham->created_at->format('d-m-Y') }}</li>
-                                                <li
-                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
-                                                    Tags:
-                                                    @foreach ($sanpham->tagSanPhams as $tagsanpham)
-                                                        <span class="text-primary">#{{ $tagsanpham->tag->ten_tag }}</span>
-                                                    @endforeach
-                                                </li>
                                             </ul>
                                         </td>
                                         <td>
-                                            @foreach ($sanpham->bienTheSanPhams as $bienthe)
-                                                @if ($sanpham->id == $bienthe->san_pham_id)
-                                                    <ul style="list-style-type: none; margin: 10px; padding: 0px">
-                                                        <li>
-                                                            {{ $bienthe->dungLuong->ten_dung_luong }} -
-                                                            <span style="display: inline-block; margin-left: 5px;">
-                                                                <div
-                                                                    style="width: 15px; height: 15px; background-color: {{ $bienthe->mauSac->ma_mau }}; border-radius: 50%; border: 1px solid;">
-                                                                </div>
-                                                            </span>
-                                                        </li>
-                                                        <li>Số lượng: {{ $bienthe->so_luong }}</li>
-                                                        <li>
-                                                            <del>
-                                                                {{ number_format($bienthe->gia_cu, 0, ',', '.') }}đ
-                                                            </del>
-                                                            -
-                                                            <span class="text-danger">
-                                                                {{ number_format($bienthe->gia_moi, 0, ',', '.') }}đ
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                @endif
-                                            @endforeach
+                                            <ul style="list-style-type: none; margin: 0px; padding: 0px">
+
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</li>
+                                            </ul>
                                         </td>
                                         <td style="max-width: 200px; overflow: hidden; white-space: normal;">
-                                            @foreach ($sanpham->hinhAnhSanPhams as $anhsanpham)
-                                                @if ($sanpham->id == $anhsanpham->san_pham_id)
-                                                    <img src="{{ asset($anhsanpham->hinh_anh) }}"
-                                                        alt="{{ $anhsanpham->san_pham_id }}" width="50px"
-                                                        style="margin: 5px;" class="rounded-3">
-                                                @endif
-                                            @endforeach
+                                            <ul style="list-style-type: none; margin: 0px; padding: 0px">
+                                                <li
+                                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">
+                                                    {{ $sanpham->created_at ? $sanpham->created_at->format('d-m-Y') : '' }}
+                                                </li>
+                                            </ul>
                                         </td>
                                         <td>
                                             @if ($sanpham->deleted_at == null)
@@ -190,4 +152,3 @@
     <!-- DataTable Demo App JS -->
     <script src="{{ asset('assets/admin/js/pages/datatable.init.js') }}"></script>
 @endsection
-

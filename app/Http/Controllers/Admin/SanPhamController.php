@@ -50,12 +50,12 @@ class SanPhamController extends Controller
                 'ma_san_pham' => ['required', 'string', 'max:255', 'unique:san_phams,ma_san_pham'],
                 'ten_san_pham' => ['required', 'string', 'max:255'],
                 'danh_muc_id' => ['required', 'integer', 'exists:danh_mucs,id'],
-                'anh_san_pham' => ['required', 'mimes:jpg,jpeg,png,gif', 'max:4048'], // Thêm quy tắc kích thước tệp
+                'anh_san_pham' => ['required', 'mimes:jpg,jpeg,png,gif,bmp,webp,svg', 'max:4048'],
                 'mo_ta' => ['nullable', 'string'],
 
                 // ảnh sản phẩm
                 'hinh_anh' => ['required', 'array'],
-                'hinh_anh.*' => ['file', 'mimes:jpg,jpeg,png,gif', 'max:4048'],
+                'hinh_anh.*' => ['file', 'mimes:jpg,jpeg,png,gif,bmp,webp,svg', 'max:4048'],
 
                 // //biến thể sản phẩm
                 'dung_luong_id.*' => ['required', 'exists:dung_luongs,id'],
@@ -79,8 +79,8 @@ class SanPhamController extends Controller
                 'danh_muc_id.exists' => 'Danh mục ID không tồn tại.',
 
                 'anh_san_pham.required' => 'Ảnh sản phẩm không được để trống.',
-                'anh_san_pham.mimes' => 'Ảnh sản phẩm phải có định dạng jpg, jpeg, png, hoặc gif.',
-                'anh_san_pham.max' => 'Ảnh sản phẩm không được vượt quá 4MB.', // Thêm thông báo kích thước tệp
+                'anh_san_pham.mimes' => 'Ảnh sản phẩm phải có định dạng jpg,jpeg,png,gif,bmp,webp,svg.',
+                'anh_san_pham.max' => 'Ảnh sản phẩm không được vượt quá 4MB.',
 
                 'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
 
@@ -88,7 +88,7 @@ class SanPhamController extends Controller
                 'hinh_anh.required' => 'Album ảnh không được để trống',
                 'hinh_anh.array' => 'Album ảnh phải là một mảng',
                 'hinh_anh.*.file' => 'Có ảnh sai định dạng',
-                'hinh_anh.*.mimes' => 'Ảnh phải có định dạng jpg, jpeg, png, hoặc gif',
+                'hinh_anh.*.mimes' => 'Ảnh phải có định dạng jpg,jpeg,png,gif,bmp,webp,svg.',
                 'hinh_anh.*.max' => 'Ảnh không được vượt quá 4MB',
 
                 // //biến thể sản phẩm
@@ -183,7 +183,6 @@ class SanPhamController extends Controller
     }
 
 
-
     /**
      * Display the specified resource.
      */
@@ -268,7 +267,6 @@ class SanPhamController extends Controller
         return redirect()->back()->with('success', 'Đánh giá của bạn đã được gửi thành công!');
     }
 
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -302,11 +300,11 @@ class SanPhamController extends Controller
                 'ma_san_pham' => ['string', 'max:255', Rule::unique('san_phams', 'ma_san_pham')->ignore($id)],
                 'ten_san_pham' => ['required', 'string', 'max:255'],
                 'danh_muc_id' => ['required', 'integer', 'exists:danh_mucs,id'],
-                'anh_san_pham' => ['mimes:jpg,jpeg,png,gif', 'max:4048'],
+                'anh_san_pham' => ['mimes:jpg,jpeg,png,gif,bmp,webp,svg', 'max:4048'],
                 'mo_ta' => ['nullable', 'string'],
 
                 // ảnh sản phẩm
-                'hinh_anh.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:4048'], // Tệp phải là hình ảnh với định dạng jpeg, png, jpg, gif và kích thước tối đa 2MB
+                'hinh_anh.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,bmp,webp,svg', 'max:4048'], // Tệp phải là hình ảnh với định dạng jpeg, png, jpg, gif và kích thước tối đa 2MB
                 'deleted_images' => ['nullable', 'string'], // Các ảnh đã xóa, nếu có
                 'old_images' => ['nullable', 'string'],
 
@@ -339,14 +337,14 @@ class SanPhamController extends Controller
                 'danh_muc_id.integer' => 'Danh mục ID phải là số nguyên.',
                 'danh_muc_id.exists' => 'Danh mục ID không tồn tại.',
 
-                'anh_san_pham.mimes' => 'Ảnh sản phẩm phải có định dạng jpg, jpeg, png, hoặc gif.',
+                'anh_san_pham.mimes' => 'Ảnh sản phẩm phải có định dạng jpg,jpeg,png,gif,bmp,webp,svg.',
                 'anh_san_pham.max' => 'Ảnh sản phẩm không được vượt quá 4MB.',
 
                 'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
 
                 // ảnh sản phẩm
                 'hinh_anh.*.image' => 'Phải là ảnh',
-                'hinh_anh.*.mimes' => 'Ảnh sản phẩm phải có định dạng jpg, jpeg, png, hoặc gif.',
+                'hinh_anh.*.mimes' => 'Ảnh sản phẩm phải có định dạng jpg,jpeg,png,gif,bmp,webp,svg.',
                 'hinh_anh.*.max' => 'Ảnh sản phẩm không được vượt quá 4MB.',
 
                 // // biến thể sản phẩm cũ
