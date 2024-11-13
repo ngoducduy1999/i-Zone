@@ -13,55 +13,61 @@ use App\Models\ChiTietHoaDon;   // Import model ChiTietHoaDon
 use Illuminate\Support\Facades\Auth;
 class ThanhToanController extends Controller
 {
-    public function index()
 
-    {  
-        if (Auth::check()) {
-            $user = Auth::user();
-            $diaChiDaSuDung = HoaDon::where('user_id', $user->id)
-                ->where('trang_thai', 7)
-                ->distinct()
-                ->pluck('dia_chi_nhan_hang');
-        } else {
-            $diaChiDaSuDung = collect(); // Nếu chưa đăng nhập, trả về một collection rỗng hoặc xử lý khác tùy ý
-        }
-        
+public function index()
+{
+    // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+if (!Auth::check()) {
+    return redirect()->route('customer.login');
+}
 
-        // Kiểm tra nếu có giỏ hàng trong session
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
+// Lấy thông tin người dùng và địa chỉ đã sử dụng trước đó
+$user = Auth::user();
+$diaChiDaSuDung = HoaDon::where('user_id', $user->id)
+    ->where('trang_thai', 7)
+    ->distinct()
+    ->pluck('dia_chi_nhan_hang');
+
+// Kiểm tra nếu có giỏ hàng trong session
+$oldCart = Session::has('cart') ? Session::get('cart') : null;
+if (!$oldCart) {
+    // Nếu không có giỏ hàng, chuyển hướng đến trang đơn hàng
+    return redirect()->to('http://127.0.0.1:8000/customer/donhang');
+}
+
+$cart = new Cart($oldCart);
+
+// Lấy mã giảm giá và kiểm tra tính hợp lệ
+$discountCode = Session::get('discount_code', null);
+$discountPercentage = Session::get('discount_percentage', 0);
+
+if ($discountCode) {
+    $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
+    $nowDate = now();
     
-        // Lấy mã giảm giá và kiểm tra tính hợp lệ
-        $discountCode = Session::get('discount_code', null);
-        $discountPercentage = Session::get('discount_percentage', 0);
-    
-        if ($discountCode) {
-            $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
-            $nowDate = now();
-            
-            // Kiểm tra ngày hiệu lực
-            if (!$discount || !$nowDate->between($discount->ngay_bat_dau, $discount->ngay_ket_thuc)) {
-                // Xóa mã giảm giá nếu không hợp lệ
-                Session::forget('discount_code');
-                Session::forget('discount_percentage');
-                $discountPercentage = 0; // Reset discount percentage
-            }
-        }
-
-        // Tính tổng tiền sau khi giảm giá
-        $discountedTotal = $cart->totalPrice * (1 - $discountPercentage / 100);
-        $discountAmount = $cart->totalPrice * ($discountPercentage / 100); // Calculate discount amount
-
-        return view('clients.thanhtoan', [
-            'cart' => $cart,
-            'discountedTotal' => $discountedTotal,
-            'discountAmount' => $discountAmount, // Pass the discount amount to the view
-            'discountPercentage' => $discountPercentage, // Optionally pass the discount percentage
-            'discountCode' => $discountCode,// Optionally pass the discount percentage
-            'diaChiDaSuDung'=> $diaChiDaSuDung 
-            
-        ]);
+    if (!$discount || !$nowDate->between($discount->ngay_bat_dau, $discount->ngay_ket_thuc)) {
+        // Xóa giảm giá nếu không hợp lệ
+        Session::forget('discount_code');
+        Session::forget('discount_percentage');
+        $discountPercentage = 0;
     }
+}
+
+// Tính tổng tiền sau khi giảm giá
+$discountedTotal = $cart->totalPrice * (1 - $discountPercentage / 100);
+$discountAmount = $cart->totalPrice * ($discountPercentage / 100);
+
+return view('clients.thanhtoan', [
+    'cart' => $cart,
+    'discountedTotal' => $discountedTotal,
+    'discountAmount' => $discountAmount,
+    'discountPercentage' => $discountPercentage,
+    'discountCode' => $discountCode,
+    'diaChiDaSuDung' => $diaChiDaSuDung
+]);
+
+}
+
 
     public function applyDiscount(Request $request)
     {
@@ -182,7 +188,10 @@ class ThanhToanController extends Controller
         'ngay_dat_hang' => now(),
         'ghi_chu' => $request->note,
         'phuong_thuc_thanh_toan' => $request->payment_method,
-        'trang_thai' => HoaDon::CHO_XAC_NHAN
+        'trang_thai' => HoaDon::CHO_XAC_NHAN,
+        'trang_thai_thanh_toan'=>HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']
+
+
     ]);
 
     Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
@@ -227,7 +236,9 @@ protected function createInvoice($userId, $request, $cart, $giamGia, $tongTienSa
         'ngay_dat_hang' => now(),
         'ghi_chu' => $request->note,
         'phuong_thuc_thanh_toan' => $request->payment_method,
-        'trang_thai' => HoaDon::CHO_XAC_NHAN
+        'trang_thai' => HoaDon::CHO_XAC_NHAN,
+        'trang_thai_thanh_toan'=>HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']
+
     ]);
 
     Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
@@ -274,7 +285,6 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
             'itemquantity' => $product['quantity'],
         ];
     }
-
     $data = [
         'app_id' => $zaloPayConfig['app_id'],
         'app_time' => round(microtime(true) * 1000),
@@ -284,7 +294,7 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
         'embed_data' => $embedData,
         'amount' => $tongTienSauGiam,
         'description' => "Thanh toán cho đơn hàng #$transID",
-        'callback_url' => 'https://9100-2402-800-61c5-e43f-905b-23e4-ed57-6e6f.ngrok-free.app/zalopay/callback',
+        'callback_url' => 'https://5540-2402-800-61c5-8b29-6492-2f55-8761-8d9d.ngrok-free.app/zalopay/callback',
     ];
 
     $data['mac'] = $this->generateZaloPaySignature($data, $zaloPayConfig['key']);
@@ -295,6 +305,8 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
         $response = $this->sendToZaloPay($zaloPayConfig['endpoint'], $data);
         Log::info('ZaloPay response:', $response);
     } catch (\Exception $e) {
+        
+        $maHoaDon->trang_thai_thanh_toan= HoaDon::TRANG_THAI_THANH_TOAN['Thanh toán thất bại'];
         Log::error('Error sending request to ZaloPay:', ['error' => $e->getMessage()]);
         return response()->json(['success' => false, 'message' => 'Error sending request to ZaloPay'], 500);
     }
@@ -376,7 +388,7 @@ public function handleZaloPayCallback(Request $request)
 
         if ($order) {
             // Cập nhật trạng thái hóa đơn tùy theo logic của bạn (ví dụ kiểm tra `amount` hoặc `zp_trans_id` nếu cần)
-            $order->trang_thai = HoaDon::DA_XAC_NHAN; // hoặc trạng thái phù hợp trong hệ thống của bạn
+            $order->trang_thai_thanh_toan= HoaDon::TRANG_THAI_THANH_TOAN['Đã thanh toán']; // hoặc trạng thái phù hợp trong hệ thống của bạn
             $order->save();
     
             Log::info("Cập nhật trạng thái đơn hàng thành công: ", (array)$order);
