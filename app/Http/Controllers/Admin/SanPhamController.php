@@ -24,7 +24,7 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        $sanphams = SanPham::withTrashed()->latest('id')->with('bienTheSanPhams', 'hinhAnhSanPhams', 'tagSanPhams')->get(); 
+        $sanphams = SanPham::withTrashed()->latest('id')->get(); 
         return view('admins.sanphams.index', compact('sanphams'));
     }
 
