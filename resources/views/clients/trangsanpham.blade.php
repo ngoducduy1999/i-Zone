@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-4">
                     <div class="tp-shop-sidebar mr-10">
-                        <form id="filterForm" action="{{ route('trangsanpham') }}" method="GET">
+                        <form id="filterForm" action="{{ route('san-pham') }}" method="GET">
                             <!-- Lọc theo giá -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Lọc Theo Giá</h3>
@@ -227,7 +227,7 @@
                                         <div class="tp-sidebar-widget mb-35">
                                             <div class="tp-sidebar-search">
                                                 {{-- Hiển thị form tìm kiếm --}}
-                                                <form action="{{ route('trangsanpham') }}" method="GET">
+                                                <form action="{{ route('san-pham') }}" method="GET">
                                                     <div class="tp-sidebar-search-input">
                                                         <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="{{ request('search') }}">
                                                         <button type="submit">

@@ -199,7 +199,7 @@ Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 
 // Trang sản phẩm
-Route::get('/trangsanpham', [TrangSanPhamController::class, 'index'])->name('trangsanpham');
+Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
 Route::get('/danh-muc/{danh_muc_id}', [SanPhamDanhMucController::class, 'index'])->name('sanpham.danhmuc');
 
 // Chi tiết sản phẩm

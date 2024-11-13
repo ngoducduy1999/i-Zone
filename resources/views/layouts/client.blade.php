@@ -340,7 +340,7 @@
         
                                     </li>
                                     <li>                               
-                                       <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
+                                       <a href="{{ route('san-pham') }}">Sản phẩm</a>
                                     </li>
                                     @foreach($danhMucs as $danhMuc)
                                       <li>

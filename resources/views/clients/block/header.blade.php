@@ -98,7 +98,7 @@
              <div class="col-xl-6 col-lg-7 d-none d-lg-block">
 
                   <div class="tp-header-search pl-70">
-                     <form action="{{ route('trangsanpham') }}" method="GET">
+                     <form action="{{ route('san-pham') }}" method="GET">
                         <div class="tp-header-search-wrapper d-flex align-items-center">
                            <div class="tp-header-search-box">
                            <input type="text" id="search" name="search" placeholder="Tìm kiếm sản phẩm..." value="{{ request('search') }}">
@@ -329,7 +329,7 @@
 
                             </li>
                             <li>
-                               <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
+                               <a href="{{ route('san-pham') }}">Sản phẩm</a>
                             </li>
                             @foreach($danhMucs as $danhMuc)
                               <li>
