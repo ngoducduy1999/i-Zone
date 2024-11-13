@@ -63,42 +63,73 @@
                     <h3 class="tp-checkout-bill-title">Chi tiết thanh toán</h3>
 
                     <div class="tp-checkout-bill-form">
-                       <form id="orderForm">
-                          <div class="tp-checkout-bill-inner">
-                             <div class="row">
+                     <form id="orderForm"> 
+                        <div class="tp-checkout-bill-inner">
+                            <div class="row">
+                                <!-- Họ tên và Số điện thoại -->
                                 <div class="col-md-12">
-                                   <div class="tp-checkout-input">
-                                      <label>Liên hệ <span>*</span></label>
-                                      <input type="text" id="name" placeholder="Họ và tên" required>
-                                   </div>
-                                   <div class="tp-checkout-input">
-                                      <input type="text" id="phone" placeholder="Số điện thoại" required>
-                                   </div>
+                                    <div class="tp-checkout-input">
+                                        <label>Liên hệ <span>*</span></label>
+                                        <input type="text" id="name" placeholder="Họ và tên" value="{{ Auth::user()->ten ?? '' }}" required>
+                                    </div>
+                                    <div class="tp-checkout-input">
+                                        <input type="text" id="phone" placeholder="Số điện thoại" value="{{ Auth::user()->so_dien_thoai ?? '' }}" required>
+                                    </div>
                                 </div>
+                    
+                                <!-- Email -->
                                 <div class="col-md-12">
-                                 <div class="tp-checkout-input">
-                                    <input type="text" id="email" placeholder="Email" required>
-                                 </div>
-                              </div>
-                                <div class="col-md-12">
-                                   <div class="tp-checkout-input">
-                                      <label>Địa chỉ </label>
-                                      <input type="text" id="address" placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã" required>
-                                   </div>
-                                   <div class="tp-checkout-input">
-                                      <input type="text" id="street" placeholder="Tên đường, Tòa nhà, Số nhà." required>
-                                   </div>
+                                    <div class="tp-checkout-input">
+                                        <input type="text" id="email" placeholder="Email" value="{{ Auth::user()->email ?? '' }}" required>
+                                    </div>
                                 </div>
+                    
+                                <!-- Địa chỉ -->
+                                <div class="tp-checkout-input">
+                                 <label>Địa chỉ</label>
+                                 <select id="addressSelect" onchange="updateAddressField()" required>
+                                     <option value="">-- Chọn địa chỉ --</option>
+                         <!-- Loại 2: Địa chỉ đã đăng ký -->
+                         @if(Auth::user()->dia_chi)
+                         <optgroup label="Địa chỉ đã đăng ký">
+                          <option disabled>--- Địa chỉ đã đăng ký ---</option>
 
-                                <div class="col-md-12">
-                                   <div class="tp-checkout-input">
-                                      <label>Ghi chú đơn hàng (tùy chọn)</label>
-                                      <textarea id="note" placeholder="Ghi chú về đơn hàng của bạn, ví dụ như các yêu cầu đặc biệt khi giao hàng."></textarea>
-                                   </div>
-                                </div>
+                             <option value="{{ Auth::user()->dia_chi }}">{{ Auth::user()->dia_chi }}</option>
+                         </optgroup>
+                          @endif
+                                     <!-- Loại 1: Địa chỉ đã sử dụng trước đó -->
+                                     @if($diaChiDaSuDung->isNotEmpty())
+                                     <option disabled>--- Địa chỉ đã sử dụng ---</option>
+                                     @foreach($diaChiDaSuDung as $diaChi)
+                                                 <option value="{{ $diaChi }}">{{ $diaChi }}</option>
+                                             @endforeach
+                                         </optgroup>
+                                     @endif
+                         
+                                     
+                         
+                                     <!-- Loại 3: Nhập địa chỉ mới -->
+                                     <optgroup label="Địa chỉ mới">
+                                       <option disabled>--- Địa chỉ mới ---</option>
+
+                                         <option value="new">Nhập địa chỉ mới</option>
+                                     </optgroup>
+                                 </select>
+                         
+                                 <!-- Trường nhập địa chỉ mới -->
+                                 <input type="text" id="address" placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã" 
+                                        style="display: none;" required>
                              </div>
-                          </div>
-                       </form>
+                                <!-- Ghi chú đơn hàng -->
+                                <div class="col-md-12">
+                                    <div class="tp-checkout-input">
+                                        <label>Ghi chú đơn hàng (tùy chọn)</label>
+                                        <textarea id="note" placeholder="Ghi chú về đơn hàng của bạn, ví dụ như các yêu cầu đặc biệt khi giao hàng."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     </div>
                  </div>
               </div>
@@ -188,13 +219,28 @@
      <!-- khu vực thanh toán kết thúc -->
 
      <script>
+        function updateAddressField() {
+        const addressSelect = document.getElementById('addressSelect');
+        const addressField = document.getElementById('address');
+
+        if (addressSelect.value === "new") {
+            // Hiển thị trường nhập địa chỉ mới nếu chọn "Nhập địa chỉ mới"
+            addressField.style.display = 'block';
+            addressField.value = '';
+            addressField.required = true;
+        } else {
+            // Ẩn trường nhập và tự động điền địa chỉ nếu chọn từ các tùy chọn sẵn có
+            addressField.style.display = 'none';
+            addressField.value = addressSelect.value;
+            addressField.required = false;
+        }
+    }
       document.getElementById('submitOrder').addEventListener('click', function(event) {
           event.preventDefault();
   
           const name = document.getElementById('name').value;
           const phone = document.getElementById('phone').value;
           const address = document.getElementById('address').value;
-          const street = document.getElementById('street').value;
           const note = document.getElementById('note').value;
           const email = document.getElementById('email').value;
           const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
@@ -209,7 +255,6 @@
                   name: name,
                   phone: phone,
                   address: address,
-                  street: street,
                   email: email,
                   payment_method: paymentMethod,
                   note: note
