@@ -21,7 +21,7 @@
 
             <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                 <div class="flex-grow-1">
-                    <h4 class="fs-18 fw-semibold m-0">Quản lý danh sách hóa đơn</h4>
+                    <h4 class="fs-18 fw-semibold m-0">Quản lý danh sách đơn hàng</h4>
                 </div>
             </div>
 
@@ -92,11 +92,12 @@
                             <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Mã hóa đơn</th>
+                                        <th>Mã đơn hàng</th>
                                         <th>Ngày đặt hàng</th>
                                         <th>Tổng tiền</th>
                                         <th>Phương thức thanh toán</th>
                                         <th>Trạng thái đơn hàng</th>
+                                        <th>Trạng thái thanh toán</th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
@@ -125,6 +126,7 @@
                                                         </select>
                                                     </form>
                                                 </td>
+                                                <td>{{ $item->trang_thai_thanh_toan }}</td>
                                                 <td>
                                                     <div class="card-body">
                                                         <div class="btn-group">

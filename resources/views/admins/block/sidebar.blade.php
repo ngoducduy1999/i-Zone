@@ -150,7 +150,7 @@
                 <li>
                     <a href='#hoadons' data-bs-toggle="collapse">
                         <i data-feather="shopping-bag"></i>
-                        <span> Hóa đơn </span>
+                        <span> Đơn hàng </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="hoadons">
