@@ -16,11 +16,16 @@ class ThanhToanController extends Controller
     public function index()
 
     {  
-        $user = Auth::user();
-        $diaChiDaSuDung = HoaDon::where('user_id', $user->id)
-        ->where('trang_thai', 7)
-        ->distinct()
-        ->pluck('dia_chi_nhan_hang');
+        if (Auth::check()) {
+            $user = Auth::user();
+            $diaChiDaSuDung = HoaDon::where('user_id', $user->id)
+                ->where('trang_thai', 7)
+                ->distinct()
+                ->pluck('dia_chi_nhan_hang');
+        } else {
+            $diaChiDaSuDung = collect(); // Nếu chưa đăng nhập, trả về một collection rỗng hoặc xử lý khác tùy ý
+        }
+        
 
         // Kiểm tra nếu có giỏ hàng trong session
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
