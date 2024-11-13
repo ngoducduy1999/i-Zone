@@ -10,10 +10,18 @@ use Illuminate\Support\Facades\Log; // Thêm dòng này
 use App\Models\KhuyenMai;
 use App\Models\HoaDon;         // Import model HoaDon
 use App\Models\ChiTietHoaDon;   // Import model ChiTietHoaDon
+use Illuminate\Support\Facades\Auth;
 class ThanhToanController extends Controller
 {
     public function index()
-    {
+
+    {  
+        $user = Auth::user();
+        $diaChiDaSuDung = HoaDon::where('user_id', $user->id)
+        ->where('trang_thai', 7)
+        ->distinct()
+        ->pluck('dia_chi_nhan_hang');
+
         // Kiểm tra nếu có giỏ hàng trong session
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
@@ -44,8 +52,8 @@ class ThanhToanController extends Controller
             'discountedTotal' => $discountedTotal,
             'discountAmount' => $discountAmount, // Pass the discount amount to the view
             'discountPercentage' => $discountPercentage, // Optionally pass the discount percentage
-            'discountCode' => $discountCode // Optionally pass the discount percentage
-
+            'discountCode' => $discountCode,// Optionally pass the discount percentage
+            'diaChiDaSuDung'=> $diaChiDaSuDung 
             
         ]);
     }
