@@ -163,7 +163,7 @@ class ThanhToanController extends Controller
         }
 
         // Kiểm tra phương thức thanh toán
-        if ($request->payment_method == 'online') {
+        if ($request->payment_method == 'Thanh toán qua chuyển khoản ngân hàng') {
              // Tạo hóa đơn
     $hoaDon = HoaDon::create([
         'ma_hoa_don' => date("ymd") . "_" . rand(0, 1000000),

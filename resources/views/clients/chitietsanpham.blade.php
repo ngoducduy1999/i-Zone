@@ -1035,7 +1035,9 @@
                                         <a href="product-details.html">{{ $sanPhamMoiNhat->ten_san_pham }}</a>
                                     </h3>
                                     <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3">{{ $sanPhamMoiNhat->bienthesanphams->first()->gia_moi }}</span>
+                                        <span class="tp-product-price-3">
+                                            {{ $sanPhamMoiNhat->bienthesanphams->first() ? $sanPhamMoiNhat->bienthesanphams->first()->gia_moi : 'Giá không có sẵn' }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

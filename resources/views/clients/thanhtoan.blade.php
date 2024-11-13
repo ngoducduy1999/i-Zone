@@ -200,13 +200,13 @@
                        <h3 class="tp-checkout-payment-title">Phương thức thanh toán</h3>
 
                        <div class="tp-checkout-payment-item">
-                        <input id="direct-bank-transfer" type="radio" name="payment" value="online" required>
+                        <input id="direct-bank-transfer" type="radio" name="payment" value="Thanh toán qua chuyển khoản ngân hàng" required>
                         <label for="direct-bank-transfer">Chuyển khoản ngân hàng</label>
                         <p>Thực hiện thanh toán của bạn trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng ID đơn hàng của bạn như một mã tham chiếu thanh toán.</p>
                      </div>
 
                      <div class="tp-checkout-payment-item">
-                        <input id="cash-on-delivery" type="radio" name="payment" value="offline" required>
+                        <input id="cash-on-delivery" type="radio" name="payment" value="Thanh toán khi nhận hàng" required>
                         <label for="cash-on-delivery">Thanh toán khi nhận hàng</label>
                      </div>
                     </div>

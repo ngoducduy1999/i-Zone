@@ -96,34 +96,100 @@
                 </div>
              </div>
              <div class="col-xl-6 col-lg-7 d-none d-lg-block">
-                <div class="tp-header-search pl-70">
-                   <form action="#">
-                      <div class="tp-header-search-wrapper d-flex align-items-center">
-                         <div class="tp-header-search-box">
-                            <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                         </div>
-                         {{-- <div class="tp-header-search-category">
-                           <select onchange="window.location.href=this.value">
-                               <option value="">Chọn danh mục</option>
-                               @foreach($danhMucs as $danhMuc)
-                                   <option value="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
-                                       {{ $danhMuc->ten_danh_muc }}
-                                   </option>
-                               @endforeach
-                           </select>
-                       </div> --}}
-                         <div class="tp-header-search-btn">
-                            <button type="submit">
-                               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                  <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                               </svg>
-                            </button>
-                         </div>
-                      </div>
-                   </form>
-                </div>
+
+                  <div class="tp-header-search pl-70">
+                     <form action="{{ route('san-pham') }}" method="GET">
+                        <div class="tp-header-search-wrapper d-flex align-items-center">
+                           <div class="tp-header-search-box">
+                           <input type="text" id="search" name="search" placeholder="Tìm kiếm sản phẩm..." value="{{ request('search') }}">
+                           <div id="searchResults" class="search-suggestions position: absolute"></div>
+                           </div>
+                           <div class="tp-header-search-btn">
+                              <button type="submit">
+                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 </svg>
+                              </button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>          
+
              </div>
+               <style>
+                 .search-suggestions {
+                  position: absolute;  /* Đưa phần tử ra khỏi dòng tài liệu chính */
+                  top: 60px;            /* Khoảng cách từ trên xuống (tuỳ vào chiều cao của header) */
+                  left: 0;
+                  width: 100%;          /* Chiếm hết chiều rộng của màn hình */
+                  max-height: 300px;    /* Giới hạn chiều cao */
+                  overflow-y: auto;     /* Cho phép cuộn khi có quá nhiều kết quả */
+                  background-color: #fff; /* Nền trắng cho dễ nhìn */
+                  border: 1px solid #ccc; /* Viền bao quanh */
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ */
+                  z-index: 9999;        /* Đảm bảo phần tử hiển thị lên trên các phần tử khác */
+                }
+
+                .product-img {
+                    margin-right: 20px; /* Tạo khoảng cách giữa ảnh và tên */
+                 }
+               </style>
+               <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+               <script>
+                  $(document).ready(function() {
+                  // Khi người dùng nhập vào ô tìm kiếm
+                  $('#search').on('input', function() {
+                  var searchTerm = $(this).val(); // Lấy giá trị nhập vào
+
+                  // Kiểm tra nếu từ khóa tìm kiếm không rỗng
+                  if (searchTerm.length > 0) {
+                  // Gửi yêu cầu AJAX đến controller để tìm kiếm sản phẩm
+                  $.ajax({
+                        url: "{{ route('search.sanpham') }}", // URL gọi route
+                        method: 'GET',
+                        data: { search: searchTerm }, // Dữ liệu gửi đi
+                        success: function(data) {
+                           var html = '';
+                           if (data.length > 0) {                  
+                           // Tạo HTML cho mỗi sản phẩm trả về (tối đa 5 sản phẩm)
+                              data.forEach(function(sanPham) {
+                                 html += `
+                                 <a href="/chitietsanpham/${sanPham.id}">
+                                    <div class="product-suggestion d-flex align-items-center mb-3">
+                                       <div class="product-img">
+                                          
+                                             <img src="${sanPham.anh_san_pham}" alt="${sanPham.ten_san_pham}" class="img-fluid" style="width: 60px; height: 60px; object-fit: cover;">
+                                          
+                                       </div>
+                                       <div class="product-info flex-grow-1 pl-3">
+                                          <p class="product-name" style="font-size: 16px; font-weight: bold;">${sanPham.ten_san_pham}</p>                                        
+                                       </div>                                  
+                                    </div>  
+                                    </a>                             
+                                 `;
+                              });
+                           } else {
+                              html = '<p>Không tìm thấy sản phẩm nào.</p>';
+                           }
+
+                            // Cập nhật kết quả tìm kiếm vào phần #searchResults
+                           $('#searchResults').html(html);
+                        },
+                        error: function() {
+                        $('#searchResults').html('');
+                        }
+                     });
+                  } else {
+                     // Nếu không có từ khóa tìm kiếm, xóa kết quả tìm kiếm
+                     $('#searchResults').html(''); // Làm sạch kết quả tìm kiếm khi input trống
+                  }
+                 });
+               });
+               </script>
+               
+               
              <div class="col-xl-4 col-lg-3 col-md-8 col-6">
                 <div class="tp-header-main-right d-flex align-items-center justify-content-end">
                    <div class="tp-header-login d-none d-lg-block">
@@ -263,7 +329,7 @@
 
                             </li>
                             <li>
-                               <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
+                               <a href="{{ route('san-pham') }}">Sản phẩm</a>
                             </li>
                             @foreach($danhMucs as $danhMuc)
                               <li>
