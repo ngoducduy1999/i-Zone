@@ -90,12 +90,25 @@ class HoaDonController extends Controller
     // Lấy thông tin chi tiết sản phẩm theo hóa đơn cùng với biến thể sản phẩm và sản phẩm
     $chiTietHoaDons = $hoaDon->chiTietHoaDons()->with(['bienTheSanPham.sanPham'])->get();
 
+    // Tính tổng thành tiền của các sản phẩm
+    $tongThanhTien = $chiTietHoaDons->sum('thanh_tien');
+
+    // Tiền ship cố định
+    $tienShip = 50000;
+
+    // Giảm giá
+    $giamGia = $hoaDon->giam_gia;
+
+    // Tổng tiền cuối cùng sau khi thêm tiền ship và giảm giá
+    $tongTienCuoi = $tongThanhTien + $tienShip - $giamGia;
+
+
     // Các thuộc tính khác của hóa đơn
     $trangThaiHoaDon = HoaDon::TRANG_THAI;
     $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
     $trangThaiThanhToan = HoaDon::TRANG_THAI_THANH_TOAN;
 
-    return view('admins.hoadons.show', compact('title', 'hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan', 'trangThaiThanhToan'));
+    return view('admins.hoadons.show', compact('title', 'hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan', 'trangThaiThanhToan', 'tongThanhTien', 'tienShip', 'giamGia', 'tongTienCuoi'));
 }
 
 
