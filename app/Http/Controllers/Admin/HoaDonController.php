@@ -21,6 +21,7 @@ class HoaDonController extends Controller
     $ngayBatDau = $request->input('ngay_bat_dau');
     $ngayKetThuc = $request->input('ngay_ket_thuc');
     $phuongThucThanhToan = $request->input('phuong_thuc_thanh_toan');
+    $trangThaiThanhToan = $request->input('trang_thai_thanh_toan');
     $trangThai = $request->input('trang_thai');
 
     $query = HoaDon::query();
@@ -37,6 +38,10 @@ class HoaDonController extends Controller
     // Áp dụng lọc theo phương thức thanh toán
     if ($phuongThucThanhToan) {
         $query->where('phuong_thuc_thanh_toan', $phuongThucThanhToan);
+    }
+
+    if ($trangThaiThanhToan) {
+        $query->where('trang_thai_thanh_toan', $trangThaiThanhToan);
     }
 
     // Áp dụng lọc theo trạng thái
@@ -85,11 +90,25 @@ class HoaDonController extends Controller
     // Lấy thông tin chi tiết sản phẩm theo hóa đơn cùng với biến thể sản phẩm và sản phẩm
     $chiTietHoaDons = $hoaDon->chiTietHoaDons()->with(['bienTheSanPham.sanPham'])->get();
 
+    // Tính tổng thành tiền của các sản phẩm
+    $tongThanhTien = $chiTietHoaDons->sum('thanh_tien');
+
+    // Tiền ship cố định
+    $tienShip = 50000;
+
+    // Giảm giá
+    $giamGia = $hoaDon->giam_gia;
+
+    // Tổng tiền cuối cùng sau khi thêm tiền ship và giảm giá
+    $tongTienCuoi = $tongThanhTien + $tienShip - $giamGia;
+
+
     // Các thuộc tính khác của hóa đơn
     $trangThaiHoaDon = HoaDon::TRANG_THAI;
     $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
+    $trangThaiThanhToan = HoaDon::TRANG_THAI_THANH_TOAN;
 
-    return view('admins.hoadons.show', compact('title', 'hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
+    return view('admins.hoadons.show', compact('title', 'hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan', 'trangThaiThanhToan', 'tongThanhTien', 'tienShip', 'giamGia', 'tongTienCuoi'));
 }
 
 

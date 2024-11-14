@@ -108,17 +108,14 @@
 
                                                 <tr>
                                                     <td colspan="5">
-                                                        <table class="table table-sm text-nowrap mb-0 table-borderless"
-                                                            style="width: auto; margin-left: auto;">
+                                                        <table class="table table-sm text-nowrap mb-0 table-borderless" style="width: auto; margin-left: auto;">
                                                             <tbody>
                                                                 <tr>
                                                                     <td>
                                                                         <p class="mb-0">Thành tiền :</p>
                                                                     </td>
                                                                     <td>
-                                                                        <p class="mb-0 fw-medium fs-15">
-                                                                            {{ number_format($hoaDon->thanh_tien, 0, '', '.') }}
-                                                                            đ</p>
+                                                                        <p class="mb-0 fw-medium fs-15">{{ number_format($tongThanhTien, 0, '', '.') }} đ</p>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -126,7 +123,7 @@
                                                                         <p class="mb-0">Tiền ship :</p>
                                                                     </td>
                                                                     <td>
-                                                                        <p class="mb-0 fw-medium fs-15">50.000đ</p>
+                                                                        <p class="mb-0 fw-medium fs-15">{{ number_format($tienShip, 0, '', '.') }} đ</p>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -135,8 +132,7 @@
                                                                     </td>
                                                                     <td>
                                                                         <p class="mb-0 fw-medium fs-15">
-                                                                            <span
-                                                                                class="text-danger">-{{ number_format($hoaDon->giam_gia, 0, '', '.') }}đ</span>
+                                                                            <span class="text-danger">-{{ number_format($giamGia, 0, '', '.') }} đ</span>
                                                                         </p>
                                                                     </td>
                                                                 </tr>
@@ -146,13 +142,14 @@
                                                                     </td>
                                                                     <td>
                                                                         <p class="mb-0 fw-medium fs-16 text-success">
-                                                                            {{ number_format($hoaDon->tong_tien, 0, '', '.') }}
-                                                                            đ</p>
+                                                                            {{ number_format($tongTienCuoi, 0, '', '.') }} đ
+                                                                        </p>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </td>
+                                                                                                       
                                                 </tr>
 
                                             </tbody>
