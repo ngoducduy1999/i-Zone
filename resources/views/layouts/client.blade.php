@@ -63,9 +63,8 @@
                                     stroke-linecap="round"></circle>
                             </svg>
                         </div>
-                        <img src="{{ asset('assets/client/img/logo/preloader/preloader-icon.svg') }}" alt="">
+                        <img src="{{ asset('assets/client/img/logo/preloader/preloader-icon.png') }}" alt="" style="width: 50px">
                     </div>
-                    <h3 class="tp-preloader-title">i-Zone</h3>
                     <p class="tp-preloader-subtitle">Loading</p>
                 </div>
             </div>

@@ -187,7 +187,10 @@ if ($nowDate->between($startDate, $endDate)) {
         'ngay_dat_hang' => now(),
         'ghi_chu' => $request->note,
         'phuong_thuc_thanh_toan' => $request->payment_method,
-        'trang_thai' => HoaDon::CHO_XAC_NHAN
+        'trang_thai' => HoaDon::CHO_XAC_NHAN,
+        'trang_thai_thanh_toan'=>HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']
+
+
     ]);
 
     Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
@@ -232,7 +235,9 @@ protected function createInvoice($userId, $request, $cart, $giamGia, $tongTienSa
         'ngay_dat_hang' => now(),
         'ghi_chu' => $request->note,
         'phuong_thuc_thanh_toan' => $request->payment_method,
-        'trang_thai' => HoaDon::CHO_XAC_NHAN
+        'trang_thai' => HoaDon::CHO_XAC_NHAN,
+        'trang_thai_thanh_toan'=>HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']
+
     ]);
 
     Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
@@ -287,7 +292,7 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
         'embed_data' => $embedData,
         'amount' => $tongTienSauGiam,
         'description' => "Thanh toán cho đơn hàng #$transID",
-        'callback_url' => 'https://bd86-202-93-156-66.ngrok-free.app/zalopay/callback',
+        'callback_url' => 'https://9100-2402-800-61c5-e43f-905b-23e4-ed57-6e6f.ngrok-free.app/zalopay/callback',
     ];
 
     $data['mac'] = $this->generateZaloPaySignature($data, $zaloPayConfig['key']);
@@ -298,6 +303,8 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
         $response = $this->sendToZaloPay($zaloPayConfig['endpoint'], $data);
         Log::info('ZaloPay response:', $response);
     } catch (\Exception $e) {
+        
+        $maHoaDon->trang_thai_thanh_toan= HoaDon::TRANG_THAI_THANH_TOAN['Thanh toán thất bại'];
         Log::error('Error sending request to ZaloPay:', ['error' => $e->getMessage()]);
         return response()->json(['success' => false, 'message' => 'Error sending request to ZaloPay'], 500);
     }
@@ -379,7 +386,7 @@ public function handleZaloPayCallback(Request $request)
 
         if ($order) {
             // Cập nhật trạng thái hóa đơn tùy theo logic của bạn (ví dụ kiểm tra `amount` hoặc `zp_trans_id` nếu cần)
-            /* $order->trang_thai = HoaDon::DA_THANH_TO; */ // hoặc trạng thái phù hợp trong hệ thống của bạn
+            $order->trang_thai = HoaDon::DA_XAC_NHAN; // hoặc trạng thái phù hợp trong hệ thống của bạn
             $order->save();
     
             Log::info("Cập nhật trạng thái đơn hàng thành công: ", (array)$order);
