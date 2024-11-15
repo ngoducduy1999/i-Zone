@@ -19,8 +19,7 @@ class TrangChuController extends Controller
          $banners = Banner::all();
 
          // Lấy danh sách khuyến mãi còn hiệu lực
-         $khuyenMais = KhuyenMai::where('trang_thai', 1) // Trạng thái kích hoạt
-             ->where('ngay_ket_thuc', '>=', Carbon::now()) // Kiểm tra ngày kết thúc 
+         $khuyenMais = KhuyenMai::where('trang_thai', 1) // Trạng thái kích hoạt           
              ->orderBy('created_at', 'desc') // Sắp xếp theo ngày tạo mới nhất
              ->take(3) // Giới hạn lấy 3 bản ghi
              ->get();

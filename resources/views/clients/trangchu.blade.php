@@ -187,7 +187,7 @@
 
                                     <!-- product badge -->
                                     <div class="tp-product-badge">
-                                        <span class="product-hot">Hot</span>
+                                        <span class="product-hot">Nổi bật</span>
                                     </div>
 
                                     <!-- product action -->
@@ -460,7 +460,7 @@
 
                            <!-- product badge -->
                            <div class="tp-product-badge">
-                              <span class="product-trending">New</span>
+                              <span class="product-trending">Mới</span>
                            </div>
 
                            <!-- product action -->
@@ -740,7 +740,7 @@
                      <div class="tp-product-item transition-3 mb-25 ">
                         <!-- Hình ảnh sản phẩm -->
                         <div class="tp-product-thumb p-relative fix m-img">                      
-                           <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
+                           <a href="{{ route('chitietsanpham', ['id'=>$sanPhams->id]) }}">
                               <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}">
                            </a>
                            <div class="tp-product-badge">                            
@@ -791,12 +791,11 @@
                         <div class="tp-product-content">
                            <!-- Danh mục sản phẩm -->
                            <div class="tp-product-category">
-                              <a href="shop.html">{{ $sanPhams->danhMuc->ten_danh_muc ?? 'Không rõ danh mục' }}</a>
-                           </div>
-
+                              <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $sanPhams->danhMuc->id]) }}">{{ $sanPhams->danhMuc->ten_danh_muc ?? 'Không rõ danh mục' }}</a>
+                           </div>                                         
                            <!-- Tên sản phẩm -->
                            <h3 class="tp-product-title">
-                              <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
+                              <a href="{{ route('chitietsanpham', ['id'=>$sanPhams->id]) }}">
                                  {{ $sanPhams->ten_san_pham }}
                               </a>
                            </h3>
@@ -1178,7 +1177,7 @@
          <div class="col-xl-8 col-md-6">
             <div class="tp-blog-more-wrapper d-flex justify-content-md-end">
                <div class="tp-blog-more mb-50 text-md-end">
-                  <a href="blog-grid.html" class="tp-btn tp-btn-2 tp-btn-blue">Xem tất cả bài viết
+                  <a href="{{ route('bai-viet') }}" class="tp-btn tp-btn-2 tp-btn-blue">Xem tất cả bài viết
                      <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -1211,8 +1210,9 @@
                            <div class="tp-blog-tag">
                               <span><i class="fa-light fa-tag"></i></span>
                               @if($baiViet->danhMuc)
-                                 <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
-                                    {{ $baiViet->danhMuc->ten_danh_muc }}</a>
+                              <a href="{{ route('bai-viet', ['danh_muc' => $baiViet->danhMuc->id]) }}">
+                                 {{ $baiViet->danhMuc->ten_danh_muc }}
+                              </a>
                               @endif
                            </div>
                            <p>{{ Str::limit(strip_tags($baiViet->noi_dung), 60) }}</p>
