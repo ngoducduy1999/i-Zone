@@ -196,8 +196,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
   
 // Trang chủ
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
-// Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/trangchuold', [TrangChuController::class, 'indexOld'])->name('trangchuold');
 // Trang sản phẩm
 Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
 Route::get('/danh-muc/{danh_muc_id}', [SanPhamDanhMucController::class, 'index'])->name('sanpham.danhmuc');
