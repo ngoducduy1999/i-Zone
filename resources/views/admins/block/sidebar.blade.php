@@ -27,22 +27,34 @@
             <ul id="side-menu">
 
                 <li class="menu-title">Quản trị</li>
-                @if (Auth::user()->vai_tro == 'admin')
+                @can('QL dashboard')
                 <li>
                     <a href='{{ route('admin.dashboard') }}'>
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
                 </li>
-                @else
-                <li>
-                    <a href='{{ route('admin.dashboard') }}'>
+                @endcan
+                @can('QL phan quyen')
 
-                        <i data-feather="home"></i>
-                        <span> Dashboard </span>
+                <li>
+                    <a href="#baiviets" data-bs-toggle="collapse">
+                        <i data-feather="table"></i>
+                        <span> Phân Quyền </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <div class="collapse" id="baiviets">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.roles.index') }}">Vai trò</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.permissions.index') }}">Quyền hạn</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
-                @endif
+                @endcan
                 <li>
                     <a href="#sidebarTables" data-bs-toggle="collapse">
                         <i data-feather="users"></i>
@@ -51,25 +63,22 @@
                     </a>
                     <div class="collapse" id="sidebarTables">
                         <ul class="nav-second-level">
-                            @if (Auth::user()->vai_tro == 'admin')
+                            @can('QL nhanviens')
                             <li>
                                 <a class='tp-link' href='{{ route('admin.nhanviens') }}'>Nhân viên</a>
-                            </li>
+                            </li>         
+                            @endcan
+                            @can('QL khachhangs')
                             <li>
                                 <a class='tp-link' href='{{ route('admin.khachhangs') }}'>Khách hàng</a>
-                            </li>
-                            @else
-                            <li>
-                                <a class='tp-link' href='{{ route('admin.khachhangs') }}'>Quản lý khách hàng</a>
-
-                            </li>
-                            @endif
+                            </li>        
+                            @endcan
                         </ul>
                     </div>
                 </li>
 
                 <li class="menu-title">Kinh doanh</li>
-
+                @can('QL danhmucs')
                 <li>
                     <a href='#danhmucs' data-bs-toggle="collapse">
                         <i data-feather="list"></i>
@@ -87,7 +96,9 @@
                         </ul>
                     </div>
                 </li>
+                @endcan
 
+            @can('QL sanphams')
             <li>
                 <a href="#sanpham" data-bs-toggle="collapse">
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
@@ -110,7 +121,8 @@
                     </ul>
                 </div>
             </li>
-
+            @endcan
+            @can('QL dungluongs')
             <li>
                 <a href='#dungluongs' data-bs-toggle="collapse">
                     <i data-feather="package"></i>
@@ -128,7 +140,9 @@
                     </ul>
                 </div>
             </li>
+            @endcan
 
+            @can('QL mausacs')
             <li>
                 <a href='#mausacs' data-bs-toggle="collapse">
                     <i data-feather="package"></i>
@@ -146,6 +160,8 @@
                     </ul>
                 </div>
             </li>
+            @endcan
+            @can('QL hoadons')
 
                 <li>
                     <a href='#hoadons' data-bs-toggle="collapse">
@@ -161,6 +177,70 @@
                         </ul>
                     </div>
                 </li>
+                @endcan
+               
+                @can('QL khuyen_mais')
+
+                <li>
+                    <a href="#promotionSection" data-bs-toggle="collapse">
+                        <i class="fas fa-tag"></i>
+                        <span> Khuyến mãi </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="promotionSection">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.khuyen_mais.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.khuyen_mais.create') }}">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                @endcan
+                @can('QL tag')
+
+                <li>
+                    <a href="#tags" data-bs-toggle="collapse">
+                        <i class="fas fa-tags"></i>
+                        <span> Thẻ Tag </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="tags">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.tag.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.tag.create') }}">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                @endcan
+                @can('QL baiviets')
+
+                <li>
+                    <a href="#baiviets" data-bs-toggle="collapse">
+                        <i data-feather="table"></i>
+                        <span> Bài viết </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="baiviets">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.baiviets.index') }}">Danh sách</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.baiviets.create') }}">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                @endcan
+                
+                @can('QL banners')
 
                 <li>
                     <a href="#bannerSection" data-bs-toggle="collapse">
@@ -189,61 +269,7 @@
                         </ul>
                     </div>
                 </li>
-
-                <li>
-                    <a href="#promotionSection" data-bs-toggle="collapse">
-                        <i class="fas fa-tag"></i>
-                        <span> Khuyến mãi </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="promotionSection">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a class='tp-link' href="{{ route('admin.khuyen_mais.index') }}">Danh sách</a>
-                            </li>
-                            <li>
-                                <a class='tp-link' href="{{ route('admin.khuyen_mais.create') }}">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <a href="#tags" data-bs-toggle="collapse">
-                        <i class="fas fa-tags"></i>
-                        <span> Thẻ Tag </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="tags">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a class='tp-link' href="{{ route('admin.tag.index') }}">Danh sách</a>
-                            </li>
-                            <li>
-                                <a class='tp-link' href="{{ route('admin.tag.create') }}">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <a href="#baiviets" data-bs-toggle="collapse">
-                        <i data-feather="table"></i>
-                        <span> Bài viết </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="baiviets">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a class='tp-link' href="{{ route('admin.baiviets.index') }}">Danh sách</a>
-                            </li>
-                            <li>
-                                <a class='tp-link' href="{{ route('admin.baiviets.create') }}">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
+                @endcan
             </ul>
 
         </div>
