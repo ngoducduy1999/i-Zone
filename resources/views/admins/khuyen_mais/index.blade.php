@@ -32,18 +32,21 @@
                                 <th>ID</th>
                                 <th>Mã khuyến mãi</th>
                                 <th>Phần trăm</th>
+                                <th>Giảm tối đa</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             @foreach ($KhuyenMais as $khuyenmai)
                             <tr>
                                 <td>{{ $khuyenmai->id }}</td>
                                 <td>{{ $khuyenmai->ma_khuyen_mai }}</td>
-                                <td>{{ $khuyenmai->phan_tram_khuyen_mai }}</td>
+                                <td>{{ $khuyenmai->phan_tram_khuyen_mai }}%</td>
+                                <td>{{ number_format($khuyenmai->giam_toi_da, 0, '', '') }} VND</td>
                                 <td>{{ $khuyenmai->ngay_bat_dau }}</td>
                                 <td>{{ $khuyenmai->ngay_ket_thuc }}</td>
                                 <td>

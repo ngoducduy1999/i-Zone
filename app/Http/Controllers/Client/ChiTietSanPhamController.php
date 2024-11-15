@@ -132,4 +132,30 @@ class ChiTietSanPhamController extends Controller
             ]);
         }
     }
+    public function getSoLuongBienThe(Request $request)
+    {
+        $sanPhamId = $request->input('san_pham_id');
+        $mauSacId = $request->input('mau_sac_id');
+        $dungLuongId = $request->input('dung_luong_id');
+    
+        // Lấy biến thể từ cơ sở dữ liệu dựa trên các tham số
+        $bienThe = BienTheSanPham::where('san_pham_id', $sanPhamId)
+                                  ->where('mau_sac_id', $mauSacId)
+                                  ->where('dung_luong_id', $dungLuongId)
+                                  ->first();
+    
+        // Kiểm tra nếu biến thể tồn tại và trả về số lượng còn lại
+        if ($bienThe) {
+            return response()->json([
+                'status' => 'success',
+                'so_luong' => $bienThe->so_luong // Trả về số lượng còn lại
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Không tìm thấy biến thể sản phẩm'
+            ]);
+        }
+    }
+    
 }

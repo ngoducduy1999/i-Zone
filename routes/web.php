@@ -205,6 +205,8 @@ Route::get('/danh-muc/{danh_muc_id}', [SanPhamDanhMucController::class, 'index']
 // Chi tiết sản phẩm
 Route::get('/chitietsanpham/{id}', [ChiTietSanPhamController::class, 'show'])->name('chitietsanpham');
 Route::get('/sanpham/lay-gia-bien-the', [ChiTietSanPhamController::class, 'layGiaBienThe'])->name('sanpham.lay_gia_bien_the');
+Route::get('/get-so-luong-bien-the', [ChiTietSanPhamController::class, 'getSoLuongBienThe'])->name('sanpham.get_so_luong_bien_the');
+
 
 // Bài viết
 Route::get('/bai-viet', [TrangBaiVietController::class, 'index'])->name('bai-viet');
