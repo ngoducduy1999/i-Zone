@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TrangChuController extends Controller
 {
-    public function index()
+    public function indexOld()
     {
         $bannersHeas = Banner::where('vi_tri', 'header')->where('trang_thai', 1)->get(); // w 420 h 350
         $bannersSides = Banner::where('vi_tri', 'sidebar')->where('trang_thai', 1)->limit(2)->get();
@@ -64,10 +64,10 @@ class TrangChuController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('clients.trangchu', compact('bannersHeas', 'bannersSides', 'bannersFoots', 'danhMucs', 'khuyenMais', 'products', 'newProducts', 'randProducts', 'isLoved', 'isLoved2', 'isLoved3', 'baiViets'));
+        return view('clients.trangchu-old', compact('bannersHeas', 'bannersSides', 'bannersFoots', 'danhMucs', 'khuyenMais', 'products', 'newProducts', 'randProducts', 'isLoved', 'isLoved2', 'isLoved3', 'baiViets'));
     }
 
-    public function indexOld()
+    public function index()
     {
          // Lấy các banner có trạng thái là hiển thị (ví dụ trang_thai = 1)
          $banners = Banner::all();
@@ -106,6 +106,6 @@ class TrangChuController extends Controller
             ->get();    
 
         // Trả về view và truyền dữ liệu sang
-       return view('clients.trangchu-old', compact('khuyenMais','banners','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams','baiViets'));
+       return view('clients.trangchu', compact('khuyenMais','banners','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams','baiViets'));
     }
 }
