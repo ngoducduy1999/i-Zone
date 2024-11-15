@@ -22,7 +22,7 @@ class TrangChuController extends Controller
          $khuyenMais = KhuyenMai::where('trang_thai', 1) // Kiểm tra trạng thái
          ->where('ngay_ket_thuc', '>=', now()) // Kiểm tra ngày kết thúc
          ->orderBy('ngay_ket_thuc', 'asc') // Sắp xếp theo ngày kết thúc gần nhất
-         ->take(5) // Lấy  khuyến mãi
+        //  ->take(5) // Lấy  khuyến mãi
          ->get();
 
         // Lấy 10 sản phẩm nổi bật (có lượt xem cao)
@@ -43,13 +43,14 @@ class TrangChuController extends Controller
         $sanPhams = SanPham::with('bienThe')
             ->whereNull('deleted_at') // Bỏ qua những sản phẩm đã bị xóa mềm
             ->inRandomOrder() // Lấy ngẫu nhiên
-            ->limit(8) // Giới hạn số lượng sản phẩm muốn lấy
+            ->limit(5) // Giới hạn số lượng sản phẩm muốn lấy
             ->get();    
 
         // Lấy danh sách bài viết với trạng thái là 'active' (ví dụ trang_thai = 1)
         $baiViets = BaiViet::where('trang_thai', 1)
             ->orderBy('created_at', 'desc') // Sắp xếp bài viết theo ngày tạo mới nhất
-            ->get();    
+            ->take(3) // Lấy 4 bài viết
+            ->get();   // Thực hiện truy vấn và lấy kết quả   
 
         // Trả về view và truyền dữ liệu sang
        return view('clients.trangchu', compact('khuyenMais','banners','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams','baiViets'));

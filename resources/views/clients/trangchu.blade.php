@@ -290,7 +290,7 @@
                   <div class="swiper-wrapper">
                      <!-- Hiển thị danh sách khuyến mãi -->
                      @foreach($khuyenMais as $khuyenMai)
-                     <div class="tp-product-offer-item tp-product-item transition-3 swiper-slide">
+                     <div class="tp-product-offer-item tp-product-item transition-3 ">
                         <div class="tp-product-content">
                            <h4>Tên mã : {{ $khuyenMai->ma_khuyen_mai }}</h4>
                            <div class="tp-product-price-wrapper">
@@ -299,6 +299,7 @@
                            <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
                               <div class="tp-product-countdown-inner">
                                  <ul>
+                                    <span>Còn lại :</span>
                                     <li><span data-days></span> Ngày</li>
                                     <li><span data-hours></span> Giờ</li>
                                     <li><span data-minutes></span>Phút</li>
@@ -676,17 +677,7 @@
          </div>
          <div class="col-xl-7 col-sm-6">
             <div class="tp-product-arrival-more-wrapper d-flex justify-content-end">
-               <div class="tp-product-arrival-arrow tp-swiper-arrow mb-40 text-end tp-product-arrival-border">
-                  <button type="button" class="tp-arrival-slider-button-prev">
-                     <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 13L1 7L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                     </svg>
-                  </button>
-                  <button type="button" class="tp-arrival-slider-button-next">
-                     <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 13L7 7L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                     </svg>
-                  </button>
+               <div class="tp-product-arrival-arrow tp-swiper-arrow mb-40 text-end tp-product-arrival-border">                             
                </div>
             </div>
          </div>
@@ -697,7 +688,7 @@
                <div class="tp-product-arrival-active swiper-container">
                   <div class="swiper-wrapper">
                      @foreach($sanPhams as $sanPhams)
-                     <div class="tp-product-item transition-3 mb-25 swiper-slide">
+                     <div class="tp-product-item transition-3 mb-25 ">
                         <!-- Hình ảnh sản phẩm -->
                         <div class="tp-product-thumb p-relative fix m-img">                      
                            <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
@@ -1155,13 +1146,13 @@
                <div class="tp-blog-main-slider-active swiper-container">
                   <div class="swiper-wrapper">
                      @foreach($baiViets as $baiViet)
-                     <div class="tp-blog-item mb-30 swiper-slide">
+                     <div class="tp-blog-item mb-30 ">
                         <div class="tp-blog-thumb p-relative fix">
                         <a href="{{ route('chitietbaiviet', ['id' => $baiViet->id]) }}">
                               <img src="{{ asset('storage/' . $baiViet->anh_bai_viet) }}" alt="{{ $baiViet->tieu_de }}">
                            </a>
                            <div class="tp-blog-meta tp-blog-meta-date">
-                              <span>{{ \Carbon\Carbon::parse($baiViet->created_at)->translatedFormat(' d  n, Y') }}</span>
+                              <span>{{ \Carbon\Carbon::parse($baiViet->created_at)->translatedFormat(' d - n - Y') }}</span>
                            </div>
                         </div>
                         <div class="tp-blog-content">
@@ -1195,6 +1186,24 @@
             </div>
          </div>
       </div>
+      <style>
+         /* Điều chỉnh khoảng cách dưới mỗi bài viết */
+.tp-blog-item {
+    margin-bottom: 30px; /* Căn chỉnh khoảng cách giữa các bài viết */
+}
+
+/* Điều chỉnh khoảng cách giữa các phần tử trong swiper (nếu cần thiết) */
+.swiper-wrapper {
+    display: flex; /* Đảm bảo các phần tử trong swiper được sắp xếp theo hàng ngang */
+    gap: 20px; /* Khoảng cách giữa các bài viết */
+}
+
+/* Đảm bảo rằng mỗi item không bị bóp méo khi có khoảng cách */
+.tp-blog-item {
+    flex: 1 1 calc(25% - 20px); /* Điều chỉnh tỷ lệ của các bài viết, 25% cho mỗi bài viết, trừ đi khoảng cách */
+}
+
+      </style>
    </div>
 </section>
 <!-- blog area end -->
