@@ -1,40 +1,47 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\TagController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PermissionController;
+
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Client\CartController;
-use App\Http\Controllers\admin\BannerController;
-use App\Http\Controllers\Admin\HoaDonController;
-use App\Http\Controllers\Admin\MauSacController;
-use App\Http\Controllers\Admin\BaiVietController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\AdminForgotPasswordController;
+use App\Http\Controllers\Admin\DashboardController;
+
 use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\admin\SanPhamController;
-use App\Http\Controllers\Client\LienHeController;
-use App\Http\Controllers\Client\GioHangController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MauSacController;
+use App\Http\Controllers\Admin\BaiVietController;
 use App\Http\Controllers\Admin\DungLuongController;
+use App\Http\Controllers\Admin\HoaDonController;
+use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\KhuyenMaiController;
-use App\Http\Controllers\Auth\AdminLoginController;
-use App\Http\Controllers\Client\TaiKhoanController;
-use App\Http\Controllers\Client\TrangChuController;
-use App\Http\Controllers\Client\YeuThichController;
-use App\Http\Controllers\Auth\ClientLoginController;
-use App\Http\Controllers\Client\GioithieuController;
-use App\Http\Controllers\Client\ThanhToanController;
-use App\Http\Controllers\Auth\ClientForgotController;
-use App\Http\Controllers\Auth\CustomerLoginController;
-use App\Http\Controllers\Auth\ClientRegisterController;
-use App\Http\Controllers\Client\TrangBaiVietController;
-use App\Http\Controllers\Client\TrangSanPhamController;
-use App\Http\Controllers\admin\BienTheSanPhamController;
-use App\Http\Controllers\Admin\StaffDashboardController;
-use App\Http\Controllers\Auth\CustomerRegisterController;
-use App\Http\Controllers\Client\ChiTietSanPhamController;
-use App\Http\Controllers\Client\SanPhamDanhMucController;
-use App\Http\Controllers\Auth\AdminForgotPasswordController;
+use App\Http\Controllers\admin\TagController;
+use App\Http\Controllers\Admin\StaffController;
 
+// Route riêng cho quản lý quyền, áp dụng middleware 'auth' và 'permission'
+Route::middleware(['auth', 'permission:QL phan quyen'])->group(function () {
+    Route::get('/admin/permissions', [PermissionController::class, 'index'])->name('admin.permissions.index');
+    Route::post('/admin/permissions', [PermissionController::class, 'store'])->name('admin.permissions.store');
+    Route::put('/admin/permissions/{permission}', [PermissionController::class, 'update'])->name('admin.permissions.update');
+    Route::delete('admin/permissions/{permission}', [PermissionController::class, 'destroy'])->name('admin.permissions.destroy');
 
-// Admin routes
+   // Route quản lý vai trò và quyền
+Route::prefix('admin/roles')->name('admin.roles.')->group(function () {
+    Route::get('/', [RoleController::class, 'index'])->name('index'); // Danh sách vai trò và quyền
+    Route::post('/', [RoleController::class, 'store'])->name('store'); // Thêm vai trò mới
+    Route::put('/{role}', [RoleController::class, 'update'])->name('update'); // Sửa vai trò
+    Route::delete('/{role}', [RoleController::class, 'destroy'])->name('destroy'); // Xóa vai trò
+    Route::post('/{role}/permissions', [RoleController::class, 'assignPermissions'])->name('assignPermissions'); // Gán quyền cho vai trò
+});
+
+// Route gán vai trò cho người dùng
+Route::prefix('admin/users')->name('admin.users.')->group(function () {
+    Route::post('/{user}/role', [UserController::class, 'assignRole'])->name('assignRole'); // Gán vai trò cho người dùng
+});
+});
+
+// Admin đăng ký đăng nhập
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminLoginController::class, 'login'])->name('login.post');
@@ -45,139 +52,174 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('reset-password', [AdminForgotPasswordController::class, 'reset'])->name('password.update');
 });
 
+//dashboard
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL dashboard')->group(function () {
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
+//nhan vien
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'permission:QL nhanviens'])->group(function () {
+    Route::get('/nhanviens', [StaffController::class, 'index'])->name('nhanviens'); 
+    Route::get('/nhanviens/create', [StaffController::class, 'create'])->name('nhanviens.create');
+    Route::post('/nhanviens', [StaffController::class, 'store'])->name('nhanviens.store');
+    Route::get('/nhanviens/{id}', [StaffController::class, 'show'])->name('nhanviens.show');
+    Route::get('/nhanviens/{id}/edit', [StaffController::class, 'edit'])->name('nhanviens.edit');
+    Route::put('/nhanviens/{id}', [StaffController::class, 'update'])->name('nhanviens.update');
+    Route::delete('/nhanviens/{id}', [StaffController::class, 'destroy'])->name('nhanviens.destroy');
+});
 
-// Routes for authenticated users with 'admin' role
-Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // CRUD routes for User management
-    Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
-    Route::get('/nhanviens', [UserController::class, 'nhanviens'])->middleware('auth', 'role:admin')->name('nhanviens'); // Display users list
-    Route::get('/taikhoans/create', [UserController::class, 'create'])->middleware('auth', 'role:admin')->name('taikhoans.create'); // Create new user
-    Route::post('/taikhoans', [UserController::class, 'store'])->middleware('auth', 'role:admin')->name('taikhoans.store'); // Store new user
-    Route::get('/taikhoans/{id}', [UserController::class, 'show'])->middleware('auth', 'role:admin')->name('taikhoans.show'); // Show user details
-    Route::get('/taikhoans/{id}/edit', [UserController::class, 'edit'])->middleware('auth', 'role:admin')->name('taikhoans.edit'); // Edit user
-    Route::put('/taikhoans/{id}', [UserController::class, 'update'])->middleware('auth', 'role:admin')->name('taikhoans.update'); // Update user
-    Route::delete('/taikhoans/{id}', [UserController::class, 'destroy'])->middleware('auth', 'role:admin')->name('taikhoans.destroy'); // Delete user
+//khachhang
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL khachhangs')->group(function () {
+    Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list\
+    Route::get('/taikhoans/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
+    Route::delete('/taikhoans/{id}', [UserController::class, 'destroy'])->name('taikhoans.destroy'); // Delete user
+});
+//profile
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL profile')->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/update/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
     Route::put('/profile/updatePassword', [UserController::class, 'updatePassword'])->name('profile.updatePassword');
-
-    // Banner management
-    Route::prefix('banners')->name('banners.')->group(function () {
-        Route::get('/', [BannerController::class, 'index'])->name('index');
-        Route::get('create', [BannerController::class, 'create'])->middleware('auth', 'role:admin')->name('create');
-        Route::post('store', [BannerController::class, 'store'])->middleware('auth', 'role:admin')->name('store');
-        Route::get('/{vi_tri}', [BannerController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [BannerController::class, 'edit'])->middleware('auth', 'role:admin')->name('edit');
-        Route::put('/{id}', [BannerController::class, 'update'])->middleware('auth', 'role:admin')->name('update');
-        Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
-        Route::delete('/{id}', [BannerController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
-    });
-
-    // Promotion management
-    Route::prefix('khuyen_mais')->name('khuyen_mais.')->group(function () {
-        Route::get('/', [KhuyenMaiController::class, 'index'])->name('index');
-        Route::get('create', [KhuyenMaiController::class, 'create'])->middleware('auth', 'role:admin')->name('create');
-        Route::post('store', [KhuyenMaiController::class, 'store'])->middleware('auth', 'role:admin')->name('store');
-        Route::get('/{id}', [KhuyenMaiController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [KhuyenMaiController::class, 'edit'])->middleware('auth', 'role:admin')->name('edit');
-        Route::put('/{id}', [KhuyenMaiController::class, 'update'])->middleware('auth', 'role:admin')->name('update');
-        Route::get('/update-expired', [KhuyenMaiController::class, 'updateExpiredKhuyenMai'])->middleware('auth', 'role:admin')->name('updateExpired');
-        Route::post('/{id}/onOffKhuyenMai', [KhuyenMaiController::class, 'onOffKhuyenMai'])->middleware('auth', 'role:admin')->name('onOffKhuyenMai');
-        Route::delete('/{id}', [KhuyenMaiController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
-    });
-
-
-
-    // Route the-tag
-    Route::prefix('tag')->name('tag.')->group(function () {
-        Route::get('/', [TagController::class, 'index'])->name('index');
-        Route::get('create', [TagController::class, 'create'])->middleware('auth', 'role:admin')->name('create');
-        Route::post('store', [TagController::class, 'store'])->middleware('auth', 'role:admin')->name('store');
-        Route::get('/{id}/edit', [TagController::class, 'edit'])->middleware('auth', 'role:admin')->name('edit');
-        Route::put('/{id}', [TagController::class, 'update'])->middleware('auth', 'role:admin')->name('update');
-        Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->middleware('auth', 'role:admin')->name('onOffTag');
-        Route::delete('/{id}', [TagController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
-    });
-    // danhmucs
-    Route::prefix('danhmucs')->name('danhmucs.')->group(function () {
-        Route::get('/', [DanhMucController::class, 'index'])->name('index');
-        Route::get('create', [DanhMucController::class, 'create'])->middleware('auth', 'role:admin')->name('create');
-        Route::post('store', [DanhMucController::class, 'store'])->middleware('auth', 'role:admin')->name('store');
-        Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->middleware('auth', 'role:admin')->name('edit');
-        Route::put('/{id}/update', [DanhMucController::class, 'update'])->middleware('auth', 'role:admin')->name('update');
-        Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
-        Route::delete('/{id}/softDelete', [DanhMucController::class, 'softDelete'])->middleware('auth', 'role:admin')->name('softDelete');
-        Route::post('/{id}/restore', [DanhMucController::class, 'restore'])->middleware('auth', 'role:admin')->name('restore');
-    });
-    // Route hóa đơn
-    Route::prefix('hoadons')->name('hoadons.')->group(function () {
-        Route::get('/', [HoaDonController::class, 'index'])->name('index');
-        Route::get('/{id}/show', [HoaDonController::class, 'show'])->name('show');
-        Route::put('/{id}/update', [HoaDonController::class, 'update'])->name('update');
-    });
-
-    // sản phẩm
-    Route::prefix('sanphams')->name('sanphams.')->group(function () {
-        Route::get('/', [SanPhamController::class, 'index'])->name('index');
-        Route::get('create', [SanPhamController::class, 'create'])->middleware('auth', 'role:admin')->name('create');
-        Route::post('store', [SanPhamController::class, 'store'])->middleware('auth', 'role:admin')->name('store');
-        Route::get('/{id}/show', [SanPhamController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [SanPhamController::class, 'edit'])->middleware('auth', 'role:admin')->name('edit');
-        Route::put('/{id}/update', [SanPhamController::class, 'update'])->middleware('auth', 'role:admin')->name('update');
-        Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
-        Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->middleware('auth', 'role:admin')->name('restore');
-        Route::get('/sanpham/{id}/filterDanhGia/{star}', [SanPhamController::class, 'filterDanhGia'])->name('filterDanhGia');
-        Route::post('/admin/sanpham/{sanpham}/danhgias', [SanPhamController::class, 'storeReview'])
-    ->name('admin.sanpham.danhgias');
-    });
-
-    Route::prefix('mausacs')->name('mausacs.')->group(function(){
-        Route::get('/',[MauSacController::class,'index'])->middleware('auth', 'role:admin')->name('index');
-        Route::get('create',[MauSacController::class,'create'])->middleware('auth', 'role:admin')->name('create');
-        Route::post('store',[MauSacController::class,'store'])->middleware('auth', 'role:admin')->name('store');
-        Route::get('/{id}/edit',[MauSacController::class,'edit'])->middleware('auth', 'role:admin')->name('edit');
-        Route::put('/{id}/update',[MauSacController::class,'update'])->middleware('auth', 'role:admin')->name('update');
-        Route::post('/{id}/onOffMauSac', [MauSacController::class, 'onOffMauSac'])->middleware('auth', 'role:admin')->name('onOffMauSac');
-        Route::delete('/{id}/destroy',[MauSacController::class,'destroy'])->middleware('auth', 'role:admin')->name('destroy');
-    });
-
-    Route::prefix('dungluongs')->name('dungluongs.')->group(function(){
-        Route::get('/',[DungLuongController::class,'index'])->name('index');
-        Route::get('create',[DungLuongController::class,'create'])->middleware('auth', 'role:admin')->name('create');
-        Route::post('store',[DungLuongController::class,'store'])->middleware('auth', 'role:admin')->name('store');
-        Route::get('/{id}/edit',[DungLuongController::class,'edit'])->middleware('auth', 'role:admin')->name('edit');
-        Route::put('/{id}/update',[DungLuongController::class,'update'])->middleware('auth', 'role:admin')->name('update');
-        Route::post('/{id}/onOffDungLuong', [DungLuongController::class, 'onOffDungLuong'])->middleware('auth', 'role:admin')->name('onOffDungLuong');
-        Route::delete('/{id}/destroy',[DungLuongController::class,'destroy'])->middleware('auth', 'role:admin')->name('destroy');
-    });
-
-    // Bài viết
-    Route::prefix('baiviets')->name('baiviets.')->group(function () {
-        Route::get('/', [BaiVietController::class, 'index'])->name('index');
-        Route::get('create', [BaiVietController::class, 'create'])->name('create');
-        Route::post('store', [BaiVietController::class, 'store'])->name('store');
-        Route::get('/{id}', [BaiVietController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [BaiVietController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [BaiVietController::class, 'update'])->name('update');
-        Route::post('/{id}/onOffBaiViet', [BaiVietController::class, 'onOffBaiViet'])->middleware('auth', 'role:admin')->name('onOffBaiViet');
-        Route::delete('/{id}', [BaiVietController::class, 'destroy'])->middleware('auth', 'role:admin')->name('destroy');
-    });
-
 });
 
-// Routes for authenticated users with 'staff' role
-// Route::prefix('staff')->name('staff.')->middleware('auth', 'role:staff')->group(function () {
-//     Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
-//     Route::get('/khachhangs', [UserController::class, 'khachhangs'])->name('khachhangs'); // Display users list
-//     Route::get('/khachhang/{id}', [UserController::class, 'show'])->name('taikhoans.show'); // Show user details
-// });
+//danh muc
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL danhmucs')->group(function () {
+    Route::prefix('danhmucs')->name('danhmucs.')->group(function () {
+        Route::get('/', [DanhMucController::class, 'index'])->name('index');
+        Route::get('create', [DanhMucController::class, 'create'])->name('create');
+        Route::post('store', [DanhMucController::class, 'store'])->name('store');
+        Route::get('/{id}/show', [DanhMucController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [DanhMucController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [DanhMucController::class, 'update'])->name('update');
+        Route::delete('/{id}/destroy', [DanhMucController::class, 'destroy'])->name('destroy');
+        Route::delete('/{id}/softDelete', [DanhMucController::class, 'softDelete'])->name('softDelete');
+        Route::post('/{id}/restore', [DanhMucController::class, 'restore'])->name('restore');
+    });
+});
+//san pham
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL sanphams')->group(function () {
+
+Route::prefix('sanphams')->name('sanphams.')->group(function () {
+    Route::get('/', [SanPhamController::class, 'index'])->name('index');
+    Route::get('create', [SanPhamController::class, 'create'])->name('create');
+    Route::post('store', [SanPhamController::class, 'store'])->name('store');
+    Route::get('/{id}/show', [SanPhamController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [SanPhamController::class, 'edit'])->name('edit');
+    Route::put('/{id}/update', [SanPhamController::class, 'update'])->name('update');
+    Route::delete('/{id}/destroy', [SanPhamController::class, 'destroy'])->name('destroy');
+    Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
+    Route::get('/sanpham/{id}/filterDanhGia/{star}', [SanPhamController::class, 'filterDanhGia'])->name('filterDanhGia');
+    Route::post('/admin/sanpham/{sanpham}/danhgias', [SanPhamController::class, 'storeReview'])->name('admin.sanpham.danhgias');
+});
+});
+//mau sac
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL mausacs')->group(function () {
+
+Route::prefix('mausacs')->name('mausacs.')->group(function(){
+    Route::get('/',[MauSacController::class,'index'])->name('index');
+    Route::get('create',[MauSacController::class,'create'])->name('create');
+    Route::post('store',[MauSacController::class,'store'])->name('store');
+    Route::get('/{id}/edit',[MauSacController::class,'edit'])->name('edit');
+    Route::put('/{id}/update',[MauSacController::class,'update'])->name('update');
+    Route::post('/{id}/onOffMauSac', [MauSacController::class, 'onOffMauSac'])->name('onOffMauSac');
+    Route::delete('/{id}/destroy',[MauSacController::class,'destroy'])->name('destroy');
+});
+});
+//dung luong
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL dungluongs')->group(function () {
+
+Route::prefix('dungluongs')->name('dungluongs.')->group(function(){
+    Route::get('/',[DungLuongController::class,'index'])->name('index');
+    Route::get('create',[DungLuongController::class,'create'])->name('create');
+    Route::post('store',[DungLuongController::class,'store'])->name('store');
+    Route::get('/{id}/edit',[DungLuongController::class,'edit'])->name('edit');
+    Route::put('/{id}/update',[DungLuongController::class,'update'])->name('update');
+    Route::post('/{id}/onOffDungLuong', [DungLuongController::class, 'onOffDungLuong'])->name('onOffDungLuong');
+    Route::delete('/{id}/destroy',[DungLuongController::class,'destroy'])->name('destroy');
+});
+});
+// Bài viết
+
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL baiviets')->group(function () {
+
+Route::prefix('baiviets')->name('baiviets.')->group(function () {
+    Route::get('/', [BaiVietController::class, 'index'])->name('index');
+    Route::get('create', [BaiVietController::class, 'create'])->name('create');
+    Route::post('store', [BaiVietController::class, 'store'])->name('store');
+    Route::get('/{id}', [BaiVietController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [BaiVietController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [BaiVietController::class, 'update'])->name('update');
+    Route::post('/{id}/onOffBaiViet', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
+    Route::delete('/{id}', [BaiVietController::class, 'destroy'])->name('destroy');
+});
+});
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL hoadons')->group(function () {
+
+// Route hóa đơn
+Route::prefix('hoadons')->name('hoadons.')->group(function () {
+    Route::get('/', [HoaDonController::class, 'index'])->name('index');
+    Route::get('/{id}/show', [HoaDonController::class, 'show'])->name('show');
+    Route::put('/{id}/update', [HoaDonController::class, 'update'])->name('update');
+});
+});
+// Banner 
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banners')->group(function () {
+
+Route::prefix('banners')->name('banners.')->group(function () {
+    Route::get('/', [BannerController::class, 'index'])->name('index');
+    Route::get('create', [BannerController::class, 'create'])->name('create');
+    Route::post('store', [BannerController::class, 'store'])->name('store');
+    Route::get('/{vi_tri}', [BannerController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [BannerController::class, 'update'])->name('update');
+    Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
+    Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
+});
+
+});
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL khuyen_mais')->group(function () {
+
+  // Promotion management
+  Route::prefix('khuyen_mais')->name('khuyen_mais.')->group(function () {
+    Route::get('/', [KhuyenMaiController::class, 'index'])->name('index');
+    Route::get('create', [KhuyenMaiController::class, 'create'])->name('create');
+    Route::post('store', [KhuyenMaiController::class, 'store'])->name('store');
+    Route::get('/{id}', [KhuyenMaiController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [KhuyenMaiController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [KhuyenMaiController::class, 'update'])->name('update');
+    Route::get('/update-expired', [KhuyenMaiController::class, 'updateExpiredKhuyenMai'])->name('updateExpired');
+    Route::post('/{id}/onOffKhuyenMai', [KhuyenMaiController::class, 'onOffKhuyenMai'])->name('onOffKhuyenMai');
+    Route::delete('/{id}', [KhuyenMaiController::class, 'destroy'])->name('destroy');
+});
+});
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')->group(function () {
+
+    Route::prefix('tag')->name('tag.')->group(function () {
+        Route::get('/', [TagController::class, 'index'])->name('index');
+        Route::get('create', [TagController::class, 'create'])->name('create');
+        Route::post('store', [TagController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [TagController::class, 'update'])->name('update');
+        Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
+        Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
+    });
+  });
 
 
-// Routes for unauthenticated users
+/////////////////////////////////////NGUOI DUNG TRANG WEB //////////////////////////////////////////
+use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\TaiKhoanController;
+use App\Http\Controllers\Client\TrangChuController;
+use App\Http\Controllers\Client\YeuThichController;
+use App\Http\Controllers\Auth\CustomerLoginController;
+use App\Http\Controllers\Client\TrangBaiVietController;
+use App\Http\Controllers\Client\TrangSanPhamController;
+use App\Http\Controllers\Auth\CustomerRegisterController;
+use App\Http\Controllers\Client\ChiTietSanPhamController;
+use App\Http\Controllers\Client\SanPhamDanhMucController;
+use App\Http\Controllers\Client\ThanhToanController;
+use App\Http\Controllers\Client\LienHeController;
+
+  // Routes for unauthenticated users
 Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
@@ -191,9 +233,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('/{id}/chitietdonhang',[TaiKhoanController::class,'show'])->name('donhang.chitiet');
     Route::post('/{id}/cancel',[TaiKhoanController::class,'cancelOrder'])->name('cancelOrder');
     Route::post('/{id}/getOrder',[TaiKhoanController::class,'getOrder'])->name('getOrder');
-  });
+});
 
-  
 // Trang chủ
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
