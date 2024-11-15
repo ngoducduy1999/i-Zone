@@ -89,14 +89,14 @@
                                  <label>Địa chỉ</label>
                                  <select id="addressSelect" onchange="updateAddressField()" required>
                                      <option value="">-- Chọn địa chỉ --</option>
-                         <!-- Loại 2: Địa chỉ đã đăng ký -->
-                         @if(Auth::user()->dia_chi)
-                         <optgroup label="Địa chỉ đã đăng ký">
-                          <option disabled>--- Địa chỉ đã đăng ký ---</option>
+                        <!-- Loại 2: Địa chỉ đã đăng ký -->
+@if(Auth::check() && Auth::user()->dia_chi)
+<optgroup label="Địa chỉ đã đăng ký">
+    <option disabled>--- Địa chỉ đã đăng ký ---</option>
+    <option value="{{ Auth::user()->dia_chi }}">{{ Auth::user()->dia_chi }}</option>
+</optgroup>
+@endif
 
-                             <option value="{{ Auth::user()->dia_chi }}">{{ Auth::user()->dia_chi }}</option>
-                         </optgroup>
-                          @endif
                                      <!-- Loại 1: Địa chỉ đã sử dụng trước đó -->
                                      @if($diaChiDaSuDung->isNotEmpty())
                                      <option disabled>--- Địa chỉ đã sử dụng ---</option>

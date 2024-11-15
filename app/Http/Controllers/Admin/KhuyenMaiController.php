@@ -27,6 +27,7 @@ class KhuyenMaiController extends Controller
     $request->validate([
         'ma_khuyen_mai' => 'required|string|unique:khuyen_mais,ma_khuyen_mai', // Mã khuyến mãi là bắt buộc, phải là chuỗi, và duy nhất trong bảng khuyen_mais
         'phan_tram_khuyen_mai' => 'required|integer|min:1|max:99', // Phần trăm khuyến mãi từ 1 đến 99
+        'giam_toi_da'=>'required',
         'ngay_bat_dau' => 'required|date', // Ngày bắt đầu là bắt buộc và phải là kiểu ngày
         'ngay_ket_thuc' => 'required|date|after_or_equal:ngay_bat_dau', // Ngày kết thúc phải sau hoặc bằng ngày bắt đầu
     ], [
@@ -37,6 +38,7 @@ class KhuyenMaiController extends Controller
         'phan_tram_khuyen_mai.min' => 'Phần trăm khuyến mãi phải lớn hơn 0.',
         'phan_tram_khuyen_mai.max' => 'Phần trăm khuyến mãi phải nhỏ hơn 100.',
         'ngay_bat_dau.required' => 'Ngày bắt đầu không được để trống.',
+        'giam_toi_da.required' => 'Giảm tối đa không được để trống.',
         'ngay_ket_thuc.required' => 'Ngày kết thúc không được để trống.',
         'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
     ]);
@@ -44,6 +46,7 @@ class KhuyenMaiController extends Controller
     $data = [
         'ma_khuyen_mai' => $request->ma_khuyen_mai,
         'phan_tram_khuyen_mai' => $request->phan_tram_khuyen_mai,
+        'giam_toi_da'=>$request->giam_toi_da,
         'ngay_bat_dau' => $request->ngay_bat_dau,
         'ngay_ket_thuc' => $request->ngay_ket_thuc,
         'trang_thai' => 1, 
@@ -65,8 +68,9 @@ public function edit($id)
     public function update(Request $request, $id)
     {
         $request->validate([
-            'ma_khuyen_mai' => 'required|string|unique:khuyen_mais,ma_khuyen_mai,' . $id, // Kiểm tra duy nhất với ngoại lệ cho bản ghi hiện tại
+            'ma_khuyen_mai' => 'required|string|unique:khuyen_mais,ma_khuyen_mai,' . $id, // Ensure unique code, excluding current record
             'phan_tram_khuyen_mai' => 'required|integer|min:1|max:99',
+            'giam_toi_da' => 'nullable|numeric|min:0',
             'ngay_bat_dau' => 'required|date',
             'ngay_ket_thuc' => 'required|date|after_or_equal:ngay_bat_dau',
         ], [
@@ -76,37 +80,38 @@ public function edit($id)
             'phan_tram_khuyen_mai.integer' => 'Phần trăm khuyến mãi phải là một số nguyên.',
             'phan_tram_khuyen_mai.min' => 'Phần trăm khuyến mãi phải lớn hơn 0.',
             'phan_tram_khuyen_mai.max' => 'Phần trăm khuyến mãi phải nhỏ hơn 100.',
+            'giam_toi_da.numeric' => 'Giảm tối đa phải là một số.',
             'ngay_bat_dau.required' => 'Ngày bắt đầu không được để trống.',
             'ngay_ket_thuc.required' => 'Ngày kết thúc không được để trống.',
             'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
         ]);
-
-        // Tìm kiếm bản ghi Khuyến Mãi theo ID
+        
+        // Find the promotion record by ID
         $khuyenMai = KhuyenMai::find($id);
-
+        
         if (!$khuyenMai) {
             return redirect()->route('admin.khuyen_mais.index')->with('error', 'Khuyến mãi không tồn tại.');
         }
-
-        // Cập nhật dữ liệu khuyến mãi
+        
+        // Update promotion data
         $khuyenMai->update([
             'ma_khuyen_mai' => $request->ma_khuyen_mai,
             'phan_tram_khuyen_mai' => $request->phan_tram_khuyen_mai,
+            'giam_toi_da' => $request->giam_toi_da,
             'ngay_bat_dau' => $request->ngay_bat_dau,
             'ngay_ket_thuc' => $request->ngay_ket_thuc,
-            // Giữ trạng thái hiện tại không thay đổi
-            'trang_thai' => $khuyenMai->trang_thai,
         ]);
-
-        // Kiểm tra và cập nhật trạng thái nếu cần
+        
+        // Automatically update status if promotion has ended
         $now = Carbon::now();
         if ($khuyenMai->ngay_ket_thuc < $now) {
-            $khuyenMai->trang_thai = false;
-            $khuyenMai->save();
+            $khuyenMai->update(['trang_thai' => false]);
+        } else {
+            $khuyenMai->update(['trang_thai' => true]);
         }
-    
+        
         return redirect()->route('admin.khuyen_mais.index')->with('success', 'Khuyến mãi đã được cập nhật thành công.');
-    }
+      }
     
     public function destroy($id)
     {

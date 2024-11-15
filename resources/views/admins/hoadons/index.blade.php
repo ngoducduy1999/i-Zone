@@ -33,40 +33,53 @@
                             <h5 class="card-title align-content-center mb-0">{{ $title }}</h5>
                         </div><!-- end card header -->
 
-                    <form action="{{ route('admin.hoadons.index') }}" method="GET" style="max-width: 1000px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 15px;">
-                        <div style="flex: 1; min-width: 200px;">
-                            <label for="ngay_bat_dau" style="display: block; font-weight: bold; margin-bottom: 5px;">Ngày bắt đầu:</label>
-                            <input type="date" name="ngay_bat_dau" id="ngay_bat_dau" value="{{ request('ngay_bat_dau') }}" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                        </div>
-                    
-                        <div style="flex: 1; min-width: 200px;">
-                            <label for="ngay_ket_thuc" style="display: block; font-weight: bold; margin-bottom: 5px;">Ngày kết thúc:</label>
-                            <input type="date" name="ngay_ket_thuc" id="ngay_ket_thuc" value="{{ request('ngay_ket_thuc') }}" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                        </div>
-                    
-                        <div style="flex: 1; min-width: 200px;">
-                            <label for="phuong_thuc_thanh_toan" style="display: block; font-weight: bold; margin-bottom: 5px;">Phương thức thanh toán:</label>
-                            <select name="phuong_thuc_thanh_toan" id="phuong_thuc_thanh_toan" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                                <option value="">Tất cả</option>
-                                <option value="Thanh toán qua chuyển khoản ngân hàng" {{ request('phuong_thuc_thanh_toan') == 'Thanh toán qua chuyển khoản ngân hàng' ? 'selected' : '' }}>Thanh toán qua chuyển khoản ngân hàng</option>
-                                <option value="Thanh toán khi nhận hàng" {{ request('phuong_thuc_thanh_toan') == 'Thanh toán khi nhận hàng' ? 'selected' : '' }}>Thanh toán khi nhận hàng</option>
-                            </select>
-                        </div>
-                    
-                        <div style="flex: 1; min-width: 200px;">
-                            <label for="trang_thai" style="display: block; font-weight: bold; margin-bottom: 5px;">Trạng thái:</label>
-                            <select name="trang_thai" id="trang_thai" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                                <option value="">Tất cả</option>
-                                @foreach($trangThaiHoaDon as $key => $value)
-                                    <option value="{{ $key }}" {{ request('trang_thai') == $key ? 'selected' : '' }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    
-                        <div class="mt-3">
-                            <button type="submit" style="padding: 10px; border: none; border-radius: 4px; background-color: #4CAF50; color: white; font-weight: bold; cursor: pointer;">Lọc</button>
-                        </div>
-                    </form>         
+                        <form action="{{ route('admin.hoadons.index') }}" method="GET" style="max-width: 1000px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;">
+                            <div style="flex: 1; min-width: 170px;">
+                                <label for="ngay_bat_dau" style="display: block; font-weight: bold; margin-bottom: 5px;">Ngày bắt đầu:</label>
+                                <input type="date" name="ngay_bat_dau" id="ngay_bat_dau" value="{{ request('ngay_bat_dau') }}" style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                            </div>
+                        
+                            <div style="flex: 1; min-width: 170px;">
+                                <label for="ngay_ket_thuc" style="display: block; font-weight: bold; margin-bottom: 5px;">Ngày kết thúc:</label>
+                                <input type="date" name="ngay_ket_thuc" id="ngay_ket_thuc" value="{{ request('ngay_ket_thuc') }}" style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                            </div>
+                        
+                            <div style="flex: 1; min-width: 180px;">
+                                <label for="phuong_thuc_thanh_toan" style="display: block; font-weight: bold; margin-bottom: 5px;">Phương thức thanh toán:</label>
+                                <select name="phuong_thuc_thanh_toan" id="phuong_thuc_thanh_toan" style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                                    <option value="">Tất cả</option>
+                                    <option value="Thanh toán qua chuyển khoản ngân hàng" {{ request('phuong_thuc_thanh_toan') == 'Thanh toán qua chuyển khoản ngân hàng' ? 'selected' : '' }}>Thanh toán qua chuyển khoản ngân hàng</option>
+                                    <option value="Thanh toán khi nhận hàng" {{ request('phuong_thuc_thanh_toan') == 'Thanh toán khi nhận hàng' ? 'selected' : '' }}>Thanh toán khi nhận hàng</option>
+                                </select>
+                            </div>
+                        
+                            <div style="flex: 1; min-width: 170px;">
+                                <label for="trang_thai" style="display: block; font-weight: bold; margin-bottom: 5px;">Trạng thái đơn hàng:</label>
+                                <select name="trang_thai" id="trang_thai" style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                                    <option value="">Tất cả</option>
+                                    @foreach($trangThaiHoaDon as $key => $value)
+                                        <option value="{{ $key }}" {{ request('trang_thai') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        
+                            <div style="flex: 1; min-width: 170px;">
+                                <label for="trang_thai_thanh_toan" style="display: block; font-weight: bold; margin-bottom: 5px;">Trang thái thanh toán:</label>
+                                <select name="trang_thai_thanh_toan" id="trang_thai_thanh_toan" style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                                    <option value="">Tất cả</option>
+                                    <option value="Đã thanh toán" {{ request('trang_thai_thanh_toan') == 'Đã thanh toán' ? 'selected' : '' }}>Đã thanh toán</option>
+                                    <option value="Thanh toán thất bại" {{ request('trang_thai_thanh_toan') == 'Thanh toán thất bại' ? 'selected' : '' }}>Thanh toán thất bại</option>
+                                    <option value="Chưa thanh toán" {{ request('trang_thai_thanh_toan') == 'Chưa thanh toán' ? 'selected' : '' }}>Chưa thanh toán</option>
+                                </select>
+                            </div>
+                        
+                            <div class="mt-3">
+                                <button type="submit"
+                                    style="padding: 10px; border: none; border-radius: 4px; background-color: #4CAF50; color: white; font-weight: bold; cursor: pointer;">Lọc</button>
+                            </div>
+                            
+                        </form>
+                        
                                     
                     <div class="card-body">
                         <div class="table-responsive">

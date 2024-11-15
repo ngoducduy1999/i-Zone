@@ -114,20 +114,6 @@
                                 </div>
                             </div>
                         </div>
-                        @php
-                        // Tính số từ trong mô tả sản phẩm
-                        $moTa = $sanpham->mo_ta; // Lấy mô tả sản phẩm
-                        $soTu = str_word_count($moTa); // Đếm số từ
-                        $moTaHienThi = $soTu > 20 ? implode(' ', array_slice(explode(' ', $moTa), 0, 20)) : $moTa;
-                        //Hiển thị 100 từ hoặc toàn bộ
-                        @endphp
-
-                        <p>
-                            {!! $moTaHienThi !!}
-                            @if($soTu > 20)
-                            <span>... <a href="#" class="see-more">Xem thêm</a></span>
-                            @endif
-                        </p>
 
                         @php
                         // Lưu trữ màu sắc và dung lượng đã hiển thị
@@ -233,182 +219,256 @@
                                     /* Viền khi được chọn */
                                 }
                             </style>
-
-                            <script>
-                                let sanPhamId = {{ $sanpham->id }};
-                                let selectedMauSacId = null;
-                                let selectedDungLuongId = null;
-                                // Khởi tạo: Kiểm tra tất cả các nút dung lượng và màu sắc
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    checkCapacityButtons(); // Kiểm tra các nút dung lượng lúc đầu
-                                    checkColorButtons(); // Kiểm tra các nút màu sắc lúc đầu
-                                });
-
-                                document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
-                                    button.addEventListener('click', function() {
-                                        const mauSacId = this.getAttribute('data-mau-sac-id');
-
-                                        // Nếu màu sắc đã chọn lại chính nó, bỏ chọn và thiết lập lại viền
-                                        if (selectedMauSacId === mauSacId) {
-                                            selectedMauSacId = null;
-                                            this.classList.remove('active'); // Bỏ lớp active
-                                            resetCapacityButtons();
-                                        } else {
-                                            selectedMauSacId = mauSacId;
-                                            document.querySelectorAll('.tp-color-variation-btn').forEach(btn => btn.classList.remove('active'));
-                                            this.classList.add('active');
-                                        }
-
-                                        fetchPrice();
-                                        checkCapacityButtons();
-                                    });
-                                });
-
-                                document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
-                                    button.addEventListener('click', function() {
-                                        const dungLuongId = this.getAttribute('data-dung-luong-id');
-
-                                        // Nếu dung lượng đã chọn lại chính nó, bỏ chọn và thiết lập lại viền
-                                        if (selectedDungLuongId === dungLuongId) {
-                                            selectedDungLuongId = null;
-                                            this.classList.remove('active'); // Bỏ lớp active
-                                            resetColorButtons();
-                                        } else {
-                                            selectedDungLuongId = dungLuongId;
-                                            document.querySelectorAll('.tp-size-variation-btn').forEach(btn => btn.classList.remove('active'));
-                                            this.classList.add('active');
-                                        }
-
-                                        fetchPrice();
-                                        checkColorButtons();
-                                    });
-                                });
-
-                                function fetchPrice() {
-                                    if (selectedMauSacId && selectedDungLuongId) {
-                                        $.ajax({
-                                            url: '{{ route("sanpham.lay_gia_bien_the") }}',
-                                            method: 'GET',
-                                            data: {
-                                                san_pham_id: sanPhamId,
-                                                mau_sac_id: selectedMauSacId,
-                                                dung_luong_id: selectedDungLuongId
-                                            },
-                                            success: function(response) {
-                                                if (response.status === 'success') {
-                                                    // Cập nhật giá mới và giá cũ với ký hiệu 
-                                                    function formatPrice(amount) {
-                                                        return new Intl.NumberFormat('vi-VN', {
-                                                            style: 'currency',
-                                                            currency: 'VND',
-                                                        }).format(amount);
-                                                    }
-                                                    document.getElementById('new-price').innerText = formatPrice(response.gia_moi);
-                                                    document.getElementById('old-price').innerText = formatPrice(response.gia_cu); // Cập nhật giá cũ
-                                                } else {
-                                                    alert(response.message);
-                                                }
-                                            },
-                                            error: function() {
-                                                alert('Đã xảy ra lỗi khi tải giá.');
-                                            }
-                                        });
-                                    }
-                                }
-
-                                // Kiểm tra các nút dung lượng dựa trên màu sắc đã chọn
-                                function checkCapacityButtons() {
-                                    document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
-                                        const dungLuongId = button.getAttribute('data-dung-luong-id');
-                                        if (!selectedMauSacId) {
-                                            button.classList.remove('disabled');
-                                            return;
-                                        }
-                                        $.ajax({
-                                            url: '{{ route("sanpham.lay_gia_bien_the") }}',
-                                            method: 'GET',
-                                            data: {
-                                                san_pham_id: sanPhamId,
-                                                mau_sac_id: selectedMauSacId,
-                                                dung_luong_id: dungLuongId
-                                            },
-                                            success: function(response) {
-                                                if (response.status === 'success') {
-                                                    button.classList.remove('disabled');
-                                                } else {
-                                                    button.classList.add('disabled');
-                                                }
-                                            }
-                                        });
-                                    });
-                                }
-
-                                // Kiểm tra các nút màu sắc dựa trên dung lượng đã chọn
-                                function checkColorButtons() {
-                                    document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
-                                        const mauSacId = button.getAttribute('data-mau-sac-id');
-                                        if (!selectedDungLuongId) {
-                                            button.classList.remove('disabled');
-                                            return;
-                                        }
-                                        $.ajax({
-                                            url: '{{ route("sanpham.lay_gia_bien_the") }}',
-                                            method: 'GET',
-                                            data: {
-                                                san_pham_id: sanPhamId,
-                                                mau_sac_id: mauSacId,
-                                                dung_luong_id: selectedDungLuongId
-                                            },
-                                            success: function(response) {
-                                                if (response.status === 'success') {
-                                                    button.classList.remove('disabled');
-                                                } else {
-                                                    button.classList.add('disabled');
-                                                }
-                                            }
-                                        });
-                                    });
-                                }
-
-                                function resetCapacityButtons() {
-                                    document.querySelectorAll('.tp-size-variation-btn').forEach(button => button.classList.remove('active'));
-                                }
-
-                                function resetColorButtons() {
-                                    document.querySelectorAll('.tp-color-variation-btn').forEach(button => button.classList.remove('active'));
-                                }
-                            </script>
-
-
-
-
-
                         </div>
-                        <!-- actions -->
                         <div class="tp-product-details-action-wrapper">
-                            <h3 class="tp-product-details-action-title">Số lượng</h3>
+                            <p id="available-quantity">Số lượng còn lại: 0</p>
+                            <h3 class="tp-product-details-action-title">Chọn số lượng</h3>
                             <div class="tp-product-details-action-item-wrapper d-flex align-items-center">
                                 <div class="tp-product-details-quantity">
                                     <div class="tp-product-quantity mb-15 mr-15">
                                         <span class="tp-cart-minus">
-                                            <svg width="11" height="2" viewBox="0 0 11 2" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M1 1H10" stroke="currentColor" stroke-width="1.5"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="11" height="2" viewBox="0 0 11 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1 1H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </span>
-                                        <input class="tp-cart-input" type="text" value="1">
+                                        <input class="tp-cart-input" type="text" value="1" data-max-quantity="0">
                                         <span class="tp-cart-plus">
-                                            <svg width="11" height="12" viewBox="0 0 11 12" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M1 6H10" stroke="currentColor" stroke-width="1.5"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M5.5 10.5V1.5" stroke="currentColor" stroke-width="1.5"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1 6H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M5.5 10.5V1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </span>
                                     </div>
                                 </div>
+                                <script>
+                                        let sanPhamId = {{ $sanpham->id }};
+                                        let selectedMauSacId = null;
+                                        let selectedDungLuongId = null;
+                                    // Khởi tạo: Kiểm tra các nút dung lượng và màu sắc
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        checkCapacityButtons();
+                                        checkColorButtons();
+                                        fetchQuantity();
+                                    });
+
+                                    // Sự kiện chọn màu sắc
+                                    document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
+                                        button.addEventListener('click', function() {
+                                            const mauSacId = this.getAttribute('data-mau-sac-id');
+                                            if (selectedMauSacId === mauSacId) {
+                                                selectedMauSacId = null;
+                                                this.classList.remove('active');
+                                                resetCapacityButtons();
+                                            } else {
+                                                selectedMauSacId = mauSacId;
+                                                document.querySelectorAll('.tp-color-variation-btn').forEach(btn => btn.classList.remove('active'));
+                                                this.classList.add('active');
+                                            }
+                                            fetchPrice();
+                                            fetchQuantity();
+                                            checkCapacityButtons();
+                                        });
+                                    });
+
+                                    // Sự kiện chọn dung lượng
+                                    document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
+                                        button.addEventListener('click', function() {
+                                            const dungLuongId = this.getAttribute('data-dung-luong-id');
+                                            if (selectedDungLuongId === dungLuongId) {
+                                                selectedDungLuongId = null;
+                                                this.classList.remove('active');
+                                                resetColorButtons();
+                                            } else {
+                                                selectedDungLuongId = dungLuongId;
+                                                document.querySelectorAll('.tp-size-variation-btn').forEach(btn => btn.classList.remove('active'));
+                                                this.classList.add('active');
+                                            }
+                                            fetchPrice();
+                                            fetchQuantity();
+                                            checkColorButtons();
+                                        });
+                                    });
+
+                                    // Lấy giá sản phẩm
+                                    function fetchPrice() {
+                                        if (selectedMauSacId && selectedDungLuongId) {
+                                            $.ajax({
+                                                url: '{{ route("sanpham.lay_gia_bien_the") }}',
+                                                method: 'GET',
+                                                data: {
+                                                    san_pham_id: sanPhamId,
+                                                    mau_sac_id: selectedMauSacId,
+                                                    dung_luong_id: selectedDungLuongId
+                                                },
+                                                success: function(response) {
+                                                    if (response.status === 'success') {
+                                                        function formatPrice(amount) {
+                                                            return new Intl.NumberFormat('vi-VN', {
+                                                                style: 'currency',
+                                                                currency: 'VND',
+                                                            }).format(amount);
+                                                        }
+                                                        document.getElementById('new-price').innerText = formatPrice(response.gia_moi);
+                                                        document.getElementById('old-price').innerText = formatPrice(response.gia_cu);
+                                                    } else {
+                                                        alert(response.message);
+                                                    }
+                                                },
+                                                error: function() {
+                                                    alert('Đã xảy ra lỗi khi tải giá.');
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    // Lấy số lượng
+                                    function fetchQuantity() {
+                                        if (selectedMauSacId && selectedDungLuongId) {
+                                            $.ajax({
+                                                url: '{{ route("sanpham.get_so_luong_bien_the") }}',
+                                                method: 'GET',
+                                                data: {
+                                                    san_pham_id: sanPhamId,
+                                                    mau_sac_id: selectedMauSacId,
+                                                    dung_luong_id: selectedDungLuongId
+                                                },
+                                                success: function(response) {
+                                                    if (response.status === 'success') {
+                                                        let availableQuantity = response.so_luong || 0;
+                                                        document.getElementById('available-quantity').innerText = `Số lượng còn lại: ${availableQuantity}`;
+                                                        let input = document.querySelector('.tp-cart-input');
+                                                        input.setAttribute('data-max-quantity', availableQuantity);
+                                                        if (parseInt(input.value) >= availableQuantity) {
+                                                            input.value = availableQuantity;
+                                                        }
+                                                        togglePlusButton(parseInt(input.value), availableQuantity);
+                                                    } else {
+                                                        alert(response.message);
+                                                    }
+                                                },
+                                                error: function() {
+                                                    alert('Đã xảy ra lỗi khi tải số lượng.');
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    // Vô hiệu hóa nút tăng nếu đạt max
+                                    function togglePlusButton(currentValue, maxQuantity) {
+                                        let plusButton = document.querySelector('.tp-cart-plus');
+                                        if (currentValue >= maxQuantity) {
+                                            plusButton.classList.add('disabled');
+                                        } else {
+                                            plusButton.classList.remove('disabled');
+                                        }
+                                    }
+
+                                    // Sự kiện cho nút tăng và giảm
+                                    let input = document.querySelector('.tp-cart-input');
+                                    let minusButton = document.querySelector('.tp-cart-minus');
+                                    let plusButton = document.querySelector('.tp-cart-plus');
+
+                                    // Kiểm tra khi người dùng nhập thủ công
+                                    input.addEventListener('input', function() {
+                                        let maxQuantity = parseInt(input.getAttribute('data-max-quantity'));
+                                        let currentValue = parseInt(input.value);
+
+                                        // Nếu giá trị nhập lớn hơn maxQuantity, đặt về maxQuantity
+                                        if (currentValue > maxQuantity) {
+                                            input.value = maxQuantity;
+                                        }
+                                        // Nếu giá trị nhập nhỏ hơn 1 hoặc không phải là số, đặt về 1
+                                        else if (currentValue < 1 || isNaN(currentValue)) {
+                                            input.value = 0;
+                                        }
+
+                                        // Kiểm tra và vô hiệu hóa nút tăng nếu đạt max
+                                        togglePlusButton(parseInt(input.value), maxQuantity);
+                                    });
+
+                                    // Nút tăng
+                                    plusButton.addEventListener('click', function() {
+                                        let maxQuantity = parseInt(input.getAttribute('data-max-quantity'));
+                                        let currentValue = parseInt(input.value);
+                                        if (currentValue < maxQuantity) {
+                                            input.value = currentValue;
+                                        }
+                                        togglePlusButton(parseInt(input.value), maxQuantity);
+                                    });
+
+                                    // Nút giảm
+                                    minusButton.addEventListener('click', function() {
+                                        let currentValue = parseInt(input.value);
+                                        if (currentValue > 1) {
+                                            input.value = currentValue;
+                                        }
+                                        togglePlusButton(parseInt(input.value), parseInt(input.getAttribute('data-max-quantity')));
+                                    });
+
+                                    // Kiểm tra nút dung lượng dựa trên màu sắc đã chọn
+                                    function checkCapacityButtons() {
+                                        document.querySelectorAll('.tp-size-variation-btn').forEach(button => {
+                                            const dungLuongId = button.getAttribute('data-dung-luong-id');
+                                            if (!selectedMauSacId) {
+                                                button.classList.remove('disabled');
+                                                return;
+                                            }
+                                            $.ajax({
+                                                url: '{{ route("sanpham.lay_gia_bien_the") }}',
+                                                method: 'GET',
+                                                data: {
+                                                    san_pham_id: sanPhamId,
+                                                    mau_sac_id: selectedMauSacId,
+                                                    dung_luong_id: dungLuongId
+                                                },
+                                                success: function(response) {
+                                                    if (response.status === 'success') {
+                                                        button.classList.remove('disabled');
+                                                    } else {
+                                                        button.classList.add('disabled');
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+
+                                    // Kiểm tra nút màu sắc dựa trên dung lượng đã chọn
+                                    function checkColorButtons() {
+                                        document.querySelectorAll('.tp-color-variation-btn').forEach(button => {
+                                            const mauSacId = button.getAttribute('data-mau-sac-id');
+                                            if (!selectedDungLuongId) {
+                                                button.classList.remove('disabled');
+                                                return;
+                                            }
+                                            $.ajax({
+                                                url: '{{ route("sanpham.lay_gia_bien_the") }}',
+                                                method: 'GET',
+                                                data: {
+                                                    san_pham_id: sanPhamId,
+                                                    mau_sac_id: mauSacId,
+                                                    dung_luong_id: selectedDungLuongId
+                                                },
+                                                success: function(response) {
+                                                    if (response.status === 'success') {
+                                                        button.classList.remove('disabled');
+                                                    } else {
+                                                        button.classList.add('disabled');
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+
+                                    // Reset trạng thái nút dung lượng
+                                    function resetCapacityButtons() {
+                                        document.querySelectorAll('.tp-size-variation-btn').forEach(button => button.classList.remove('active'));
+                                    }
+
+                                    // Reset trạng thái nút màu sắc
+                                    function resetColorButtons() {
+                                        document.querySelectorAll('.tp-color-variation-btn').forEach(button => button.classList.remove('active'));
+                                    }
+                                </script>
                                 <div class="tp-product-details-add-to-cart mb-15 w-100">
                                     <button class="tp-product-details-add-to-cart-btn w-100"
                                         onclick="addToCart({{$sanpham->id}})">Thêm vào giỏ hàng</button>
@@ -679,7 +739,7 @@
                             <div class="col-xl-12">
                                 <div class="tp-product-details-tab-nav tp-tab">
                                     <nav>
-                                        <div class="nav nav-tabs justify-content-center p-relative tp-product-tab"
+                                        <div class="nav nav-tabs justify-content-center p-relative tp-product-tab" style="margin-top: 100px;"
                                             id="navPresentationTab" role="tablist">
                                             <button class="nav-link" id="nav-description-tab" data-bs-toggle="tab"
                                                 data-bs-target="#nav-description" type="button" role="tab"
@@ -878,87 +938,87 @@
                                                             {{-- show đánh giá và nhận xét --}}
 
 
-                                @if(isset($sanpham) && !$hasReview)
-    <div class="tp-product-details-review-form">
-        <h3 class="tp-product-details-review-form-title">Đánh giá sản phẩm</h3>
+                                                            @if(isset($sanpham) && !$hasReview)
+                                                            <div class="tp-product-details-review-form">
+                                                                <h3 class="tp-product-details-review-form-title">Đánh giá sản phẩm</h3>
 
-        <form action="{{ route('admin.sanphams.admin.sanpham.danhgias', $sanpham->id) }}" method="POST">
-            @csrf
+                                                                <form action="{{ route('admin.sanphams.admin.sanpham.danhgias', $sanpham->id) }}" method="POST">
+                                                                    @csrf
 
-            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
-            <label>Đánh giá :</label>
+                                                                    <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+                                                                    <label>Đánh giá :</label>
 
-            <div class="star-rating">
-                <input type="radio" id="star5" name="diem_so" value="5" />
-                <label for="star5" title="5 sao">&#9733;</label>
+                                                                    <div class="star-rating">
+                                                                        <input type="radio" id="star5" name="diem_so" value="5" />
+                                                                        <label for="star5" title="5 sao">&#9733;</label>
 
-                <input type="radio" id="star4" name="diem_so" value="4" />
-                <label for="star4" title="4 sao">&#9733;</label>
+                                                                        <input type="radio" id="star4" name="diem_so" value="4" />
+                                                                        <label for="star4" title="4 sao">&#9733;</label>
 
-                <input type="radio" id="star3" name="diem_so" value="3" />
-                <label for="star3" title="3 sao">&#9733;</label>
+                                                                        <input type="radio" id="star3" name="diem_so" value="3" />
+                                                                        <label for="star3" title="3 sao">&#9733;</label>
 
-                <input type="radio" id="star2" name="diem_so" value="2" />
-                <label for="star2" title="2 sao">&#9733;</label>
+                                                                        <input type="radio" id="star2" name="diem_so" value="2" />
+                                                                        <label for="star2" title="2 sao">&#9733;</label>
 
-                <input type="radio" id="star1" name="diem_so" value="1" />
-                <label for="star1" title="1 sao">&#9733;</label>
-            </div> 
-
-            <div class="tp-product-details-review-input-wrapper">
-                <div class="tp-product-details-review-input-box">
-                    <div class="tp-product-details-review-input">
-                        <textarea id="nhan_xet" name="nhan_xet" placeholder="Write your review here..."></textarea>
-                    </div>
-
-                    <div class="tp-product-details-review-input-title">
-                        <label for="nhan_xet">Nhận xét</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tp-product-details-review-suggetions mb-20">
-                <div class="tp-product-details-review-remeber">
-                    <input id="remeber" type="checkbox">
-                    <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
-                </div>
-            </div>
-
-            <div class="tp-product-details-review-btn-wrapper">
-                <button type="submit" class="tp-product-details-review-btn">Submit</button>
-            </div>
-        </form>
-    </div>
-@endif
-
-
+                                                                        <input type="radio" id="star1" name="diem_so" value="1" />
+                                                                        <label for="star1" title="1 sao">&#9733;</label>
                                                                     </div>
 
-                                                                </div>
-                                                                <div class="tp-product-details-review-suggetions mb-20">
-                                                                    <div class="tp-product-details-review-remeber">
-                                                                        <input id="remeber" type="checkbox">
-                                                                        <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
+                                                                    <div class="tp-product-details-review-input-wrapper">
+                                                                        <div class="tp-product-details-review-input-box">
+                                                                            <div class="tp-product-details-review-input">
+                                                                                <textarea id="nhan_xet" name="nhan_xet" placeholder="Write your review here..."></textarea>
+                                                                            </div>
+
+                                                                            <div class="tp-product-details-review-input-title">
+                                                                                <label for="nhan_xet">Nhận xét</label>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="tp-product-details-review-btn-wrapper">
-                                                                    <button type="submit" class="tp-product-details-review-btn">Submit</button>
-                                                                </div>
-                                                            </form>
+
+                                                                    <div class="tp-product-details-review-suggetions mb-20">
+                                                                        <div class="tp-product-details-review-remeber">
+                                                                            <input id="remeber" type="checkbox">
+                                                                            <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="tp-product-details-review-btn-wrapper">
+                                                                        <button type="submit" class="tp-product-details-review-btn">Submit</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            @endif
+
+
                                                         </div>
-                                                        {{-- form đánh giá và nhận xét --}}
-
-
 
                                                     </div>
+                                                    <div class="tp-product-details-review-suggetions mb-20">
+                                                        <div class="tp-product-details-review-remeber">
+                                                            <input id="remeber" type="checkbox">
+                                                            <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tp-product-details-review-btn-wrapper">
+                                                        <button type="submit" class="tp-product-details-review-btn">Submit</button>
+                                                    </div>
+                                                    </form>
                                                 </div>
+                                                {{-- form đánh giá và nhận xét --}}
+
+
 
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
 
 
