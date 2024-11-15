@@ -285,37 +285,86 @@
       </div>
       <div class="row">
          <div class="col-xl-12">
-            <div class="tp-product-offer-slider fix">
-               <div class="tp-product-offer-slider-active swiper-container">
-                  <div class="swiper-wrapper">
-                     <!-- Hiển thị danh sách khuyến mãi -->
-                     @foreach($khuyenMais as $khuyenMai)
-                     <div class="tp-product-offer-item tp-product-item transition-3 ">
-                        <div class="tp-product-content">
-                           <h4>Tên mã : {{ $khuyenMai->ma_khuyen_mai }}</h4>
-                           <div class="tp-product-price-wrapper">
-                              <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}% </span>
-                           </div>
-                           <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
-                              <div class="tp-product-countdown-inner">
-                                 <ul>
-                                    <span>Còn lại :</span>
-                                    <li><span data-days></span> Ngày</li>
-                                    <li><span data-hours></span> Giờ</li>
-                                    <li><span data-minutes></span>Phút</li>
-                                    <li><span data-seconds></span> Giây</li>
-                                 </ul>
-                              </div>
+            <div class="tp-product-offer-grid 1">
+            <!-- Hiển thị danh sách khuyến mãi -->
+               @foreach($khuyenMais as $khuyenMai)
+                  <div class="tp-product-offer-item tp-product-item transition-3">
+                     <div class="tp-product-content">
+                        <h4>Tên mã : {{ $khuyenMai->ma_khuyen_mai }}</h4>
+                        <div class="tp-product-price-wrapper">
+                           <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}%</span>
+                        </div>
+                        <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
+                           <div class="tp-product-countdown-inner">
+                              <ul>
+                                 <h5>Còn lại :</h5>
+                                 <li><span data-days></span> Ngày</li>
+                                 <li><span data-hours></span> Giờ</li>
+                                 <li><span data-minutes></span> Phút</li>
+                                 <li><span data-seconds></span> Giây</li>
+                              </ul>
                            </div>
                         </div>
                      </div>
-                     @endforeach
                   </div>
-                  <div class="tp-deals-slider-dot tp-swiper-dot text-center mt-40"></div>
-               </div>
+               @endforeach
             </div>
          </div>
       </div>
+<style>.tp-product-offer-grid {
+   
+    gap: 10px; /* Khoảng cách giữa các cột */
+    width: 100%; /* Đảm bảo container chiếm 100% chiều rộng */
+    box-sizing: border-box; /* Đảm bảo padding và border không làm phần tử tràn */
+    overflow: hidden; /* Ngăn chặn nội dung tràn ra ngoài */
+    display: grid; /* Sử dụng Grid để chia layout */
+    grid-template-columns: 440px 440px 440px;
+}
+
+.tp-product-countdown-inner h5 {
+   display: inline; /* Đảm bảo thẻ h5 nằm trên một dòng */
+   white-space: nowrap; /* Ngăn nội dung xuống dòng */
+    /* Điều chỉnh kích thước chữ nếu cần */
+   margin-right: 10px; /* Khoảng cách với phần tử bên cạnh */
+   color: #333; /* Màu chữ (có thể tùy chỉnh) */
+}
+
+.tp-product-offer-item {
+   border: 1px solid #ddd;
+   padding: 15px;
+   border-radius: 8px;
+   background: #fff;
+   transition: transform 0.3s ease;
+   width: 90%;
+}
+
+.tp-product-offer-item:hover {
+   transform: scale(1.05);
+}
+
+.tp-product-countdown-inner h5 {
+   height: 50px; /* Chiều cao của thẻ */
+   line-height: 50px; /* Giá trị line-height bằng với chiều cao */
+   text-align: center; /* Căn giữa theo chiều ngang */
+}
+
+
+.tp-product-price-wrapper {
+   font-size: 14px;
+   color: #ff5733;
+}
+
+.tp-product-countdown ul {
+   list-style: none;
+   padding: 0;
+   display: flex;
+   gap: 10px;
+}
+
+.tp-product-countdown ul span {
+   font-weight: bold;
+}
+</style>
    </div>
 </section>
 <!-- banner area start -->

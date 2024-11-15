@@ -9,7 +9,7 @@ use App\Models\Banner;
 use App\Models\KhuyenMai;
 use App\Models\DanhMuc;
 use App\Models\BaiViet;
-
+use Carbon\Carbon;
 class TrangChuController extends Controller
 {
     
@@ -19,12 +19,12 @@ class TrangChuController extends Controller
          $banners = Banner::all();
 
          // Lấy danh sách khuyến mãi còn hiệu lực
-         $khuyenMais = KhuyenMai::where('trang_thai', 1) // Kiểm tra trạng thái
-         ->where('ngay_ket_thuc', '>=', now()) // Kiểm tra ngày kết thúc
-         ->orderBy('ngay_ket_thuc', 'asc') // Sắp xếp theo ngày kết thúc gần nhất
-        //  ->take(5) // Lấy  khuyến mãi
-         ->get();
-
+         $khuyenMais = KhuyenMai::where('trang_thai', 1) // Trạng thái kích hoạt
+             ->where('ngay_ket_thuc', '>=', Carbon::now()) // Kiểm tra ngày kết thúc 
+             ->orderBy('created_at', 'desc') // Sắp xếp theo ngày tạo mới nhất
+             ->take(3) // Giới hạn lấy 3 bản ghi
+             ->get();
+         
         // Lấy 10 sản phẩm nổi bật (có lượt xem cao)
         $sanPhamsNoiBat = SanPham::with('bienThe')
             ->whereNull('deleted_at') // Chỉ lấy sản phẩm chưa xóa
