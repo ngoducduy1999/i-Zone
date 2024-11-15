@@ -8,9 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use Spatie\Permission\Traits\HasRoles;
+
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     protected $fillable = [
         'ten',
@@ -30,10 +32,9 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'mat_khau' => 'hashed', // Laravel sẽ tự động hash mật khẩu khi lưu trữ
+        'mat_khau' => 'hashed',
     ];
 
-    // Accessor để Laravel hiểu cột 'mat_khau' là mật khẩu
     public function getAuthPassword()
     {
         return $this->mat_khau;
@@ -44,11 +45,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(BaiViet::class);
     }
-
-    // public function yeuThichs()
-    // {
-    //     return $this->hasMany(YeuThich::class);
-    // }
 
     public function danhGias()
     {
@@ -65,3 +61,4 @@ class User extends Authenticatable
         return $this->belongsToMany(SanPham::class, 'yeu_thichs', 'user_id', 'san_pham_id');
     }
 }
+
