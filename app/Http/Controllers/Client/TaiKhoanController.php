@@ -64,8 +64,9 @@ class TaiKhoanController extends Controller
         // Các thuộc tính khác của hóa đơn
         $trangThaiHoaDon = HoaDon::TRANG_THAI;
         $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
+        $trangThaiThanhToan = HoaDon::TRANG_THAI_THANH_TOAN;
 
-        return view('clients.taikhoan.chitietdonhang', compact('hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
+        return view('clients.taikhoan.chitietdonhang', compact('$trangThaiThanhToan','hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
     }
 
     /**
@@ -127,8 +128,9 @@ class TaiKhoanController extends Controller
 
     public function profileUser(){
         $danhMucs = DanhMuc::all();
+        $donHangs = HoaDon::all();
         $profile = Auth::user();
-        return view('clients.taikhoan.profile',compact('danhMucs','profile'));
+        return view('clients.taikhoan.profile',compact('donHangs','danhMucs','profile'));
     }
 
     public function changePassword(Request $request){
