@@ -356,7 +356,7 @@
                                     // Vô hiệu hóa nút tăng nếu đạt max
                                     function togglePlusButton(currentValue, maxQuantity) {
                                         let plusButton = document.querySelector('.tp-cart-plus');
-                                        if (currentValue >= maxQuantity) {
+                                        if (currentValue >= maxQuantity -1) {
                                             plusButton.classList.add('disabled');
                                         } else {
                                             plusButton.classList.remove('disabled');
@@ -399,7 +399,7 @@
                                     // Nút giảm
                                     minusButton.addEventListener('click', function() {
                                         let currentValue = parseInt(input.value);
-                                        if (currentValue > 1) {
+                                        if (currentValue > -1) {
                                             input.value = currentValue;
                                         }
                                         togglePlusButton(parseInt(input.value), parseInt(input.getAttribute('data-max-quantity')));
