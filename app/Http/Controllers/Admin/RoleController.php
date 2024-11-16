@@ -32,24 +32,33 @@ class RoleController extends Controller
     }
     
     public function assignPermissions(Request $request, $roleId)
-    {
-        $role = Role::findOrFail($roleId);
-    
-        // Chỉ cho phép vai trò 'admin' có quyền 'QL phan quyen'
-        if ($role->name !== 'admin') {
-            $permissions = Permission::whereIn('id', $request->permissions)
-                ->where('name', '!=', 'QL phan quyen') // Loại bỏ quyền 'QL phan quyen'
-                ->pluck('name');
-        } else {
-            // Vai trò 'admin' được phép nhận mọi quyền
-            $permissions = Permission::whereIn('id', $request->permissions)->pluck('name');
-        }
-    
-        // Cập nhật quyền cho vai trò
-        $role->syncPermissions($permissions);
-    
-        return redirect()->route('admin.roles.index')->with('success', 'Cập nhật quyền thành công');
+{
+    $role = Role::findOrFail($roleId);
+
+    // Lấy danh sách quyền từ request, mặc định là một mảng rỗng nếu không có gì
+    $permissionsIds = $request->permissions ?? [];
+
+    // Đảm bảo $permissionsIds là một mảng
+    if (!is_array($permissionsIds)) {
+        $permissionsIds = [];
     }
+
+    // Chỉ cho phép vai trò 'admin' có quyền 'QL phan quyen'
+    if ($role->name !== 'admin') {
+        $permissions = Permission::whereIn('id', $permissionsIds)
+            ->where('name', '!=', 'QL phan quyen') // Loại bỏ quyền 'QL phan quyen'
+            ->pluck('name');
+    } else {
+        // Vai trò 'admin' được phép nhận mọi quyền
+        $permissions = Permission::whereIn('id', $permissionsIds)->pluck('name');
+    }
+
+    // Cập nhật quyền cho vai trò
+    $role->syncPermissions($permissions);
+
+    return redirect()->route('admin.roles.index')->with('success', 'Cập nhật quyền thành công');
+}
+
     
 public function destroy($id)
 {
