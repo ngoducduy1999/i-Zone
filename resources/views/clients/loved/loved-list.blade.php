@@ -13,6 +13,8 @@
                 </td>
                 <!-- price -->
                 <td class="tp-cart-price">
+                </td>
+                <td class="tp-cart-price">
                     @foreach ($danhMucs as $danhMuc)
                         @if ($love->danh_muc_id == $danhMuc->id)
                             <a href="">

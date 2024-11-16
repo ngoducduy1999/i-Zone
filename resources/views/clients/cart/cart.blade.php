@@ -118,9 +118,9 @@
                                 <div class="tp-cart-coupon">
                                     {{-- <form action="#"> --}}
                                     <div class="tp-cart-coupon-input-box">
-                                        <label>Mã phiếu giảm giá:</label>
+                                        <label>Mã khuyễn mãi:</label>
                                         <div class="tp-cart-coupon-input d-flex align-items-center">
-                                            <input type="text" id="discount-code" placeholder="Nhập mã giảm giá">
+                                            <input type="text" id="discount-code" placeholder="Nhập mã khuyến mãi">
                                             <button type="submit" onclick="discount()" style="font-size: 15px">Áp dụng</button>
                                         </div>
                                     </div>
@@ -166,6 +166,11 @@
                                     @if (isset($discount))
                                         @php
                                             $discountAmount = Session::get('cart')->totalPrice * ($discount / 100);
+                                            if ($maxDiscount > 0 && $maxDiscount != null && $maxDiscount <= $discountAmount) {
+                                                $discountAmount = $maxDiscount;
+                                            } elseif ($maxDiscount <= 0) {
+                                                $discountAmount = 0;
+                                            }
                                         @endphp
                                         <span class="text-danger">
                                             {{ number_format($discountAmount, 0, ',', '.') }} VNĐ
