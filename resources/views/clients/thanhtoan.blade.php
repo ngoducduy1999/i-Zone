@@ -267,7 +267,7 @@
         if (data.order_url) {
             window.location.href = data.order_url; // Chuyển hướng đến ZaloPay
         } else {
-            window.location.href = '/thank-you';
+            window.location.href = '/customer/donhang';
             alert('Đặt hàng thành công!');
         }
     } else {
