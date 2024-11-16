@@ -31,6 +31,7 @@
                                     <tr>
                                         <th colspan="2" class="tp-cart-header-product">Sản phẩm</th>
                                         <th class="tp-cart-header-price">
+                                        <th></th>
                                             Danh mục</th>
                                         {{-- <th class="tp-cart-header-quantity">Quantity</th> --}}
                                         {{-- <th>Action</th> --}}
@@ -55,6 +56,8 @@
                                                     </td>
                                                     <!-- price -->
                                                     <td class="tp-cart-price">
+                                                    </td>
+                                                        <td class="tp-cart-price">
                                                         @foreach ($danhMucs as $danhMuc)
                                                             @if ($love->danh_muc_id == $danhMuc->id)
                                                                 <a href="">
