@@ -70,7 +70,7 @@ public function edit($id)
         $request->validate([
             'ma_khuyen_mai' => 'required|string|unique:khuyen_mais,ma_khuyen_mai,' . $id, // Ensure unique code, excluding current record
             'phan_tram_khuyen_mai' => 'required|integer|min:1|max:99',
-            'giam_toi_da' => 'nullable|numeric|min:0',
+            'giam_toi_da' => 'required|nullable|numeric|min:0',
             'ngay_bat_dau' => 'required|date',
             'ngay_ket_thuc' => 'required|date|after_or_equal:ngay_bat_dau',
         ], [
@@ -81,6 +81,7 @@ public function edit($id)
             'phan_tram_khuyen_mai.min' => 'Phần trăm khuyến mãi phải lớn hơn 0.',
             'phan_tram_khuyen_mai.max' => 'Phần trăm khuyến mãi phải nhỏ hơn 100.',
             'giam_toi_da.numeric' => 'Giảm tối đa phải là một số.',
+            'giam_toi_da.required' => 'Mã khuyến mãi không được để trống.',
             'ngay_bat_dau.required' => 'Ngày bắt đầu không được để trống.',
             'ngay_ket_thuc.required' => 'Ngày kết thúc không được để trống.',
             'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
