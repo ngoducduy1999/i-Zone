@@ -58,7 +58,7 @@ public function store(Request $request)
 
     $user->assignRole('staff');
 
-    return redirect()->route('admin.nhanviens.index')->with('success', 'Nhân viên đã được thêm thành công');
+    return redirect()->route('admin.nhanviens')->with('success', 'Nhân viên đã được thêm thành công');
 }
 
     // Hiển thị thông tin chi tiết của nhân viên
