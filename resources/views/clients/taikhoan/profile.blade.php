@@ -528,25 +528,49 @@
                                 <div class="tab-pane fade" id="nav-order" role="tabpanel"
                                     aria-labelledby="nav-order-tab">
                                     <h3 class="profile__info-title">Lịch sử đơn hàng</h3>
-                                    <div class="profile__ticket table-responsive">
-                                        <table class="table">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Tổng tiền</th>
-                                                    <th scope="col">Trang thai</th>
-                                                    <th scope="col">View</th>
+                                                    <th scope="col-xl">Mã đơn</th>
+                                                    <th scope="col-xl">Tổng tiền</th>
+                                                    <th scope="col-xl">Ngày đặt</th>
+                                                    <th scope="col-xl">Trang thai đơn hàng</th>
+                                                    <th scope="col-xl">Trạng thái thanh toán</th>
+                                                    <th scope="col-xl">Thao tác</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {{-- @foreach ($orders as $order)
+                                                @foreach ($donHangs as $key => $ord)
                                                 <tr>
-                                                    <th scope="row"> #IZD{{$order->id}}</th>
-                                                    <td data-info="title">{{$order->tong_tienc}}</td>
-                                                    <td data-info="status pending">{{$order->trang_thai}} </td>
-                                                    <td><a href="#" class="tp-logout-btn">xem</a></td>
+                                                    <th scope="row">{{$ord->ma_hoa_don}}</th>
+                                                    <td data-info="title">{{$ord->tong_tien}}đ</td>
+                                                    <td>{{$ord->ngay_dat_hang}}</td>
+                                                    <td data-info="status pending">
+                                                        @if ($ord->trang_thai == 1)
+                                                        <p class=""><b>Chờ xác nhận</b></p>
+                                                    @elseif($ord->trang_thai == 2)
+                                                        <p><b>Đã xác nhận</b></p>
+                                                    @elseif($ord->trang_thai == 3)
+                                                        <p><b>Đang chuẩn bị hàng</b></p>
+                                                    @elseif($ord->trang_thai == 4)
+                                                        <p><b>Đang giao hàng</b></p>
+                                                    @elseif($ord->trang_thai == 5)
+                                                        <p><b>Đã giao hàng</b></p>
+                                                    @elseif($ord->trang_thai == 6)
+                                                        <p><b>Đã hủy đơn hàng</b></p>
+                                                    @elseif($ord->trang_thai == 7)
+                                                        <p><b>Đã nhận đơn hàng</b></p>
+                                                    @endif
+
+                                                    </td>
+                                                    <td>chua thanh toan</td>
+                                                    <td class="d-flex justify-content-around">
+                                                        <a href="{{route('customer.donhang.chitiet',$ord->id)}}" class="btn btn-outline-dark me-2 btn-sm">xem</a>
+                                                        <a href="#" class="btn btn-outline-dark btn-sm">hủy</a>
+                                                    </td>
                                                 </tr>
-                                                @endforeach --}}
+                                                @endforeach
 
                                                 {{-- <tr>
                                                     <th scope="row"> #2220</th>

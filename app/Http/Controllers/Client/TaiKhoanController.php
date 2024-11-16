@@ -66,7 +66,7 @@ class TaiKhoanController extends Controller
         $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
         $trangThaiThanhToan = HoaDon::TRANG_THAI_THANH_TOAN;
 
-        return view('clients.taikhoan.chitietdonhang', compact('$trangThaiThanhToan','hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
+        return view('clients.taikhoan.chitietdonhang', compact('trangThaiThanhToan','hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
     }
 
     /**
