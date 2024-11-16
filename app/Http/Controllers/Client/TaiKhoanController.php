@@ -128,8 +128,13 @@ class TaiKhoanController extends Controller
 
     public function profileUser(){
         $danhMucs = DanhMuc::all();
+        // lấy danh sách đơn hàng
         $donHangs = HoaDon::all();
+        // đếm sl đơn hàng
+        // $sldh = HoaDon::count();
+        // lấy thông tin người dùng đang đăng nhập
         $profile = Auth::user();
+        // đếm
         return view('clients.taikhoan.profile',compact('donHangs','danhMucs','profile'));
     }
 
@@ -162,7 +167,9 @@ class TaiKhoanController extends Controller
         if(!$orders){
             return redirect()->back()->with('error','Đơn hàng không tồn hại!');
         }
-
+        if($orders->trang_thai == 3){
+            return redirect()->back()->with('error','Đơn hàng đang chuẩn bị không thể hủy !');
+        }
         $orders->trang_thai = 6;
 
         if($orders->save()){

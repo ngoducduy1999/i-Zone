@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container p-5 ">
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+        @endif
         <h3 class="profile__info-title">Lịch sử đơn hàng</h3>
         <div class="profile__ticket table-responsive">
             <table class="table ">
@@ -11,6 +17,7 @@
                         <th scope="col">Tổng tiền</th>
                         <th scope="col">Ngày đặt hàng</th>
                         <th scope="col">Trạng thái</th>
+                        <th scope="col">Trạng thái thanh toán</th>
                         <th scope="col">View</th>
                     </tr>
                 </thead>
@@ -18,8 +25,8 @@
                     @foreach ($orders as $order)
                         <tr>
                             <th scope="row"> {{ $order->ma_hoa_don }}</th>
-                            <td data-info="title">{{ $order->tong_tien }}</td>
-                            <td>{{$order->ngay_dat_hang}}</td>
+                            <td data-info="title">{{ $order->tong_tien }} vnđ</td>
+                            <td>{{ $order->ngay_dat_hang }}</td>
                             <td data-info="status pending">
                                 @if ($order->trang_thai == 1)
                                     <p class=""><b>Chờ xác nhận</b></p>
@@ -39,6 +46,9 @@
 
                             </td>
                             <td>
+                                <p><b>{{ $order->trang_thai_thanh_toan }}</b></p>
+                            </td>
+                            <td>
 
                                 <div class="dropdown">
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -49,7 +59,7 @@
                                         <li> <a href="{{ route('customer.donhang.chitiet', $order->id) }}"
                                                 class="dropdown-item">Chi tiết</a></li>
                                         <li>
-                                            @if ($order->trang_thai != 6 && $order->trang_thai !=7)
+                                            @if ($order->trang_thai == 1 && $order->trang_thai == 2)
                                                 <form action="{{ route('customer.cancelOrder', $order->id) }}"
                                                     method="post" onsubmit="return confirm('Bạn có chắc muốn hủy không?')">
                                                     @csrf
@@ -59,7 +69,7 @@
 
                                         </li>
                                         <li>
-                                            @if ($order->trang_thai != 7 && $order->trang_thai != 6)
+                                            @if ($order->trang_thai == 5)
                                                 <form action="{{ route('customer.getOrder', $order->id) }}" method="post"
                                                     onsubmit="return confirm('Bạn chắc chắn đã nhận được hàng?')">
                                                     @csrf
@@ -70,10 +80,9 @@
 
                                     </ul>
                                 </div>
+                            </td>
+                        </tr>
         </div>
-
-        </td>
-        </tr>
         @endforeach
 
 
