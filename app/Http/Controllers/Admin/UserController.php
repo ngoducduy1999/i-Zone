@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role; // Thêm dòng này
-use Illuminate\Support\Facades\Log; // Thêm dòng này
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role; // Thêm dòng này
+use Illuminate\Support\Facades\Log; // Thêm dòng này
+
 
 class UserController extends Controller
 {
