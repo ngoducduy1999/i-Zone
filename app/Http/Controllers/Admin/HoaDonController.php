@@ -124,31 +124,33 @@ class HoaDonController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $hoaDon = HoaDon::query()->findOrFail($id);
+{
+    $hoaDon = HoaDon::query()->findOrFail($id);
 
-        $currentTrangThai = $hoaDon->trang_thai;
+    $currentTrangThai = $hoaDon->trang_thai;
+    $newTrangThai = $request->input('trang_thai');
+    $trangThais = array_keys(HoaDon::TRANG_THAI);
 
-        $newTrangThai = $request->input('trang_thai');
-
-        $trangThais = array_keys(HoaDon::TRANG_THAI);
-
-        // Kiểm tra nếu đơn hàng đã hủy thì không được thay đổi trạng thái nữa
-        if($currentTrangThai === HoaDon::HUY_DON_HANG){
-            return redirect()->route('admins.hoadons.index')->with('error', 'Đơn hàng đã bị hủy không thể thay đổi được trạng thái');
-        }
-
-        // Nếu trạng thái mới không được nằm sau trạng thái hiện tại
-        if(array_search($newTrangThai, $trangThais) < array_search($currentTrangThai, $trangThais)){
-            return redirect()->route('admin.hoadons.index')->with('error', 'Không thể cập nhật ngược lại trạng thái');
-        }
-
-        $hoaDon->trang_thai = $newTrangThai;
-
-        $hoaDon->save();
-
-        return redirect()->route('admin.hoadons.index')->with('success', 'Cập nhật trạng thái thành công');
+    // Kiểm tra nếu đơn hàng đã bị hủy thì không được thay đổi trạng thái
+    if ($currentTrangThai === HoaDon::HUY_DON_HANG) {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng đã bị hủy, không thể thay đổi trạng thái');
     }
+
+    // Kiểm tra nếu đơn hàng chưa thanh toán thì không cho phép thay đổi trạng thái
+    if ($hoaDon->trang_thai_thanh_toan === HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']) {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng chưa thanh toán, không thể thay đổi trạng thái');
+    }
+
+    // Kiểm tra nếu trạng thái mới không được nằm sau trạng thái hiện tại
+    if (array_search($newTrangThai, $trangThais) < array_search($currentTrangThai, $trangThais)) {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể cập nhật ngược lại trạng thái');
+    }
+
+    $hoaDon->trang_thai = $newTrangThai;
+    $hoaDon->save();
+
+    return redirect()->route('admin.hoadons.index')->with('success', 'Cập nhật trạng thái thành công');
+}
 
     /**
      * Remove the specified resource from storage.
