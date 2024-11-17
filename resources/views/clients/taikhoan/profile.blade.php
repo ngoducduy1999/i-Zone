@@ -3,7 +3,12 @@
 @section('content')
     <section class="profile__area pt-120 pb-120">
         <div class="container">
-
+            @if (session('success'))
+                <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+            @endif
             <div class="profile__inner p-relative">
                 <div class="profile__shape">
                     <img class="profile__shape-1" src="{{ asset('assets/client/img/login/laptop.png') }}" alt="">
@@ -31,7 +36,8 @@
                                         data-bs-target="#nav-address" type="button" role="tab"
                                         aria-controls="nav-address" aria-selected="false"><span><i
                                                 class="fa-light fa-location-dot"></i></span> Address </button> --}}
-                                      <a href="{{route('customer.donhang')}}" class="nav-link"><span><i class="fa-light fa-clipboard-list-check"></i></span>đơn hàng</a>
+                                    <a href="{{ route('customer.donhang') }}" class="nav-link"><span><i
+                                                class="fa-light fa-clipboard-list-check"></i></span>đơn hàng</a>
                                     <button class="nav-link" id="nav-order-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-order" type="button" role="tab" aria-controls="nav-order"
                                         aria-selected="false"><span><i class="fa-light fa-clipboard-list-check"></i></span>
@@ -58,11 +64,7 @@
                                         <div class="profile__main-top pb-80">
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
-                                                    @if (session('success'))
-                                                    <div class="alert alert-success">
-                                                        {{ session('success') }}
-                                                    </div>
-                                                @endif
+
                                                     <div class="profile__main-inner d-flex flex-wrap align-items-center">
                                                         <div class="profile__main-thumb">
                                                             @if ($profile->anh_dai_dien != '')
@@ -74,14 +76,13 @@
                                                                     class="rounded-circle avatar-xxl img-thumbnail float-start"
                                                                     alt="Ảnh đại diện">
                                                             @endif
-`
-                                                                <div class="profile__main-thumb-edit">
-                                                                    <input id="profile-thumb-input"
-                                                                        class="profile-img-popup" name="anh_dai_dien"
-                                                                        type="file">
-                                                                    <label for="profile-thumb-input"><i
-                                                                            class="fa-light fa-camera"></i></label>
-                                                                </div>
+                                                            `
+                                                            <div class="profile__main-thumb-edit">
+                                                                <input id="profile-thumb-input" class="profile-img-popup"
+                                                                    name="anh_dai_dien" type="file">
+                                                                <label for="profile-thumb-input"><i
+                                                                        class="fa-light fa-camera"></i></label>
+                                                            </div>
                                                         </div>
                                                         <div class="profile__main-content">
                                                             <h4 class="profile__main-title">Xin chào {{ $profile->ten }}
@@ -132,7 +133,7 @@
                                                             <span>
                                                                 <span class="profile-icon-count profile-order">
                                                                     @if (Auth::user())
-                                                                    {{Auth::user()->hoaDons()->count()}}
+                                                                        {{ Auth::user()->hoaDons()->count() }}
                                                                     @endif
                                                                 </span>
                                                                 <svg viewBox="0 0 512 512">
@@ -157,8 +158,8 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <a href="{{route('customer.donhang')}}">
-                                                             <h4 class="profile__main-info-title">Đơn hàng</h4>
+                                                        <a href="{{ route('customer.donhang') }}">
+                                                            <h4 class="profile__main-info-title">Đơn hàng</h4>
                                                         </a>
 
                                                     </div>
@@ -227,8 +228,8 @@
                                     <div class="profile__info">
                                         <h3 class="profile__info-title">Thông tin cá nhân</h3>
                                         <div class="profile__info-content">
-                                            <form action="{{ route('customer.update.profileUser', $profile->id) }}" enctype="multipart/form-data"
-                                                method="POST">
+                                            <form action="{{ route('customer.update.profileUser', $profile->id) }}"
+                                                enctype="multipart/form-data" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="row">
@@ -238,9 +239,9 @@
                                                                 <input type="text" placeholder="Enter your username"
                                                                     value="{{ old('ten', $profile->ten) }}"
                                                                     name="ten">
-                                                                    @error('ten')
-                                                                    <p class="text-danger">{{$message}}</p>
-                                                                    @enderror
+                                                                @error('ten')
+                                                                    <p class="text-danger">{{ $message }}</p>
+                                                                @enderror
                                                                 <span>
                                                                     <svg width="17" height="19"
                                                                         viewBox="0 0 17 19" fill="none"
@@ -267,9 +268,9 @@
                                                                 <input type="email" placeholder="Enter your email"
                                                                     name="email"
                                                                     value="{{ old('email', $profile->email) }}">
-                                                                    @error('email')
-                                                                    <p class="text-danger">{{$message}}</p>
-                                                                    @enderror
+                                                                @error('email')
+                                                                    <p class="text-danger">{{ $message }}</p>
+                                                                @enderror
                                                                 <span>
                                                                     <svg width="18" height="16"
                                                                         viewBox="0 0 18 16" fill="none"
@@ -315,9 +316,9 @@
                                                                 <input type="text" placeholder="Nhập số điện thoại"
                                                                     name="so_dien_thoai"
                                                                     value="{{ old('so_dien_thoai', $profile->so_dien_thoai) }}">
-                                                                    @error('so_dien_thoai')
-                                                                    <p class="text-danger">{{$message}}</p>
-                                                                    @enderror
+                                                                @error('so_dien_thoai')
+                                                                    <p class="text-danger">{{ $message }}</p>
+                                                                @enderror
                                                                 <span>
                                                                     <svg width="15" height="18"
                                                                         viewBox="0 0 15 18" fill="none"
@@ -347,9 +348,9 @@
                                                                 <input type="date" placeholder="Nhập ngày sinh"
                                                                     name="ngay_sinh"
                                                                     value="{{ old('ngay_sinh', $profile->ngay_sinh) }}">
-                                                                    @error('ngay_sinh')
-                                                                    <p class="text-danger">{{$message}}</p>
-                                                                    @enderror
+                                                                @error('ngay_sinh')
+                                                                    <p class="text-danger">{{ $message }}</p>
+                                                                @enderror
                                                                 <span><i class="fa-solid fa-calendar-days"
                                                                         style="color: #000000;"></i></span>
                                                             </div>
@@ -358,7 +359,8 @@
                                                     <div class="col-xxl-6 col-md-6">
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
-                                                                <input  type="file" name="anh_dai_dien" id="anh_dai_dien"">
+                                                                <input type="file" name="anh_dai_dien"
+                                                                    id="anh_dai_dien"">
                                                                 <span>
                                                                     <i class="fa-regular fa-image"></i>
                                                                 </span>
@@ -371,9 +373,9 @@
                                                                 <input type="text" placeholder="Nhập địa chỉ"
                                                                     name="dia_chi"
                                                                     value="{{ old('dia_chi', $profile->dia_chi) }}">
-                                                                    @error('dia_chi')
-                                                                    <p class="text-danger">{{$message}}</p>
-                                                                    @enderror
+                                                                @error('dia_chi')
+                                                                    <p class="text-danger">{{ $message }}</p>
+                                                                @enderror
                                                                 <span>
                                                                     <svg width="16" height="18"
                                                                         viewBox="0 0 16 18" fill="none"
@@ -411,7 +413,7 @@
                                 <div class="tab-pane fade" id="nav-password" role="tabpanel"
                                     aria-labelledby="nav-password-tab">
                                     <div class="profile__password">
-                                        <form action="{{route('customer.changePassword')}}" method="POST">
+                                        <form action="{{ route('customer.changePassword') }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="row">
@@ -438,7 +440,8 @@
                                                 <div class="col-xxl-6 col-md-6">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-profile-input">
-                                                            <input name="mat_khau_moi_confirmation" id="con_new_pass" type="password">
+                                                            <input name="mat_khau_moi_confirmation" id="con_new_pass"
+                                                                type="password">
                                                         </div>
                                                         <div class="tp-profile-input-title">
                                                             <label for="con_new_pass">Xác nhận mật khẩu mới</label>
@@ -532,48 +535,99 @@
                                 <div class="tab-pane fade" id="nav-order" role="tabpanel"
                                     aria-labelledby="nav-order-tab">
                                     <h3 class="profile__info-title">Lịch sử đơn hàng</h3>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered">
+                                    <div class=" ">
+                                        <table class="table table-bordered ">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col-xl">Mã đơn</th>
+                                                    <th scope="col">Mã đơn</th>
                                                     <th scope="col-xl">Tổng tiền</th>
                                                     <th scope="col-xl">Ngày đặt</th>
-                                                    <th scope="col-xl">Trang thai đơn hàng</th>
+                                                    <th scope="col-xl text-small">Trạng thái đơn hàng</th>
                                                     <th scope="col-xl">Trạng thái thanh toán</th>
                                                     <th scope="col-xl">Thao tác</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($donHangs as $key => $ord)
-                                                <tr>
-                                                    <th scope="row">{{$ord->ma_hoa_don}}</th>
-                                                    <td data-info="title">{{$ord->tong_tien}}đ</td>
-                                                    <td>{{$ord->ngay_dat_hang}}</td>
-                                                    <td data-info="status pending">
-                                                        @if ($ord->trang_thai == 1)
-                                                        <p class=""><b>Chờ xác nhận</b></p>
-                                                    @elseif($ord->trang_thai == 2)
-                                                        <p><b>Đã xác nhận</b></p>
-                                                    @elseif($ord->trang_thai == 3)
-                                                        <p><b>Đang chuẩn bị hàng</b></p>
-                                                    @elseif($ord->trang_thai == 4)
-                                                        <p><b>Đang giao hàng</b></p>
-                                                    @elseif($ord->trang_thai == 5)
-                                                        <p><b>Đã giao hàng</b></p>
-                                                    @elseif($ord->trang_thai == 6)
-                                                        <p><b>Đã hủy đơn hàng</b></p>
-                                                    @elseif($ord->trang_thai == 7)
-                                                        <p><b>Đã nhận đơn hàng</b></p>
-                                                    @endif
+                                                    <tr class="text-sm">
+                                                        <th scope="row">{{ $ord->ma_hoa_don }}</th>
+                                                        <td data-info="title">{{ $ord->tong_tien }}đ</td>
+                                                        <td>{{ $ord->ngay_dat_hang }}</td>
+                                                        <td data-info="status pending text-small">
+                                                            @if ($ord->trang_thai == 1)
+                                                                <p class="text-danger">Chờ xác nhận</p>
+                                                            @elseif($ord->trang_thai == 2)
+                                                                <p class="text-primary">Đã xác nhận</p>
+                                                            @elseif($ord->trang_thai == 3)
+                                                                <span class="badge rounded-pill bg-primary">Đang chuẩn bị
+                                                                    hàng</span>
+                                                            @elseif($ord->trang_thai == 4)
+                                                                <p class="text-warning"></p> Đang giao hàng
+                                                            @elseif($ord->trang_thai == 5)
+                                                                <span class="badge rounded-pill bg-success">Đã giao
+                                                                    hàng</span>
+                                                            @elseif($ord->trang_thai == 6)
+                                                                <span class="badge rounded-pill bg-primary">Đã hủy</span>
+                                                            @elseif($ord->trang_thai == 7)
+                                                                <span class="badge rounded-pill bg-success">Đã nhận
+                                                                    hàng</span>
+                                                            @endif
 
-                                                    </td>
-                                                    <td><b>{{$ord->trang_thai_thanh_toan}}</b></td>
-                                                    <td class="d-flex justify-content-around">
-                                                        <a href="{{route('customer.donhang.chitiet',$ord->id)}}" class="btn btn-outline-dark me-2 btn-sm">xem</a>
-                                                        <a href="#" class="btn btn-outline-dark btn-sm">hủy</a>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td>
+                                                            {{ $ord->trang_thai_thanh_toan }}
+                                                        </td>
+                                                        <td class="d-flex">
+
+                                                            <div class="dropdown dropend me-1">
+                                                                <button
+                                                                    class="btn btn-outline-primary btn-sm dropdown-toggle"
+                                                                    type="button" id="dropdownMenuButton1"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Xem
+                                                                </button>
+                                                                <ul class="dropdown-menu "
+                                                                    aria-labelledby="dropdownMenuButton1">
+                                                                    <li> <a href="{{ route('customer.donhang.chitiet', $ord->id) }}"
+                                                                            class="dropdown-item">Chi tiết</a></li>
+                                                                    <li>
+                                                                        @if ($ord->trang_thai != 7 && $ord->trang_thai != 6)
+                                                                            <form
+                                                                                action="{{ route('customer.cancelOrder', $ord->id) }}"
+                                                                                method="post"
+                                                                                onsubmit="return confirm('Bạn có chắc muốn hủy không?')">
+                                                                                @csrf
+                                                                                <button class="dropdown-item"
+                                                                                    type="submit">Hủy đơn hàng</button>
+                                                                            </form>
+                                                                        @endif
+
+                                                                    </li>
+                                                                    <li>
+                                                                        @if ($ord->trang_thai == 5)
+                                                                            <form
+                                                                                action="{{ route('customer.getOrder', $ord->id) }}"
+                                                                                method="post"
+                                                                                onsubmit="return confirm('Bạn chắc chắn đã nhận được hàng?')">
+                                                                                @csrf
+                                                                                <button class="dropdown-item"
+                                                                                    type="submit">Đã nhận hàng</button>
+                                                                            </form>
+                                                                        @endif
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+
+                                                            @if ($ord->trang_thai == 7 && $ord->trang_thai_thanh_toan == 'Đã thanh toán')
+                                                                <a href="#"
+                                                                    class="btn btn-sm btn-outline-secondary">Đánh giá</a>
+                                                            @endif
+                                                            @if ($ord->trang_thai_thanh_toan == 'Chưa thanh toán' || $ord->trang_thai_thanh_toan == 'Thanh toán thất bại')
+                                                                <a href="#" class="btn btn-sm btn-outline-warning">thanh toán</a>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
 
                                                 {{-- <tr>
