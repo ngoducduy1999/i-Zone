@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('content')
@@ -62,7 +63,7 @@
             <div class="flex-grow-1">
                 <h4 class="fs-18 fw-semibold m-0">Hồ sơ</h4>
             </div>
-            @if ($user->vai_tro=='staff')            
+            @if ($staff->vai_tro=='staff')            
             <button id="editBtn" class="btn btn-primary ms-auto">Sửa</button>
             @endif
         </div>
@@ -72,21 +73,21 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Form để lưu thay đổi -->
-                        <form id="userForm" action="" method="POST" enctype="multipart/form-data">
+                        <form id="userForm" action="{{ route('admin.nhanviens.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
                             <div class="d-flex align-items-center mb-4">
                                 <div class="avatar-container">
-                                    <img id="avatarPreview" src="{{ $user->anh_dai_dien ? asset('storage/' . $user->anh_dai_dien) : asset('assets/admin/images/users/user-11.jpg') }}" class="rounded-circle avatar-lg img-thumbnail float-start" alt="Ảnh đại diện">
+                                    <img id="avatarPreview" src="{{ $staff->anh_dai_dien ? asset('storage/' . $staff->anh_dai_dien) : asset('assets/admin/images/users/user-11.jpg') }}" class="rounded-circle avatar-lg img-thumbnail float-start" alt="Ảnh đại diện">
                                     <input type="file" id="avatarInput" name="anh_dai_dien" accept="image/*" style="display: none;">
                                     <span class="edit-avatar" id="editAvatar">
                                         <i class="bi bi-pencil-fill"></i>
                                     </span>
                                 </div>
                                 <div class="ms-3">
-                                    <h4 class="m-0 text-dark">{{ $user->ten }}</h4>
-                                    <p class="text-muted mb-0">{{ ucfirst($user->vai_tro) }}</p>
+                                    <h4 class="m-0 text-dark">{{ $staff->ten }}</h4>
+                                    <p class="text-muted mb-0">{{ ucfirst($staff->getRoleNames()->first()) }}</p>
                                 </div>
                             </div>
 
@@ -94,17 +95,17 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <h5 class="fs-16 text-dark fw-semibold">Giới thiệu</h5>
-                                        <p>Họ và tên: <span class="info-field"><input type="text" name="ten" value="{{ $user->ten }}" disabled></span></p>
-                                        <p>Ngày sinh: <span class="info-field"><input type="text" name="ngay_sinh" value="{{ $user->ngay_sinh }}" disabled></span></p>
+                                        <p>Họ và tên: <span class="info-field"><input type="text" name="ten" value="{{ $staff->ten }}" disabled></span></p>
+                                        <p>Ngày sinh: <span class="info-field"><input type="text" name="ngay_sinh" value="{{ $staff->ngay_sinh }}" disabled></span></p>
                                         <!-- Vai trò không hiển thị dưới dạng input -->
-                                        <p>Chức vụ: <span class="info-field">{{ ucfirst($user->vai_tro) }}</span></p>
+                                        <p>Chức vụ: <span class="info-field">{{ ucfirst($staff->getRoleNames()->first()) }}</span></p>
                                     </div>
 
                                     <div class="col-md-6 mb-4">
                                         <h5 class="fs-16 text-dark fw-semibold">Liên hệ</h5>
-                                        <p>Email: <span class="info-field"><input type="email" name="email" value="{{ $user->email }}" disabled></span></p>
-                                        <p>Địa chỉ: <span class="info-field"><input type="text" name="dia_chi" value="{{ $user->dia_chi }}" disabled></span></p>
-                                        <p>Số điện thoại: <span class="info-field"><input type="text" name="so_dien_thoai" value="{{ $user->so_dien_thoai }}" disabled></span></p>
+                                        <p>Email: <span class="info-field"><input type="email" name="email" value="{{ $staff->email }}" disabled></span></p>
+                                        <p>Địa chỉ: <span class="info-field"><input type="text" name="dia_chi" value="{{ $staff->dia_chi }}" disabled></span></p>
+                                        <p>Số điện thoại: <span class="info-field"><input type="text" name="so_dien_thoai" value="{{ $staff->so_dien_thoai }}" disabled></span></p>
                                     </div>
                                 </div>
                             </div>

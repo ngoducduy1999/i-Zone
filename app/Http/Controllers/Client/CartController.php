@@ -110,7 +110,7 @@ class CartController extends Controller
                 $request->session()->put('discount_code', $discountCode);
                 $request->session()->put('discount_percentage', $discountPercentage);
 
-                return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
+                return view('clients.cart.cart-list', ['discount' => $discountPercentage, 'maxDiscount' => $discount->giam_toi_da]);
             } else {
                 return response()->json(['message' => 'Mã giảm giá đã hết hạn.'], 400);
             }

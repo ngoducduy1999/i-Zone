@@ -52,10 +52,9 @@ if ($discountCode) {
         $discountPercentage = 0;
     }
 }
-
 // Tính tổng tiền sau khi giảm giá
-$discountedTotal = $cart->totalPrice * (1 - $discountPercentage / 100);
-$discountAmount = $cart->totalPrice * ($discountPercentage / 100);
+$discountedTotal = ($cart->totalPrice+50000) * (1 - $discountPercentage / 100);
+$discountAmount = ($cart->totalPrice+50000) * ($discountPercentage / 100);
 
 return view('clients.thanhtoan', [
     'cart' => $cart,
@@ -272,7 +271,7 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
     ];
 
     $transID = 'HD' . $maHoaDon; 
-    $embedData = json_encode(['redirecturl' => 'http://127.0.0.1:8000/thank-you']); 
+    $embedData = json_encode(['redirecturl' => 'http://127.0.0.1:8000/customer/donhang']); 
     $itemsArray = [];
 
     foreach ($cart->products as $product) {
