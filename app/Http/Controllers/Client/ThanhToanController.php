@@ -292,7 +292,7 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
         'embed_data' => $embedData,
         'amount' => $tongTienSauGiam,
         'description' => "Thanh toán cho đơn hàng #$transID",
-        'callback_url' => 'https://9100-2402-800-61c5-e43f-905b-23e4-ed57-6e6f.ngrok-free.app/zalopay/callback',
+        'callback_url' => 'https://e5f5-1-54-42-89.ngrok-free.app/zalopay/callback',
     ];
 
     $data['mac'] = $this->generateZaloPaySignature($data, $zaloPayConfig['key']);
