@@ -131,26 +131,34 @@ class HoaDonController extends Controller
     $newTrangThai = $request->input('trang_thai');
     $trangThais = array_keys(HoaDon::TRANG_THAI);
 
-    // Kiểm tra nếu đơn hàng đã bị hủy thì không được thay đổi trạng thái
+    // Kiểm tra nếu đơn hàng đã bị hủy
     if ($currentTrangThai === HoaDon::HUY_DON_HANG) {
         return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng đã bị hủy, không thể thay đổi trạng thái');
     }
 
-    // Kiểm tra nếu đơn hàng chưa thanh toán thì không cho phép thay đổi trạng thái
-    if ($hoaDon->trang_thai_thanh_toan === HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']) {
-        return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng chưa thanh toán, không thể thay đổi trạng thái');
+    // Kiểm tra nếu phương thức thanh toán là "Chuyển khoản" và chưa thanh toán
+    if (
+        $hoaDon->phuong_thuc_thanh_toan === HoaDon::THANH_TOAN_QUA_CHUYEN_KHOAN &&
+        $hoaDon->trang_thai_thanh_toan === HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']
+    ) {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng chưa được thanh toán qua chuyển khoản, không thể thay đổi trạng thái');
     }
 
-    // Kiểm tra nếu trạng thái mới không được nằm sau trạng thái hiện tại
-    if (array_search($newTrangThai, $trangThais) < array_search($currentTrangThai, $trangThais)) {
+    // Kiểm tra nếu trạng thái mới không nằm sau trạng thái hiện tại
+    $currentIndex = array_search($currentTrangThai, $trangThais);
+    $newIndex = array_search($newTrangThai, $trangThais);
+
+    if ($newIndex === false || $newIndex < $currentIndex) {
         return redirect()->route('admin.hoadons.index')->with('error', 'Không thể cập nhật ngược lại trạng thái');
     }
 
+    // Cập nhật trạng thái
     $hoaDon->trang_thai = $newTrangThai;
     $hoaDon->save();
 
     return redirect()->route('admin.hoadons.index')->with('success', 'Cập nhật trạng thái thành công');
 }
+
 
     /**
      * Remove the specified resource from storage.
