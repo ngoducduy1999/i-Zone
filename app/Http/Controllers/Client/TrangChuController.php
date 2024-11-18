@@ -75,10 +75,14 @@ class TrangChuController extends Controller
          $banners = Banner::all();
 
          // Lấy danh sách khuyến mãi còn hiệu lực
-         $khuyenMais = KhuyenMai::where('trang_thai', 1) // Trạng thái kích hoạt           
+         $khuyenMais = KhuyenMai::where('trang_thai', 1) // Trạng thái kích hoạt 
+            ->where('ngay_bat_dau', '<=', now())
+            ->where('ngay_ket_thuc', '>=', now())          
              ->orderBy('created_at', 'desc') // Sắp xếp theo ngày tạo mới nhất
+             ->orderBy('ngay_ket_thuc', 'asc')
              ->take(3) // Giới hạn lấy 3 bản ghi
              ->get();
+             
          
         // Lấy 10 sản phẩm nổi bật (có lượt xem cao)
         $sanPhamsNoiBat = SanPham::with('bienThe')
