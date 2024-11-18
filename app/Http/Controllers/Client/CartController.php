@@ -109,6 +109,7 @@ class CartController extends Controller
                 // Lưu mã giảm giá và phần trăm giảm giá vào session
                 $request->session()->put('discount_code', $discountCode);
                 $request->session()->put('discount_percentage', $discountPercentage);
+                $request->session()->put('maxDiscount', $discount->giam_toi_da);
 
                 return view('clients.cart.cart-list', ['discount' => $discountPercentage, 'maxDiscount' => $discount->giam_toi_da]);
             } else {
