@@ -40,7 +40,7 @@ $cart = new Cart($oldCart);
 // Lấy mã giảm giá và kiểm tra tính hợp lệ
 $discountCode = Session::get('discount_code', null);
 $discountPercentage = Session::get('discount_percentage', 0);
-
+$maxDiscount = Session::get('maxDiscount', null); 
 if ($discountCode) {
     $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
     $nowDate = now();
@@ -52,10 +52,16 @@ if ($discountCode) {
         $discountPercentage = 0;
     }
 }
-// Tính tổng tiền sau khi giảm giá
-$discountedTotal = ($cart->totalPrice+50000) * (1 - $discountPercentage / 100);
-$discountAmount = ($cart->totalPrice+50000) * ($discountPercentage / 100);
+ // Tính toán số tiền giảm giá và tổng tiền
+ $originalTotal = $cart->totalPrice + 50000; // Tổng giá trước giảm giá
+ $discountAmount = $originalTotal * ($discountPercentage / 100);
 
+ // Áp dụng giới hạn giảm giá tối đa
+ if ($maxDiscount > 0 && $discountAmount > $maxDiscount) {
+     $discountAmount = $maxDiscount;
+ }
+ // Tổng tiền sau khi giảm giá
+ $discountedTotal = $originalTotal - $discountAmount;
 return view('clients.thanhtoan', [
     'cart' => $cart,
     'discountedTotal' => $discountedTotal,
@@ -86,14 +92,24 @@ return view('clients.thanhtoan', [
             $endDate = $discount->ngay_ket_thuc;
     
             // Kiểm tra ngày hiệu lực của mã giảm giá
-if ($nowDate->between($startDate, $endDate)) {
+        if ($nowDate->between($startDate, $endDate)) {
                 $discountPercentage = $discount->phan_tram_khuyen_mai;
                 
                 // Lưu mã giảm giá và phần trăm giảm giá vào session
                 $request->session()->put('discount_code', $discountCode);
                 $request->session()->put('discount_percentage', $discountPercentage);
-               // Tính tổng tiền sau khi giảm giá
-               $discountedTotal = $cart->totalPrice * (1 - $discountPercentage / 100);
+                $maxDiscount = Session::get('maxDiscount', null); 
+
+               // Tính toán số tiền giảm giá và tổng tiền
+                $originalTotal = $cart->totalPrice + 50000; // Tổng giá trước giảm giá
+                $discountAmount = $originalTotal * ($discountPercentage / 100);
+
+              // Áp dụng giới hạn giảm giá tối đa
+                if ($maxDiscount > 0 && $discountAmount > $maxDiscount) {
+                $discountAmount = $maxDiscount;
+                }
+              // Tổng tiền sau khi giảm giá
+                $discountedTotal = $originalTotal - $discountAmount;
                 // Trả về phản hồi JSON thành công
                 return response()->json([
                     'success' => true,
@@ -138,7 +154,7 @@ if ($nowDate->between($startDate, $endDate)) {
     
     
     // Tính lại tổng tiền sau khi xóa mã giảm giá
-    $discountedTotal = $cart->totalPrice * (1 - $discountPercentage / 100);
+    $discountedTotal = ($cart->totalPrice + 50000)* (1 - $discountPercentage / 100);
 
     return response()->json([
         'success' => true,
@@ -291,7 +307,7 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
         'embed_data' => $embedData,
         'amount' => $tongTienSauGiam,
         'description' => "Thanh toán cho đơn hàng #$transID",
-        'callback_url' => 'https://e5f5-1-54-42-89.ngrok-free.app/zalopay/callback',
+        'callback_url' => 'https://9100-2402-800-61c5-e43f-905b-23e4-ed57-6e6f.ngrok-free.app/zalopay/callback',
     ];
 
     $data['mac'] = $this->generateZaloPaySignature($data, $zaloPayConfig['key']);
