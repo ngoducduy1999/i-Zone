@@ -138,57 +138,77 @@
                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
                <script>
-                  $(document).ready(function() {
-                  // Khi người dùng nhập vào ô tìm kiếm
-                  $('#search').on('input', function() {
-                  var searchTerm = $(this).val(); // Lấy giá trị nhập vào
+$(document).ready(function() {
+   let currentAjaxRequest = null; // Lưu yêu cầu AJAX hiện tại
+   let selectedSuggestionIndex = -1; // Chỉ số gợi ý hiện được chọn
 
-                  // Kiểm tra nếu từ khóa tìm kiếm không rỗng
-                  if (searchTerm.length > 0) {
-                  // Gửi yêu cầu AJAX đến controller để tìm kiếm sản phẩm
-                  $.ajax({
-                        url: "{{ route('search.sanpham') }}", // URL gọi route
-                        method: 'GET',
-                        data: { search: searchTerm }, // Dữ liệu gửi đi
-                        success: function(data) {
-                           var html = '';
-                           if (data.length > 0) {                  
-                           // Tạo HTML cho mỗi sản phẩm trả về (tối đa 5 sản phẩm)
-                              data.forEach(function(sanPham) {
-                                 html += `
-                                 <a href="/chitietsanpham/${sanPham.id}">
-                                    <div class="product-suggestion d-flex align-items-center mb-3">
-                                       <div class="product-img">
-                                          
-                                             <img src="${sanPham.anh_san_pham}" alt="${sanPham.ten_san_pham}" class="img-fluid" style="width: 60px; height: 60px; object-fit: cover;">
-                                          
-                                       </div>
-                                       <div class="product-info flex-grow-1 pl-3">
-                                          <p class="product-name" style="font-size: 16px; font-weight: bold;">${sanPham.ten_san_pham}</p>                                        
-                                       </div>                                  
-                                    </div>  
-                                    </a>                             
-                                 `;
-                              });
-                           } else {
-                              html = '<p>Không tìm thấy sản phẩm nào.</p>';
-                           }
+   $('#search').on('input', function() {
+      var searchTerm = $(this).val().trim(); // Lấy giá trị nhập vào và loại bỏ khoảng trắng
 
-                            // Cập nhật kết quả tìm kiếm vào phần #searchResults
-                           $('#searchResults').html(html);
-                        },
-                        error: function() {
-                        $('#searchResults').html('');
-                        }
+      if (searchTerm.length > 0) {
+         // Hủy yêu cầu AJAX trước đó nếu có
+         if (currentAjaxRequest) {
+            currentAjaxRequest.abort();
+         }
+
+         // Gửi yêu cầu AJAX mới
+         currentAjaxRequest = $.ajax({
+            url: "{{ route('search.sanpham') }}", // URL gọi route
+            method: 'GET',
+            data: { search: searchTerm }, // Dữ liệu gửi đi
+            success: function(data) {
+               if ($('#search').val().trim() === searchTerm) {
+                  var html = '';
+                  if (data.length > 0) {
+                     data.forEach(function(sanPham, index) {
+                        html += `
+                        <a href="/chitietsanpham/${sanPham.id}" class="suggestion-item d-block px-2 py-1" data-index="${index}" data-value="${sanPham.ten_san_pham}">
+                           <div class="product-suggestion d-flex align-items-center mb-1">
+                              <div class="product-img">
+                                 <img src="${sanPham.anh_san_pham}" alt="${sanPham.ten_san_pham}" class="img-fluid" style="width: 60px; height: 60px; object-fit: cover;">
+                              </div>
+                              <div class="product-info flex-grow-1 pl-2">
+                                 <p class="product-name" style="font-size: 16px; font-weight: bold;">${sanPham.ten_san_pham}</p>
+                              </div>
+                           </div>
+                        </a>`;
                      });
                   } else {
-                     // Nếu không có từ khóa tìm kiếm, xóa kết quả tìm kiếm
-                     $('#searchResults').html(''); // Làm sạch kết quả tìm kiếm khi input trống
+                     html = '<p class="text-muted px-2 py-1">Không tìm thấy sản phẩm nào.</p>';
                   }
-                 });
-               });
-               </script>
-               
+
+                  $('#searchResults').html(html).show();
+                  selectedSuggestionIndex = -1; // Reset chỉ số gợi ý được chọn
+               }
+            },
+            error: function() {
+               $('#searchResults').html('').hide(); // Ẩn gợi ý nếu có lỗi
+            }
+         });
+      } else {
+         if (currentAjaxRequest) {
+            currentAjaxRequest.abort(); // Hủy yêu cầu hiện tại
+         }
+         $('#searchResults').html('').hide(); // Ẩn kết quả tìm kiếm khi input trống
+      }
+   });
+
+   // Ẩn gợi ý tìm kiếm khi nhấn ra ngoài
+   $(document).on('click', function(event) {
+      if (!$(event.target).closest('#search, #searchResults').length) {
+         $('#searchResults').hide(); // Ẩn kết quả tìm kiếm
+      }
+   });
+
+   // Hiển thị lại gợi ý khi nhấp vào ô tìm kiếm nếu input không trống
+   $('#search').on('click', function() {
+      var searchTerm = $(this).val().trim();
+      if (searchTerm.length > 0 && $('#searchResults').html().trim() !== '') {
+         $('#searchResults').show();
+      }
+   });
+});
+</script>
                
              <div class="col-xl-4 col-lg-3 col-md-8 col-6">
                 <div class="tp-header-main-right d-flex align-items-center justify-content-end">
