@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Admin\AdminLienHeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Admin\UserController;
@@ -167,6 +169,14 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
         Route::delete('/{id}', [BaiVietController::class, 'destroy'])->name('destroy');
     });
 
+    Route::prefix('lienhes')->name('lienhes.')->group(function () {
+        Route::get('/', [AdminLienHeController::class, 'index'])->name('index');
+        Route::post('store', [AdminLienHeController::class, 'store'])->name('store');
+
+     
+
+    });
+
 });
 
 // Routes for authenticated users with 'staff' role
@@ -209,6 +219,7 @@ Route::get('/bai-viet', [TrangBaiVietController::class, 'index'])->name('bai-vie
 Route::get('/baiviet/{danh_muc}', [TrangBaiVietController::class, 'filterByCategory'])->name('baiviet.danhmuc');
 Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chitietbaiviet');
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
+Route::post('/lienhe', [LienHeController::class, 'store'])->name('lienhe.store');
 
 // giỏ hàng
 Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');
