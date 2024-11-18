@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     alert(data.message);
                 } else {
-                    alert("Có lỗi khi áp dụng mã giảm giá.");
+                    alert(data.message);
                 }
             })
             .catch(error => {
