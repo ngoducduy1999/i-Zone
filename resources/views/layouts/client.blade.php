@@ -341,13 +341,13 @@
                                     <li>                               
                                        <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
                                     </li>
-                                    @foreach($danhMucs as $danhMuc)
+                                    {{-- @foreach($danhMucs as $danhMuc)
                                       <li>
                                          <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
                                             {{ $danhMuc->ten_danh_muc }}
                                          </a>
                                       </li>
-                                   @endforeach
+                                   @endforeach --}}
                                     <li>
                                        <a href="{{ route('bai-viet') }}">Tin tức</a>                             
                                     </li>
