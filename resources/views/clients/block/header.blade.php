@@ -102,7 +102,7 @@
                          <div class="tp-header-search-box">
                             <input type="text" placeholder="Tìm kiếm sản phẩm...">
                          </div>
-                         <div class="tp-header-search-category">                   
+                         {{-- <div class="tp-header-search-category">                   
                            <select onchange="window.location.href=this.value">
                                <option value="">Chọn danh mục</option>
                                @foreach($danhMucs as $danhMuc)
@@ -111,7 +111,7 @@
                                    </option>
                                @endforeach
                            </select>
-                       </div>
+                       </div> --}}
                          <div class="tp-header-search-btn">
                             <button type="submit">
                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -265,13 +265,13 @@
                             <li>                               
                                <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
                             </li>
-                            @foreach($danhMucs as $danhMuc)
+                            {{-- @foreach($danhMucs as $danhMuc)
                               <li>
                                  <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
                                     {{ $danhMuc->ten_danh_muc }}
                                  </a>
                               </li>
-                           @endforeach
+                           @endforeach --}}
                             <li>
                                <a href="{{ route('bai-viet') }}">Tin tức</a>                             
                             </li>
