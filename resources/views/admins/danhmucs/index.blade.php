@@ -40,7 +40,7 @@
                                 <th>ID</th>
                                 <th>Tên danh mục</th>
                                 <th>Ảnh</th>
-                               
+
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -51,7 +51,7 @@
                                     <td>{{ $danh_muc->ten_danh_muc }}</td>
                                     <td>
                                         <img src="{{ asset($danh_muc->anh_danh_muc) }}" alt="{{ $danh_muc->ten_danh_muc }}"
-                                            width="200px">
+                                            width="80px" height="70px">
                                     </td>
                                     <td>
                                         @if($danh_muc->trashed())
@@ -111,5 +111,5 @@
 @endsection
 
 @section('js')
-  
+
 @endsection

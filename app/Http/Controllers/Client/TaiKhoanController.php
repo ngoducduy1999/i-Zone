@@ -64,8 +64,9 @@ class TaiKhoanController extends Controller
         // Các thuộc tính khác của hóa đơn
         $trangThaiHoaDon = HoaDon::TRANG_THAI;
         $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
+        $trangThaiThanhToan = HoaDon::TRANG_THAI_THANH_TOAN;
 
-        return view('clients.taikhoan.chitietdonhang', compact('hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
+        return view('clients.taikhoan.chitietdonhang', compact('trangThaiThanhToan','hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
     }
 
     /**
@@ -126,9 +127,16 @@ class TaiKhoanController extends Controller
     }
 
     public function profileUser(){
-        $danhMucs = DanhMuc::all();
+        // lấy thông tin người dùng đăng đăng nhập
         $profile = Auth::user();
-        return view('clients.taikhoan.profile',compact('danhMucs','profile'));
+
+        $danhMucs = DanhMuc::all();
+        // lấy danh sách đơn hàng
+        $donHangs = $profile->hoaDons()->orderByDesc('id')->paginate(10);
+
+
+        // đếm
+        return view('clients.taikhoan.profile',compact('donHangs','danhMucs','profile'));
     }
 
     public function changePassword(Request $request){
@@ -160,6 +168,18 @@ class TaiKhoanController extends Controller
         if(!$orders){
             return redirect()->back()->with('error','Đơn hàng không tồn hại!');
         }
+        if($orders->trang_thai == 3  ){
+            return redirect()->back()->with('error','Đơn hàng đang chuẩn bị không thể hủy !');
+        }else if($orders->trang_thai == 4){
+            return redirect()->back()->with('error','Đơn hàng đang vận chuyển không thể hủy !');
+        } else if($orders->trang_thai == 5){
+            return redirect()->back()->with('error','Đơn hàng đã giao không thể hủy !');
+        } else if($orders->trang_thai == 2){
+            return redirect()->back()->with('error','Đơn hàng đã được xác nhận không thể hủy !');
+        }
+
+
+
 
         $orders->trang_thai = 6;
 
@@ -178,6 +198,7 @@ class TaiKhoanController extends Controller
         }
 
         $orders->trang_thai = 7;
+        $orders->trang_thai_thanh_toan = 'Đã thanh toán';
 
         if($orders->save()){
             return redirect()->back()->with('success','Đã nhận được hàng. Cảm ơn bạn!');

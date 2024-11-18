@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-   
+
 @endsection
 
 @section('content')
@@ -36,7 +36,7 @@
                                 <div class="mb-3">
                                     <label for="ten_danh_muc" class="form-label">Tên Danh Mục</label>
                                     <input class="form-control" type="text" id="ten_danh_muc" name="ten_danh_muc"
-                                        placeholder="Tên banner" value="{{ old('ten_danh_muc') }}">
+                                        placeholder="Tên danh mục" value="{{ old('ten_danh_muc') }}">
                                     @error('ten_danh_muc')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
@@ -73,5 +73,5 @@
 @endsection
 
 @section('js')
-   
+
 @endsection
