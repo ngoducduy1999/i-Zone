@@ -51,7 +51,7 @@ class HoaDonController extends Controller
     }
 
     // Lấy danh sách hóa đơn
-    $listHoaDon = $query->get();
+    $listHoaDon = $query->orderBy('id', 'desc')->get();
 
     $trangThaiHoaDon = HoaDon::TRANG_THAI;
     $type_huy_don_hang = HoaDon::HUY_DON_HANG;
@@ -127,38 +127,48 @@ class HoaDonController extends Controller
 {
     $hoaDon = HoaDon::query()->findOrFail($id);
 
-    $currentTrangThai = $hoaDon->trang_thai;
-    $newTrangThai = $request->input('trang_thai');
-    $trangThais = array_keys(HoaDon::TRANG_THAI);
+    // Lấy giá trị mới của trạng thái thanh toán
+    $newTrangThaiThanhToan = $request->input('trang_thai_thanh_toan');
+    $currentTrangThaiThanhToan = $hoaDon->trang_thai_thanh_toan;
 
-    // Kiểm tra nếu đơn hàng đã bị hủy
-    if ($currentTrangThai === HoaDon::HUY_DON_HANG) {
-        return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng đã bị hủy, không thể thay đổi trạng thái');
+    // Kiểm tra nếu phương thức thanh toán là "Chuyển khoản" thì không cho phép thay đổi trạng thái thanh toán
+    if ($hoaDon->phuong_thuc_thanh_toan === 'Chuyển khoản' && $newTrangThaiThanhToan) {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể thay đổi trạng thái thanh toán khi phương thức thanh toán là "Chuyển khoản"');
     }
 
-    // Kiểm tra nếu phương thức thanh toán là "Chuyển khoản" và chưa thanh toán
-    if (
-        $hoaDon->phuong_thuc_thanh_toan === HoaDon::THANH_TOAN_QUA_CHUYEN_KHOAN &&
-        $hoaDon->trang_thai_thanh_toan === HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']
-    ) {
-        return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng chưa được thanh toán qua chuyển khoản, không thể thay đổi trạng thái');
+    // Cập nhật trạng thái thanh toán nếu phương thức thanh toán là "Thanh toán khi nhận hàng"
+    if ($hoaDon->phuong_thuc_thanh_toan === 'Thanh toán khi nhận hàng' && $newTrangThaiThanhToan) {
+        $hoaDon->trang_thai_thanh_toan = $newTrangThaiThanhToan;
     }
 
-    // Kiểm tra nếu trạng thái mới không nằm sau trạng thái hiện tại
-    $currentIndex = array_search($currentTrangThai, $trangThais);
-    $newIndex = array_search($newTrangThai, $trangThais);
+    // Kiểm tra trạng thái đơn hàng chỉ khi phương thức thanh toán không phải là "Thanh toán khi nhận hàng"
+    if ($hoaDon->phuong_thuc_thanh_toan !== 'Thanh toán khi nhận hàng') {
+        $newTrangThai = $request->input('trang_thai');
+        $currentTrangThai = $hoaDon->trang_thai;
 
-    if ($newIndex === false || $newIndex < $currentIndex) {
-        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể cập nhật ngược lại trạng thái');
+        // Kiểm tra nếu đơn hàng đã bị hủy
+        if ($currentTrangThai === HoaDon::HUY_DON_HANG) {
+            return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng đã bị hủy, không thể thay đổi trạng thái');
+        }
+
+        // Kiểm tra trạng thái đơn hàng có thể thay đổi hay không (Không thể thay đổi ngược lại trạng thái)
+        $trangThais = array_keys(HoaDon::TRANG_THAI);
+        $currentIndex = array_search($currentTrangThai, $trangThais);
+        $newIndex = array_search($newTrangThai, $trangThais);
+
+        if ($newIndex === false || $newIndex < $currentIndex) {
+            return redirect()->route('admin.hoadons.index')->with('error', 'Không thể cập nhật ngược lại trạng thái đơn hàng');
+        }
+
+        // Cập nhật trạng thái đơn hàng nếu hợp lệ
+        $hoaDon->trang_thai = $newTrangThai;
     }
 
-    // Cập nhật trạng thái
-    $hoaDon->trang_thai = $newTrangThai;
+    // Lưu lại thông tin đơn hàng đã thay đổi
     $hoaDon->save();
 
     return redirect()->route('admin.hoadons.index')->with('success', 'Cập nhật trạng thái thành công');
 }
-
 
     /**
      * Remove the specified resource from storage.
