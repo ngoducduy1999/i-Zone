@@ -123,52 +123,52 @@ class HoaDonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
 {
-    $hoaDon = HoaDon::query()->findOrFail($id);
+    $hoadon = HoaDon::findOrFail($id);
 
-    // Lấy giá trị mới của trạng thái thanh toán
-    $newTrangThaiThanhToan = $request->input('trang_thai_thanh_toan');
-    $currentTrangThaiThanhToan = $hoaDon->trang_thai_thanh_toan;
-
-    // Kiểm tra nếu phương thức thanh toán là "Chuyển khoản" thì không cho phép thay đổi trạng thái thanh toán
-    if ($hoaDon->phuong_thuc_thanh_toan === 'Chuyển khoản' && $newTrangThaiThanhToan) {
-        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể thay đổi trạng thái thanh toán khi phương thức thanh toán là "Chuyển khoản"');
+    // Kiểm tra nếu trạng thái hiện tại là "Đơn hàng đã hủy" hoặc "Đã nhận được hàng"
+    if (in_array($hoadon->trang_thai, [6, 7])) {
+        return redirect()->back()->with('error', 'Không thể cập nhật trạng thái vì đơn hàng đã hủy hoặc đã nhận.');
     }
 
-    // Cập nhật trạng thái thanh toán nếu phương thức thanh toán là "Thanh toán khi nhận hàng"
-    if ($hoaDon->phuong_thuc_thanh_toan === 'Thanh toán khi nhận hàng' && $newTrangThaiThanhToan) {
-        $hoaDon->trang_thai_thanh_toan = $newTrangThaiThanhToan;
-    }
-
-    // Kiểm tra trạng thái đơn hàng chỉ khi phương thức thanh toán không phải là "Thanh toán khi nhận hàng"
-    if ($hoaDon->phuong_thuc_thanh_toan !== 'Thanh toán khi nhận hàng') {
-        $newTrangThai = $request->input('trang_thai');
-        $currentTrangThai = $hoaDon->trang_thai;
-
-        // Kiểm tra nếu đơn hàng đã bị hủy
-        if ($currentTrangThai === HoaDon::HUY_DON_HANG) {
-            return redirect()->route('admin.hoadons.index')->with('error', 'Đơn hàng đã bị hủy, không thể thay đổi trạng thái');
+    // Kiểm tra trạng thái đơn hàng hiện tại để không cho phép cập nhật ngược lại
+    if ($hoadon->trang_thai == '6' || $hoadon->trang_thai == '7') {
+        // Nếu trạng thái là "Đơn hàng đã hủy" hoặc "Đã nhận được hàng", chỉ cho phép thay đổi trạng thái thanh toán
+        if ($request->has('trang_thai_thanh_toan')) {
+            $hoadon->trang_thai_thanh_toan = $request->input('trang_thai_thanh_toan');
+            $hoadon->save();
+            return redirect()->route('admin.hoadons.index')->with('success', 'Cập nhật trạng thái thanh toán thành công!');
         }
-
-        // Kiểm tra trạng thái đơn hàng có thể thay đổi hay không (Không thể thay đổi ngược lại trạng thái)
-        $trangThais = array_keys(HoaDon::TRANG_THAI);
-        $currentIndex = array_search($currentTrangThai, $trangThais);
-        $newIndex = array_search($newTrangThai, $trangThais);
-
-        if ($newIndex === false || $newIndex < $currentIndex) {
-            return redirect()->route('admin.hoadons.index')->with('error', 'Không thể cập nhật ngược lại trạng thái đơn hàng');
-        }
-
-        // Cập nhật trạng thái đơn hàng nếu hợp lệ
-        $hoaDon->trang_thai = $newTrangThai;
+        // Nếu không thay đổi gì cả
+        return redirect()->route('admin.hoadons.index')->with('info', 'Không thể thay đổi trạng thái đơn hàng nữa!');
     }
 
-    // Lưu lại thông tin đơn hàng đã thay đổi
-    $hoaDon->save();
+    // Chỉ cho phép thay đổi trạng thái nếu trạng thái hiện tại chưa qua bước cuối (Đang vận chuyển, Đã giao hàng)
+    $validStatesForUpdate = ['1', '2', '3', '4', '5'];  // Các trạng thái có thể thay đổi
+    if (!in_array($hoadon->trang_thai, $validStatesForUpdate)) {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể thay đổi trạng thái đơn hàng này!');
+    }
 
-    return redirect()->route('admin.hoadons.index')->with('success', 'Cập nhật trạng thái thành công');
+    // Cập nhật trạng thái đơn hàng nếu hợp lệ
+    if ($request->has('trang_thai') && $hoadon->trang_thai != $request->input('trang_thai')) {
+        // Kiểm tra nếu trạng thái mới không được cập nhật ngược lại (ví dụ từ "Đã xác nhận" về "Chưa xác nhận")
+        if ($request->input('trang_thai') < $hoadon->trang_thai) {
+            return redirect()->route('admin.hoadons.index')->with('error', 'Không thể cập nhật ngược lại trạng thái đơn hàng!');
+        }
+        $hoadon->trang_thai = $request->input('trang_thai');
+    }
+
+    // Cập nhật trạng thái thanh toán nếu có
+    if ($request->has('trang_thai_thanh_toan') && $hoadon->trang_thai_thanh_toan != $request->input('trang_thai_thanh_toan')) {
+        $hoadon->trang_thai_thanh_toan = $request->input('trang_thai_thanh_toan');
+    }
+
+    $hoadon->save();
+
+    return redirect()->route('admin.hoadons.index')->with('success', 'Cập nhật trạng thái đơn hàng thành công!');
 }
+
 
     /**
      * Remove the specified resource from storage.
