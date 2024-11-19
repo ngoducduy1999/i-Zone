@@ -10,7 +10,23 @@
     <link href="{{ asset('assets/admin/libs/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        /* Thay đổi màu của select theo trạng thái */
+        .form-select.bg-danger {
+            background-color: #f8d7da !important; /* Màu đỏ cho "Chưa thanh toán" */
+            color: #721c24 !important;
+        }
 
+        .form-select.bg-success {
+            background-color: #d4edda !important; /* Màu xanh cho "Đã thanh toán" */
+            color: #155724 !important;
+        }
+
+        .form-select.bg-secondary {
+            background-color: #e2e3e5 !important; /* Màu xám cho "Thanh toán thất bại" */
+            color: #383d41 !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -139,7 +155,23 @@
                                                         </select>
                                                     </form>
                                                 </td>
-                                                <td>{{ $item->trang_thai_thanh_toan }}</td>
+                                                <td>
+                                                    <form action="{{ route('admin.hoadons.update', $item->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <select name="trang_thai_thanh_toan" class="form-select w-75" onchange="this.form.submit()" id="trang_thai_thanh_toan_{{ $item->id }}">
+                                                            <option value="Chưa thanh toán" {{ $item->trang_thai_thanh_toan === 'Chưa thanh toán' ? 'selected' : '' }} data-color="bg-danger">
+                                                                Chưa thanh toán
+                                                            </option>
+                                                            <option value="Đã thanh toán" {{ $item->trang_thai_thanh_toan === 'Đã thanh toán' ? 'selected' : '' }} data-color="bg-success">
+                                                                Đã thanh toán
+                                                            </option>
+                                                            <option value="Thanh toán thất bại" {{ $item->trang_thai_thanh_toan === 'Thanh toán thất bại' ? 'selected' : '' }} data-color="bg-secondary">
+                                                                Thanh toán thất bại
+                                                            </option>
+                                                        </select>
+                                                    </form>
+                                                </td>
                                                 <td>
                                                     <div class="card-body">
                                                         <div class="btn-group">
@@ -162,7 +194,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
         
@@ -191,15 +223,42 @@
     <script src="{{ asset('assets/admin/js/pages/datatable.init.js') }}"></script>   
     <script>
         function confirmSubmit(selectElement) {
-            var form = selectElement.form;
-            var selectedOption = selectElement.options[selectElement.selectedIndex].text;
-            var defaultValue = selectElement.getAttribute('data-default-value');
-
-            if (confirm('Bạn có chắc chắn thay đổi trạng thái đơn hàng thành "' + selectedOption + '" không?')) {
-                form.submit();
+            var form = selectElement.form;  
+            var selectedOption = selectElement.options[selectElement.selectedIndex].text;  
+            var defaultValue = selectElement.getAttribute('data-default-value'); 
+    
+            // Hiển thị hộp thoại xác nhận khi thay đổi giá trị
+            if (confirm('Bạn có chắc chắn thay đổi trạng thái thành "' + selectedOption + '" không?')) {
+                form.submit();  
             } else {
-                selectElement.value = defaultValue
+                selectElement.value = defaultValue; 
             }
         }
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            const selects = document.querySelectorAll('.form-select');
+            selects.forEach(function(selectElement) {
+                selectElement.addEventListener('change', function() {
+                    confirmSubmit(selectElement);  
+                });
+            });
+        });
+
+        // js đổi màu
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lặp qua tất cả các select có id là 'trang_thai_thanh_toan'
+            document.querySelectorAll('[id^="trang_thai_thanh_toan_"]').forEach(function(select) {
+                // Lấy giá trị đã chọn của select
+                var selectedOption = select.options[select.selectedIndex];
+                var colorClass = selectedOption.getAttribute('data-color');
+                
+                // Xóa các lớp màu trước đó
+                select.classList.remove('bg-danger', 'bg-success', 'bg-secondary');
+                
+                // Thêm lớp màu mới vào select
+                select.classList.add(colorClass);
+            });
+        });
     </script>
+    
 @endsection

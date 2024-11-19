@@ -329,7 +329,7 @@
                                                                 @endif
                                                                 <p>{{ Str::limit(strip_tags($item->mo_ta), 100) }}</p>
                                                                 <div class="tp-product-list-add-to-cart">
-                                                                    <button class="tp-product-list-add-to-cart-btn" onclick="addToCart({{ $item->id }})">Thêm vào giỏ hàng</button>
+                                                                    <a href="{{ route('chitietsanpham', ['id'=>$item->id]) }}"><button class="tp-product-list-add-to-cart-btn">Chi tiết sản phẩm</button></a>
                                                                 </div>
                                                             </div>
                                                         </div>

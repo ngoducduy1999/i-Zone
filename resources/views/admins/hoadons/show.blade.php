@@ -68,6 +68,17 @@
                                                         <li>Phương thức thanh toán:
                                                             <b>{{ $phuongThucThanhToan[$hoaDon->phuong_thuc_thanh_toan] }}</b>
                                                         </li>
+
+                                                        <li>
+                                                            Trạng thái thanh toán:
+                                                            <b class="
+                                                                @if ($hoaDon->trang_thai_thanh_toan === 'Chưa thanh toán') text-danger 
+                                                                @elseif ($hoaDon->trang_thai_thanh_toan === 'Đã thanh toán') text-success 
+                                                                @elseif ($hoaDon->trang_thai_thanh_toan === 'Thanh toán thất bại') text-secondary 
+                                                                @endif">
+                                                                {{ $trangThaiThanhToan[$hoaDon->trang_thai_thanh_toan] }}
+                                                            </b>
+                                                        </li>
                                                     </ul>
                                                 </td>
                                             </tr>
