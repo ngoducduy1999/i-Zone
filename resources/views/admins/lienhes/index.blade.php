@@ -61,7 +61,7 @@
                             <td>{{$lienhe->tin_nhan}}</td>
 
                             <td>
-                            
+                            <a href="{{ route('admin.lienhes.form.reply', ['id' => $lienhe->id]) }}" class="btn btn-success">Gửi phản hồi</a>
                             </td>
                           
                            

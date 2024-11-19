@@ -172,6 +172,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'role:admin,staff')->
     Route::prefix('lienhes')->name('lienhes.')->group(function () {
         Route::get('/', [AdminLienHeController::class, 'index'])->name('index');
         Route::post('store', [AdminLienHeController::class, 'store'])->name('store');
+        Route::post('/phanhoi/reply/send/{id}', [AdminLienHeController::class, 'sendReply'])->name('phanhoi.reply.send');
+        Route::get('/form-phan-hoi/{id}', [AdminLienHeController::class, 'showReplyForm'])->name('form.reply');
 
      
 
