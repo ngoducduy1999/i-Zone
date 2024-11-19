@@ -11,21 +11,21 @@
     <link href="{{ asset('assets/admin/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        /* Thay đổi màu của select theo trạng thái */
-        .form-select.bg-danger {
-            background-color: #f8d7da !important; /* Màu đỏ cho "Chưa thanh toán" */
-            color: #721c24 !important;
-        }
+        .equal-td {
+        width: 50%; /* Đặt chiều rộng cố định cho các ô */
+        text-align: center; /* Căn giữa nội dung */
+        vertical-align: middle; /* Canh giữa theo chiều dọc */
+    }
 
-        .form-select.bg-success {
-            background-color: #d4edda !important; /* Màu xanh cho "Đã thanh toán" */
-            color: #155724 !important;
-        }
+    .equal-td .form-select {
+        width: 75%; /* Đảm bảo select không vượt quá kích thước của TD */
+        margin: 0 auto; /* Căn giữa select trong TD */
+    }
 
-        .form-select.bg-secondary {
-            background-color: #e2e3e5 !important; /* Màu xám cho "Thanh toán thất bại" */
-            color: #383d41 !important;
-        }
+    .equal-td .badge {
+        display: inline-block; /* Đảm bảo kích thước badge không bị ảnh hưởng */
+        margin: 0 auto;
+    }
     </style>
 @endsection
 
@@ -137,41 +137,64 @@
                                                 <td>{{ \Carbon\Carbon::parse($item->ngay_dat_hang)->format('d-m-Y') }}</td>
                                                 <td class="text-danger">{{ number_format($item->tong_tien, 0, '', '.') }}</td>
                                                 <td>{{ $item->phuong_thuc_thanh_toan }}</td>
-                                                <td>
-                                                    <form action="{{ route('admin.hoadons.update', $item->id) }}"
-                                                        method="POST">
+                                                <td class="equal-td">
+                                                    <form action="{{ route('admin.hoadons.update', $item->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <select name="trang_thai" class="form-select w-75"
-                                                            onchange="confirmSubmit(this)"
-                                                            data-default-value="{{ $item->trang_thai }}">
+                                                
+                                                        <select name="trang_thai" class="form-select w-75" onchange="this.form.submit()" required>
                                                             @foreach ($trangThaiHoaDon as $key => $value)
-                                                                <option value="{{ $key }}"
-                                                                    {{ $key == $item->trang_thai ? 'selected' : '' }}
-                                                                    {{ $key == $type_huy_don_hang ? 'disabled' : '' }}
-                                                                    {{ $key == $type_da_nhan_hang ? 'disabled' : '' }}>
-                                                                    {{ $value }}</option>
+                                                                <!-- Nếu trạng thái là "6" hoặc "7", sẽ vô hiệu hóa tùy chọn này -->
+                                                                <option value="{{ $key }}" 
+                                                                    {{ $key == $item->trang_thai ? 'selected' : '' }} 
+                                                                    @if($key == 6 || $key == 7) disabled @endif>
+                                                                    {{ $value }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </form>
                                                 </td>
-                                                <td>
+                                                <td class="equal-td">
                                                     <form action="{{ route('admin.hoadons.update', $item->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <select name="trang_thai_thanh_toan" class="form-select w-75" onchange="this.form.submit()" id="trang_thai_thanh_toan_{{ $item->id }}">
-                                                            <option value="Chưa thanh toán" {{ $item->trang_thai_thanh_toan === 'Chưa thanh toán' ? 'selected' : '' }} data-color="bg-danger">
-                                                                Chưa thanh toán
-                                                            </option>
-                                                            <option value="Đã thanh toán" {{ $item->trang_thai_thanh_toan === 'Đã thanh toán' ? 'selected' : '' }} data-color="bg-success">
-                                                                Đã thanh toán
-                                                            </option>
-                                                            <option value="Thanh toán thất bại" {{ $item->trang_thai_thanh_toan === 'Thanh toán thất bại' ? 'selected' : '' }} data-color="bg-secondary">
-                                                                Thanh toán thất bại
-                                                            </option>
-                                                        </select>
+                                                
+                                                        @if ($item->phuong_thuc_thanh_toan === 'Thanh toán khi nhận hàng')
+                                                            <!-- Hiển thị select nếu phương thức thanh toán là "Thanh toán khi nhận hàng" -->
+                                                                <select 
+                                                                    name="trang_thai_thanh_toan" 
+                                                                    class="form-select badge w-75 text-white p-2 bg-{{ $item->trang_thai_thanh_toan === 'Chưa thanh toán' ? 'danger' : ($item->trang_thai_thanh_toan === 'Đã thanh toán' ? 'success' : 'secondary') }} text-white"
+                                                                    onchange="updateSelectBackground(this)"
+                                                                    id="trang_thai_thanh_toan_{{ $item->id }}"
+                                                                >
+                                                                    <option value="Chưa thanh toán" {{ $item->trang_thai_thanh_toan === 'Chưa thanh toán' ? 'selected' : '' }}>
+                                                                        Chưa thanh toán
+                                                                    </option>
+                                                                    <option value="Đã thanh toán" {{ $item->trang_thai_thanh_toan === 'Đã thanh toán' ? 'selected' : '' }}>
+                                                                        Đã thanh toán
+                                                                    </option>
+                                                                    <option value="Thanh toán thất bại" {{ $item->trang_thai_thanh_toan === 'Thanh toán thất bại' ? 'selected' : '' }}>
+                                                                        Thanh toán thất bại
+                                                                    </option>
+                                                                </select>
+                                                            
+                                                        @else
+                                                            <!-- Nếu phương thức thanh toán không phải "Thanh toán khi nhận hàng", chỉ hiển thị trạng thái thanh toán bình thường -->
+                                                            <span class=" w-75 
+                                                                badge
+                                                                @if ($item->trang_thai_thanh_toan === 'Chưa thanh toán') bg-danger
+                                                                @elseif ($item->trang_thai_thanh_toan === 'Đã thanh toán') bg-success
+                                                                @elseif ($item->trang_thai_thanh_toan === 'Thanh toán thất bại') bg-secondary
+                                                                @endif
+                                                                text-white p-2
+                                                            ">
+                                                                {{ $item->trang_thai_thanh_toan }}
+                                                            </span>
+
+                                                        @endif
                                                     </form>
                                                 </td>
+                                                
                                                 <td>
                                                     <div class="card-body">
                                                         <div class="btn-group">
@@ -244,21 +267,22 @@
             });
         });
 
-        // js đổi màu
-        document.addEventListener('DOMContentLoaded', function () {
-            // Lặp qua tất cả các select có id là 'trang_thai_thanh_toan'
-            document.querySelectorAll('[id^="trang_thai_thanh_toan_"]').forEach(function(select) {
-                // Lấy giá trị đã chọn của select
-                var selectedOption = select.options[select.selectedIndex];
-                var colorClass = selectedOption.getAttribute('data-color');
-                
-                // Xóa các lớp màu trước đó
-                select.classList.remove('bg-danger', 'bg-success', 'bg-secondary');
-                
-                // Thêm lớp màu mới vào select
-                select.classList.add(colorClass);
-            });
-        });
+        function updateSelectBackground(selectElement) {
+    const selectedValue = selectElement.value;
+    const selectClassList = selectElement.classList;
+
+    // Xóa các lớp màu hiện tại
+    selectClassList.remove('bg-danger', 'bg-success', 'bg-secondary');
+
+    // Thêm màu mới dựa trên giá trị được chọn
+    if (selectedValue === 'Chưa thanh toán') {
+        selectClassList.add('bg-danger');
+    } else if (selectedValue === 'Đã thanh toán') {
+        selectClassList.add('bg-success');
+    } else if (selectedValue === 'Thanh toán thất bại') {
+        selectClassList.add('bg-secondary');
+    }
+}
     </script>
     
 @endsection
