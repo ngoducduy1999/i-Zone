@@ -179,7 +179,7 @@ return view('clients.thanhtoan', [
         $discountPercentage = Session::get('discount_percentage', 0);
         $tongTien = $cart->totalPrice ?? 0;
         $giamGia = $tongTien * ($discountPercentage / 100);
-        $tongTienSauGiam = $tongTien - $giamGia;
+        $tongTienSauGiam = ($tongTien+ 50000) - $giamGia;
 // Kiểm tra user_id
         $userId = auth()->id();
         if (!$userId) {
@@ -307,7 +307,7 @@ public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tong
         'embed_data' => $embedData,
         'amount' => $tongTienSauGiam,
         'description' => "Thanh toán cho đơn hàng #$transID",
-        'callback_url' => 'https://9100-2402-800-61c5-e43f-905b-23e4-ed57-6e6f.ngrok-free.app/zalopay/callback',
+        'callback_url' => 'https://87bc-2402-800-61c5-c394-382b-d4ca-68db-3ebc.ngrok-free.app/zalopay/callback',
     ];
 
     $data['mac'] = $this->generateZaloPaySignature($data, $zaloPayConfig['key']);
@@ -401,14 +401,15 @@ public function handleZaloPayCallback(Request $request)
 
         if ($order) {
             // Cập nhật trạng thái hóa đơn tùy theo logic của bạn (ví dụ kiểm tra `amount` hoặc `zp_trans_id` nếu cần)
-            $order->trang_thai = HoaDon::DA_XAC_NHAN; // hoặc trạng thái phù hợp trong hệ thống của bạn
+            $order->trang_thai_thanh_toan= HoaDon::TRANG_THAI_THANH_TOAN['Đã thanh toán'];
+
             $order->save();
     
             Log::info("Cập nhật trạng thái đơn hàng thành công: ", (array)$order);
             $result["return_code"] = 1;
             $result["return_message"] = "Cập nhật trạng thái đơn hàng thành công.";
             return response()->json($result);
-} else {
+        } else {
             Log::error("Không tìm thấy hóa đơn với mã: " . $data['app_trans_id']);
             $result["return_code"] = -3;
             $result["return_message"] = "Không tìm thấy hóa đơn.";
