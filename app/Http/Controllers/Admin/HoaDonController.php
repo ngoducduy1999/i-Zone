@@ -144,6 +144,11 @@ class HoaDonController extends Controller
         return redirect()->route('admin.hoadons.index')->with('info', 'Không thể thay đổi trạng thái đơn hàng nữa!');
     }
 
+    // Kiểm tra phương thức thanh toán là chuyển khoản và trạng thái thanh toán là "chưa thanh toán"
+    if ($hoadon->phuong_thuc_thanh_toan == 'Thanh toán qua chuyển khoản ngân hàng' && $hoadon->trang_thai_thanh_toan == 'Chưa thanh toán') {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể cập nhật trạng thái đơn hàng khi phương thức thanh toán là chuyển khoản và chưa thanh toán!');
+    }
+
     // Chỉ cho phép thay đổi trạng thái nếu trạng thái hiện tại chưa qua bước cuối (Đang vận chuyển, Đã giao hàng)
     $validStatesForUpdate = ['1', '2', '3', '4', '5'];  // Các trạng thái có thể thay đổi
     if (!in_array($hoadon->trang_thai, $validStatesForUpdate)) {
