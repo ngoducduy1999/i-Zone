@@ -69,7 +69,7 @@ class TrangSanPhamController extends Controller
         }
     
         // Lấy tất cả sản phẩm và đánh giá của chúng
-        $listSanPham = $query->paginate(9);
+        $listSanPham = $query->paginate(16);
 
         // Kiểm tra xem có sản phẩm nào không
         $hasProducts = $listSanPham->isNotEmpty(); // true nếu có sản phẩm, false nếu không có

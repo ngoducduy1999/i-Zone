@@ -10,7 +10,23 @@
     <link href="{{ asset('assets/admin/libs/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
-    
+    <style>
+        .equal-td {
+        width: 50%; /* Đặt chiều rộng cố định cho các ô */
+        text-align: center; /* Căn giữa nội dung */
+        vertical-align: middle; /* Canh giữa theo chiều dọc */
+    }
+
+    .equal-td .form-select {
+        width: 75%; /* Đảm bảo select không vượt quá kích thước của TD */
+        margin: 0 auto; /* Căn giữa select trong TD */
+    }
+
+    .equal-td .badge {
+        display: inline-block; /* Đảm bảo kích thước badge không bị ảnh hưởng */
+        margin: 0 auto;
+    }
+    </style>
 @endsection
 
 @section('content')
@@ -121,7 +137,7 @@
                                                 <td>{{ \Carbon\Carbon::parse($item->ngay_dat_hang)->format('d-m-Y') }}</td>
                                                 <td class="text-danger">{{ number_format($item->tong_tien, 0, '', '.') }}</td>
                                                 <td>{{ $item->phuong_thuc_thanh_toan }}</td>
-                                                <td>
+                                                <td class="equal-td">
                                                     <form action="{{ route('admin.hoadons.update', $item->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
@@ -138,7 +154,7 @@
                                                         </select>
                                                     </form>
                                                 </td>
-                                                <td>
+                                                <td class="equal-td">
                                                     <form action="{{ route('admin.hoadons.update', $item->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
@@ -147,7 +163,7 @@
                                                             <!-- Hiển thị select nếu phương thức thanh toán là "Thanh toán khi nhận hàng" -->
                                                                 <select 
                                                                     name="trang_thai_thanh_toan" 
-                                                                    class="form-select w-75 bg-{{ $item->trang_thai_thanh_toan === 'Chưa thanh toán' ? 'danger' : ($item->trang_thai_thanh_toan === 'Đã thanh toán' ? 'success' : 'secondary') }} text-white"
+                                                                    class="form-select badge w-75 text-white p-2 bg-{{ $item->trang_thai_thanh_toan === 'Chưa thanh toán' ? 'danger' : ($item->trang_thai_thanh_toan === 'Đã thanh toán' ? 'success' : 'secondary') }} text-white"
                                                                     onchange="updateSelectBackground(this)"
                                                                     id="trang_thai_thanh_toan_{{ $item->id }}"
                                                                 >
@@ -164,7 +180,7 @@
                                                             
                                                         @else
                                                             <!-- Nếu phương thức thanh toán không phải "Thanh toán khi nhận hàng", chỉ hiển thị trạng thái thanh toán bình thường -->
-                                                            <span class="
+                                                            <span class=" w-75 
                                                                 badge
                                                                 @if ($item->trang_thai_thanh_toan === 'Chưa thanh toán') bg-danger
                                                                 @elseif ($item->trang_thai_thanh_toan === 'Đã thanh toán') bg-success
