@@ -10,11 +10,24 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 class KhuyenMaiController extends Controller
 {
-    public function index()
-    {
-        $KhuyenMais = KhuyenMai::all();
-        return view('admins.khuyen_mais.index', compact('KhuyenMais'));
+    public function index(Request $request)
+{
+    $query = KhuyenMai::query();
+
+    // Lọc theo ngày bắt đầu
+    if ($request->has('ngay_bat_dau') && $request->input('ngay_bat_dau')) {
+        $query->where('ngay_bat_dau', '>=', $request->input('ngay_bat_dau'));
     }
+
+    // Lọc theo ngày kết thúc
+    if ($request->has('ngay_ket_thuc') && $request->input('ngay_ket_thuc')) {
+        $query->where('ngay_ket_thuc', '<=', $request->input('ngay_ket_thuc'));
+    }
+
+    $KhuyenMais = $query->get();
+
+    return view('admins.khuyen_mais.index', compact('KhuyenMais'));
+}
     // Hiển thị form tạo khuyến mãi
     public function create()
     {

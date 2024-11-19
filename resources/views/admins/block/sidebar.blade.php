@@ -38,12 +38,12 @@
                 @can('QL phan quyen')
 
                 <li>
-                    <a href="#baiviets" data-bs-toggle="collapse">
-                        <i data-feather="table"></i>
+                    <a href="#phanquyens" data-bs-toggle="collapse">
+                        <i class="fa fa-shield-alt"></i>
                         <span> Phân Quyền </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="baiviets">
+                    <div class="collapse" id="phanquyens">
                         <ul class="nav-second-level">
                             <li>
                                 <a class='tp-link' href="{{ route('admin.roles.index') }}">Vai trò</a>
