@@ -18,29 +18,40 @@ class TrangSanPhamController extends Controller
         $mauSacs = MauSac::all();
         $query = SanPham::with(['bienTheSanPhams', 'danhGias']); // Tải trước các quan hệ
     
+        // Tìm kiếm theo tên sản phẩm
         if ($request->filled('search')) {
             $query->where('ten_san_pham', 'like', '%' . $request->search . '%');
         }
-        
+    
         // Lọc theo danh mục
         if ($request->filled('danh_muc')) {
             $query->where('danh_muc_id', $request->danh_muc);
         }
-
+    
         // Lọc theo dung lượng
         if ($request->filled('dung_luong')) {
-            $query->whereHas('bienTheSanPhams', function($q) use ($request) {
-                $q->whereIn('dung_luong_id', $request->dung_luong);
+            $selectedDungLuongs = is_array($request->dung_luong) 
+                ? $request->dung_luong // Nếu là mảng, giữ nguyên
+                : explode(',', $request->dung_luong); // Nếu là chuỗi, tách thành mảng
+    
+            $query->whereHas('bienTheSanPhams', function($q) use ($selectedDungLuongs) {
+                $q->whereIn('dung_luong_id', $selectedDungLuongs);
             });
         }
-
+    
         // Lọc theo màu sắc
         if ($request->filled('mau_sac')) {
-            $query->whereHas('bienTheSanPhams', function($q) use ($request) {
-                $q->whereIn('mau_sac_id', $request->mau_sac);
-            });
+            $selectedColors = is_array($request->mau_sac) 
+                ? $request->mau_sac 
+                : explode(',', $request->mau_sac);
+        
+            if (!empty($selectedColors)) {
+                $query->whereHas('bienTheSanPhams', function($q) use ($selectedColors) {
+                    $q->whereIn('mau_sac_id', $selectedColors);
+                });
+            }
         }
-
+    
         // Lọc theo giá
         if ($request->has('price') && is_array($request->price)) {
             $query->whereHas('bienTheSanPhams', function($q) use ($request) {
@@ -70,10 +81,10 @@ class TrangSanPhamController extends Controller
     
         // Lấy tất cả sản phẩm và đánh giá của chúng
         $listSanPham = $query->paginate(16);
-
+    
         // Kiểm tra xem có sản phẩm nào không
         $hasProducts = $listSanPham->isNotEmpty(); // true nếu có sản phẩm, false nếu không có
-
+    
         // Lấy 4 sản phẩm với điểm số đánh giá trung bình cao nhất
         $products = SanPham::with('danhGias')
             ->whereHas('danhGias') // Chỉ lấy sản phẩm có đánh giá
@@ -81,9 +92,10 @@ class TrangSanPhamController extends Controller
             ->orderByDesc('danh_gias_avg_diem_so') // Sắp xếp theo điểm trung bình
             ->take(4)
             ->get();
-
+    
         return view('clients.trangsanpham', compact('listSanPham', 'danhMucs', 'dungLuongs', 'mauSacs', 'products', 'hasProducts'));
-    }
+    }    
+
     public function search(Request $request){
        $searchTerm = $request->get('search');
 
