@@ -89,7 +89,7 @@ class HoaDonController extends Controller
 
     // Lấy thông tin chi tiết sản phẩm theo hóa đơn cùng với biến thể sản phẩm và sản phẩm
     $chiTietHoaDons = $hoaDon->chiTietHoaDons()->with(['bienTheSanPham.sanPham'])->get();
-
+    
     // Tính tổng thành tiền của các sản phẩm
     $tongThanhTien = $chiTietHoaDons->sum('thanh_tien');
 
@@ -97,7 +97,7 @@ class HoaDonController extends Controller
     $tienShip = 50000;
 
     // Giảm giá
-    $giamGia = $hoaDon->giam_gia;
+    $giamGia = $hoaDon->giam_gia ?? 0;
 
     // Tổng tiền cuối cùng sau khi thêm tiền ship và giảm giá
     $tongTienCuoi = $tongThanhTien + $tienShip - $giamGia;
