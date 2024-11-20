@@ -30,8 +30,12 @@ class TrangSanPhamController extends Controller
     
         // Lọc theo dung lượng
         if ($request->filled('dung_luong')) {
-            $query->whereHas('bienTheSanPhams', function($q) use ($request) {
-                $q->whereIn('dung_luong_id', $request->dung_luong);
+            $selectedDungLuongs = is_array($request->dung_luong) 
+                ? $request->dung_luong // Nếu là mảng, giữ nguyên
+                : explode(',', $request->dung_luong); // Nếu là chuỗi, tách thành mảng
+    
+            $query->whereHas('bienTheSanPhams', function($q) use ($selectedDungLuongs) {
+                $q->whereIn('dung_luong_id', $selectedDungLuongs);
             });
         }
     

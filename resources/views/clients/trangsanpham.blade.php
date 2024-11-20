@@ -69,7 +69,12 @@
                                         <ul class="filter-items filter-checkbox">
                                             @foreach ($dungLuongs as $dungLuong)
                                                 <li class="filter-item checkbox">
-                                                    <input id="dung_luong_{{ $dungLuong->id }}" type="checkbox" name="dung_luong[]" value="{{ $dungLuong->id }}" onchange="submitFilterForm()">
+                                                    <input 
+                                                        id="dung_luong_{{ $dungLuong->id }}" 
+                                                        type="checkbox" 
+                                                        value="{{ $dungLuong->id }}" 
+                                                        onchange="filterByDungLuong('{{ $dungLuong->id }}', this.checked);" 
+                                                        {{ request()->has('dung_luong') && in_array($dungLuong->id, explode(',', request()->dung_luong)) ? 'checked' : '' }}>
                                                     <label for="dung_luong_{{ $dungLuong->id }}">{{ $dungLuong->ten_dung_luong }}</label>
                                                 </li>
                                             @endforeach
@@ -422,7 +427,33 @@
         document.getElementById('filterForm').submit();
     }
 
-    // Lọc Màu sắc
+    // Lọc dung lượng
+        function filterByDungLuong(dungLuongId, isChecked) {
+        const urlParams = new URLSearchParams(window.location.search);
+        let dungLuongs = urlParams.get('dung_luong') ? urlParams.get('dung_luong').split(',') : [];
+
+        if (isChecked) {
+            // Thêm dung lượng vào danh sách nếu được chọn
+            if (!dungLuongs.includes(dungLuongId)) {
+                dungLuongs.push(dungLuongId);
+            }
+        } else {
+            // Loại bỏ dung lượng khỏi danh sách nếu bỏ chọn
+            dungLuongs = dungLuongs.filter(id => id !== dungLuongId);
+        }
+
+        // Cập nhật URL với danh sách dung lượng mới
+        if (dungLuongs.length > 0) {
+            urlParams.set('dung_luong', dungLuongs.join(','));
+        } else {
+            urlParams.delete('dung_luong');
+        }
+
+        // Chuyển hướng với URL mới
+        window.location.search = urlParams.toString();
+    }
+
+    // Lọc màu sắc
     function filterByColor(colorId, isChecked) {
         // Lấy URL hiện tại
         const url = new URL(window.location.href);
