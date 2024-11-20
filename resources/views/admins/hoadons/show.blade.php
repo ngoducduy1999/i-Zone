@@ -71,10 +71,10 @@
 
                                                         <li>
                                                             Trạng thái thanh toán:
-                                                            <b class="
-                                                                @if ($hoaDon->trang_thai_thanh_toan === 'Chưa thanh toán') text-danger 
-                                                                @elseif ($hoaDon->trang_thai_thanh_toan === 'Đã thanh toán') text-success 
-                                                                @elseif ($hoaDon->trang_thai_thanh_toan === 'Thanh toán thất bại') text-secondary 
+                                                            <b class="badge text-white
+                                                                @if ($hoaDon->trang_thai_thanh_toan === 'Chưa thanh toán') bg-danger 
+                                                                @elseif ($hoaDon->trang_thai_thanh_toan === 'Đã thanh toán') bg-success 
+                                                                @elseif ($hoaDon->trang_thai_thanh_toan === 'Thanh toán thất bại') bg-secondary 
                                                                 @endif">
                                                                 {{ $trangThaiThanhToan[$hoaDon->trang_thai_thanh_toan] }}
                                                             </b>
@@ -107,11 +107,27 @@
                                                 @foreach ($chiTietHoaDons as $chiTiet)
                                                     <tr>
                                                         <td>
-                                                            <img src="{{ asset($chiTiet->bienTheSanPham->sanPham->anh_san_pham) }}"
-                                                                alt="Sản phẩm" width="75px">
+                                                            <img src="{{ asset($chiTiet->bienTheSanPham->sanPham->anh_san_pham) }}" alt="Sản phẩm" width="75px">
                                                         </td>
                                                         <td>{{ $chiTiet->bienTheSanPham->sanPham->ma_san_pham }}</td>
-                                                        <td>{{ $chiTiet->bienTheSanPham->sanPham->ten_san_pham }}</td>
+                                                        <td>
+                                                            {{ $chiTiet->bienTheSanPham->sanPham->ten_san_pham }}
+                                                            <br>
+                                                            <small class="text-muted">
+                                                                <!-- Kiểm tra sự tồn tại của biến thể -->
+                                                                @if(isset($chiTiet->bienTheSanPham->dungLuong))
+                                                                    Dung lượng: {{ $chiTiet->bienTheSanPham->dungLuong->ten_dung_luong }}
+                                                                @else
+                                                                    Dung lượng: Không có
+                                                                @endif
+                                                                <br>
+                                                                @if(isset($chiTiet->bienTheSanPham->mauSac))
+                                                                    Màu sắc: {{ $chiTiet->bienTheSanPham->mauSac->ten_mau_sac }}
+                                                                @else
+                                                                    Màu sắc: Không có
+                                                                @endif
+                                                            </small>
+                                                        </td>
                                                         <td>{{ number_format($chiTiet->don_gia, 0, '', '.') }} đ</td>
                                                         <td>{{ $chiTiet->so_luong }}</td>
                                                     </tr>
