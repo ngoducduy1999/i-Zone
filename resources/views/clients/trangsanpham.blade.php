@@ -105,9 +105,15 @@
                                             @foreach ($mauSacs as $mauSac)
                                                 <li>
                                                     <div class="tp-shop-widget-checkbox-circle">
-                                                        <input type="checkbox" id="color_{{ $mauSac->id }}" onchange="filterByColor('{{ $mauSac->id }}', this.checked);">
+                                                        <input 
+                                                            type="checkbox" 
+                                                            id="color_{{ $mauSac->id }}" 
+                                                            onchange="filterByColor('{{ $mauSac->id }}', this.checked);" 
+                                                            {{ request()->has('mau_sac') && in_array($mauSac->id, explode(',', request()->mau_sac)) ? 'checked' : '' }}>
                                                         <label for="color_{{ $mauSac->id }}">{{ $mauSac->ten_mau_sac }}</label>
-                                                        <span data-bg-color="{{ $mauSac->ma_mau ?? '#FFFFFF' }}" class="tp-shop-widget-checkbox-circle-self" style="background-color: {{ $mauSac->ma_mau ?? '#FFFFFF' }};"></span>
+                                                        <span data-bg-color="{{ $mauSac->ma_mau ?? '#FFFFFF' }}" 
+                                                              class="tp-shop-widget-checkbox-circle-self" 
+                                                              style="background-color: {{ $mauSac->ma_mau ?? '#FFFFFF' }};"></span>
                                                     </div>
                                                     <span class="tp-shop-widget-checkbox-circle-number">{{ $mauSac->so_luong }}</span>
                                                 </li>
@@ -115,7 +121,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>  
+                            </div>                              
                         
                             <!-- Sản phẩm được đánh giá cao -->
                             <div class="tp-shop-widget mb-50">
@@ -416,23 +422,34 @@
         document.getElementById('filterForm').submit();
     }
 
-    function filterByColor(colorId, checked) {
-        const filterForm = document.getElementById('filterForm');
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'mau_sac[]';
-        input.value = colorId;
-        if (checked) {
-            filterForm.appendChild(input);
-        } else {
-            // Xóa màu sắc khỏi form nếu không được chọn
-            const existingInput = [...filterForm.querySelectorAll('input[name="mau_sac[]"]')]
-                .find(i => i.value === colorId);
-            if (existingInput) {
-                filterForm.removeChild(existingInput);
+    // Lọc Màu sắc
+    function filterByColor(colorId, isChecked) {
+        // Lấy URL hiện tại
+        const url = new URL(window.location.href);
+        let colors = url.searchParams.get("mau_sac");
+
+        // Chuyển colors thành mảng
+        colors = colors ? colors.split(",") : [];
+
+        if (isChecked) {
+            // Thêm màu vào danh sách nếu chưa có
+            if (!colors.includes(colorId)) {
+                colors.push(colorId);
             }
+        } else {
+            // Xóa màu khỏi danh sách nếu đã có
+            colors = colors.filter(id => id !== colorId);
         }
-        filterForm.submit();
+
+        // Cập nhật lại tham số URL
+        if (colors.length > 0) {
+            url.searchParams.set("mau_sac", colors.join(","));
+        } else {
+            url.searchParams.delete("mau_sac");
+        }
+
+        // Điều hướng đến URL mới
+        window.location.href = url.toString();
     }
 
     function selectCategory(categoryId) {
