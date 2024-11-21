@@ -262,11 +262,11 @@
           })
           .then(response => response.json())
           .then(data => {
-    console.log(data); // Ghi log để kiểm tra phản hồi
-    if (data.success) {
-        if (data.order_url) {
+          console.log(data); // Ghi log để kiểm tra phản hồi
+          if (data.success) {
+          if (data.order_url) {
             window.location.href = data.order_url; // Chuyển hướng đến ZaloPay
-        } else {
+         } else {
             window.location.href = '/customer/donhang';
             alert('Đặt hàng thành công!');
         }
