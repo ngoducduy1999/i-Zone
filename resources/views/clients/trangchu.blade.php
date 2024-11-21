@@ -290,10 +290,19 @@
                @foreach($khuyenMais as $khuyenMai)
                   <div class="tp-product-offer-item tp-product-item transition-3">
                      <div class="tp-product-content">
-                        <h4>Tên mã : {{ $khuyenMai->ma_khuyen_mai }}</h4>
-                        <div class="tp-product-price-wrapper">
-                           <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}%</span>
-                        </div>
+                     <h4 class="khuyen-mai-title">
+      Tên mã: {{ $khuyenMai->ma_khuyen_mai }}
+      <button class="copy-btn" onclick="copyToClipboard('{{ $khuyenMai->ma_khuyen_mai }}')" title="Sao chép mã">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+            <path d="M10 1.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1h-2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-11a1 1 0 0 0-1-1h-2zm-3 0v1h2v-1h-2zm3-1a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5v-1a.5.5 0 0 1 .5-.5h5z"/>
+            <path d="M4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-7z"/>
+         </svg>
+      </button>
+   </h4>
+   <div class="tp-product-price-wrapper">
+      <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}%</span>
+   </div>
+
                         <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
                            <div class="tp-product-countdown-inner">
                               <ul>
@@ -311,7 +320,48 @@
             </div>
          </div>
       </div>
-<style>.tp-product-offer-grid {
+      <script>
+         function copyToClipboard(text) {
+   navigator.clipboard.writeText(text).then(() => {
+      alert('Mã khuyến mãi đã được sao chép: ' + text);
+   }).catch(err => {
+      console.error('Lỗi khi sao chép: ', err);
+   });
+}
+
+      </script>
+<style>
+  .khuyen-mai-title {
+   display: flex;
+   align-items: center; /* Căn giữa theo chiều dọc */
+   gap: 10px; /* Khoảng cách giữa tên mã và nút */
+   white-space: nowrap; /* Ngăn xuống dòng */
+}
+
+.copy-btn {
+   background: none;
+   border: none;
+   cursor: pointer;
+   padding: 5px;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   color: #007bff;
+   font-size: 1.5rem; /* Tăng kích thước nút */
+   transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.copy-btn:hover {
+   color: #0056b3;
+   transform: scale(1.2); /* Hiệu ứng phóng to khi hover */
+}
+
+.copy-btn svg {
+   width: 24px; /* Kích thước biểu tượng */
+   height: 24px;
+}
+
+.tp-product-offer-grid {
    
     gap: 10px; /* Khoảng cách giữa các cột */
     width: 100%; /* Đảm bảo container chiếm 100% chiều rộng */

@@ -51,7 +51,7 @@ class HoaDonController extends Controller
     }
 
     // Lấy danh sách hóa đơn
-    $listHoaDon = $query->orderBy('id', 'desc')->get();
+    $listHoaDon = HoaDon::query()->orderBy('created_at', 'desc')->paginate(6);
 
     $trangThaiHoaDon = HoaDon::TRANG_THAI;
     $type_huy_don_hang = HoaDon::HUY_DON_HANG;
