@@ -265,136 +265,159 @@
 <!-- product offer area start -->
 <section class="tp-product-offer grey-bg-2 pt-70 pb-80">
    <div class="container">
-       <div class="row align-items-end">
-           <div class="col-xl-4 col-md-5 col-sm-6">
-               <div class="tp-section-title-wrapper mb-40">
-                   <h3 class="tp-section-title">Mã khuyến mãi
-                       <svg width="114" height="35" viewBox="0 0 114 35" fill="none"
-                           xmlns="http://www.w3.org/2000/svg">
-                           <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053"
-                               stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637"
-                               stroke-linecap="round" />
-                       </svg>
-                   </h3>
+      <div class="row align-items-end">
+         <div class="col-xl-4 col-md-5 col-sm-6">
+            <div class="tp-section-title-wrapper mb-40">
+               <h3 class="tp-section-title">Mã khuyến mãi 
+                  <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round" />
+                  </svg>
+               </h3>
+            </div>
+         </div>
+         <div class="col-xl-8 col-md-7 col-sm-6">
+            <div class="tp-product-offer-more-wrapper d-flex justify-content-sm-end p-relative z-index-1">
+               <div class="tp-product-offer-more mb-40 text-sm-end grey-bg-2">                 
+                  <span class="tp-product-offer-more-border"></span>
                </div>
-           </div>
-           <div class="col-xl-8 col-md-7 col-sm-6">
-               <div class="tp-product-offer-more-wrapper d-flex justify-content-sm-end p-relative z-index-1">
-                   <div class="tp-product-offer-more mb-40 text-sm-end grey-bg-2">
-                       <span class="tp-product-offer-more-border"></span>
-                   </div>
-               </div>
-           </div>
-       </div>
-       <div class="row">
-           <div class="col-xl-12">
-               <div class="tp-product-offer-slider fix">
-                   <div class="tp-product-offer-slider-active swiper-container">
-                       <div class="swiper-wrapper">
-                           <!-- Hiển thị danh sách khuyến mãi -->
-                           @foreach ($khuyenMais as $khuyenMai)
-                               <div class="tp-product-offer-item tp-product-item transition-3 swiper-slide">
-                                   <div class="tp-product-content">
-                                       <h4>Mã khuyến mãi : 
-                                           <div class="centered">
-                                               <div class="highlight">
-                                                 <pre style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;"
-                                                   class="highlight javascript"
-                                                 ><code>{{ $khuyenMai->ma_khuyen_mai }}</code></pre>
-                                               </div>
-                                           </div>
-                                       </h4>
-                                       <div class="tp-product-price-wrapper">
-                                           <span class="tp-product-price new-price">Giảm giá:
-                                               {{ $khuyenMai->phan_tram_khuyen_mai }}% </span><br>
-                                               <span class="tp-product-price text-danger">Giảm tối đa:
-                                                {{ number_format($khuyenMai->giam_toi_da, 0, ',', '.') }}₫ </span>
-                                       </div>
-                                       <div class="tp-product-countdown" data-countdown
-                                           data-date="{{ $khuyenMai->ngay_ket_thuc }}">
-                                           <div class="tp-product-countdown-inner">
-                                               <ul>
-                                                   <li><span data-days></span> Ngày</li>
-                                                   <li><span data-hours></span> Giờ</li>
-                                                   <li><span data-minutes></span>Phút</li>
-                                                   <li><span data-seconds></span> Giây</li>
-                                               </ul>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                           @endforeach
-                       </div>
-                       <div class="tp-deals-slider-dot tp-swiper-dot text-center mt-40"></div>
-                   </div>
-               </div>
-           </div>
-       </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-xl-12">
+            <div class="tp-product-offer-grid 1">
+            <!-- Hiển thị danh sách khuyến mãi -->
+               @foreach($khuyenMais as $khuyenMai)
+                  <div class="tp-product-offer-item tp-product-item transition-3">
+                     <div class="tp-product-content">
+                     <h4 class="khuyen-mai-title">
+      Tên mã: {{ $khuyenMai->ma_khuyen_mai }}
+      <button class="copy-btn flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-md border border-gray-300 text-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white" onclick="copyToClipboard('{{ $khuyenMai->ma_khuyen_mai }}')" title="Sao chép mã">
+         <svg class="w-5 h-5 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M9 8v3a1 1 0 0 1-1 1H5m11 4h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v1m4 3v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7.13a1 1 0 0 1 .24-.65L7.7 8.35A1 1 0 0 1 8.46 8H13a1 1 0 0 1 1 1Z" />
+         </svg>
+         <span class="text-sm font-medium">Coppy</span>
+     </button>
+     
+     
+   </h4>
+   <div class="tp-product-price-wrapper">
+      <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}%</span>
    </div>
-   <style>
-      div.highlight button {
-      box-sizing: border-box;
-      transition: 0.2s ease-out;
-      cursor: pointer;
-      user-select: none;
-      background: rgba(0, 0, 0, 0.15);
-      border: 1px solid rgba(0, 0, 0, 0);
-      padding: 5px 10px;
-      font-size: 0.8em;
-      position: absolute;
-      top: 0;
-      right: 0;
-      border-radius: 0 0.15rem;
-  }
-  </style>
-   <script>
-      const copyToClipboard = (str) => {
-      const el = document.createElement('textarea') // Create a <textarea> element
-      el.value = str // Set its value to the string that you want copied
-      el.setAttribute('readonly', '') // Make it readonly to be tamper-proof
-      el.style.position = 'absolute'
-      el.style.left = '-9999px' // Move outside the screen to make it invisible
-      document.body.appendChild(el) // Append the <textarea> element to the HTML document
-      const selected =
-          document.getSelection().rangeCount > 0 // Check if there is any content selected previously
-          ? document.getSelection().getRangeAt(0) // Store selection if found
-          : false // Mark as false to know no selection existed before
-      el.select() // Select the <textarea> content
-      document.execCommand('copy') // Copy - only works as a result of a user action (e.g. click events)
-      document.body.removeChild(el) // Remove the <textarea> element
-      if (selected) {
-          // If a selection existed before copying
-          document.getSelection().removeAllRanges() // Unselect everything on the HTML document
-          document.getSelection().addRange(selected) // Restore the original selection
-      }
-      }
 
-      function handleCopyClick(evt) {
-      // get the children of the parent element
-      const { children } = evt.target.parentElement
-      // grab the first element (we append the copy button on afterwards, so the first will be the code element)
-      // destructure the innerText from the code block
-      const { innerText } = Array.from(children)[0]
+                        <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
+                           <div class="tp-product-countdown-inner">
+                              <ul>
+                                 <h5>Còn lại :</h5>
+                                 <li><span data-days></span> Ngày</li>
+                                 <li><span data-hours></span> Giờ</li>
+                                 <li><span data-minutes></span> Phút</li>
+                                 <li><span data-seconds></span> Giây</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               @endforeach
+            </div>
+         </div>
+      </div>
+      <script>
+         function copyToClipboard(text) {
+   navigator.clipboard.writeText(text).then(() => {
+      alert('Mã khuyến mãi đã được sao chép: ' + text);
+   }).catch(err => {
+      console.error('Lỗi khi sao chép: ', err);
+   });
+}
 
-      // copy all of the code to the clipboard
-      copyToClipboard(innerText)
-      // alert to show it worked, but you can put any kind of tooltip/popup
-      alert(innerText)
-      }
+      </script>
+<style>
+  .khuyen-mai-title {
+   display: flex;
+   align-items: center; /* Căn giữa theo chiều dọc */
+   gap: 10px; /* Khoảng cách giữa tên mã và nút */
+   white-space: nowrap; /* Ngăn xuống dòng */
+}
 
-      // get the list of all highlight code blocks
-      const highlights = document.querySelectorAll('div.highlight')
-      // add the copy button to each code block
-      highlights.forEach((div) => {
-      // create the copy button
-      const copy = document.createElement('button')
-      copy.innerHTML = 'Copy'
-      // add the event listener to each click
-      copy.addEventListener('click', handleCopyClick)
-      // append the copy button to each code block
-      div.append(copy)
-      })
-   </script>
+.copy-btn {
+   background: none;
+   border: none;
+   cursor: pointer;
+   padding: 5px;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   color: #007bff;
+   font-size: 1.5rem; /* Tăng kích thước nút */
+   transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.copy-btn:hover {
+   color: #0056b3;
+   transform: scale(1); /* Hiệu ứng phóng to khi hover */
+}
+
+.copy-btn svg {
+   width: 24px; /* Kích thước biểu tượng */
+   height: 24px;
+}
+
+.tp-product-offer-grid {
+   
+    gap: 10px; /* Khoảng cách giữa các cột */
+    width: 100%; /* Đảm bảo container chiếm 100% chiều rộng */
+    box-sizing: border-box; /* Đảm bảo padding và border không làm phần tử tràn */
+    overflow: hidden; /* Ngăn chặn nội dung tràn ra ngoài */
+    display: grid; /* Sử dụng Grid để chia layout */
+    grid-template-columns: 440px 440px 440px;
+}
+
+.tp-product-countdown-inner h5 {
+   display: inline; /* Đảm bảo thẻ h5 nằm trên một dòng */
+   white-space: nowrap; /* Ngăn nội dung xuống dòng */
+    /* Điều chỉnh kích thước chữ nếu cần */
+   margin-right: 10px; /* Khoảng cách với phần tử bên cạnh */
+   color: #333; /* Màu chữ (có thể tùy chỉnh) */
+}
+
+.tp-product-offer-item {
+   border: 1px solid #ddd;
+   padding: 15px;
+   border-radius: 8px;
+   background: #fff;
+   transition: transform 0.3s ease;
+   width: 90%;
+}
+
+.tp-product-offer-item:hover {
+   transform: scale(1.05);
+}
+
+.tp-product-countdown-inner h5 {
+   height: 50px; /* Chiều cao của thẻ */
+   line-height: 50px; /* Giá trị line-height bằng với chiều cao */
+   text-align: center; /* Căn giữa theo chiều ngang */
+}
+
+
+.tp-product-price-wrapper {
+   font-size: 14px;
+   color: #ff5733;
+}
+
+.tp-product-countdown ul {
+   list-style: none;
+   padding: 0;
+   display: flex;
+   gap: 10px;
+}
+
+.tp-product-countdown ul span {
+   font-weight: bold;
+}
+</style>
+   </div>
 </section>
 <!-- banner area start -->
 <section class="tp-banner-area pb-70">
