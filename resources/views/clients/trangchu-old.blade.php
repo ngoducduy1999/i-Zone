@@ -526,7 +526,9 @@
                                 <div class="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
                                 </div>
                             </div>
-                            <p style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">{{$product->mo_ta}}</p>
+                            <p
+                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                                {{ $product->mo_ta }}</p>
                             <a style="color: #0989ff" href="{{ route('chitietsanpham', $product->id) }}">Xem thêm</a>
                             <!-- variations -->
                             <div class="tp-product-details-variation">
@@ -596,10 +598,19 @@
                                 @foreach ($khuyenMais as $khuyenMai)
                                     <div class="tp-product-offer-item tp-product-item transition-3 swiper-slide">
                                         <div class="tp-product-content">
-                                            <h4>Mã : <br> {{ $khuyenMai->ma_khuyen_mai }}</h4>
+                                            <h4>Mã khuyến mãi :
+                                                <div class="centered">
+                                                    <div class="highlight">
+                                                        <pre style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;"
+                                                            class="highlight javascript"><code>{{ $khuyenMai->ma_khuyen_mai }}</code></pre>
+                                                    </div>
+                                                </div>
+                                            </h4>
                                             <div class="tp-product-price-wrapper">
                                                 <span class="tp-product-price new-price">Giảm giá:
-                                                    {{ $khuyenMai->phan_tram_khuyen_mai }}% </span>
+                                                    {{ $khuyenMai->phan_tram_khuyen_mai }}% </span><br>
+                                                <span class="tp-product-price text-danger">Giảm tối đa:
+                                                    {{ number_format($khuyenMai->giam_toi_da, 0, ',', '.') }}₫ </span>
                                             </div>
                                             <div class="tp-product-countdown" data-countdown
                                                 data-date="{{ $khuyenMai->ngay_ket_thuc }}">
@@ -622,6 +633,76 @@
                 </div>
             </div>
         </div>
+        <style>
+            div.highlight button {
+                box-sizing: border-box;
+                transition: 0.2s ease-out;
+                cursor: pointer;
+                user-select: none;
+                background: rgba(0, 0, 0, 0.15);
+                border: 1px solid rgba(0, 0, 0, 0);
+                padding: 5px 10px;
+                font-size: 0.8em;
+                position: absolute;
+                top: 0;
+                right: 0;
+                border-radius: 0 0.15rem;
+            }
+        </style>
+        <script>
+            const copyToClipboard = (str) => {
+                const el = document.createElement('textarea') // Create a <textarea> element
+                el.value = str // Set its value to the string that you want copied
+                el.setAttribute('readonly', '') // Make it readonly to be tamper-proof
+                el.style.position = 'absolute'
+                el.style.left = '-9999px' // Move outside the screen to make it invisible
+                document.body.appendChild(el) // Append the <textarea> element to the HTML document
+                const selected =
+                    document.getSelection().rangeCount > 0 // Check if there is any content selected previously
+                    ?
+                    document.getSelection().getRangeAt(0) // Store selection if found
+                    :
+                    false // Mark as false to know no selection existed before
+                el.select() // Select the <textarea> content
+                document.execCommand('copy') // Copy - only works as a result of a user action (e.g. click events)
+                document.body.removeChild(el) // Remove the <textarea> element
+                if (selected) {
+                    // If a selection existed before copying
+                    document.getSelection().removeAllRanges() // Unselect everything on the HTML document
+                    document.getSelection().addRange(selected) // Restore the original selection
+                }
+            }
+
+            function handleCopyClick(evt) {
+                // get the children of the parent element
+                const {
+                    children
+                } = evt.target.parentElement
+                // grab the first element (we append the copy button on afterwards, so the first will be the code element)
+                // destructure the innerText from the code block
+                const {
+                    innerText
+                } = Array.from(children)[0]
+
+                // copy all of the code to the clipboard
+                copyToClipboard(innerText)
+                // alert to show it worked, but you can put any kind of tooltip/popup
+                alert(innerText)
+            }
+
+            // get the list of all highlight code blocks
+            const highlights = document.querySelectorAll('div.highlight')
+            // add the copy button to each code block
+            highlights.forEach((div) => {
+                // create the copy button
+                const copy = document.createElement('button')
+                copy.innerHTML = 'Copy'
+                // add the event listener to each click
+                copy.addEventListener('click', handleCopyClick)
+                // append the copy button to each code block
+                div.append(copy)
+            })
+        </script>
     </section>
     {{-- hết khuyến mại --}}
 
@@ -954,7 +1035,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <p style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">{{$newProduct->mo_ta}}</p>
+                            <p
+                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                                {{ $newProduct->mo_ta }}</p>
                             <a style="color: #0989ff" href="{{ route('chitietsanpham', $newProduct->id) }}">Xem thêm</a>
                             <!-- variations -->
                             <div class="tp-product-details-variation">
@@ -1317,7 +1400,9 @@
                                 <div class="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
                                 </div>
                             </div>
-                            <p style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">{{$newProduct->mo_ta}}</p>
+                            <p
+                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                                {{ $newProduct->mo_ta }}</p>
                             <a style="color: #0989ff" href="{{ route('chitietsanpham', $newProduct->id) }}">Xem thêm</a>
                             <!-- variations -->
                             <div class="tp-product-details-variation">
