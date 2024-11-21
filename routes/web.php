@@ -230,9 +230,10 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::put('/editProfile/{id}',[TaiKhoanController::class,'update'])->name('update.profileUser');
     Route::get('/donhang',[TaiKhoanController::class,'index'])->name('donhang');
     Route::put('changepassword',[TaiKhoanController::class,'changePassword'])->name('changePassword');
-    Route::get('/{id}/chitietdonhang',[TaiKhoanController::class,'show'])->name('donhang.chitiet');
+    Route::match(['get', 'post'], '/{id}/chitietdonhang', [TaiKhoanController::class, 'show'])->name('donhang.chitiet');
     Route::post('/{id}/cancel',[TaiKhoanController::class,'cancelOrder'])->name('cancelOrder');
     Route::post('/{id}/getOrder',[TaiKhoanController::class,'getOrder'])->name('getOrder');
+    Route::get('orders/filter', [TaiKhoanController::class, 'filterOrders'])->name('customer.orders.filter');
 });
 
 // Trang chủ
@@ -281,8 +282,9 @@ Route::post('/place-order', [ThanhToanController::class, 'placeOrder'])->name('p
 Route::get('/payment/callback', [ThanhToanController::class, 'callback'])->name('payment.callback');
 Route::post('/payment/notify', [ThanhToanController::class, 'notify'])->name('payment.notify');
 Route::post('/zalopay/callback', [ThanhToanController::class, 'handleZaloPayCallback'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
-
+Route::post('/customer/orders/retry-payment/{id}', [ThanhToanController::class, 'retryPayment'])->name('customer.retryPayment');
 Route::post('/remove-discount', [ThanhToanController::class, 'removeDiscount'])->name('removeDiscount');
 //tim kiem
 Route::get('/search', [TrangSanPhamController::class, 'search'])->name('search.sanpham');
-
+//danhgia
+Route::post('/reviews', [SanPhamController::class, 'storeReview'])->name('reviews.store');
