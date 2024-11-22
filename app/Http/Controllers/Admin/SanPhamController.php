@@ -602,7 +602,12 @@ return redirect()->route('chitietsanpham', ['id' => $validated['san_pham_id']])-
         if (!$sanpham) {
             return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
         }
-        $sanpham->restore();
+        $bienthesanphams = BienTheSanPham::where('san_pham_id', $id)->get();
+        if (count($bienthesanphams) > 0) {
+            $sanpham->restore();
+        } else {
+            return redirect()->back()->with('error', 'Vui lòng khôi phục biến thể');
+        }
         return redirect()->back()->with('success', 'Khôi phục sản phẩm thành công');
     }
 }
