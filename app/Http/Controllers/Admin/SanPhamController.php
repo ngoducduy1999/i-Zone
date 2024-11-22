@@ -567,6 +567,16 @@ return redirect()->route('chitietsanpham', ['id' => $validated['san_pham_id']])-
             // Sử dụng sync để thêm hoặc xóa tag
             $sanpham->tags()->sync($newTags);
         });
+        $sanphamUpdates = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
+        $checkTrangThai = 0;
+        foreach ($sanphamUpdates as $sanphamUpdate) {
+            if ($sanphamUpdate->deleted_at != null) {
+                $checkTrangThai++;
+            }
+        }
+        if ($checkTrangThai >= count($sanphamUpdates)) {
+            $sanpham->delete();
+        }
         if (!$flag) {
             return redirect()->back()->with('success', 'Cập nhập sản phẩm thành công. Biến thể trùng sẽ không được thêm!');
         }
