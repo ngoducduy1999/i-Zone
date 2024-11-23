@@ -335,12 +335,36 @@ $(document).ready(function() {
        <div class="container">
           <div class="tp-mega-menu-wrapper p-relative">
              <div class="row align-items-center">
-                <div class="col-xl-2 col-lg-2">
-
-
-
-                </div>
-                <div class="col-xl-8 col-lg-6">
+               <div class="col-xl-3 col-lg-3">
+                  <div class="tp-header-category tp-category-menu tp-header-category-toggle">
+                     <button class="tp-category-menu-btn tp-category-menu-toggle">
+                        <span>
+                           <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1C0 0.447715 0.447715 0 1 0H15C15.5523 0 16 0.447715 16 1C16 1.55228 15.5523 2 15 2H1C0.447715 2 0 1.55228 0 1ZM0 7C0 6.44772 0.447715 6 1 6H17C17.5523 6 18 6.44772 18 7C18 7.5523 17.5523 8 17 8H1C0.447715 8 0 7.55228 0 7ZM1 12C0.447715 12 0 12.4477 0 13C0 13.5523 0.447715 14 1 14H11C11.5523 14 12 13.5523 12 13C12 12.4477 11.5523 12 11 12H1Z" fill="currentColor"/>
+                           </svg>
+                        </span>
+                        Danh Mục
+                     </button>
+                     <nav class="tp-category-menu-content">
+                        <ul>
+                           @foreach($danhMucs as $danhMuc)
+                           <li>
+                              <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
+                                 <span>
+                                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                       <path d="M5.90532 14.8316V12.5719C5.9053 11.9971 6.37388 11.5301 6.95443 11.5262H9.08101C9.66434 11.5262 10.1372 11.9944 10.1372 12.5719V12.5719V14.8386C10.1371 15.3266 10.5305 15.7254 11.0233 15.7368H12.441C13.8543 15.7368 15 14.6026 15 13.2035V13.2035V6.77525C14.9925 6.22482 14.7314 5.70794 14.2911 5.37171L9.44253 1.50496C8.59311 0.83168 7.38562 0.83168 6.5362 1.50496L1.70886 5.37873C1.26693 5.7136 1.00544 6.23133 1 6.78227V13.2035C1 14.6026 2.1457 15.7368 3.55899 15.7368H4.97671C5.48173 15.7368 5.89114 15.3315 5.89114 14.8316V14.8316" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                 </span>
+                                 {{ $danhMuc->ten_danh_muc }}
+                              </a>
+                           </li>
+                           @endforeach
+                        </ul>
+                     </nav>
+                  </div>
+               </div>
+               
+                <div class="col-xl-6 col-lg-6">
                    <div class="main-menu menu-style-1">
                       <nav class="tp-main-menu-content">
                          <ul>
@@ -350,15 +374,7 @@ $(document).ready(function() {
                             </li>
                             <li>
                                <a href="{{ route('san-pham') }}">Sản phẩm</a>
-                            </li>
-                            <li class="has-dropdown">
-                              <a href="{{ route('san-pham') }}">Danh mục</a>
-                              <ul class="tp-submenu">
-                                  @foreach ($danhMucs as $danhMuc)
-                                      <li><a href="{{ route('san-pham') }}?danh_muc={{ $danhMuc->id }}">{{$danhMuc->ten_danh_muc}}</a></li>
-                                  @endforeach
-                              </ul>
-                           </li>
+                            </li>                   
 
                             <li>
                                <a href="{{ route('bai-viet') }}">Tin tức</a>
@@ -368,7 +384,7 @@ $(document).ready(function() {
                       </nav>
                    </div>
                 </div>
-                <div class="col-xl-2 col-lg-3">
+                <div class="col-xl-3 col-lg-3">
                    <div class="tp-header-contact d-flex align-items-center justify-content-end">
                       <div class="tp-header-contact-icon">
                          <span>
