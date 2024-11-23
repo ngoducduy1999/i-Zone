@@ -97,6 +97,7 @@
              </div>
              <div class="col-xl-6 col-lg-7 d-none d-lg-block">
 
+
                   <div class="tp-header-search pl-70">
                      <form action="{{ route('san-pham') }}" method="GET">
                         <div class="tp-header-search-wrapper d-flex align-items-center">
@@ -115,7 +116,6 @@
                         </div>
                      </form>
                   </div>          
-
              </div>
                <style>
                  .search-suggestions {
@@ -351,13 +351,13 @@ $(document).ready(function() {
                             <li>
                                <a href="{{ route('san-pham') }}">Sản phẩm</a>
                             </li>
-                            @foreach($danhMucs as $danhMuc)
+                            {{-- @foreach($danhMucs as $danhMuc)
                               <li>
                                  <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
                                     {{ $danhMuc->ten_danh_muc }}
                                  </a>
                               </li>
-                           @endforeach
+                           @endforeach --}}
                             <li>
                                <a href="{{ route('bai-viet') }}">Tin tức</a>
                             </li>

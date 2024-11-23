@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Admin\AdminLienHeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -175,6 +177,16 @@ Route::prefix('banners')->name('banners.')->group(function () {
     Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
 });
 
+    Route::prefix('lienhes')->name('lienhes.')->group(function () {
+        Route::get('/', [AdminLienHeController::class, 'index'])->name('index');
+        Route::post('store', [AdminLienHeController::class, 'store'])->name('store');
+        Route::post('/phanhoi/reply/send/{id}', [AdminLienHeController::class, 'sendReply'])->name('phanhoi.reply.send');
+        Route::get('/form-phan-hoi/{id}', [AdminLienHeController::class, 'showReplyForm'])->name('form.reply');
+
+     
+
+    });
+
 });
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL khuyen_mais')->group(function () {
 
@@ -257,6 +269,7 @@ Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chi
 
 // Liên hệ
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
+Route::post('/lienhe', [LienHeController::class, 'store'])->name('lienhe.store');
 
 // giỏ hàng
 Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');

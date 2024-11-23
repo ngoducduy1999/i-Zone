@@ -266,10 +266,26 @@
                             <li>
                                 <a class='tp-link' href="{{ route('admin.banners.create') }}">Thêm mới</a>
                             </li>
+                          @endcan
+
+                         <li>
+
+                        <a href="#lienhes" data-bs-toggle="collapse">
+                        <i data-feather="table"></i>
+                        <span> Liên hệ </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="lienhes">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.lienhes.index') }}">Danh sách</a>
+                                 </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.banners.create') }}">Thêm mới</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
-                @endcan
             </ul>
 
         </div>
