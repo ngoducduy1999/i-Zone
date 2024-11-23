@@ -234,7 +234,7 @@ use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Client\LienHeController;
-
+use App\Http\Controllers\VNPayController;
   // Routes for unauthenticated users
 Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
@@ -312,3 +312,5 @@ Route::prefix('/')->name('/.')->group(function () {
         return redirect('/');
     });
 });
+//vnpay
+Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
