@@ -195,6 +195,7 @@ span {
                                     <th>Màu sắc</th>
                                     <th>Giá</th>
                                     <th>Số lượng</th>
+                                    <th>Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -210,6 +211,13 @@ span {
                                         </span>
                                         </td>
                                         <td>{{ number_format($bienthesanpham->so_luong, 0, ',', '.') }}</td>
+                                        <td>
+                                            @if ($bienthesanpham->deleted_at == null)
+                                            <span class="badge badge-success bg-success">Hoạt động</span>
+                                            @else
+                                            <span class="badge badge-danger bg-danger">Ngừng hoạt động</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
