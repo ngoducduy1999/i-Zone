@@ -164,16 +164,16 @@ Route::prefix('hoadons')->name('hoadons.')->group(function () {
 // Banner 
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banners')->group(function () {
 
-Route::prefix('banners')->name('banners.')->group(function () {
-    Route::get('/', [BannerController::class, 'index'])->name('index');
-    Route::get('create', [BannerController::class, 'create'])->name('create');
-    Route::post('store', [BannerController::class, 'store'])->name('store');
-    Route::get('/{vi_tri}', [BannerController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [BannerController::class, 'update'])->name('update');
-    Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
-    Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
-});
+    Route::prefix('banners')->name('banners.')->group(function () {
+        Route::get('/', [BannerController::class, 'index'])->name('index');
+        Route::get('create', [BannerController::class, 'create'])->name('create');
+        Route::post('store', [BannerController::class, 'store'])->name('store');
+        Route::get('/{vi_tri}', [BannerController::class, 'show'])->name('show');
+        Route::get('/{vi_tri}/edit', [BannerController::class, 'edit'])->name('edit');
+        Route::put('/update', [BannerController::class, 'update'])->name('update');
+        Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
+        Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
+    });
 
 });
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL khuyen_mais')->group(function () {
