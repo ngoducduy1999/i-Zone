@@ -2,90 +2,34 @@
 
 @section('content')
     <div class="container p-5 ">
-        <h3 class="profile__info-title">Lịch sử đơn hàng</h3>
-        <div class="profile__ticket table-responsive">
-            <table class="table ">
-                <thead>
-                    <tr>
-                        <th scope="col">Mã đơn</th>
-                        <th scope="col">Tổng tiền</th>
-                        <th scope="col">Ngày đặt hàng</th>
-                        <th scope="col">Trạng thái</th>
-                        <th scope="col">View</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($orders as $order)
-                        <tr>
-                            <th scope="row"> {{ $order->ma_hoa_don }}</th>
-                            <td data-info="title">{{ $order->tong_tien }}</td>
-                            <td>{{$order->ngay_dat_hang}}</td>
-                            <td data-info="status pending">
-                                @if ($order->trang_thai == 1)
-                                    <p class=""><b>Chờ xác nhận</b></p>
-                                @elseif($order->trang_thai == 2)
-                                    <p><b>Đã xác nhận</b></p>
-                                @elseif($order->trang_thai == 3)
-                                    <p><b>Đang chuẩn bị hàng</b></p>
-                                @elseif($order->trang_thai == 4)
-                                    <p><b>Đang giao hàng</b></p>
-                                @elseif($order->trang_thai == 5)
-                                    <p><b>Đã giao hàng</b></p>
-                                @elseif($order->trang_thai == 6)
-                                    <p><b>Đã hủy đơn hàng</b></p>
-                                @elseif($order->trang_thai == 7)
-                                    <p><b>Đã nhận đơn hàng</b></p>
-                                @endif
-
-                            </td>
-                            <td>
-
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        Thao tác
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li> <a href="{{ route('customer.donhang.chitiet', $order->id) }}"
-                                                class="dropdown-item">Chi tiết</a></li>
-                                        <li>
-                                            @if ($order->trang_thai != 6 && $order->trang_thai !=7)
-                                                <form action="{{ route('customer.cancelOrder', $order->id) }}"
-                                                    method="post" onsubmit="return confirm('Bạn có chắc muốn hủy không?')">
-                                                    @csrf
-                                                    <button class="dropdown-item" type="submit">Hủy đơn hàng</button>
-                                                </form>
-                                            @endif
-
-                                        </li>
-                                        <li>
-                                            @if ($order->trang_thai != 7 && $order->trang_thai != 6)
-                                                <form action="{{ route('customer.getOrder', $order->id) }}" method="post"
-                                                    onsubmit="return confirm('Bạn chắc chắn đã nhận được hàng?')">
-                                                    @csrf
-                                                    <button class="dropdown-item" type="submit">Đã nhận hàng</button>
-                                                </form>
-                                            @endif
-                                        </li>
-
-                                    </ul>
-                                </div>
+            <h3 class="profile__info-title">Lịch sử đơn hàng</h3>
+        
+            <!-- Thanh trạng thái -->
+            <nav class="nav nav-pills nav-fill mb-4">
+                <a class="nav-link filter-link active" data-status="1" href="javascript:void(0)">
+                    <i class="fas fa-hourglass-start"></i> Chờ xác nhận ({{ $counts[1] ?? 0 }})
+                </a>
+                <a class="nav-link filter-link" data-status="2" href="javascript:void(0)">
+                    <i class="fas fa-box"></i> Chờ lấy hàng ({{ $counts[2] ?? 0 }})
+                </a>
+                <a class="nav-link filter-link" data-status="4" href="javascript:void(0)">
+                    <i class="fas fa-truck"></i> Đang giao ({{ $counts[4] ?? 0 }})
+                </a>
+                <a class="nav-link filter-link" data-status="5" href="javascript:void(0)">
+                    <i class="fas fa-check-circle"></i> Đã giao ({{ $counts[5] ?? 0 }})
+                </a>
+                <a class="nav-link filter-link" data-status="6" href="javascript:void(0)">
+                    <i class="fas fa-times-circle"></i> Đã hủy ({{ $counts[6] ?? 0 }})
+                </a>
+                
+                
+            </nav>
+        
+            <!-- Khu vực hiển thị đơn hàng -->
+            <div id="order-list">
+                @include('clients.taikhoan.list', ['donHangs' => $donHangs])
+            </div>
         </div>
-
-        </td>
-        </tr>
-        @endforeach
-
-
-        </tbody>
-        </table>
-
-
-    </div>
-    <div class="pt-3">
-        <button onclick="goBack()" class="btn btn-secondary">Quay lại</button>
-    </div>
-    </div>
 @endsection
 
 @section('js')
@@ -94,4 +38,51 @@
             window.history.back();
         }
     </script>
+    
+    <script>
+        
+        $(document).ready(function () {
+            // Gửi AJAX tự động cho trạng thái mặc định (Chờ xác nhận - status = 1)
+            loadOrders(1);
+    
+            $('.filter-link').on('click', function () {
+                let status = $(this).data('status');
+    
+                // Đổi active class
+                $('.filter-link').removeClass('active');
+                $(this).addClass('active');
+    
+                // Gửi yêu cầu AJAX
+                loadOrders(status);
+            });
+    
+            // Hàm dùng chung để load dữ liệu đơn hàng
+            function loadOrders(status) {
+                $.ajax({
+                    url: '/customer/orders/filter',
+                    method: 'GET',
+                    data: { status: status },
+                    success: function (response) {
+                        // Cập nhật danh sách đơn hàng
+                        $('#order-list').html(response.html);
+    
+                        // Cập nhật số lượng trên các nút
+                        Object.keys(response.counts).forEach(function (key) {
+                            const $link = $(`.filter-link[data-status="${key}"]`);
+                            if ($link.length) {
+                                // Lấy text gốc (tránh thay đổi không mong muốn)
+                                const text = $link.text().split(' (')[0].trim();
+                                const iconHTML = $link.find('i').prop('outerHTML'); // Giữ nguyên icon
+                                $link.html(`${iconHTML} ${text} (${response.counts[key]})`);
+                            }
+                        });
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra, vui lòng thử lại.');
+                    }
+                });
+            }
+        });
+    </script>
+    
 @endsection

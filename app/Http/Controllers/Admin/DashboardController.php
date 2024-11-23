@@ -15,7 +15,7 @@ class DashboardController extends Controller
     public function index()
     {
         // 1. Tổng hợp các số liệu thống kê
-        $tong_doanh_thu = HoaDon::sum('tong_tien');
+        $tong_doanh_thu = HoaDon::where('trang_thai', 7)->sum('tong_tien');
         $tong_nguoi_dung = User::count();
         $tong_san_pham = SanPham::count();
         $tong_don_hang = HoaDon::count();
@@ -42,19 +42,23 @@ class DashboardController extends Controller
         $phan_tram_nguoi_dung = $nguoi_dung_trung_binh > 0 ? round(($nguoi_dung_hom_nay / $nguoi_dung_trung_binh) * 100 - 100) : -100;
 
         // 4. Thống kê doanh thu trung bình và hôm nay
-        $ngay_dau_tien_hoa_don = HoaDon::min('created_at');
+        $ngay_dau_tien_hoa_don = HoaDon::where('trang_thai', 7)->min('created_at');
         $so_ngay_hoa_don = $ngay_dau_tien_hoa_don ? $ngay_hien_tai->diffInDays(Carbon::parse($ngay_dau_tien_hoa_don)) + 1 : 0;
         $doanh_thu_trung_binh = $so_ngay_hoa_don > 0 ? $tong_doanh_thu / $so_ngay_hoa_don : 0;
-        $doanh_thu_hom_nay = HoaDon::whereDate('created_at', $ngay_hien_tai)->sum('tong_tien');
-        $phan_tram_doanh_thu = $doanh_thu_trung_binh > 0 ? round(($doanh_thu_hom_nay - $doanh_thu_trung_binh) / $doanh_thu_trung_binh * 100) : 0;
+        $doanh_thu_hom_nay = HoaDon::where('trang_thai', 7)
+        ->whereDate('created_at', $ngay_hien_tai)
+        ->sum('tong_tien');
+            $phan_tram_doanh_thu = $doanh_thu_trung_binh > 0 ? round(($doanh_thu_hom_nay - $doanh_thu_trung_binh) / $doanh_thu_trung_binh * 100) : 0;
 
         // 5. Thống kê doanh thu theo ngày trong tháng hiện tại
         $doanhThuTheoNgay = HoaDon::selectRaw('DATE(created_at) as ngay, SUM(tong_tien) as tong_doanh_thu')
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->groupBy('ngay')
-            ->orderBy('ngay', 'asc')
-            ->get();
+    ->where('trang_thai', 7)
+    ->whereMonth('created_at', now()->month)
+    ->whereYear('created_at', now()->year)
+    ->groupBy('ngay')
+    ->orderBy('ngay', 'asc')
+    ->get();
+
 
         $doanhThuNgayData = $doanhThuTheoNgay->pluck('tong_doanh_thu')->toArray();
         $ngayLabels = $doanhThuTheoNgay->pluck('ngay')->map(function($date) {
@@ -63,10 +67,12 @@ class DashboardController extends Controller
 
         // 6. Thống kê doanh thu theo tháng
         $doanh_thu_theo_thang = HoaDon::selectRaw('YEAR(created_at) as nam, MONTH(created_at) as thang, SUM(tong_tien) as doanh_thu')
-            ->groupBy('nam', 'thang')
-            ->orderBy('nam', 'desc')
-            ->orderBy('thang', 'desc')
-            ->get();
+    ->where('trang_thai', 7)
+    ->groupBy('nam', 'thang')
+    ->orderBy('nam', 'desc')
+    ->orderBy('thang', 'desc')
+    ->get();
+
 
         $doanh_thu_data = $doanh_thu_theo_thang->pluck('doanh_thu')->toArray();
         $thang_labels = $doanh_thu_theo_thang->map(function($item) {

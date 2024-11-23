@@ -19,7 +19,7 @@
              <div class="col-md-6">
                 <div class="tp-header-top-right d-flex align-items-center justify-content-end">
                    <div class="tp-header-top-menu d-flex align-items-center justify-content-end">
-                      <div class="tp-header-top-menu-item tp-header-lang">
+                      {{-- <div class="tp-header-top-menu-item tp-header-lang">
                          <span class="tp-header-lang-toggle" id="tp-header-lang-toggle">English</span>
                          <ul>
                             <li>
@@ -32,8 +32,8 @@
                                <a href="#">Portuguese</a>
                             </li>
                          </ul>
-                      </div>
-                      <div class="tp-header-top-menu-item tp-header-currency">
+                      </div> --}}
+                      {{-- <div class="tp-header-top-menu-item tp-header-currency">
                          <span class="tp-header-currency-toggle" id="tp-header-currency-toggle">USD</span>
                          <ul>
                             <li>
@@ -49,18 +49,18 @@
                                <a href="#">KWD</a>
                             </li>
                          </ul>
-                      </div>
+                      </div> --}}
                       <div class="tp-header-top-menu-item tp-header-setting">
-                         <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Setting</span>
+                         <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Cài đặt</span>
                          <ul>
                             <li>
-                               <a href="{{route('customer.profileUser')}}">My Profile</a>
+                               <a href="{{route('customer.profileUser')}}">Tài khoản</a>
                             </li>
                             <li>
-                               <a href="{{ route('yeuthich') }}">Wishlist</a>
+                               <a href="{{ route('yeuthich') }}">Yêu thích</a>
                             </li>
                             <li>
-                               <a href="{{ route('cart.index') }}">Cart</a>
+                               <a href="{{ route('cart.index') }}">Giỏ hàng</a>
                             </li>
                             <li>
                                 <form id="logout-form-clients"
@@ -96,34 +96,120 @@
                 </div>
              </div>
              <div class="col-xl-6 col-lg-7 d-none d-lg-block">
-                <div class="tp-header-search pl-70">
-                   <form action="#">
-                      <div class="tp-header-search-wrapper d-flex align-items-center">
-                         <div class="tp-header-search-box">
-                            <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                         </div>
-                         {{-- <div class="tp-header-search-category">                   
-                           <select onchange="window.location.href=this.value">
-                               <option value="">Chọn danh mục</option>
-                               @foreach($danhMucs as $danhMuc)
-                                   <option value="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
-                                       {{ $danhMuc->ten_danh_muc }}
-                                   </option>
-                               @endforeach
-                           </select>
-                       </div> --}}
-                         <div class="tp-header-search-btn">
-                            <button type="submit">
-                               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                  <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                               </svg>
-                            </button>
-                         </div>
-                      </div>
-                   </form>
-                </div>
+
+
+                  <div class="tp-header-search pl-70">
+                     <form action="{{ route('san-pham') }}" method="GET">
+                        <div class="tp-header-search-wrapper d-flex align-items-center">
+                           <div class="tp-header-search-box">
+                           <input type="text" id="search" name="search" placeholder="Tìm kiếm sản phẩm..." value="{{ request('search') }}">
+                           <div id="searchResults" class="search-suggestions position: absolute"></div>
+                           </div>
+                           <div class="tp-header-search-btn">
+                              <button type="submit">
+                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 </svg>
+                              </button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>          
              </div>
+               <style>
+                 .search-suggestions {
+                  position: absolute;  /* Đưa phần tử ra khỏi dòng tài liệu chính */
+                  top: 60px;            /* Khoảng cách từ trên xuống (tuỳ vào chiều cao của header) */
+                  left: 0;
+                  width: 100%;          /* Chiếm hết chiều rộng của màn hình */
+                  max-height: 300px;    /* Giới hạn chiều cao */
+                  overflow-y: auto;     /* Cho phép cuộn khi có quá nhiều kết quả */
+                  background-color: #fff; /* Nền trắng cho dễ nhìn */
+                  border: 1px solid #ccc; /* Viền bao quanh */
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ */
+                  z-index: 9999;        /* Đảm bảo phần tử hiển thị lên trên các phần tử khác */
+                }
+
+                .product-img {
+                    margin-right: 20px; /* Tạo khoảng cách giữa ảnh và tên */
+                 }
+               </style>
+               <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+               <script>
+$(document).ready(function() {
+   let currentAjaxRequest = null; // Lưu yêu cầu AJAX hiện tại
+   let selectedSuggestionIndex = -1; // Chỉ số gợi ý hiện được chọn
+
+   $('#search').on('input', function() {
+      var searchTerm = $(this).val().trim(); // Lấy giá trị nhập vào và loại bỏ khoảng trắng
+
+      if (searchTerm.length > 0) {
+         // Hủy yêu cầu AJAX trước đó nếu có
+         if (currentAjaxRequest) {
+            currentAjaxRequest.abort();
+         }
+
+         // Gửi yêu cầu AJAX mới
+         currentAjaxRequest = $.ajax({
+            url: "{{ route('search.sanpham') }}", // URL gọi route
+            method: 'GET',
+            data: { search: searchTerm }, // Dữ liệu gửi đi
+            success: function(data) {
+               if ($('#search').val().trim() === searchTerm) {
+                  var html = '';
+                  if (data.length > 0) {
+                     data.forEach(function(sanPham, index) {
+                        html += `
+                        <a href="/chitietsanpham/${sanPham.id}" class="suggestion-item d-block px-2 py-1" data-index="${index}" data-value="${sanPham.ten_san_pham}">
+                           <div class="product-suggestion d-flex align-items-center mb-1">
+                              <div class="product-img">
+                                 <img src="${sanPham.anh_san_pham}" alt="${sanPham.ten_san_pham}" class="img-fluid" style="width: 60px; height: 60px; object-fit: cover;">
+                              </div>
+                              <div class="product-info flex-grow-1 pl-2">
+                                 <p class="product-name" style="font-size: 16px; font-weight: bold;">${sanPham.ten_san_pham}</p>
+                              </div>
+                           </div>
+                        </a>`;
+                     });
+                  } else {
+                     html = '<p class="text-muted px-2 py-1">Không tìm thấy sản phẩm nào.</p>';
+                  }
+
+                  $('#searchResults').html(html).show();
+                  selectedSuggestionIndex = -1; // Reset chỉ số gợi ý được chọn
+               }
+            },
+            error: function() {
+               $('#searchResults').html('').hide(); // Ẩn gợi ý nếu có lỗi
+            }
+         });
+      } else {
+         if (currentAjaxRequest) {
+            currentAjaxRequest.abort(); // Hủy yêu cầu hiện tại
+         }
+         $('#searchResults').html('').hide(); // Ẩn kết quả tìm kiếm khi input trống
+      }
+   });
+
+   // Ẩn gợi ý tìm kiếm khi nhấn ra ngoài
+   $(document).on('click', function(event) {
+      if (!$(event.target).closest('#search, #searchResults').length) {
+         $('#searchResults').hide(); // Ẩn kết quả tìm kiếm
+      }
+   });
+
+   // Hiển thị lại gợi ý khi nhấp vào ô tìm kiếm nếu input không trống
+   $('#search').on('click', function() {
+      var searchTerm = $(this).val().trim();
+      if (searchTerm.length > 0 && $('#searchResults').html().trim() !== '') {
+         $('#searchResults').show();
+      }
+   });
+});
+</script>
+               
              <div class="col-xl-4 col-lg-3 col-md-8 col-6">
                 <div class="tp-header-main-right d-flex align-items-center justify-content-end">
                    <div class="tp-header-login d-none d-lg-block">
@@ -177,7 +263,7 @@
                       </a> --}}
                    </div>
                    <div class="tp-header-action d-flex align-items-center ml-50">
-                      
+
                       <div class="tp-header-action-item d-none d-lg-block">
                          <a href="{{ route('yeuthich') }}" class="tp-header-action-btn">
                             <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -209,7 +295,7 @@
                                <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 
-                            </svg>    
+                            </svg>
                            <span class="tp-header-action-badge">
                               @if (Session::has('cart'))
                                  <span id="total-quantity-show">
@@ -223,8 +309,8 @@
                                        0
                                     </span>
                                  </span>
-                              @endif 
-                           </span>                                                                          
+                              @endif
+                           </span>
                          </button>
                       </div>
                       <div class="tp-header-action-item d-lg-none">
@@ -251,7 +337,7 @@
              <div class="row align-items-center">
                 <div class="col-xl-2 col-lg-2">
 
-                
+
 
                 </div>
                 <div class="col-xl-8 col-lg-6">
@@ -259,11 +345,11 @@
                       <nav class="tp-main-menu-content">
                          <ul>
                             <li class="has-mega-menu">
-                               <a href="{{ route('trangchu') }}">Trang chủ</a>                              
+                               <a href="{{ route('trangchu') }}">Trang chủ</a>
 
                             </li>
-                            <li>                               
-                               <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
+                            <li>
+                               <a href="{{ route('san-pham') }}">Sản phẩm</a>
                             </li>
                             {{-- @foreach($danhMucs as $danhMuc)
                               <li>
@@ -273,7 +359,7 @@
                               </li>
                            @endforeach --}}
                             <li>
-                               <a href="{{ route('bai-viet') }}">Tin tức</a>                             
+                               <a href="{{ route('bai-viet') }}">Tin tức</a>
                             </li>
                             <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                          </ul>

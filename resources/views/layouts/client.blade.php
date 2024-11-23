@@ -14,6 +14,7 @@
     <!-- Place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/client/img/logo/favicon.png') }}">
 
+
     <!-- CSS here -->
     <link rel="stylesheet" href="{{ asset('assets/client/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/client/css/animate.css') }}">
@@ -62,9 +63,8 @@
                                     stroke-linecap="round"></circle>
                             </svg>
                         </div>
-                        <img src="{{ asset('assets/client/img/logo/preloader/preloader-icon.svg') }}" alt="">
+                        <img src="{{ asset('assets/client/img/logo/preloader/preloader-icon.png') }}" alt="" style="width: 50px">
                     </div>
-                    <h3 class="tp-preloader-title">i-Zone</h3>
                     <p class="tp-preloader-subtitle">Loading</p>
                 </div>
             </div>
@@ -295,7 +295,7 @@
                         </div>
                         <div class="cartmini__checkout-btn">
                             <a href="{{ route('cart.index') }}" class="tp-btn mb-10 w-100"> Xem giỏ hàng</a>
-                            <a href="checkout.html" class="tp-btn tp-btn-border w-100"> Thanh toán</a>
+                            <a href="{{ route('thanhtoan') }}" class="tp-btn tp-btn-border w-100"> Thanh toán</a>
                         </div>
                     </div>
                 @else
@@ -339,7 +339,7 @@
         
                                     </li>
                                     <li>                               
-                                       <a href="{{ route('trangsanpham') }}">Sản phẩm</a>
+                                       <a href="{{ route('san-pham') }}">Sản phẩm</a>
                                     </li>
                                     {{-- @foreach($danhMucs as $danhMuc)
                                       <li>

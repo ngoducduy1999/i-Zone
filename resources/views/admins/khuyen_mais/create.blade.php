@@ -7,7 +7,6 @@
         <div class="flex-grow-1">
             <h4 class="fs-18 fw-semibold m-0">Khuyến mãi</h4>
         </div>
-
     </div>
 
     <div class="row">
@@ -25,6 +24,7 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('post')
+
                                 <div class="mb-3">
                                     <label for="ma_khuyen_mai" class="form-label">Mã khuyến mãi</label>
                                     <input class="form-control" type="text" id="ma_khuyen_mai" name="ma_khuyen_mai"
@@ -33,6 +33,7 @@
                                     <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="phan_tram_khuyen_mai" class="form-label">Phần trăm khuyến mãi</label>
                                     <input class="form-control" type="number" id="phan_tram_khuyen_mai" name="phan_tram_khuyen_mai"
@@ -41,6 +42,16 @@
                                     <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="giam_toi_da" class="form-label">Giảm tối đa</label>
+                                    <input class="form-control" type="number" id="giam_toi_da" name="giam_toi_da"
+                                        placeholder="Giảm tối đa" value="{{ old('giam_toi_da') }}" min="0">
+                                    @error('giam_toi_da')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="ngay_bat_dau" class="form-label">Ngày bắt đầu</label>
                                     <input class="form-control" type="date" id="ngay_bat_dau" name="ngay_bat_dau"
@@ -49,6 +60,7 @@
                                     <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="ngay_ket_thuc" class="form-label">Ngày kết thúc</label>
                                     <input class="form-control" type="date" id="ngay_ket_thuc" name="ngay_ket_thuc"
@@ -57,6 +69,7 @@
                                     <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
+
                                 <button type="submit" class="btn btn-primary">Thêm mới</button>
                             </form>
                         </div>
@@ -65,6 +78,5 @@
             </div>
         </div>
     </div>
-
 </div>
 @endsection

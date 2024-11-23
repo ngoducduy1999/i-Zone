@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\DanhMuc;
 use App\Models\HoaDon;
-use Auth;
-use Hash;
+use App\Models\ChiTietHoaDon;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class TaiKhoanController extends Controller
 {
@@ -21,12 +24,13 @@ class TaiKhoanController extends Controller
         //lấy thông tin ng dùng đang đăng nhập
         $user = Auth::user();
 
+        $danhMucs = DanhMuc::all();
         // lấy thông tin đơn hàng người dùng đã mua
-        $orders = $user->hoaDons()->get();
+        $donHangs = $user->hoaDons()->get();
         // lấy thuộc tính
         $trang_thai_don_hang = HoaDon::TRANG_THAI;
 
-        return view('clients.taikhoan.donhang',compact('orders','trang_thai_don_hang'));
+        return view('clients.taikhoan.donhang',compact('danhMucs','donHangs','trang_thai_don_hang'));
     }
 
     /**
@@ -62,8 +66,9 @@ class TaiKhoanController extends Controller
         // Các thuộc tính khác của hóa đơn
         $trangThaiHoaDon = HoaDon::TRANG_THAI;
         $phuongThucThanhToan = HoaDon::PHUONG_THUC_THANH_TOAN;
+        $trangThaiThanhToan = HoaDon::TRANG_THAI_THANH_TOAN;
 
-        return view('clients.taikhoan.chitietdonhang', compact('hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
+        return view('clients.taikhoan.chitietdonhang', compact('trangThaiThanhToan','hoaDon', 'chiTietHoaDons', 'trangThaiHoaDon', 'phuongThucThanhToan'));
     }
 
     /**
@@ -124,8 +129,16 @@ class TaiKhoanController extends Controller
     }
 
     public function profileUser(){
+        // lấy thông tin người dùng đăng đăng nhập
         $profile = Auth::user();
-        return view('clients.taikhoan.profile',compact('profile'));
+
+        $danhMucs = DanhMuc::all();
+        // lấy danh sách đơn hàng
+        $donHangs = $profile->hoaDons()->orderByDesc('id')->paginate(10);
+
+
+        // đếm
+        return view('clients.taikhoan.profile',compact('donHangs','danhMucs','profile'));
     }
 
     public function changePassword(Request $request){
@@ -150,37 +163,107 @@ class TaiKhoanController extends Controller
         return redirect()->back()->with('success', 'Đổi mật khẩu thành công!');
     }
 
-    public function cancelOrder($id,Request $request){
-        $orders = HoaDon::findOrFail($id);
+    public function cancelOrder($id, Request $request)
+{
+    // Tìm hóa đơn
+    $orders = HoaDon::findOrFail($id);
 
-        // tìm đơn hàng nếu không có thông báo
-        if(!$orders){
-            return redirect()->back()->with('error','Đơn hàng không tồn hại!');
-        }
-
-        $orders->trang_thai = 6;
-
-        if($orders->save()){
-            return redirect()->back()->with('success','Đã hủy đơn hàng thành công!');
-        }else{
-            return redirect()->back()->with('error','Đã có lỗi khi hủy!');
-        }
+    if (!$orders) {
+        return redirect()->back()->with('error', 'Đơn hàng không tồn tại!');
     }
-    public function getOrder($id,Request $request){
-        $orders = HoaDon::findOrFail($id);
 
-        // tìm đơn hàng nếu không có thông báo
-        if(!$orders){
-            return redirect()->back()->with('error','Đơn hàng không tồn hại!');
-        }
+    // Kiểm tra trạng thái đơn hàng
+    if (in_array($orders->trang_thai, [2, 3, 4, 5])) {
+        return redirect()->back()->with('error', 'Không thể hủy đơn hàng ở trạng thái này!');
+    }
 
-        $orders->trang_thai = 7;
+    // Lấy danh sách chi tiết hóa đơn
+    $chiTietHoaDons = ChiTietHoaDon::where('hoa_don_id', $orders->id)->get();
 
-        if($orders->save()){
-            return redirect()->back()->with('success','Đã nhận được hàng. Cảm ơn bạn!');
-        }else{
-            return redirect()->back()->with('error','Đã có lỗi khi xác nhận nhận hàng thành công!');
+    // Cập nhật số lượng tồn kho
+    foreach ($chiTietHoaDons as $chiTiet) {
+        $bienThe = $chiTiet->bienTheSanPham;
+        if ($bienThe) {
+            $bienThe->so_luong += $chiTiet->so_luong; // Cộng lại số lượng vào kho
+            $bienThe->save();
         }
     }
 
+    // Cập nhật trạng thái đơn hàng
+    $orders->trang_thai = 6; // Trạng thái "Đã hủy"
+
+    if ($orders->save()) {
+        return redirect()->back()->with('success', 'Đã hủy đơn hàng thành công!');
+    } else {
+        return redirect()->back()->with('error', 'Đã có lỗi khi hủy!');
+    }
+}
+
+    public function getOrder($id, Request $request)
+{
+    // Tìm đơn hàng theo ID
+    $orders = HoaDon::findOrFail($id);
+
+    // Kiểm tra trạng thái đơn hàng có phải là 5 (Đã giao) không
+    if ($orders->trang_thai != 5) {
+        return redirect()->back()->with('error', 'Chỉ có thể xác nhận nhận hàng khi đơn hàng ở trạng thái "Đã giao".');
+    }
+
+    // Cập nhật trạng thái đơn hàng sang 7 (Đã nhận hàng)
+    $orders->trang_thai = 7;
+    $orders->trang_thai_thanh_toan = 'Đã thanh toán';
+
+    // Lưu lại trạng thái đơn hàng
+    if ($orders->save()) {
+        return redirect()->back()->with('success', 'Đã nhận được hàng. Cảm ơn bạn!');
+    } else {
+        return redirect()->back()->with('error', 'Đã có lỗi khi xác nhận nhận hàng!');
+    }
+}
+
+    public function filterOrders(Request $request)
+{
+    $status = $request->get('status');
+
+    // Lấy ID người dùng đang đăng nhập
+    $userId = auth()->id();
+
+    // Lấy danh sách đơn hàng theo trạng thái và người dùng
+    $donHangs = HoaDon::where('user_id', $userId);
+
+    // Gộp trạng thái theo yêu cầu
+    if ($status == 1) {
+        $donHangs = $donHangs->where('trang_thai', 1); // Chờ xác nhận
+    } elseif ($status == 2) {
+        $donHangs = $donHangs->whereIn('trang_thai', [2, 3]); // Chờ lấy hàng
+    } elseif ($status == 4) {
+        $donHangs = $donHangs->whereIn('trang_thai', [4, 5]); // Đang giao
+    }elseif ($status == 5) {
+        $donHangs = $donHangs->where('trang_thai', 7); // Đã giao
+    }elseif ($status == 6) {
+        $donHangs = $donHangs->where('trang_thai', 6); // Đã hủy
+    }
+    
+
+    $donHangs = $donHangs->get();
+
+    // Đếm số lượng theo từng trạng thái
+    $counts = [
+        1 => HoaDon::where('user_id', $userId)->where('trang_thai', 1)->count(), // Chờ xác nhận
+        2 => HoaDon::where('user_id', $userId)->whereIn('trang_thai', [2, 3])->count(), // Chờ lấy hàng
+        4 => HoaDon::where('user_id', $userId)->whereIn('trang_thai', [4, 5])->count(), // Đang giao
+        5 => HoaDon::where('user_id', $userId)->where('trang_thai', 7)->count(), // Đã giao
+        6 => HoaDon::where('user_id', $userId)->where('trang_thai', 6)->count(), // Đã hủy
+    ];
+
+    // Trả về view partial cho AJAX
+    return response()->json([
+        'html' => view('clients.taikhoan.list', compact('donHangs'))->render(),
+        'counts' => $counts,
+    ]);
+}
+
+
+
+    
 }

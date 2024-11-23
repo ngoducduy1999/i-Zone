@@ -78,7 +78,7 @@
 
 <!-- product category area end -->
 
-<!-- feature area start -->
+{{-- <!-- feature area start -->
 <section class="tp-feature-area tp-feature-border-radius pb-70">
    <div class="container">
       <div class="row gx-1 gy-1 gy-xl-0">
@@ -157,7 +157,7 @@
          </div>
       </div>
    </div>
-</section>
+</section> --}}
 
 <!-- product area start -->
 <section class="tp-product-area pb-55">
@@ -187,7 +187,7 @@
 
                                     <!-- product badge -->
                                     <div class="tp-product-badge">
-                                        <span class="product-hot">Hot</span>
+                                        <span class="product-hot">Nổi bật</span>
                                     </div>
 
                                     <!-- product action -->
@@ -222,7 +222,7 @@
                                         </a>
                                     </h2>
                                     <div class="tp-product-category">
-                                    <a href="{{ $sanpham->danh_muc_id }}">{{ $sanpham->danhmucs->ten_danh_muc ?? 'Danh mục' }}</a>
+                                    <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $sanpham->danhMuc->id]) }}">{{ $sanpham->danhmucs->ten_danh_muc ?? 'Danh mục' }}</a>
                                     </div>
                                     
                                     <div class="tp-product-rating d-flex align-items-center">
@@ -285,36 +285,138 @@
       </div>
       <div class="row">
          <div class="col-xl-12">
-            <div class="tp-product-offer-slider fix">
-               <div class="tp-product-offer-slider-active swiper-container">
-                  <div class="swiper-wrapper">
-                     <!-- Hiển thị danh sách khuyến mãi -->
-                     @foreach($khuyenMais as $khuyenMai)
-                     <div class="tp-product-offer-item tp-product-item transition-3 swiper-slide">
-                        <div class="tp-product-content">
-                           <h4>Tên mã : {{ $khuyenMai->ma_khuyen_mai }}</h4>
-                           <div class="tp-product-price-wrapper">
-                              <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}% </span>
-                           </div>
-                           <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
-                              <div class="tp-product-countdown-inner">
-                                 <ul>
-                                    <li><span data-days></span> Ngày</li>
-                                    <li><span data-hours></span> Giờ</li>
-                                    <li><span data-minutes></span>Phút</li>
-                                    <li><span data-seconds></span> Giây</li>
-                                 </ul>
-                              </div>
+            <div class="tp-product-offer-grid 1">
+            <!-- Hiển thị danh sách khuyến mãi -->
+               @foreach($khuyenMais as $khuyenMai)
+                  <div class="tp-product-offer-item tp-product-item transition-3">
+                     <div class="tp-product-content">
+                     <h4 class="khuyen-mai-title">
+      Tên mã: {{ $khuyenMai->ma_khuyen_mai }}
+      <button class="copy-btn flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-md border border-gray-300 text-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white" onclick="copyToClipboard('{{ $khuyenMai->ma_khuyen_mai }}')" title="Sao chép mã">
+         <svg class="w-5 h-5 text-gray-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M9 8v3a1 1 0 0 1-1 1H5m11 4h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v1m4 3v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7.13a1 1 0 0 1 .24-.65L7.7 8.35A1 1 0 0 1 8.46 8H13a1 1 0 0 1 1 1Z" />
+         </svg>
+         <span class="text-sm font-medium">Coppy</span>
+     </button>
+     
+     
+   </h4>
+   <div class="tp-product-price-wrapper">
+      <span class="tp-product-price new-price">Giảm giá: {{ $khuyenMai->phan_tram_khuyen_mai }}%</span>
+   </div>
+
+                        <div class="tp-product-countdown" data-countdown data-date="{{ $khuyenMai->ngay_ket_thuc }}">
+                           <div class="tp-product-countdown-inner">
+                              <ul>
+                                 <h5>Còn lại :</h5>
+                                 <li><span data-days></span> Ngày</li>
+                                 <li><span data-hours></span> Giờ</li>
+                                 <li><span data-minutes></span> Phút</li>
+                                 <li><span data-seconds></span> Giây</li>
+                              </ul>
                            </div>
                         </div>
                      </div>
-                     @endforeach
                   </div>
-                  <div class="tp-deals-slider-dot tp-swiper-dot text-center mt-40"></div>
-               </div>
+               @endforeach
             </div>
          </div>
       </div>
+      <script>
+         function copyToClipboard(text) {
+   navigator.clipboard.writeText(text).then(() => {
+      alert('Mã khuyến mãi đã được sao chép: ' + text);
+   }).catch(err => {
+      console.error('Lỗi khi sao chép: ', err);
+   });
+}
+
+      </script>
+<style>
+  .khuyen-mai-title {
+   display: flex;
+   align-items: center; /* Căn giữa theo chiều dọc */
+   gap: 10px; /* Khoảng cách giữa tên mã và nút */
+   white-space: nowrap; /* Ngăn xuống dòng */
+}
+
+.copy-btn {
+   background: none;
+   border: none;
+   cursor: pointer;
+   padding: 5px;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   color: #007bff;
+   font-size: 1.5rem; /* Tăng kích thước nút */
+   transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.copy-btn:hover {
+   color: #0056b3;
+   transform: scale(1); /* Hiệu ứng phóng to khi hover */
+}
+
+.copy-btn svg {
+   width: 24px; /* Kích thước biểu tượng */
+   height: 24px;
+}
+
+.tp-product-offer-grid {
+   
+    gap: 10px; /* Khoảng cách giữa các cột */
+    width: 100%; /* Đảm bảo container chiếm 100% chiều rộng */
+    box-sizing: border-box; /* Đảm bảo padding và border không làm phần tử tràn */
+    overflow: hidden; /* Ngăn chặn nội dung tràn ra ngoài */
+    display: grid; /* Sử dụng Grid để chia layout */
+    grid-template-columns: 440px 440px 440px;
+}
+
+.tp-product-countdown-inner h5 {
+   display: inline; /* Đảm bảo thẻ h5 nằm trên một dòng */
+   white-space: nowrap; /* Ngăn nội dung xuống dòng */
+    /* Điều chỉnh kích thước chữ nếu cần */
+   margin-right: 10px; /* Khoảng cách với phần tử bên cạnh */
+   color: #333; /* Màu chữ (có thể tùy chỉnh) */
+}
+
+.tp-product-offer-item {
+   border: 1px solid #ddd;
+   padding: 15px;
+   border-radius: 8px;
+   background: #fff;
+   transition: transform 0.3s ease;
+   width: 90%;
+}
+
+.tp-product-offer-item:hover {
+   transform: scale(1.05);
+}
+
+.tp-product-countdown-inner h5 {
+   height: 50px; /* Chiều cao của thẻ */
+   line-height: 50px; /* Giá trị line-height bằng với chiều cao */
+   text-align: center; /* Căn giữa theo chiều ngang */
+}
+
+
+.tp-product-price-wrapper {
+   font-size: 14px;
+   color: #ff5733;
+}
+
+.tp-product-countdown ul {
+   list-style: none;
+   padding: 0;
+   display: flex;
+   gap: 10px;
+}
+
+.tp-product-countdown ul span {
+   font-weight: bold;
+}
+</style>
    </div>
 </section>
 <!-- banner area start -->
@@ -381,12 +483,12 @@
                   @foreach($danhMucs as $danhMuc)
                   <div class="tp-product-gadget-categories-list">
                      <ul>
-                        <li><a href="{{ route('trangsanpham') }}?danh_muc={{ $danhMuc->id }}">{{ $danhMuc->ten_danh_muc }}</a></li>
+                        <li><a href="{{ route('san-pham') }}?danh_muc={{ $danhMuc->id }}">{{ $danhMuc->ten_danh_muc }}</a></li>
                      </ul>
                   </div>
                   @endforeach
                   <div class="tp-product-gadget-btn">
-                     <a href="{{ route('trangsanpham') }}" class="tp-link-btn">Sản phẩm khác
+                     <a href="{{ route('san-pham') }}" class="tp-link-btn">Sản phẩm khác
                         <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                            <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -410,7 +512,7 @@
 
                            <!-- product badge -->
                            <div class="tp-product-badge">
-                              <span class="product-trending">New</span>
+                              <span class="product-trending">Mới</span>
                            </div>
 
                            <!-- product action -->
@@ -440,7 +542,7 @@
                         <!-- product content -->
                         <div class="tp-product-content">
                            <div class="tp-product-category">
-                              <a href="{{ $sanphamNew->danh_muc_id }}">{{ $sanphamNew->danhmucs->ten_danh_muc ?? 'Danh mục' }}</a>
+                              <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $sanphamNew->danhMuc->id]) }}">{{ $sanphamNew->danhmucs->ten_danh_muc ?? 'Danh mục' }}</a>
                            </div>
                            <h3 class="tp-product-title">
                                  <a href="{{ route('chitietsanpham', ['id'=>$sanphamNew->id]) }}">
@@ -480,101 +582,7 @@
    </div>
 </section>
 
-<!-- product banner area start -->
-<div class="tp-product-banner-area pb-90">
-   <div class="container">
-      <div class="tp-product-banner-slider fix">
-         <div class="tp-product-banner-slider-active swiper-container">
-            <div class="swiper-wrapper">
-               <div class="tp-product-banner-inner theme-bg p-relative z-index-1 fix swiper-slide">
-                  <h4 class="tp-product-banner-bg-text">Máy tính bảng</h4>
-                  <div class="row align-items-center">
-                     <div class="col-xl-6 col-lg-6">
-                        <div class="tp-product-banner-content p-relative z-index-1">
-                           <span class="tp-product-banner-subtitle">Bộ sưu tập máy tính bảng 2023</span>
-                           <h3 class="tp-product-banner-title">Samsung Galaxy Tab S6, Wifi Tablet</h3>
-                           <div class="tp-product-banner-price mb-40">
-                              <span class="old-price">$1240.00</span>
-                              <p class="new-price">$975.00</p>
-                           </div>
-                           <div class="tp-product-banner-btn">
-                              <a href="shop.html" class="tp-btn tp-btn-2">Mua ngay</a>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-xl-6 col-lg-6">
-                        <div class="tp-product-banner-thumb-wrapper p-relative">
-                           <div class="tp-product-banner-thumb-shape">
-                              <span class="tp-product-banner-thumb-gradient"></span>
-                              <img class="tp-offer-shape" src="{{ asset('assets/client/img/banner/banner-slider-offer.png') }}" alt="">
-                           </div>
-                           <div class="tp-product-banner-thumb text-end p-relative z-index-1">
-                              <img src="{{ asset('assets/client/img/banner/banner-slider-1.png') }}" alt="">
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="tp-product-banner-inner theme-bg p-relative z-index-1 fix swiper-slide">
-                  <h4 class="tp-product-banner-bg-text">tablet</h4>
-                  <div class="row align-items-center">
-                     <div class="col-xl-6 col-lg-6">
-                        <div class="tp-product-banner-content p-relative z-index-1">
-                           <span class="tp-product-banner-subtitle">Latest Technology Added</span>
-                           <h3 class="tp-product-banner-title">Apple iPad 10.2 9th Gen - 2021</h3>
-                           <div class="tp-product-banner-price mb-40">
-                              <span class="old-price">$1450.00</span>
-                              <p class="new-price">$1199.00</p>
-                           </div>
-                           <div class="tp-product-banner-btn">
-                              <a href="shop.html" class="tp-btn tp-btn-2">Shop now</a>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-xl-6 col-lg-6">
-                        <div class="tp-product-banner-thumb-wrapper p-relative">
-                           <div class="tp-product-banner-thumb-shape">
-                              <span class="tp-product-banner-thumb-gradient"></span>
-                              <img class="tp-offer-shape" src="{{ asset('assets/client/img/banner/banner-slider-offer.png') }}" alt="">
-                           </div>
-                           <div class="tp-product-banner-thumb text-end p-relative z-index-1">
-                              <img src="{{ asset('assets/client/img/banner/banner-slider-2.png') }}" alt="">
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="tp-product-banner-inner theme-bg p-relative z-index-1 fix swiper-slide">
-                  <h4 class="tp-product-banner-bg-text">tablet</h4>
-                  <div class="row align-items-center">
-                     <div class="col-xl-6 col-lg-6">
-                        <div class="tp-product-banner-content p-relative z-index-1">
-                           <span class="tp-product-banner-subtitle">Tablet Collection 2023</span>
-                           <h3 class="tp-product-banner-title">Microsoft Surface Pro 8, Wifi Included</h3>
-                           <div class="tp-product-banner-price mb-40">
-                              <span class="old-price">$1249.00</span>
-                              <p class="new-price">$1300.00</p>
-                           </div>
-                           <div class="tp-product-banner-btn">
-                              <a href="shop.html" class="tp-btn tp-btn-2">Shop now</a>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-xl-6 col-lg-6">
-                        <div class="tp-product-banner-thumb-wrapper p-relative">
-                           <div class="tp-product-banner-thumb-shape">
-                              <span class="tp-product-banner-thumb-gradient"></span>
-                              <img class="tp-offer-shape" src="{{ asset('assets/client/img/banner/banner-slider-offer.png') }}" alt="">
-                           </div>
-                           <div class="tp-product-banner-thumb text-end p-relative z-index-1">
-                              <img src="{{ asset('assets/client/img/banner/banner-slider-3.png') }}" alt="">
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="tp-product-banner-slider-dot tp-swiper-dot"></div>
+
 
        <!-- banner area start -->
        <section class="tp-banner-area pb-70">
@@ -676,17 +684,7 @@
          </div>
          <div class="col-xl-7 col-sm-6">
             <div class="tp-product-arrival-more-wrapper d-flex justify-content-end">
-               <div class="tp-product-arrival-arrow tp-swiper-arrow mb-40 text-end tp-product-arrival-border">
-                  <button type="button" class="tp-arrival-slider-button-prev">
-                     <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 13L1 7L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                     </svg>
-                  </button>
-                  <button type="button" class="tp-arrival-slider-button-next">
-                     <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 13L7 7L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                     </svg>
-                  </button>
+               <div class="tp-product-arrival-arrow tp-swiper-arrow mb-40 text-end tp-product-arrival-border">                             
                </div>
             </div>
          </div>
@@ -697,10 +695,10 @@
                <div class="tp-product-arrival-active swiper-container">
                   <div class="swiper-wrapper">
                      @foreach($sanPhams as $sanPhams)
-                     <div class="tp-product-item transition-3 mb-25 swiper-slide">
+                     <div class="tp-product-item transition-3 mb-25 ">
                         <!-- Hình ảnh sản phẩm -->
                         <div class="tp-product-thumb p-relative fix m-img">                      
-                           <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
+                           <a href="{{ route('chitietsanpham', ['id'=>$sanPhams->id]) }}">
                               <img src="{{ asset($sanPhams->anh_san_pham) }}" alt="{{ $sanPhams->ten_san_pham }}">
                            </a>
                            <div class="tp-product-badge">                            
@@ -751,12 +749,11 @@
                         <div class="tp-product-content">
                            <!-- Danh mục sản phẩm -->
                            <div class="tp-product-category">
-                              <a href="shop.html">{{ $sanPhams->danhMuc->ten_danh_muc ?? 'Không rõ danh mục' }}</a>
-                           </div>
-
+                              <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $sanPhams->danhMuc->id]) }}">{{ $sanPhams->danhMuc->ten_danh_muc ?? 'Không rõ danh mục' }}</a>
+                           </div>                                         
                            <!-- Tên sản phẩm -->
                            <h3 class="tp-product-title">
-                              <a href="{{ route('chitietsanpham', ['id'=>$sanpham->id]) }}">
+                              <a href="{{ route('chitietsanpham', ['id'=>$sanPhams->id]) }}">
                                  {{ $sanPhams->ten_san_pham }}
                               </a>
                            </h3>
@@ -1138,7 +1135,7 @@
          <div class="col-xl-8 col-md-6">
             <div class="tp-blog-more-wrapper d-flex justify-content-md-end">
                <div class="tp-blog-more mb-50 text-md-end">
-                  <a href="blog-grid.html" class="tp-btn tp-btn-2 tp-btn-blue">Xem tất cả bài viết
+                  <a href="{{ route('bai-viet') }}" class="tp-btn tp-btn-2 tp-btn-blue">Xem tất cả bài viết
                      <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -1155,13 +1152,13 @@
                <div class="tp-blog-main-slider-active swiper-container">
                   <div class="swiper-wrapper">
                      @foreach($baiViets as $baiViet)
-                     <div class="tp-blog-item mb-30 swiper-slide">
+                     <div class="tp-blog-item mb-30 ">
                         <div class="tp-blog-thumb p-relative fix">
                         <a href="{{ route('chitietbaiviet', ['id' => $baiViet->id]) }}">
                               <img src="{{ asset('storage/' . $baiViet->anh_bai_viet) }}" alt="{{ $baiViet->tieu_de }}">
                            </a>
                            <div class="tp-blog-meta tp-blog-meta-date">
-                              <span>{{ \Carbon\Carbon::parse($baiViet->created_at)->translatedFormat(' d  n, Y') }}</span>
+                              <span>{{ \Carbon\Carbon::parse($baiViet->created_at)->translatedFormat(' d - n - Y') }}</span>
                            </div>
                         </div>
                         <div class="tp-blog-content">
@@ -1171,8 +1168,9 @@
                            <div class="tp-blog-tag">
                               <span><i class="fa-light fa-tag"></i></span>
                               @if($baiViet->danhMuc)
-                                 <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
-                                    {{ $baiViet->danhMuc->ten_danh_muc }}</a>
+                              <a href="{{ route('bai-viet', ['danh_muc' => $baiViet->danhMuc->id]) }}">
+                                 {{ $baiViet->danhMuc->ten_danh_muc }}
+                              </a>
                               @endif
                            </div>
                            <p>{{ Str::limit(strip_tags($baiViet->noi_dung), 60) }}</p>
@@ -1195,51 +1193,30 @@
             </div>
          </div>
       </div>
+      <style>
+         /* Điều chỉnh khoảng cách dưới mỗi bài viết */
+.tp-blog-item {
+    margin-bottom: 30px; /* Căn chỉnh khoảng cách giữa các bài viết */
+}
+
+/* Điều chỉnh khoảng cách giữa các phần tử trong swiper (nếu cần thiết) */
+.swiper-wrapper {
+    display: flex; /* Đảm bảo các phần tử trong swiper được sắp xếp theo hàng ngang */
+    gap: 20px; /* Khoảng cách giữa các bài viết */
+}
+
+/* Đảm bảo rằng mỗi item không bị bóp méo khi có khoảng cách */
+.tp-blog-item {
+    flex: 1 1 calc(25% - 20px); /* Điều chỉnh tỷ lệ của các bài viết, 25% cho mỗi bài viết, trừ đi khoảng cách */
+}
+
+      </style>
    </div>
 </section>
 <!-- blog area end -->
 
 
 
-<!-- subscribe area start -->
-<section class="tp-subscribe-area pt-70 pb-65 theme-bg p-relative z-index-1">
-   <div class="tp-subscribe-shape">
-      <img class="tp-subscribe-shape-1" src="{{ asset('assets/client/img/subscribe/subscribe-shape-1.png') }}" alt="">
-      <img class="tp-subscribe-shape-2" src="{{ asset('assets/client/img/subscribe/subscribe-shape-2.png') }}" alt="">
-      <img class="tp-subscribe-shape-3" src="{{ asset('assets/client/img/subscribe/subscribe-shape-3.png') }}" alt="">
-      <img class="tp-subscribe-shape-4" src="{{ asset('assets/client/img/subscribe/subscribe-shape-4.png') }}" alt="">
-      <!-- plane shape -->
-      <div class="tp-subscribe-plane">
-         <img class="tp-subscribe-plane-shape" src="{{ asset('assets/client/img/subscribe/plane.png') }}" alt="">
-         <svg width="399" height="110" class="d-none d-sm-block" viewBox="0 0 399 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.499634 1.00049C8.5 20.0005 54.2733 13.6435 60.5 40.0005C65.6128 61.6426 26.4546 130.331 15 90.0005C-9 5.5 176.5 127.5 218.5 106.5C301.051 65.2247 202 -57.9188 344.5 40.0003C364 53.3997 384 22 399 22" stroke="white" stroke-opacity="0.5" stroke-dasharray="3 3" />
-         </svg>
-         <svg class="d-sm-none" width="193" height="110" viewBox="0 0 193 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 1C4.85463 20.0046 26.9085 13.6461 29.9086 40.0095C32.372 61.6569 13.5053 130.362 7.98637 90.0217C-3.57698 5.50061 85.7981 127.53 106.034 106.525C145.807 65.2398 98.0842 -57.9337 166.742 40.0093C176.137 53.412 185.773 22.0046 193 22.0046" stroke="white" stroke-opacity="0.5" stroke-dasharray="3 3" />
-         </svg>
-      </div>
-   </div>
-   <div class="container">
-      <div class="row align-items-center">
-         <div class="col-xl-7 col-lg-7">
-            <div class="tp-subscribe-content">
-               <span>Giảm giá 20% các sản phẩm</span>
-               <h3 class="tp-subscribe-title">Đăng ký nhận bản tin của chúng tôi</h3>
-            </div>
-         </div>
-         <div class="col-xl-5 col-lg-5">
-            <div class="tp-subscribe-form">
-               <form action="#">
-                  <div class="tp-subscribe-input">
-                     <input type="email" placeholder="Nhập Email">
-                     <button type="submit">Đăng ký</button>
-                  </div>
-               </form>
-            </div>
-         </div>
-      </div>
-   </div>
-</section>
 <!-- subscribe area end -->
 
 <div class="modal fade tp-product-modal" id="producQuickViewModal" tabindex="-1" aria-labelledby="producQuickViewModal" aria-hidden="true">

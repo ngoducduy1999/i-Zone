@@ -20,9 +20,14 @@ class HoaDon extends Model
     ];
 
     const PHUONG_THUC_THANH_TOAN = [
-
         'Thanh toán khi nhận hàng' => 'Thanh toán khi nhận hàng',
         'Thanh toán qua chuyển khoản ngân hàng' => 'Thanh toán qua chuyển khoản ngân hàng',
+    ];
+
+    const TRANG_THAI_THANH_TOAN = [
+        'Đã thanh toán' => 'Đã thanh toán',
+        'Thanh toán thất bại' => 'Thanh toán thất bại',
+        'Chưa thanh toán' => 'Chưa thanh toán'
     ];
 
     const CHO_XAC_NHAN = '1';
@@ -39,9 +44,9 @@ class HoaDon extends Model
 
     const DA_NHAN_HANG = '7';
     
-    const THANH_TOAN_KHI_NHAN_HANG = 'offline';
+    const THANH_TOAN_KHI_NHAN_HANG = 'Thanh toán khi nhận hàng';
 
-    const THANH_TOAN_QUA_CHUYEN_KHOAN = 'online';
+    const THANH_TOAN_QUA_CHUYEN_KHOAN = 'Thanh toán qua chuyển khoản ngân hàng';
 
     protected $fillable = [
         'ma_hoa_don',
@@ -54,6 +59,7 @@ class HoaDon extends Model
         'ten_nguoi_nhan',
         'ngay_dat_hang',
         'ghi_chu',
+        'thoi_gian_het_han',
         'phuong_thuc_thanh_toan',
         'trang_thai'
     ];

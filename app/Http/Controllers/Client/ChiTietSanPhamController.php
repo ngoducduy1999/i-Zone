@@ -45,6 +45,7 @@ class ChiTietSanPhamController extends Controller
             $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
             $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
             $danhMucs = DanhMuc::withCount('sanPhams')->get(); // Lấy danh sách danh mục và số lượng sản phẩm
+            $hasReview = DanhGiaSanPham::where('san_pham_id', $id)->exists(); // Kiểm tra sản phẩm có đánh giá hay chưa
 
             $starCounts = DanhGiaSanPham::select(DB::raw('diem_so, count(*) as count'))
                 ->where('san_pham_id', $id)
@@ -98,7 +99,8 @@ class ChiTietSanPhamController extends Controller
                 'sanPhamXemNhieuNhat',
                 'sanPhamGiamGiaNhieuNhat',
                 'products',
-                'isLoved'
+                'isLoved',
+                'hasReview'
             ));
         }
     
@@ -130,4 +132,30 @@ class ChiTietSanPhamController extends Controller
             ]);
         }
     }
+    public function getSoLuongBienThe(Request $request)
+    {
+        $sanPhamId = $request->input('san_pham_id');
+        $mauSacId = $request->input('mau_sac_id');
+        $dungLuongId = $request->input('dung_luong_id');
+    
+        // Lấy biến thể từ cơ sở dữ liệu dựa trên các tham số
+        $bienThe = BienTheSanPham::where('san_pham_id', $sanPhamId)
+                                  ->where('mau_sac_id', $mauSacId)
+                                  ->where('dung_luong_id', $dungLuongId)
+                                  ->first();
+    
+        // Kiểm tra nếu biến thể tồn tại và trả về số lượng còn lại
+        if ($bienThe) {
+            return response()->json([
+                'status' => 'success',
+                'so_luong' => $bienThe->so_luong // Trả về số lượng còn lại
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Không tìm thấy biến thể sản phẩm'
+            ]);
+        }
+    }
+    
 }

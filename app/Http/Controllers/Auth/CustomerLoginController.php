@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\Models\DanhMuc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,6 +15,7 @@ class CustomerLoginController extends Controller
     public function showLoginForm()
     {
         $danhMucs=DanhMuc::all();
+
         return view('auth.customer_login',compact('danhMucs'));
     }
 
