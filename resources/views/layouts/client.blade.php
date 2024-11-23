@@ -323,35 +323,27 @@
         <div class="container">
             <div class="tp-mega-menu-wrapper p-relative">
                 <div class="row align-items-center">
-                    <div class="col-xl-2 col-lg-3 col-md-3 col-6">
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-6">
                         <div class="logo">
                             <a href="">
                                 <img src="{{ asset('assets/client/img/logo/logo.png') }}" alt="logo" style="width:150px; height:40px;">
                             </a>
                         </div>
                     </div>
-                    <div class="col-xl-8 col-lg-6 col-md-6 d-none d-md-block">
+                    <div class="col-xl-6 col-lg-6 col-md-6 d-none d-md-block">
                         <div class="tp-header-sticky-menu main-menu menu-style-1">
                             <nav id="mobile-menu">
                                 <ul>
                                     <li class="has-mega-menu">
-                                       <a href="{{ route('trangchu') }}">Trang chủ</a>                              
+                                       <a href="{{ route('trangchu') }}">Trang chủ</a>
         
                                     </li>
-                                    <li>                               
-                                       <a href="{{ route('san-pham') }}">Sản phẩm</a>
-                                    </li>
-                                    <li class="has-dropdown">
-                                        <a href="{{ route('san-pham') }}">Danh mục</a>
-                                        <ul class="tp-submenu">
-                                            @foreach ($danhMucs as $danhMuc)
-                                                <li><a href="{{ route('san-pham') }}?danh_muc={{ $danhMuc->id }}">{{$danhMuc->ten_danh_muc}}</a></li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-
                                     <li>
-                                       <a href="{{ route('bai-viet') }}">Tin tức</a>                             
+                                       <a href="{{ route('san-pham') }}">Sản phẩm</a>
+                                    </li>                   
+        
+                                    <li>
+                                       <a href="{{ route('bai-viet') }}">Tin tức</a>
                                     </li>
                                     <li><a href="{{ route('lienhe') }}">Liên hệ</a></li>
                                  </ul>
@@ -359,7 +351,7 @@
 
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-3 col-md-3 col-6">
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-6">
                         <div class="tp-header-action d-flex align-items-center justify-content-end ml-50">                 
                             <div class="tp-header-action-item d-none d-lg-block">
                                 <a href="{{ route('yeuthich') }}" class="tp-header-action-btn">
