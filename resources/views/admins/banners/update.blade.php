@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Thêm banner')
+@section('title', 'Sửa banner')
 @section('content')
     <div class="container-xxl">
 
@@ -22,34 +22,69 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-6">
-                                <form action="{{ route('admin.banners.update', $banner->id) }}" method="POST"
+                            <div class="col-lg-12">
+                                <form action="{{ route('admin.banners.update') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
-                                    <div class="mb-3">
-                                        <label for="ten_banner" class="form-label">Tên Banner</label>
-                                        <input class="form-control" type="text" id="ten_banner" name="ten_banner"
-                                            placeholder="Tên banner" value="{{ $banner->ten_banner }}">
-                                        @error('ten_banner')
-                                            <p class="text-danger">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="anh_banner" class="form-label">Banner</label>
-                                        <input class="form-control" type="file" id="anh_banner" name="anh_banner">
-                                        @error('anh_banner')
-                                            <p class="text-danger">{{ $message }}</p>
-                                        @enderror
-                                    </div>
+                                    @foreach ($banners as $banner)
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="ten_banner_{{ $banner->id }}" class="form-label">Tên
+                                                        Banner</label>
+                                                    <input class="form-control" type="text"
+                                                        id="ten_banner_{{ $banner->id }}"
+                                                        name="ten_banner[{{ $banner->id }}]" placeholder="Tên banner"
+                                                        value="{{ $banner->ten_banner }}">
+                                                    @error('ten_banner.*' . $banner->id)
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
+                                                    @error('ten_banner' . $banner->id)
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="url_lien_ket{{ $banner->id }}" class="form-label">Sản phẩm liên
+                                                        kết:</label>
+                                                    <select class="form-select" id="url_lien_ket_{{ $banner->id }}"
+                                                        name="url_lien_ket[{{ $banner->id }}]" required>
+                                                        <option value="" disabled selected>Chọn sản phẩm</option>
+                                                        @foreach ($sanphams as $sanpham)
+                                                            <?php $url = route('chitietsanpham', $sanpham->id); ?>
+                                                            <option value="{{ $url }}"
+                                                                {{ $banner->url_lien_ket == $url ? 'selected' : '' }}>
+                                                                {{ $sanpham->ten_san_pham }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('url_lien_ket.*' . $banner->id)
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="anh_banner_{{ $banner->id }}"
+                                                        class="form-label">Banner</label>
+                                                    <input class="form-control anh_banner" type="file"
+                                                        id="anh_banner_{{ $banner->id }}"
+                                                        name="anh_banner[{{ $banner->id }}]"
+                                                        onchange="previewImage(event, {{ $banner->id }})">
+                                                    <img id="img_{{ $banner->id }}"
+                                                        src="{{ asset('storage/' . $banner->anh_banner) }}" alt=""
+                                                        width="100px" class="my-1">
+                                                    @error('anh_banner.' . $banner->id)
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
                                     <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
-                                    <a href="{{ route('admin.banners.index') }}" class="btn btn-dark">Quay lại</a>
+                                    <a href="{{ route('admin.banners.show', $banners->first()->vi_tri) }}"
+                                        class="btn btn-dark">Quay lại</a>
+                                        <a href="{{ route('admin.banners.index') }}" class="btn btn-secondary">Danh sách banner</a>
                                 </form>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 class="fs-15 mb-3">Banner</h6>
-                                <img src="{{ asset($banner->anh_banner) }}" alt="{{ $banner->ten_banner }}" id="img" name="img"
-                                    width="100%">
                             </div>
                         </div>
                     </div>
@@ -59,11 +94,19 @@
 
     </div>
     <script>
-        var anh_banner = document.querySelector('#anh_banner');
-        var img = document.querySelector('#img');
-        anh_banner.addEventListener('change', function(e) {
-            e.preventDefault();
-            img.src = URL.createObjectURL(this.files[0]);
-        })
+        var anh_banners = document.querySelectorAll('.anh_banner');
+        anh_banners.forEach(function(element) {
+            element.addEventListener('change', function(e) {
+                // Lấy ID của banner từ phần tử input
+                var bannerId = element.id.split('_')[2]; // Lấy phần id sau dấu "_"
+
+                // Lấy phần tử img tương ứng
+                var img = document.querySelector('#img_' + bannerId);
+
+                // Chỉnh sửa src của img với ảnh mới
+                e.preventDefault();
+                img.src = URL.createObjectURL(this.files[0]);
+            });
+        });
     </script>
 @endsection

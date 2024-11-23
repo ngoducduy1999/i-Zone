@@ -97,6 +97,7 @@
              </div>
              <div class="col-xl-6 col-lg-7 d-none d-lg-block">
 
+
                   <div class="tp-header-search pl-70">
                      <form action="{{ route('san-pham') }}" method="GET">
                         <div class="tp-header-search-wrapper d-flex align-items-center">
@@ -115,7 +116,6 @@
                         </div>
                      </form>
                   </div>          
-
              </div>
                <style>
                  .search-suggestions {
@@ -359,6 +359,7 @@ $(document).ready(function() {
                                   @endforeach
                               </ul>
                            </li>
+
                             <li>
                                <a href="{{ route('bai-viet') }}">Tin tức</a>
                             </li>

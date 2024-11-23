@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Admin\AdminLienHeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -164,16 +166,26 @@ Route::prefix('hoadons')->name('hoadons.')->group(function () {
 // Banner 
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banners')->group(function () {
 
-Route::prefix('banners')->name('banners.')->group(function () {
-    Route::get('/', [BannerController::class, 'index'])->name('index');
-    Route::get('create', [BannerController::class, 'create'])->name('create');
-    Route::post('store', [BannerController::class, 'store'])->name('store');
-    Route::get('/{vi_tri}', [BannerController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [BannerController::class, 'update'])->name('update');
-    Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
-    Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
-});
+    Route::prefix('banners')->name('banners.')->group(function () {
+        Route::get('/', [BannerController::class, 'index'])->name('index');
+        Route::get('create', [BannerController::class, 'create'])->name('create');
+        Route::post('store', [BannerController::class, 'store'])->name('store');
+        Route::get('/{vi_tri}', [BannerController::class, 'show'])->name('show');
+        Route::get('/{vi_tri}/edit', [BannerController::class, 'edit'])->name('edit');
+        Route::put('/update', [BannerController::class, 'update'])->name('update');
+        Route::post('/{id}/onOffBanner', [BannerController::class, 'onOffBanner'])->name('onOffBanner');
+        Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('lienhes')->name('lienhes.')->group(function () {
+        Route::get('/', [AdminLienHeController::class, 'index'])->name('index');
+        Route::post('store', [AdminLienHeController::class, 'store'])->name('store');
+        Route::post('/phanhoi/reply/send/{id}', [AdminLienHeController::class, 'sendReply'])->name('phanhoi.reply.send');
+        Route::get('/form-phan-hoi/{id}', [AdminLienHeController::class, 'showReplyForm'])->name('form.reply');
+
+     
+
+    });
 
 });
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL khuyen_mais')->group(function () {
@@ -203,8 +215,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
     });
   });
-
-
+// chuyển hướng nếu người dùng nhập route không tồn tại trong admin
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::fallback(function () {
+        return redirect('admin');
+    });
+});
 /////////////////////////////////////NGUOI DUNG TRANG WEB //////////////////////////////////////////
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\TaiKhoanController;
@@ -237,7 +253,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
 });
 
 // Trang chủ
-Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/', [TrangChuController::class, 'index'])->name('/');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangchuold', [TrangChuController::class, 'indexOld'])->name('trangchuold');
 // Trang sản phẩm
@@ -257,6 +273,7 @@ Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chi
 
 // Liên hệ
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
+Route::post('/lienhe', [LienHeController::class, 'store'])->name('lienhe.store');
 
 // giỏ hàng
 Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');
@@ -288,3 +305,10 @@ Route::post('/remove-discount', [ThanhToanController::class, 'removeDiscount'])-
 Route::get('/search', [TrangSanPhamController::class, 'search'])->name('search.sanpham');
 //danhgia
 Route::post('/reviews', [SanPhamController::class, 'storeReview'])->name('reviews.store');
+
+// chuyển hướng nếu người dùng nhập route không tồn tại trong clients
+Route::prefix('/')->name('/.')->group(function () {
+    Route::fallback(function () {
+        return redirect('/');
+    });
+});

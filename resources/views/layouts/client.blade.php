@@ -349,6 +349,7 @@
                                             @endforeach
                                         </ul>
                                     </li>
+
                                     <li>
                                        <a href="{{ route('bai-viet') }}">Tin tức</a>                             
                                     </li>

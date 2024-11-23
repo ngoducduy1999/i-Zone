@@ -73,7 +73,7 @@ class TrangChuController extends Controller
     {
          // Lấy các banner có trạng thái là hiển thị (ví dụ trang_thai = 1)
          $banners = Banner::all();
-
+         $danhMucs=DanhMuc::all();
          // Lấy danh sách khuyến mãi còn hiệu lực
          $khuyenMais = KhuyenMai::where('trang_thai', 1) // Trạng thái kích hoạt 
             ->where('ngay_bat_dau', '<=', now())
@@ -112,6 +112,6 @@ class TrangChuController extends Controller
             ->get();   // Thực hiện truy vấn và lấy kết quả   
 
         // Trả về view và truyền dữ liệu sang
-       return view('clients.trangchu', compact('khuyenMais','banners','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams','baiViets'));
+       return view('clients.trangchu', compact('khuyenMais','banners','sanPhamsNoiBat','danhMucs','sanPhamsMoiNhat','sanPhams','baiViets','danhMucs'));
     }
 }

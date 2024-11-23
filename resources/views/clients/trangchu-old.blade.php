@@ -391,7 +391,7 @@
                                                 <!-- product content -->
                                                 <div class="tp-product-content">
                                                     <div class="tp-product-category">
-                                                        <a href="{{ route('sanpham.danhmuc', $product->danhMuc->id) }}">
+                                                        <a href="{{ isset($product->danhMuc->id) ? route('sanpham.danhmuc', $product->danhMuc->id) : '#' }}">
                                                             {{ isset($product->danhMuc->ten_danh_muc) ? $product->danhMuc->ten_danh_muc : '...' }}</a>
                                                     </div>
                                                     <h3 class="tp-product-title"
@@ -517,7 +517,7 @@
                                 <a href="#">
                                     {{ isset($product->danhMuc->ten_danh_muc) ? $product->danhMuc->ten_danh_muc : '...' }}</a>
                             </div>
-                            <h3 class="tp-product-details-title" style="max-width: 500px;">
+                            <h3 class="tp-product-details-title" style="max-width: 350px;">
                                 {{ $product->ten_san_pham }}</h3>
                             <!-- inventory details -->
                             <div class="tp-product-details-inventory d-flex align-items-center mb-10">
@@ -527,7 +527,7 @@
                                 </div>
                             </div>
                             <p
-                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 350px;">
                                 {{ $product->mo_ta }}</p>
                             <a style="color: #0989ff" href="{{ route('chitietsanpham', $product->id) }}">Xem thêm</a>
                             <!-- variations -->
@@ -687,7 +687,7 @@
                 // copy all of the code to the clipboard
                 copyToClipboard(innerText)
                 // alert to show it worked, but you can put any kind of tooltip/popup
-                alert(innerText)
+                alertify.success(`Copy mã khuyến mãi: ${innerText}`);
             }
 
             // get the list of all highlight code blocks
@@ -1022,7 +1022,7 @@
                                 <a href="#">
                                     {{ isset($newProduct->danhMuc->ten_danh_muc) ? $newProduct->danhMuc->ten_danh_muc : '...' }}</a>
                             </div>
-                            <h3 class="tp-product-details-title" style="max-width: 500px;">
+                            <h3 class="tp-product-details-title" style="max-width: 350px;">
                                 {{ $newProduct->ten_san_pham }}</h3>
                             <!-- inventory details -->
                             <div class="tp-product-details-inventory d-flex align-items-center mb-10">
@@ -1036,7 +1036,7 @@
                                 </div>
                             </div>
                             <p
-                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 350px;">
                                 {{ $newProduct->mo_ta }}</p>
                             <a style="color: #0989ff" href="{{ route('chitietsanpham', $newProduct->id) }}">Xem thêm</a>
                             <!-- variations -->
@@ -1391,7 +1391,7 @@
                                 <a href="#">
                                     {{ isset($randProduct->danhMuc->ten_danh_muc) ? $randProduct->danhMuc->ten_danh_muc : '...' }}</a>
                             </div>
-                            <h3 class="tp-product-details-title" style="max-width: 500px;">
+                            <h3 class="tp-product-details-title" style="max-width: 350px;">
                                 {{ $randProduct->ten_san_pham }}</h3>
                             <!-- inventory details -->
                             <div class="tp-product-details-inventory d-flex align-items-center mb-10">
@@ -1401,7 +1401,7 @@
                                 </div>
                             </div>
                             <p
-                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
+                                style="max-height: 4.5em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 350px;">
                                 {{ $newProduct->mo_ta }}</p>
                             <a style="color: #0989ff" href="{{ route('chitietsanpham', $newProduct->id) }}">Xem thêm</a>
                             <!-- variations -->
