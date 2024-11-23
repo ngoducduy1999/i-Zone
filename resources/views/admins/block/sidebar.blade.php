@@ -265,10 +265,12 @@
                             </li>
                             <li>
                                 <a class='tp-link' href="{{ route('admin.banners.create') }}">Thêm mới</a>
-                            </li>
-                          @endcan
+                            </ul>
+                        </div>
+                    </li>
+                    @endcan
 
-                         <li>
+                    <li>
 
                         <a href="#lienhes" data-bs-toggle="collapse">
                         <i data-feather="table"></i>
@@ -280,12 +282,9 @@
                             <li>
                                 <a class='tp-link' href="{{ route('admin.lienhes.index') }}">Danh sách</a>
                                  </li>
-                            <li>
-                                <a class='tp-link' href="{{ route('admin.banners.create') }}">Thêm mới</a>
-                            </li>
+                            
                         </ul>
-                    </div>
-                </li>
+                    </div>    
             </ul>
 
         </div>
