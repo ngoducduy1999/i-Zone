@@ -215,8 +215,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
     });
   });
-
-
+// chuyển hướng nếu người dùng nhập route không tồn tại trong admin
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::fallback(function () {
+        return redirect('admin');
+    });
+});
 /////////////////////////////////////NGUOI DUNG TRANG WEB //////////////////////////////////////////
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\TaiKhoanController;
@@ -249,7 +253,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
 });
 
 // Trang chủ
-Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/', [TrangChuController::class, 'index'])->name('/');
 Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('/trangchuold', [TrangChuController::class, 'indexOld'])->name('trangchuold');
 // Trang sản phẩm
@@ -301,3 +305,10 @@ Route::post('/remove-discount', [ThanhToanController::class, 'removeDiscount'])-
 Route::get('/search', [TrangSanPhamController::class, 'search'])->name('search.sanpham');
 //danhgia
 Route::post('/reviews', [SanPhamController::class, 'storeReview'])->name('reviews.store');
+
+// chuyển hướng nếu người dùng nhập route không tồn tại trong clients
+Route::prefix('/')->name('/.')->group(function () {
+    Route::fallback(function () {
+        return redirect('/');
+    });
+});
