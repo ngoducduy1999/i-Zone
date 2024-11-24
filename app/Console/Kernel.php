@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
 {
     $schedule->command('orders:delete-expired')->everyMinute(); // Chạy mỗi phút
+    $schedule->command('promotions:update-expired')->everyMinute();
 }
 
 
