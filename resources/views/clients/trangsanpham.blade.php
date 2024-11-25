@@ -37,23 +37,23 @@
                                     <div class="tp-shop-widget-checkbox">
                                         <ul class="filter-items filter-checkbox">
                                             <li class="filter-item checkbox">
-                                                <input id="price_under_1m" type="checkbox" name="price[]" value="duoi-1-trieu" onchange="submitFilterForm()">
+                                                <input id="price_under_1m" type="radio" name="price[]" value="duoi-1-trieu" onchange="submitFilterForm()">
                                                 <label for="price_under_1m">Dưới 1 triệu</label>
                                             </li>
                                             <li class="filter-item checkbox">
-                                                <input id="price_1m_to_5m" type="checkbox" name="price[]" value="1-den-5-trieu" onchange="submitFilterForm()">
+                                                <input id="price_1m_to_5m" type="radio" name="price[]" value="1-den-5-trieu" onchange="submitFilterForm()">
                                                 <label for="price_1m_to_5m">1 triệu - 5 triệu</label>
                                             </li>
                                             <li class="filter-item checkbox">
-                                                <input id="price_5m_to_10m" type="checkbox" name="price[]" value="5-den-10-trieu" onchange="submitFilterForm()">
+                                                <input id="price_5m_to_10m" type="radio" name="price[]" value="5-den-10-trieu" onchange="submitFilterForm()">
                                                 <label for="price_5m_to_10m">5 triệu - 10 triệu</label>
                                             </li>
                                             <li class="filter-item checkbox">
-                                                <input id="price_10m_to_20m" type="checkbox" name="price[]" value="10-den-20-trieu" onchange="submitFilterForm()">
+                                                <input id="price_10m_to_20m" type="radio" name="price[]" value="10-den-20-trieu" onchange="submitFilterForm()">
                                                 <label for="price_10m_to_20m">10 triệu - 20 triệu</label>
                                             </li>
                                             <li class="filter-item checkbox">
-                                                <input id="price_above_20m" type="checkbox" name="price[]" value="tren-20-trieu" onchange="submitFilterForm()">
+                                                <input id="price_above_20m" type="radio" name="price[]" value="tren-20-trieu" onchange="submitFilterForm()">
                                                 <label for="price_above_20m">Trên 20 triệu</label>
                                             </li>
                                         </ul>
@@ -424,8 +424,22 @@
 @section('js')
 <script>
     function submitFilterForm() {
-        document.getElementById('filterForm').submit();
-    }
+    const form = document.getElementById('filterForm');
+    const currentParams = new URLSearchParams(window.location.search);
+
+    // Giữ lại các tham số hiện tại (dung lượng, màu sắc, danh mục, v.v.)
+    currentParams.forEach((value, key) => {
+        if (!form.querySelector(`[name="${key}"]`)) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+        }
+    });
+
+    form.submit();
+}
 
     // Lọc dung lượng
         function filterByDungLuong(dungLuongId, isChecked) {

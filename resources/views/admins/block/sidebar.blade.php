@@ -273,7 +273,7 @@
                     <li>
 
                         <a href="#lienhes" data-bs-toggle="collapse">
-                        <i data-feather="table"></i>
+                            <i class="fa fa-phone"></i>
                         <span> Liên hệ </span>
                         <span class="menu-arrow"></span>
                     </a>
