@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Models\DanhMuc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\SanPham;
 use Illuminate\Support\Facades\Storage;
 
 class DanhMucController extends Controller
@@ -156,6 +157,10 @@ class DanhMucController extends Controller
    {
        $danhMuc = DanhMuc::find($id);
        if ($danhMuc) {
+        $sanPhamDanhMucs = $danhMuc->sanPhams()->withTrashed()->get();
+        if(count($sanPhamDanhMucs) > 0){
+            return redirect()->back()->with('error', 'Danh mục vẫn còn sản phẩm. Không thể xóa.');
+        }
            $danhMuc->delete();
            return redirect()->back()->with('success', 'Xóa mềm thành công.');
        }
