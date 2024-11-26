@@ -23,6 +23,9 @@
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -48,6 +51,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Dung lượng</th>
+                                    <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -56,6 +60,13 @@
                                     <tr>
                                         <td>{{ $gb->id }}</td>
                                         <td>{{ $gb->ten_dung_luong }}</td>
+                                        <td>
+                                            @if ($gb->trang_thai == 1)
+                                                <span class="badge badge-success bg-success">Hoạt động</span>
+                                            @else
+                                                <span class="badge badge-danger bg-danger">Ngừng hoạt động</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="">
                                                 <div class="btn-group">
@@ -90,7 +101,7 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
-                                                                class="btn btn-outline-danger">xóa</button>
+                                                                class="dropdown-item">Xóa</button>
                                                         </form>
 
                                                     </div>
