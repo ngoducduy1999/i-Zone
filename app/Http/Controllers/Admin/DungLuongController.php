@@ -140,7 +140,7 @@ class DungLuongController extends Controller
         $dungluongs = DungLuong::findOrFail($id);
         $countDungLuong = $dungluongs->bienTheSanPhams()->withTrashed()->get();
         if (count($countDungLuong) > 0) {
-            return redirect()->back()->with('error', 'Dung lượng đã có sản phẩm, không thể ngừng hoạt động!');
+            return redirect()->back()->with('error', 'Dung lượng đã có sản phẩm, không thể xóa!');
         }
         $dungluongs->delete();
 

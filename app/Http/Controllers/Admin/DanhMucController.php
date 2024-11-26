@@ -163,7 +163,7 @@ class DanhMucController extends Controller
         if ($danhMuc) {
             $sanPhamDanhMucs = $danhMuc->sanPhams()->withTrashed()->get();
             if (count($sanPhamDanhMucs) > 0) {
-                return redirect()->back()->with('error', 'Danh mục vẫn còn sản phẩm. Không thể xóa.');
+                return redirect()->back()->with('error', 'Danh mục vẫn còn sản phẩm, không thể ngừng hoạt động.');
             }
             $danhMuc->delete();
             return redirect()->back()->with('success', 'Xóa mềm thành công.');
