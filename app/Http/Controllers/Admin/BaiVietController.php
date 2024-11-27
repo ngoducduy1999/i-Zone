@@ -14,7 +14,7 @@ class BaiVietController extends Controller
 {
     public function index(Request $request)
 {
-    $title = "Danh sách bài viết";
+    $title = "Danh sách tin tức";
 
     // Khởi tạo truy vấn cho bài viết
     $query = BaiViet::with(['user', 'danhMuc']);
@@ -46,7 +46,7 @@ class BaiVietController extends Controller
 
     public function create()
     {
-        $title = "Thêm mới bài viết";
+        $title = "Thêm mới tin tức";
         $listDanhMuc = DanhMuc::all(); // Lấy danh sách danh mục
         
         return view('admins.baiviets.create', compact('title', 'listDanhMuc'));
@@ -154,9 +154,9 @@ class BaiVietController extends Controller
 
     // Gửi thông báo thành công dựa trên trạng thái mới
     if ($BaiViet->trang_thai) {
-        return redirect()->back()->with('success', 'Bài viết đã được duyệt');
+        return redirect()->back()->with('success', 'Tin tức đã được duyệt');
     } else {
-        return redirect()->back()->with('error', 'Bài viết chưa được duyệt');
+        return redirect()->back()->with('error', 'Tin tức chưa được duyệt');
     }
 }
 
