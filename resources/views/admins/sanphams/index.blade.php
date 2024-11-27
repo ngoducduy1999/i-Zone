@@ -32,9 +32,15 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Basic Datatable</h5>
-                    </div><!-- end card header -->
-
+                        <div class="d-flex justify-content-between">
+                            <div class="mt-2">
+                                <h5 class="card-title mb-0">Danh sách sản phẩm</h5>
+                            </div>
+                            <div>
+                                <a href="{{ route('admin.sanphams.create') }}" class="btn btn-success">Thêm mới</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
                             <thead>

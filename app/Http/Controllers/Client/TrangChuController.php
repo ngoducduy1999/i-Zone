@@ -18,7 +18,7 @@ class TrangChuController extends Controller
     public function indexOld()
     {
         $bannersHeas = Banner::where('vi_tri', 'header')->where('trang_thai', 1)->get(); // w 420 h 350
-        $bannersSides = Banner::where('vi_tri', 'sidebar')->where('trang_thai', 1)->limit(2)->get();
+        $bannersSides = Banner::latest('id')->where('vi_tri', 'sidebar')->where('trang_thai', 1)->limit(2)->get();
         $bannersFoots = Banner::where('vi_tri', 'footer')->where('trang_thai', 1)->get(); // w 420 h 350
         $danhMucs = DanhMuc::withCount('sanPhams')->get();
         $khuyenMais = KhuyenMai::where('trang_thai', 1)
