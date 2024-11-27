@@ -2,6 +2,28 @@
 
 @section('css')
 <style>
+    .tp-product-thumb-2 {
+        position: relative;
+        width: 100%;
+        padding-top: 75%; /* Tỷ lệ 4:3 (Chiều cao = 75% chiều rộng) */
+        overflow: hidden;
+        background-color: #ffffff; /* Tùy chọn: Màu nền */
+        border-radius: 10px; /* Tùy chọn: Bo góc */
+    }
+
+    .tp-product-thumb-2 img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Hiển thị toàn bộ ảnh mà không bị cắt */
+    }
+    .tp-product-list-thumb img {
+    width: 100%; /* Đảm bảo ảnh sẽ rộng bằng khung */
+    height: 100%; /* Đảm bảo ảnh sẽ cao bằng khung */
+    object-fit: contain; /* Ảnh sẽ điều chỉnh để vừa khung mà không bị cắt */
+    }
     .filter-container {
         background-color: #f8f9fa; /* Màu nền cho khung chứa */
         border: 1px solid #ddd; /* Viền mờ cho khung */
@@ -211,9 +233,9 @@
                             @foreach ($sanPhams as $product)
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                                 <div class="tp-product-item-2 mb-40">
-                                    <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
-                                        <a href="{{ route('chitietsanpham', $product->id) }}">
-                                            <img src="{{ asset($product->anh_san_pham) }}" alt="{{ $product->ten_san_pham }}">
+                                    <div class="tp-product-thumb-2">
+                                        <a href="{{ route('chitietsanpham', ['id'=>$product->id]) }}">
+                                            <img src="{{ asset($product->anh_san_pham) }}" alt="">
                                         </a>
                                     </div>
                                     <div class="tp-product-content-2 pt-15">
@@ -254,7 +276,7 @@
                                     @foreach ($sanPhams as $product)
                                         <div class="tp-product-list-item d-md-flex mb-4">
                                             <div class="tp-product-list-thumb p-relative fix">
-                                                <a href="{{ route('chitietsanpham', $product->id) }}">
+                                                <a href="#">
                                                     <img src="{{ asset($product->anh_san_pham) }}" alt="{{ $product->ten_san_pham }}">
                                                 </a>
                                             </div>

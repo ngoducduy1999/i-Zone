@@ -1,7 +1,30 @@
 @extends('layouts.client')
 
 @section('css')
+    <style>
+        .tp-product-thumb-2 {
+        position: relative;
+        width: 100%;
+        padding-top: 75%; /* Tỷ lệ 4:3 (Chiều cao = 75% chiều rộng) */
+        overflow: hidden;
+        background-color: #ffffff; /* Tùy chọn: Màu nền */
+        border-radius: 10px; /* Tùy chọn: Bo góc */
+    }
 
+    .tp-product-thumb-2 img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Hiển thị toàn bộ ảnh mà không bị cắt */
+    }
+    .tp-product-list-thumb img {
+    width: 100%; /* Đảm bảo ảnh sẽ rộng bằng khung */
+    height: 100%; /* Đảm bảo ảnh sẽ cao bằng khung */
+    object-fit: contain; /* Ảnh sẽ điều chỉnh để vừa khung mà không bị cắt */
+    }
+    </style>
 @endsection
 
 @section('content')
@@ -267,11 +290,11 @@
                                         @foreach ($listSanPham as $item)
                                             <div class="col-xl-4 col-md-6 col-sm-6 infinite-item">
                                                 <div class="tp-product-item-2 mb-40">
-                                                    <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
+                                                    <div class="tp-product-thumb-2">
                                                         <a href="{{ route('chitietsanpham', ['id'=>$item->id]) }}">
                                                             <img src="{{ asset($item->anh_san_pham) }}" alt="">
-                                                        </a>                                             
-                                                    </div>
+                                                        </a>
+                                                    </div>                                                                                                        
                                                     <div class="tp-product-content-2 pt-15">
                                                         <div class="tp-product-tag-2">
                                                             <a href="#">{{ $item->danhMuc->ten_danh_muc }}</a>
@@ -310,9 +333,10 @@
                                                     <div class="tp-product-list-item d-md-flex">
                                                         <div class="tp-product-list-thumb p-relative fix">
                                                             <a href="#">
-                                                                <img src="{{ asset($item->anh_san_pham) }}" alt="">
+                                                                <img src="{{ asset($item->anh_san_pham) }}" alt="{{ $item->ten_san_pham }}">
                                                             </a>
                                                         </div>
+                                                        
                                                         <div class="tp-product-list-content">
                                                             <div class="tp-product-content-2 pt-15">
                                                                 <div class="tp-product-tag-2">
