@@ -43,7 +43,7 @@
                                 <div class="col-xl-7 col-lg-6 col-md-6">
                                     <div class="tp-slider-thumb text-end">
                                         <img src="{{ asset('storage/' . $bannersHea->anh_banner) }}" width="420px"
-                                            height="350px" style="object-fit: cover; border-radius: 10%;" alt="slider-img">
+                                            height="350px" style="object-fit: contain; border-radius: 10%;" alt="slider-img">
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                                         {{ $danhMuc->ten_danh_muc }}
                                                     </a>
                                                 </h3>
-                                                <p>{{ $danhMuc->san_phams_count }} Product</p>
+                                                <p>{{ $danhMuc->san_phams_count }} Sản phẩm</p>
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@
 
 
 
-    <section class="tp-feature-area tp-feature-border-radius pb-70">
+    {{-- <section class="tp-feature-area tp-feature-border-radius pb-70">
         <div class="container">
             <div class="row gx-1 gy-1 gy-xl-0">
                 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
@@ -241,7 +241,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     {{-- sản phẩm nhiều lượt xem nhất --}}
     <section class="tp-product-area pb-55">
@@ -273,7 +273,7 @@
                                             <div class="tp-product-item p-relative transition-3 mb-25">
                                                 <div class="tp-product-thumb p-relative fix m-img">
                                                     <a href="{{ route('chitietsanpham', $product->id) }}">
-                                                        <img width="254px" height="214px" style="object-fit: cover"
+                                                        <img width="254px" height="214px" style="object-fit: contain"
                                                             src="{{ asset($product->anh_san_pham) }}"
                                                             alt="product-electronic">
                                                     </a>
@@ -284,7 +284,8 @@
                                                     </div>
 
                                                     <!-- product action -->
-                                                    <div class="tp-product-action">
+                                                    {{-- giỏ hàng mắt tim --}}
+                                                    {{-- <div class="tp-product-action">
                                                         <div class="tp-product-action-item d-flex flex-column">
                                                             <a href="{{ route('chitietsanpham', $product->id) }}">
                                                                 <button type="button"
@@ -386,7 +387,7 @@
                                                                 </button>
                                                             @endif
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                                 <!-- product content -->
                                                 <div class="tp-product-content">
@@ -785,7 +786,7 @@
                                     <div class="tp-product-item p-relative transition-3 mb-25">
                                         <div class="tp-product-thumb p-relative fix m-img">
                                             <a href="{{ route('chitietsanpham', $newProduct->id) }}">
-                                                <img width="254px" height="214px" style="object-fit: cover"
+                                                <img width="254px" height="214px" style="object-fit: contain"
                                                     src="{{ asset($newProduct->anh_san_pham) }}"
                                                     alt="product-electronic">
                                             </a>
@@ -796,7 +797,8 @@
                                             </div> --}}
 
                                             <!-- product action -->
-                                            <div class="tp-product-action">
+                                            {{-- giỏ hàng mắt tim --}}
+                                            {{-- <div class="tp-product-action">
                                                 <div class="tp-product-action-item d-flex flex-column">
                                                     <button type="button"
                                                         class="tp-product-action-btn tp-product-add-cart-btn">
@@ -888,7 +890,7 @@
                                                         </button>
                                                     @endif
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <!-- product content -->
                                         <div class="tp-product-content">
@@ -1104,7 +1106,7 @@
                                             <div class="tp-product-banner-thumb text-end p-relative z-index-1">
                                                 <img src="{{ asset('storage/' . $bannersFoot->anh_banner) }}"
                                                     width="420px" height="350px"
-                                                    style="object-fit: cover; border-radius: 10%" alt="">
+                                                    style="object-fit: contain; border-radius: 10%" alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -1149,7 +1151,7 @@
                                             <div class="tp-product-item p-relative transition-3 mb-25">
                                                 <div class="tp-product-thumb p-relative fix m-img">
                                                     <a href="{{ route('chitietsanpham', $randProduct->id) }}">
-                                                        <img width="254px" height="214px" style="object-fit: cover"
+                                                        <img width="254px" height="214px" style="object-fit: contain"
                                                             src="{{ asset($randProduct->anh_san_pham) }}"
                                                             alt="product-electronic">
                                                     </a>
@@ -1160,7 +1162,8 @@
                                                     </div>
 
                                                     <!-- product action -->
-                                                    <div class="tp-product-action">
+                                                    {{-- giỏ hàng mắt tim --}}
+                                                    {{-- <div class="tp-product-action">
                                                         <div class="tp-product-action-item d-flex flex-column">
                                                             <a href="{{ route('chitietsanpham', $randProduct->id) }}">
                                                                 <button type="button"
@@ -1263,7 +1266,7 @@
                                                                 </button>
                                                             @endif
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                                 <!-- product content -->
                                                 <div class="tp-product-content">
