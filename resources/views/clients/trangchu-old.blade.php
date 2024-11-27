@@ -43,7 +43,7 @@
                                 <div class="col-xl-7 col-lg-6 col-md-6">
                                     <div class="tp-slider-thumb text-end">
                                         <img src="{{ asset('storage/' . $bannersHea->anh_banner) }}" width="420px"
-                                            height="350px" style="object-fit: cover; border-radius: 10%;" alt="slider-img">
+                                            height="350px" style="object-fit: contain; border-radius: 10%;" alt="slider-img">
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +273,7 @@
                                             <div class="tp-product-item p-relative transition-3 mb-25">
                                                 <div class="tp-product-thumb p-relative fix m-img">
                                                     <a href="{{ route('chitietsanpham', $product->id) }}">
-                                                        <img width="254px" height="214px" style="object-fit: cover"
+                                                        <img width="254px" height="214px" style="object-fit: contain"
                                                             src="{{ asset($product->anh_san_pham) }}"
                                                             alt="product-electronic">
                                                     </a>
@@ -786,7 +786,7 @@
                                     <div class="tp-product-item p-relative transition-3 mb-25">
                                         <div class="tp-product-thumb p-relative fix m-img">
                                             <a href="{{ route('chitietsanpham', $newProduct->id) }}">
-                                                <img width="254px" height="214px" style="object-fit: cover"
+                                                <img width="254px" height="214px" style="object-fit: contain"
                                                     src="{{ asset($newProduct->anh_san_pham) }}"
                                                     alt="product-electronic">
                                             </a>
@@ -1106,7 +1106,7 @@
                                             <div class="tp-product-banner-thumb text-end p-relative z-index-1">
                                                 <img src="{{ asset('storage/' . $bannersFoot->anh_banner) }}"
                                                     width="420px" height="350px"
-                                                    style="object-fit: cover; border-radius: 10%" alt="">
+                                                    style="object-fit: contain; border-radius: 10%" alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -1151,7 +1151,7 @@
                                             <div class="tp-product-item p-relative transition-3 mb-25">
                                                 <div class="tp-product-thumb p-relative fix m-img">
                                                     <a href="{{ route('chitietsanpham', $randProduct->id) }}">
-                                                        <img width="254px" height="214px" style="object-fit: cover"
+                                                        <img width="254px" height="214px" style="object-fit: contain"
                                                             src="{{ asset($randProduct->anh_san_pham) }}"
                                                             alt="product-electronic">
                                                     </a>
