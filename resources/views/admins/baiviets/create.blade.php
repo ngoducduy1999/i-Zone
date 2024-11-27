@@ -16,7 +16,7 @@
         <div class="container-xxl">
             <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                 <div class="flex-grow-1">
-                    <h4 class="fs-18 fw-semibold m-0">Quản lý thông tin bài viết</h4>
+                    <h4 class="fs-18 fw-semibold m-0">Quản lý tin tức</h4>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
 
                                     <div class="col-lg-4">                                 
                                         <div class="mb-3">
-                                            <label for="anh_bai_viet" class="form-label">Ảnh bài viết</label>
+                                            <label for="anh_bai_viet" class="form-label">Ảnh tin tức</label>
                                             <input type="file" id="anh_bai_viet" name="anh_bai_viet" class="form-control"
                                                 onchange="showImage(event)">
                                             <img id="img_bai_viet" src="" alt="Hình ảnh bài viết"
@@ -83,7 +83,7 @@
                                     
                                     <div class="col-lg-8">
                                         <div class="mb-3">
-                                            <label for="noi_dung" class="form-label">Nội dung bài viết</label>
+                                            <label for="noi_dung" class="form-label">Nội dung tin tức</label>
                                             <div id="quill-editor" style="height: 400px;"></div>
                                             <textarea name="noi_dung" id="noi_dung_content" class="d-none"></textarea>
                                         </div>
