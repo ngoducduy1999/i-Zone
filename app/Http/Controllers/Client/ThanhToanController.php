@@ -11,6 +11,10 @@ use App\Models\KhuyenMai;
 use App\Models\HoaDon;         // Import model HoaDon
 use App\Models\ChiTietHoaDon;   // Import model ChiTietHoaDon
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\VNPayController;
+use App\Mail\InvoiceCreated;
+use Illuminate\Support\Facades\Mail;
+
 class ThanhToanController extends Controller
 {
 
@@ -219,14 +223,36 @@ public function placeOrder(Request $request)
             Log::error("Người dùng chưa đăng nhập.");
             return response()->json(['success' => false, 'message' => 'Bạn cần đăng nhập để đặt hàng'], 401);
         }
-
+       /*  if ($request->payment_method == 'VNPay') {
+            // Tạo hóa đơn trước khi chuyển sang thanh toán
+            $hoaDon = HoaDon::create([
+                'ma_hoa_don' => date("ymd") . "_" . rand(0, 1000000),
+                'user_id' => $userId,
+                'giam_gia' => $discountAmount,
+                'tong_tien' => $tongTienSauGiam,
+                'dia_chi_nhan_hang' => $request->address,
+                'email' => $request->email,
+                'so_dien_thoai' => $request->phone,
+                'ten_nguoi_nhan' => $request->name,
+                'ngay_dat_hang' => now(),
+                'ghi_chu' => $request->note,
+                'phuong_thuc_thanh_toan' => $request->payment_method,
+                'trang_thai' => HoaDon::CHO_XAC_NHAN,
+                'trang_thai_thanh_toan' => HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán'],
+                'thoi_gian_het_han' => now()->addMinutes(15),
+            ]);
+        
+            // Gọi VNPay Controller để tạo thanh toán
+            return app(VNPayController::class)->createPayment($tongTienSauGiam, $hoaDon->ma_hoa_don, "Thanh toán đơn hàng #$hoaDon->ma_hoa_don");
+        } */
+        
 
         // Kiểm tra phương thức thanh toán
         if ($request->payment_method == 'Thanh toán qua chuyển khoản ngân hàng') {
             
         // Tạo hóa đơn
         $hoaDon = HoaDon::create([
-            'ma_hoa_don' => date("ymd") . "_" . rand(0, 1000000),
+            'ma_hoa_don' => date("ymd") . rand(0, 1000000),
             'user_id' => $userId,
             'giam_gia' => $discountAmount,
             'tong_tien' => $tongTienSauGiam,
@@ -264,7 +290,7 @@ public function placeOrder(Request $request)
         }
             // Thanh toán online qua ZaloPay
             $maHoaDon = $hoaDon->ma_hoa_don;
-            return $this->initiateZaloPayPayment($userId, $request, $cart, $discountAmount, $tongTienSauGiam, $maHoaDon);
+            return app(VNPayController::class)->createPayment($tongTienSauGiam, $hoaDon->ma_hoa_don, "Thanh toán đơn hàng #$hoaDon->ma_hoa_don");
         } else {
             $giamGia=$discountAmount;
             // Thanh toán offline
@@ -317,16 +343,17 @@ protected function createInvoice($userId, $request, $cart, $giamGia, $tongTienSa
         $bienThe->save();
     }
 
+    // Gửi email xác nhận
+    Mail::to($request->email)->send(new InvoiceCreated($hoaDon));
+
     // Xóa session giỏ hàng và mã giảm giá
     Session::forget('cart');
-    // Xóa giảm giá nếu không hợp lệ
     Session::forget('discount_code');
     Session::forget('discount_percentage');
     Session::forget('maxDiscount');
 
     return response()->json(['success' => true, 'message' => 'Đặt hàng thành công']);
 }
-
 
 public function initiateZaloPayPayment($userId, $request, $cart, $giamGia, $tongTienSauGiam,$maHoaDon)
 {
@@ -489,9 +516,13 @@ public function retryPayment($id)
     if ($order->trang_thai_thanh_toan === HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán'] && $order->thoi_gian_het_han > now()) {
         // Xử lý thanh toán lại (ví dụ: chuyển hướng tới cổng thanh toán)
         // Thực hiện thanh toán lại với cổng thanh toán (như ZaloPay, MoMo, v.v.)
-        
+        $newMaHoaDon = date("ymd") . rand(100000, 999999);  // Tạo mã đơn mới
+        $order->update([
+            'ma_hoa_don' => $newMaHoaDon,  // Cập nhật mã đơn mới
+            
+        ]);
         // Ví dụ: Chuyển hướng đến cổng thanh toán
-        return $this->ZaloPayPayment($order);
+        return app(VNPayController::class)->thanhToanLai($order->tong_tien,  $newMaHoaDon, "Thanh toán lại đơn hàng #$order->id");
     }
 
     // Nếu không thể thanh toán lại (đã thanh toán hoặc hết hạn)
