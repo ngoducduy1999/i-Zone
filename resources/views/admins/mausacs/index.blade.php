@@ -50,7 +50,7 @@ Danh sách màu sắc
                                     <th>Tên màu</th>
                                     <th>Mã màu</th>
                                     <th>Màu hiển thị</th>
-                                    <th>Trạng thái</th>
+                                    <!-- <th>Trạng thái</th> -->
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -63,13 +63,13 @@ Danh sách màu sắc
                                         <td>
                                             <div style="width: 15px; height: 15px; background-color: {{ $mau->ma_mau }};"></div>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             @if($mau->trang_thai)
                                                 <span class="badge bg-success">Đang hoạt động</span>
                                             @else
                                                 <span class="badge bg-danger">Không hoạt động</span>
                                             @endif
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <div class="btn-group">
                                                 <button class="btn btn-primary dropdown-toggle" type="button"
@@ -79,7 +79,7 @@ Danh sách màu sắc
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item"
                                                         href="{{ route('admin.mausacs.edit', $mau->id) }}">Sửa</a>
-                                                    @if ($mau->trang_thai == 1)
+                                                    <!-- @if ($mau->trang_thai == 1)
                                                         <form action="{{ route('admin.mausacs.onOffMauSac', $mau->id) }}"
                                                             method="post">
                                                             @csrf
@@ -91,7 +91,7 @@ Danh sách màu sắc
                                                             @csrf
                                                             <button class="dropdown-item">Hoạt động</button>
                                                         </form>
-                                                    @endif
+                                                    @endif -->
                                                     <form action="{{ route('admin.mausacs.destroy', $mau->id) }}"
                                                         method="POST" onsubmit="return confirm('Bạn có chắc xóa màu sắc này không?')">
                                                         @csrf
