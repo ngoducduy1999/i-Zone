@@ -273,11 +273,7 @@
                                                             src="{{ asset($item->anh_san_pham) }}"
                                                             alt="product-electronic">
                                                     </a>
-                                    
-                                                    <!-- product badge -->
-                                                    <div class="tp-product-badge">
-                                                        <span class="product-hot">Hot</span>
-                                                    </div>
+                                                                         
                                                 </div>
                                     
                                                 <!-- product content -->
