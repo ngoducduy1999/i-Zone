@@ -314,3 +314,4 @@ Route::prefix('/')->name('/.')->group(function () {
 });
 //vnpay
 Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+Route::post('/admin/transactions/query', [VNPayController::class, 'queryTransaction'])->name('admin.transactions.query');
