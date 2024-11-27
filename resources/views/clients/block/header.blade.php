@@ -1,6 +1,6 @@
 <div class="tp-header-area p-relative z-index-11">
     <!-- header top start  -->
-    <div class="tp-header-top black-bg p-relative z-index-1 d-none d-md-block">
+    {{-- <div class="tp-header-top black-bg p-relative z-index-1 d-none d-md-block">
        <div class="container">
           <div class="row align-items-center">
              <div class="col-md-6">
@@ -19,7 +19,7 @@
              <div class="col-md-6">
                 <div class="tp-header-top-right d-flex align-items-center justify-content-end">
                    <div class="tp-header-top-menu d-flex align-items-center justify-content-end">
-                      {{-- <div class="tp-header-top-menu-item tp-header-lang">
+                      <div class="tp-header-top-menu-item tp-header-lang">
                          <span class="tp-header-lang-toggle" id="tp-header-lang-toggle">English</span>
                          <ul>
                             <li>
@@ -32,8 +32,8 @@
                                <a href="#">Portuguese</a>
                             </li>
                          </ul>
-                      </div> --}}
-                      {{-- <div class="tp-header-top-menu-item tp-header-currency">
+                      </div>
+                      <div class="tp-header-top-menu-item tp-header-currency">
                          <span class="tp-header-currency-toggle" id="tp-header-currency-toggle">USD</span>
                          <ul>
                             <li>
@@ -49,7 +49,7 @@
                                <a href="#">KWD</a>
                             </li>
                          </ul>
-                      </div> --}}
+                      </div>
                       <div class="tp-header-top-menu-item tp-header-setting">
                          <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Cài đặt</span>
                          <ul>
@@ -82,7 +82,7 @@
              </div>
           </div>
        </div>
-    </div>
+    </div> --}}
 
     <!-- header main start -->
     <div class="tp-header-main tp-header-sticky">
