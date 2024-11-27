@@ -24,7 +24,7 @@
 
             <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                 <div class="flex-grow-1">
-                    <h4 class="fs-18 fw-semibold m-0">Quản lý thông tin bài viết</h4>
+                    <h4 class="fs-18 fw-semibold m-0">Quản lý tin tức</h4>
                 </div>
             </div>
 
@@ -103,7 +103,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Tiêu đề</th>
-                                            <th>Ảnh bài viết</th>
+                                            <th>Ảnh tin tức</th>
                                             <th>Người đăng</th>
                                             <th>Ngày đăng bài</th>
                                             <th>Trạng thái</th>
@@ -148,11 +148,11 @@
                                                                 @csrf
                                                                 @method('post')
                                                                 @if ($item->trang_thai == 0)
-                                                                    <button class="dropdown-item" type="submit">Duyệt bài
-                                                                        viết</button>
+                                                                    <button class="dropdown-item" type="submit">Duyệt 
+                                                                    </button>
                                                                 @else
                                                                     <button class="dropdown-item" type="submit">Bỏ duyệt
-                                                                        bài viết</button>
+                                                                    </button>
                                                                 @endif
                                                             </form>
                                                             <form action="{{ route('admin.baiviets.destroy', $item->id) }}"

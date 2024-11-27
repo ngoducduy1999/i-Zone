@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
-@section('title')
-@endsection
+@section('title', 'Cập nhập dung lượng')
 
 @section('css')
 @endsection

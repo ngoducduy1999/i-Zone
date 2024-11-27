@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Auth;
 
 class TrangChuController extends Controller
 {
-    public function indexOld()
+    public function index()
     {
         $bannersHeas = Banner::where('vi_tri', 'header')->where('trang_thai', 1)->get(); // w 420 h 350
-        $bannersSides = Banner::where('vi_tri', 'sidebar')->where('trang_thai', 1)->limit(2)->get();
+        $bannersSides = Banner::latest('id')->where('vi_tri', 'sidebar')->where('trang_thai', 1)->limit(2)->get();
         $bannersFoots = Banner::where('vi_tri', 'footer')->where('trang_thai', 1)->get(); // w 420 h 350
         $danhMucs = DanhMuc::withCount('sanPhams')->get();
         $khuyenMais = KhuyenMai::where('trang_thai', 1)
@@ -69,7 +69,7 @@ class TrangChuController extends Controller
         return view('clients.trangchu-old', compact('bannersHeas', 'bannersSides', 'bannersFoots', 'danhMucs', 'khuyenMais', 'products', 'newProducts', 'randProducts', 'isLoved', 'isLoved2', 'isLoved3', 'baiViets'));
     }
 
-    public function index()
+    public function indexOld()
     {
          // Lấy các banner có trạng thái là hiển thị (ví dụ trang_thai = 1)
          $banners = Banner::all();

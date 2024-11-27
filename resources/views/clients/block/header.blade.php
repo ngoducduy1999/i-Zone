@@ -1,6 +1,6 @@
 <div class="tp-header-area p-relative z-index-11">
     <!-- header top start  -->
-    <div class="tp-header-top black-bg p-relative z-index-1 d-none d-md-block">
+    {{-- <div class="tp-header-top black-bg p-relative z-index-1 d-none d-md-block">
        <div class="container">
           <div class="row align-items-center">
              <div class="col-md-6">
@@ -19,7 +19,7 @@
              <div class="col-md-6">
                 <div class="tp-header-top-right d-flex align-items-center justify-content-end">
                    <div class="tp-header-top-menu d-flex align-items-center justify-content-end">
-                      {{-- <div class="tp-header-top-menu-item tp-header-lang">
+                      <div class="tp-header-top-menu-item tp-header-lang">
                          <span class="tp-header-lang-toggle" id="tp-header-lang-toggle">English</span>
                          <ul>
                             <li>
@@ -32,8 +32,8 @@
                                <a href="#">Portuguese</a>
                             </li>
                          </ul>
-                      </div> --}}
-                      {{-- <div class="tp-header-top-menu-item tp-header-currency">
+                      </div>
+                      <div class="tp-header-top-menu-item tp-header-currency">
                          <span class="tp-header-currency-toggle" id="tp-header-currency-toggle">USD</span>
                          <ul>
                             <li>
@@ -49,7 +49,7 @@
                                <a href="#">KWD</a>
                             </li>
                          </ul>
-                      </div> --}}
+                      </div>
                       <div class="tp-header-top-menu-item tp-header-setting">
                          <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Cài đặt</span>
                          <ul>
@@ -82,7 +82,7 @@
              </div>
           </div>
        </div>
-    </div>
+    </div> --}}
 
     <!-- header main start -->
     <div class="tp-header-main tp-header-sticky">
@@ -351,9 +351,9 @@ $(document).ready(function() {
                            <li>
                               <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
                                  <span>
-                                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M5.90532 14.8316V12.5719C5.9053 11.9971 6.37388 11.5301 6.95443 11.5262H9.08101C9.66434 11.5262 10.1372 11.9944 10.1372 12.5719V12.5719V14.8386C10.1371 15.3266 10.5305 15.7254 11.0233 15.7368H12.441C13.8543 15.7368 15 14.6026 15 13.2035V13.2035V6.77525C14.9925 6.22482 14.7314 5.70794 14.2911 5.37171L9.44253 1.50496C8.59311 0.83168 7.38562 0.83168 6.5362 1.50496L1.70886 5.37873C1.26693 5.7136 1.00544 6.23133 1 6.78227V13.2035C1 14.6026 2.1457 15.7368 3.55899 15.7368H4.97671C5.48173 15.7368 5.89114 15.3315 5.89114 14.8316V14.8316" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
+                                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                       <circle cx="4" cy="4" r="4" fill="currentColor" />
+                                     </svg>
                                  </span>
                                  {{ $danhMuc->ten_danh_muc }}
                               </a>

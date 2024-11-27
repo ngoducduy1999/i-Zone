@@ -103,7 +103,7 @@
                                                         <a class='dropdown-item notify-item' href="#"
                                                             onclick="event.preventDefault(); document.getElementById('logout-form-client').submit();">
                                                             <i class="mdi mdi-location-exit fs-16 align-middle"></i>
-                                                            <span>Đăng xuất</span>
+                                                            <button type="submit" class="btn btn-danger">Đăng xuất</button>
                                                         </a>
 
                                                     </div>

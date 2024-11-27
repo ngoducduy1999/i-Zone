@@ -77,14 +77,14 @@ Danh sách danh mục
                                                     <!-- Khôi phục -->
                                                     <form action="{{ route('admin.danhmucs.restore', $danh_muc->id) }}" method="POST" style="display: inline-block;">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-success">Khôi phục</button>
+                                                        <button type="submit" class="dropdown-item">Khôi phục</button>
                                                     </form>
                                                 @else
                                                     <!-- Xóa mềm -->
                                                     <form action="{{ route('admin.danhmucs.softDelete', $danh_muc->id) }}" method="POST" style="display: inline-block;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                        <button type="submit" class="dropdown-item">Xóa</button>
                                                     </form>
                                                 @endif
                                             </div>

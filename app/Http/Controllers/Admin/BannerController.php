@@ -80,7 +80,7 @@ class BannerController extends Controller
     public function show($vi_tri)
     {
         // Lọc các banner theo vị trí được truyền vào
-        $banners = Banner::latest()->where('vi_tri', $vi_tri)->get();
+        $banners = Banner::latest('id')->where('vi_tri', $vi_tri)->get();
         $sanphams = SanPham::latest()->get();
         return view('admins.banners.show', compact('banners', 'vi_tri', 'sanphams'));
     }
