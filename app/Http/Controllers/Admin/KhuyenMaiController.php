@@ -70,13 +70,19 @@ class KhuyenMaiController extends Controller
 }
 
 public function edit($id)
-    {
-        $KhuyenMai = KhuyenMai::find($id);
-        if (!$KhuyenMai) {
-            return redirect()->route('admin.khuyen_mais.index')->with('error', 'Khuyến mại không tồn tại');
-        }
-        return view('admins.khuyen_mais.update', compact('KhuyenMai'));
+{
+    $KhuyenMai = KhuyenMai::find($id);
+
+    if (!$KhuyenMai) {
+        return redirect()->route('admin.khuyen_mais.index')->with('error', 'Khuyến mãi không tồn tại.');
     }
+
+    // Định dạng ngày giờ để hiển thị trong form
+    $KhuyenMai->ngay_bat_dau = Carbon::parse($KhuyenMai->ngay_bat_dau)->format('Y-m-d H:i:s');
+    $KhuyenMai->ngay_ket_thuc = Carbon::parse($KhuyenMai->ngay_ket_thuc)->format('Y-m-d H:i:s');
+
+    return view('admins.khuyen_mais.update', compact('KhuyenMai'));
+}
 
     public function update(Request $request, $id)
     {

@@ -143,29 +143,29 @@
                                 <div class="tp-product-details-variation-item">
                                     <h4 class="tp-product-details-variation-title">Màu sắc :</h4>
                                     <div class="tp-product-details-variation-list">
-                                        @foreach ($bienthesanphams as $bienThe)
-                                        @if ($bienThe->mauSac)
-                                        @php
-                                        // Lấy tên và mã màu từ đối tượng mauSac
-                                        $tenMau = $bienThe->mauSac->ten_mau_sac;
-                                        $maMau = $bienThe->mauSac->ma_mau; // Lấy mã màu từ cơ sở dữ liệu
+    @foreach ($bienthesanphams as $bienThe)
+        @if ($bienThe->mauSac && $bienThe->mauSac->trang_thai == 1) <!-- Kiểm tra trạng thái của màu sắc -->
+            @php
+                // Lấy tên và mã màu từ đối tượng mauSac
+                $tenMau = $bienThe->mauSac->ten_mau_sac;
+                $maMau = $bienThe->mauSac->ma_mau; // Lấy mã màu từ cơ sở dữ liệu
 
-                                        // Kiểm tra xem màu đã được hiển thị chưa
-                                        if (!in_array($tenMau, $displayedColors)) {
-                                        $displayedColors[] = $tenMau; // Thêm vào mảng màu đã hiển thị
-                                        @endphp
-                                        <button type="button" class="color tp-color-variation-btn disabled" data-mau-sac-id="{{ $bienThe->mau_sac_id }}">
-                                            <span data-bg-color="{{ $maMau }}"
-                                                style="background-color: {{ $maMau }}; border: 2px solid #000000; display: inline-block; width: 20px; height: 20px;"></span>
-                                            <span class="tp-color-variation-tootltip">{{ $tenMau }}</span>
-                                        </button>
+                // Kiểm tra xem màu đã được hiển thị chưa
+                if (!in_array($tenMau, $displayedColors)) {
+                    $displayedColors[] = $tenMau; // Thêm vào mảng màu đã hiển thị
+            @endphp
+            <button type="button" class="color tp-color-variation-btn disabled" data-mau-sac-id="{{ $bienThe->mau_sac_id }}">
+                <span data-bg-color="{{ $maMau }}"
+                    style="background-color: {{ $maMau }}; border: 2px solid #000000; display: inline-block; width: 20px; height: 20px;"></span>
+                <span class="tp-color-variation-tootltip">{{ $tenMau }}</span>
+            </button>
+            @php
+                } // Đóng điều kiện kiểm tra màu đã được hiển thị
+            @endphp
+        @endif
+    @endforeach
+</div>
 
-                                        @php
-                                        } // Đóng điều kiện if kiểm tra màu đã được hiển thị
-                                        @endphp
-                                        @endif
-                                        @endforeach
-                                    </div>
                                 </div>
 
                                 <!-- Dung Lượng Variation -->

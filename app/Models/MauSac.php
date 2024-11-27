@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MauSac extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
     protected $fillable = [
         'ten_mau_sac',
         'ma_mau',
@@ -19,4 +22,5 @@ class MauSac extends Model
     {
         return $this->hasMany(BienTheSanPham::class);
     }
+
 }

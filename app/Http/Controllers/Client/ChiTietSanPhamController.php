@@ -36,7 +36,10 @@ class ChiTietSanPhamController extends Controller
             $anhsanphams = HinhAnhSanPham::where('san_pham_id', $id)->get();
     
             $mauSacIds = $bienthesanphams->pluck('mau_sac_id')->unique();
-            $mauSacs = MauSac::whereIn('id', $mauSacIds)->get();
+$mauSacs = MauSac::whereIn('id', $mauSacIds)
+                 ->where('trang_thai', 1) // Thêm điều kiện trạng thái bằng 1
+                 ->get();
+
     
             $dungLuongIds = $bienthesanphams->pluck('dung_luong_id')->unique();
             $dungLuongs = DungLuong::whereIn('id', $dungLuongIds)->get();

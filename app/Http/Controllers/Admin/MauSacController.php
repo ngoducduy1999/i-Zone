@@ -98,10 +98,21 @@ class MauSacController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        $mausac = MauSac::findOrFail($id);
-        $mausac->delete();
+{
+    // Tìm màu sắc theo ID
+    $mausac = MauSac::findOrFail($id);
 
-        return redirect()->route('admin.mausacs.index')->with('success', 'Xóa màu thành công!');
+    // Kiểm tra xem có biến thể sản phẩm nào liên quan còn số lượng không
+    $hasActiveVariants = $mausac->bienthesanphams()->where('so_luong', '>', 0)->exists();
+
+    if ($hasActiveVariants) {
+        return redirect()->route('admin.mausacs.index')->with('error', 'Không thể xóa màu này vì có sản phẩm liên quan còn số lượng.');
     }
+
+    // Nếu không có biến thể nào còn số lượng, thực hiện xóa mềm
+    $mausac->delete();
+
+    return redirect()->route('admin.mausacs.index')->with('success', 'Xóa màu thành công!');
+}
+
 }
