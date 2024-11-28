@@ -214,24 +214,32 @@ if ($secureHash === $vnp_SecureHash) {
 }
 
 
-    if ($secureHash === $vnp_SecureHash) {
-        if ($inputData['vnp_ResponseCode'] === '00') {
-            $hoaDon = HoaDon::where('ma_hoa_don', $inputData['vnp_TxnRef'])->first();
-            $payDate = $request->input('vnp_PayDate'); // Thời gian giao dịch
-            $formattedPayDate = Carbon::createFromFormat('YmdHis', $payDate);
+if ($secureHash === $vnp_SecureHash) {
+    if ($inputData['vnp_ResponseCode'] === '00') {
+        $hoaDon = HoaDon::where('ma_hoa_don', $inputData['vnp_TxnRef'])->first();
+        $payDate = $request->input('vnp_PayDate'); // Thời gian giao dịch
+        $formattedPayDate = Carbon::createFromFormat('YmdHis', $payDate);
 
-            if ($hoaDon) {
-                $hoaDon->trang_thai_thanh_toan= HoaDon::TRANG_THAI_THANH_TOAN['Đã thanh toán'];
+        if ($hoaDon) {
+            $amountPaid = $inputData['vnp_Amount'] / 100; // Chuyển từ VND * 100 nếu cần.
+            if ((float)$amountPaid === (float)$hoaDon->tong_tien) {
+                // Cập nhật trạng thái hóa đơn
+                $hoaDon->trang_thai_thanh_toan = HoaDon::TRANG_THAI_THANH_TOAN['Đã thanh toán'];
                 $hoaDon->thoi_gian_giao_dich = $formattedPayDate;
                 $hoaDon->save();
+
                 // Gửi email xác nhận
                 Mail::to($hoaDon->email)->send(new InvoiceCreated($hoaDon));
-                return view('payment.success', ['message' => 'Thanh toán thành công! ']);
-
+                return view('payment.success', ['message' => 'Thanh toán thành công!']);
+            } else {
+                // Số tiền không khớp
+                return view('payment.error', ['message' => 'Số tiền thanh toán không khớp. Giao dịch bị từ chối.']);
             }
         }
-        return view('payment.error', ['message' => 'Giao dịch thất bại']);
     }
+    return view('payment.error', ['message' => 'Giao dịch thất bại']);
+}
+
 
     return view('payment.error', ['message' => 'Chữ ký không hợp lệ']);
 }
