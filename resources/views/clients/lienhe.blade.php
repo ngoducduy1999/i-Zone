@@ -29,9 +29,10 @@
 <div class="row">
 <div  class="col-xl-9 col-lg-8">
 <div class="tp-contact-wrapper">
-   <h3 class="tp-contact-title">Thông tin và tin nhắn</h3>
+   <h3 class="tp-contact-title">Thông tin và tin nhắn liên hệ</h3>
 <div class="tp-contact-form">
-     <form action="{{ route('lienhe.store') }}" id="contact-form" method="POST">
+   @if(auth()->check())
+   <form action="{{ route('lienhe.store') }}" id="contact-form" method="POST">
       @csrf
       <div class="tp-contact-input-wrapper">
 <div class="tp-contact-input-box">
@@ -64,6 +65,9 @@
       </div>
       
   </form>
+@else
+   <p class="fs-5">Bạn cần <a class="text-decoration-underline text-danger" href="{{ route('customer.login') }}">đăng nhập</a> để gửi form!</p>
+@endif
 </div>
 
 

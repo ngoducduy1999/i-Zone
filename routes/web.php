@@ -234,7 +234,7 @@ use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Client\LienHeController;
-use App\Http\Controllers\VNPayController;
+// use App\Http\Controllers\VNPayController;
   // Routes for unauthenticated users
 Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
@@ -273,7 +273,9 @@ Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chi
 
 // Liên hệ
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
-Route::post('/lienhe', [LienHeController::class, 'store'])->name('lienhe.store');
+Route::post('/lienhe', [LienHeController::class, 'store'])->name('lienhe.store')->middleware('auth');
+
+
 
 // giỏ hàng
 Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');
@@ -313,4 +315,4 @@ Route::prefix('/')->name('/.')->group(function () {
     });
 });
 //vnpay
-Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+// Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
