@@ -1,5 +1,16 @@
 @extends('layouts.client')
 
+@section('css')
+    <style>
+        .tp-blog-list-thumb img {
+            width: 100%; /* Hoặc giá trị cụ thể như '300px' nếu cần */
+            height: 250px; /* Đặt chiều cao cố định */
+            object-fit: cover; /* Đảm bảo ảnh không bị méo, chỉ crop phần thừa */
+            display: block; /* Loại bỏ khoảng trắng dưới ảnh nếu có */
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- section title area start -->
     <section class="tp-section-title-area pt-95 pb-80">
@@ -63,8 +74,9 @@
                                                         </span>                                                      
                                                     </div>
                                                     <h3 class="tp-blog-grid-title">
-                                                        <a
-                                                            href="{{ route('chitietsanpham', ['id' => $baiviet->id]) }}">{{ $baiviet->tieu_de }}</a>
+                                                        <a href="{{ route('chitietsanpham', ['id' => $baiviet->id]) }}">
+                                                            {{ Str::limit($baiviet->tieu_de, 50) }}
+                                                        </a>
                                                     </h3>
                                                     <p>{{ Str::limit(strip_tags($baiviet->noi_dung), 100) }}</p>
 
@@ -89,8 +101,6 @@
                                             </div>
                                         </div>
                                     @endforeach
-
-
                                 </div>
                             </div>
                             <div class="row">
@@ -224,7 +234,7 @@
                                                 </div>
                                                 <h3 class="tp-sidebar-blog-title">
                                                     <a
-                                                        href="{{ route('chitietbaiviet', ['id' => $bai_viet->id]) }}">{{ $bai_viet->tieu_de }}</a>
+                                                        href="{{ route('chitietbaiviet', ['id' => $bai_viet->id]) }}">{{ Str::limit($bai_viet->tieu_de, 50) }}</a>
                                                 </h3>
                                             </div>
                                         </div>
@@ -243,8 +253,7 @@
                                     @foreach ($danhMucs as $danhMuc)
                                         <li>
                                             <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
-                                                {{ $danhMuc->ten_danh_muc }}
-                                                <span>({{ $danhMuc->bai_viets_count }})</span>
+                                                {{ $danhMuc->ten_danh_muc }}                                            
                                             </a>
                                         </li>
                                     @endforeach
