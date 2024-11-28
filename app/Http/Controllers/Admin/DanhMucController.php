@@ -68,7 +68,7 @@ class DanhMucController extends Controller
         DanhMuc::create($params);
 
         // Chuyển hướng và thông báo thành công
-        return redirect()->route('admin.danhmucs.index')->with('msg', 'Thêm danh mục thành công');
+        return redirect()->route('admin.danhmucs.index')->with('success', 'Thêm danh mục thành công');
     }
 
     /**
@@ -133,7 +133,7 @@ class DanhMucController extends Controller
         $danhmucs->update($validatedData);
 
         // Chuyển hướng và thông báo thành công
-        return redirect()->route('admin.danhmucs.index')->with('msg', 'Cập nhật danh mục thành công');
+        return redirect()->route('admin.danhmucs.index')->with('success', 'Cập nhật danh mục thành công');
     }
 
     /**
@@ -154,7 +154,7 @@ class DanhMucController extends Controller
         $danhMuc->delete();
 
         // Chuyển hướng và thông báo thành công
-        return back()->with('msg', 'Xóa danh mục thành công!');
+        return back()->with('success', 'Xóa danh mục thành công!');
     }
     // Xóa mềm
     public function softDelete($id)

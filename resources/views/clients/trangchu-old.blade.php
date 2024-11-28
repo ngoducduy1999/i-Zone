@@ -87,7 +87,7 @@
                                                 <a href="#">
                                                     <img src="{{ asset($danhMuc->anh_danh_muc) }}"
                                                         alt="{{ $danhMuc->ten_danh_muc }}"
-                                                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; transition: transform 0.3s; mix-blend-mode: darken; border-radius: 50%">
+                                                        style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px; transition: transform 0.3s; mix-blend-mode: darken; border-radius: 50%">
                                                 </a>
                                             </div>
                                             <div class="tp-product-category-content">
