@@ -253,8 +253,7 @@
                                     @foreach ($danhMucs as $danhMuc)
                                         <li>
                                             <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
-                                                {{ $danhMuc->ten_danh_muc }}
-                                                <span>({{ $danhMuc->bai_viets_count }})</span>
+                                                {{ $danhMuc->ten_danh_muc }}                                            
                                             </a>
                                         </li>
                                     @endforeach

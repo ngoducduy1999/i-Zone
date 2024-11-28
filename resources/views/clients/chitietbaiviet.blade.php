@@ -9,6 +9,7 @@
                 <div class="tp-postbox-details-top">
                     <div class="tp-postbox-details-category">
                         <span>
+                            <i class="fa-light fa-tag"></i>
                             @if($post->danhMuc) 
                                 <a href="{{ route('bai-viet', ['danh_muc' => $post->danhMuc->id]) }}">
                                     {{ $post->danhMuc->ten_danh_muc }}
