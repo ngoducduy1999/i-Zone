@@ -5,7 +5,7 @@
 <section class="tp-postbox-details-area pb-120 pt-95">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9">
+            <div class="col-xl-12">
                 <div class="tp-postbox-details-top">
                     <div class="tp-postbox-details-category">
                         <span>
@@ -18,7 +18,7 @@
                             @endif
                         </span>
                     </div>
-                    <h3 class="tp-postbox-details-title">{{ $post->tieu_de }}</h3>
+                    <h4 class="tp-postbox-details-title">{{ $post->tieu_de }}</h4>
                     <div class="tp-postbox-details-meta mb-50">
                         <span data-meta="author">
                             <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,7 +46,7 @@
         <div class="row">
             <div class="col-xl-9 col-lg-8">
                 <div class="tp-postbox-details-main-wrapper">
-                    <div class="tp-postbox-details-content" style="overflow: hidden;">
+                    <div class="tp-postbox-details-content" style="overflow: hidden;">                      
                         {!! $post->noi_dung !!} 
                         <div class="tp-postbox-details-share-wrapper">
                             <div class="row">
@@ -102,7 +102,7 @@
                                         <a href="#">{{ isset($user) ? $user->ten : 'Chưa đăng nhập' }}</a>
                                     </h3>
                                     <span class="tp-sidebar-about-designation">
-                                        {{ isset($user) ? $user->vai_tro : 'Vai trò không xác định' }}
+                                        {{ isset($user) ? $user->vai_tro : 'Khách' }}
                                     </span>
                                     <div class="tp-sidebar-about-signature">
                                         <img src="assets/img/blog/signature/signature.png" alt="">
@@ -129,7 +129,7 @@
                                                 <span>{{ $bai_viet->created_at->format('d/m/Y') }}</span>
                                             </div>
                                             <h3 class="tp-sidebar-blog-title">
-                                                <a href="{{ route('chitietbaiviet', ['id' => $bai_viet->id]) }}">{{ $bai_viet->tieu_de }}</a>
+                                                <a href="{{ route('chitietbaiviet', ['id' => $bai_viet->id]) }}">{{ Str::limit($bai_viet->tieu_de, 50) }}</a>
                                             </h3>
                                         </div>
                                     </div>

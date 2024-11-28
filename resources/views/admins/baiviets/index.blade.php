@@ -114,7 +114,7 @@
                                         @foreach ($listBaiViet as $item)
                                             <tr>
                                                 <th>{{ $item->id }}</th>
-                                                <td>{{ $item->tieu_de }}</td>
+                                                <td>{{ Str::limit($item->tieu_de, 50) }} </td>
                                                 <td>
                                                     @if ($item->anh_bai_viet)
                                                         <img src="{{ Storage::url($item->anh_bai_viet) }}"
