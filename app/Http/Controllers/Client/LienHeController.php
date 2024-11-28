@@ -16,13 +16,12 @@ class LienHeController extends Controller
         return view('clients.lienhe',compact('danhMucs'));
 
     }
+
     public function store(Request $request)
     {
-         // Kiểm tra nếu người dùng đã đăng nhập
-         if (!Auth::check()) {
-            return redirect()->back()->with('error', 'Bạn cần đăng nhập để gửi form liên hệ');
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập trước khi gửi form.');
         }
-
 
         $validatedData = $request->validate(
             [
