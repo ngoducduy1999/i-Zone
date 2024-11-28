@@ -208,38 +208,76 @@
                             @if ($sanPhams->isEmpty())                                    
                                 <p>Không có sản phẩm nào.</p>
                             @endif
-                            @foreach ($sanPhams as $product)
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                <div class="tp-product-item-2 mb-40">
-                                    <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
-                                        <a href="{{ route('chitietsanpham', $product->id) }}">
-                                            <img src="{{ asset($product->anh_san_pham) }}" alt="{{ $product->ten_san_pham }}">
+                            @foreach ($sanPhams as $item)
+                            <div class="col-xl-3 col-lg-3 col-sm-6">
+                                <div class="tp-product-item p-relative transition-3 mb-25">
+                                    <div class="tp-product-thumb p-relative fix m-img">
+                                        <a href="{{ route('chitietsanpham', $item->id) }}">
+                                            <img width="254px" height="214px" style="object-fit: contain"
+                                                src="{{ asset($item->anh_san_pham) }}"
+                                                alt="product-electronic">
                                         </a>
+                                   
                                     </div>
-                                    <div class="tp-product-content-2 pt-15">
-                                        <div class="tp-product-tag-2">
-                                            <a href="#">{{ $product->danhMuc->ten_danh_muc }}</a>
+
+                                    <!-- product content -->
+                                    <div class="tp-product-content">
+                                        <div class="tp-product-category">
+                                            <a href="{{ isset($item->danhMuc->id) ? route('sanpham.danhmuc', $item->danhMuc->id) : '#' }}">
+                                                {{ isset($item->danhMuc->ten_danh_muc) ? $item->danhMuc->ten_danh_muc : '...' }}
+                                            </a>
                                         </div>
-                                        <h3 class="tp-product-title-2">
-                                            <a href="{{ route('chitietsanpham', $product->id) }}">{{ $product->ten_san_pham }}</a>
+                                        <h3 class="tp-product-title"
+                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 199px;">
+                                            <a href="{{ route('chitietsanpham', $item->id) }}">
+                                                {{ $item->ten_san_pham }}
+                                            </a>
                                         </h3>
-                                        <div class="tp-product-rating-icon tp-product-rating-icon-2">
-                                            @for ($i = 0; $i < 5; $i++)
-                                                <span>
-                                                    <i class="fa-solid fa-star" style="color: {{ $i < round($product->avg_rating) ? 'gold' : 'lightgray' }}"></i>
-                                                </span>
-                                            @endfor
+
+                                        <div class="tp-product-rating d-flex align-items-center">
+                                            <div class="tp-product-rating-icon">
+                                                @php
+                                                    // Get the average rating of the product (from reviews)
+                                                    $averageRating = $item->danhGias->avg('diem_so') ?: 0;
+
+                                                    // Calculate the full stars, half stars, and empty stars
+                                                    $fullStars = floor($averageRating);
+                                                    $halfStar = $averageRating - $fullStars >= 0.5 ? 1 : 0;
+                                                    $emptyStars = 5 - ($fullStars + $halfStar);
+                                                @endphp
+
+                                                <!-- Full stars -->
+                                                @for ($i = 0; $i < $fullStars; $i++)
+                                                    <span><i class="fa-solid fa-star"></i></span>
+                                                @endfor
+
+                                                <!-- Half star -->
+                                                @for ($i = 0; $i < $halfStar; $i++)
+                                                    <span><i class="fa-solid fa-star-half-stroke"></i></span>
+                                                @endfor
+
+                                                <!-- Empty stars -->
+                                                @for ($i = 0; $i < $emptyStars; $i++)
+                                                    <span><i class="fa-solid fa-star" style="color: #dcdcdc;"></i></span>
+                                                @endfor
+                                            </div>
+
+                                            <div class="tp-product-rating-text">
+                                                <span>({{ $item->danhGias->count() }} Reviews)</span>
+                                            </div>
                                         </div>
-                                        @if ($product->bienTheSanPhams->isNotEmpty())
-                                            <span class="tp-product-price-2 new-price">
-                                                {{ number_format($product->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
-                                            </span>
-                                            @if (isset($product->bienTheSanPhams->first()->gia_cu) && $product->bienTheSanPhams->first()->gia_cu > $product->bienTheSanPhams->first()->gia_moi)
-                                                <span class="tp-product-price-2 old-price">
-                                                    {{ number_format($product->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
-                                                </span>
+
+                                        <div class="tp-product-price-wrapper">
+                                            @if ($item->bienTheSanPhams->first()->gia_cu > $item->bienTheSanPhams->first()->gia_moi)
+                                                <span
+                                                    class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                            @else
+                                                <span
+                                                    class="tp-product-price old-price">{{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ</span>
+                                                <span
+                                                    class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
                                             @endif
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -254,7 +292,7 @@
                                     @foreach ($sanPhams as $product)
                                         <div class="tp-product-list-item d-md-flex mb-4">
                                             <div class="tp-product-list-thumb p-relative fix">
-                                                <a href="{{ route('chitietsanpham', $product->id) }}">
+                                                <a href="#">
                                                     <img src="{{ asset($product->anh_san_pham) }}" alt="{{ $product->ten_san_pham }}">
                                                 </a>
                                             </div>
