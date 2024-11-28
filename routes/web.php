@@ -212,7 +212,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
         Route::put('/{id}', [TagController::class, 'update'])->name('update');
         Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
-        Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
+        Route::delete('/{id}/softDelete', [TagController::class, 'softDelete'])->name('softDelete');
+        Route::post('/{id}/restore', [TagController::class, 'restore'])->name('restore');
     });
   });
 // chuyển hướng nếu người dùng nhập route không tồn tại trong admin
