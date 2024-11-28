@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\HoaDon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
+use App\Mail\InvoiceCreated;
+use Illuminate\Support\Facades\Mail;
 
 class VNPayController extends Controller
 {
@@ -222,7 +224,8 @@ if ($secureHash === $vnp_SecureHash) {
                 $hoaDon->trang_thai_thanh_toan= HoaDon::TRANG_THAI_THANH_TOAN['Đã thanh toán'];
                 $hoaDon->thoi_gian_giao_dich = $formattedPayDate;
                 $hoaDon->save();
-    
+                // Gửi email xác nhận
+                Mail::to($hoaDon->email)->send(new InvoiceCreated($hoaDon));
                 return view('payment.success', ['message' => 'Thanh toán thành công! ']);
 
             }
