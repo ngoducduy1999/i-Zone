@@ -105,7 +105,7 @@
         </table>
         <div class="footer">
             <p>Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi!</p>
-            <p>Mọi thắc mắc xin vui lòng liên hệ <a href="mailto:support@example.com">support@example.com</a>.</p>
+            <p>Mọi thắc mắc xin vui lòng liên hệ <a href="mailto:loviongs@gmai.com">loviongs@gmai.com</a>.</p>
         </div>
     </div>
 </body>
