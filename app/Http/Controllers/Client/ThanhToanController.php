@@ -288,6 +288,11 @@ public function placeOrder(Request $request)
         $bienThe->so_luong -= $item['quantity'];
         $bienThe->save();
         }
+        // Xóa session giỏ hàng và mã giảm giá
+        Session::forget('cart');
+        Session::forget('discount_code');
+        Session::forget('discount_percentage');
+        Session::forget('maxDiscount');
             // Thanh toán online qua ZaloPay
             $maHoaDon = $hoaDon->ma_hoa_don;
             return app(VNPayController::class)->createPayment($tongTienSauGiam, $hoaDon->ma_hoa_don, "Thanh toán đơn hàng #$hoaDon->ma_hoa_don");
