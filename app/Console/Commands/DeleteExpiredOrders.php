@@ -3,12 +3,13 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\HoaDon;
+use App\Models\ChiTietHoaDon;
 use Illuminate\Support\Facades\Log;
 
-class DeleteExpiredOrders extends Command
+class DeleteExpiredOrders extends Command 
 {
-    protected $signature = 'orders:delete-expired';
-    protected $description = 'Xóa các đơn hàng chưa thanh toán qua ngân hàng sau 15 phút';
+    protected $signature = 'orders:cancel-expired';
+    protected $description = 'Hủy các đơn hàng chưa thanh toán qua ngân hàng sau 15 phút';
 
     public function handle()
     {
@@ -19,10 +20,26 @@ class DeleteExpiredOrders extends Command
             ->get();
 
         foreach ($expiredOrders as $order) {
-            Log::info("Xóa đơn hàng hết hạn: ", (array) $order);
-            $order->delete(); // Xóa hóa đơn
+            Log::info("Hủy đơn hàng hết hạn: ", (array) $order);
+
+            // Lấy danh sách chi tiết hóa đơn
+            $chiTietHoaDons = ChiTietHoaDon::where('hoa_don_id', $order->id)->get();
+
+            // Cập nhật số lượng tồn kho
+            foreach ($chiTietHoaDons as $chiTiet) {
+                $bienThe = $chiTiet->bienTheSanPham;
+                if ($bienThe) {
+                    $bienThe->so_luong += $chiTiet->so_luong; // Cộng lại số lượng vào kho
+                    $bienThe->save();
+                }
+            }
+
+            // Cập nhật trạng thái đơn hàng
+            $order->trang_thai = 6; // Trạng thái "Đã hủy"
+            $order->save();
         }
 
-        $this->info('Đã xóa các đơn hàng hết hạn chưa thanh toán qua ngân hàng.');
+        $this->info('Đã hủy các đơn hàng hết hạn chưa thanh toán qua ngân hàng.');
     }
 }
+
