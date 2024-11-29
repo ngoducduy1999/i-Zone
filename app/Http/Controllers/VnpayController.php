@@ -230,7 +230,7 @@ if ($secureHash === $vnp_SecureHash) {
 
                 // Gửi email xác nhận
                 Mail::to($hoaDon->email)->send(new InvoiceCreated($hoaDon));
-                return view('payment.success', ['message' => 'Thanh toán thành công!']);
+                return view('clients.taikhoan.donhang', ['message' => 'Thanh toán thành công!']);
             } else {
                 // Số tiền không khớp
                 return view('payment.error', ['message' => 'Số tiền thanh toán không khớp. Giao dịch bị từ chối.']);
@@ -362,6 +362,105 @@ private function callVNPayAPI($method, $url, $data)
     
     return $response;
 }
+public function tracuu()
+{
 
+return view('admins.hoadons.tracuu');
+}
+public function hoantien()
+{
+return view('admins.hoadons.hoantien');
+}
+public function refundTransaction(Request $request)
+{
+    // Validate the incoming request data
+    $request->validate([
+        'TransactionType' => 'required|in:02,03', // 02: Hoàn toàn phần, 03: Hoàn một phần
+        'TxnRef' => 'required',
+        'Amount' => 'required|numeric|min:1',
+        'TransactionDate' => 'required|date_format:YmdHis',
+        'CreateBy' => 'required|string',
+    ]);
 
+    // Generate the required parameters for the API call
+    $vnp_RequestId = rand(1, 10000); // Unique ID for the refund request
+    $vnp_Command = "refund"; // API command
+    $vnp_TransactionType = $request->input('TransactionType');
+    $vnp_TxnRef = $request->input('TxnRef');
+    $vnp_Amount = $request->input('Amount') * 100; // Convert amount to VND
+    $vnp_OrderInfo = "Hoan Tien Giao Dich"; // Description of the refund
+    $vnp_TransactionNo = "0"; // Default transaction number
+    $vnp_TransactionDate = $request->input('TransactionDate');
+    $vnp_CreateDate = now()->format('YmdHis');
+    $vnp_CreateBy = $request->input('CreateBy');
+    $vnp_IpAddr = $request->ip();
+
+    // Load configuration parameters from the environment file
+    $vnp_TmnCode = config('vnpay.vnp_TmnCode');
+    $vnp_HashSecret = config('vnpay.vnp_HashSecret');
+    $apiUrl = config('vnpay.vnp_TransactionApiUrl');
+
+    // Prepare data to send in the refund request
+    $ispTxnRequest = [
+        "vnp_RequestId" => $vnp_RequestId,
+        "vnp_Version" => "2.1.0",
+        "vnp_Command" => $vnp_Command,
+        "vnp_TmnCode" => $vnp_TmnCode,
+        "vnp_TransactionType" => $vnp_TransactionType,
+        "vnp_TxnRef" => $vnp_TxnRef,
+        "vnp_Amount" => $vnp_Amount,
+        "vnp_OrderInfo" => $vnp_OrderInfo,
+        "vnp_TransactionNo" => $vnp_TransactionNo,
+        "vnp_TransactionDate" => $vnp_TransactionDate,
+        "vnp_CreateDate" => $vnp_CreateDate,
+        "vnp_CreateBy" => $vnp_CreateBy,
+        "vnp_IpAddr" => $vnp_IpAddr,
+    ];
+
+    // Format data for hash generation
+    $format = '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s';
+    $dataHash = sprintf(
+        $format,
+        $ispTxnRequest['vnp_RequestId'],
+        $ispTxnRequest['vnp_Version'],
+        $ispTxnRequest['vnp_Command'],
+        $ispTxnRequest['vnp_TmnCode'],
+        $ispTxnRequest['vnp_TransactionType'],
+        $ispTxnRequest['vnp_TxnRef'],
+        $ispTxnRequest['vnp_Amount'],
+        $ispTxnRequest['vnp_TransactionNo'],
+        $ispTxnRequest['vnp_TransactionDate'],
+        $ispTxnRequest['vnp_CreateBy'],
+        $ispTxnRequest['vnp_CreateDate'],
+        $ispTxnRequest['vnp_IpAddr'],
+        $ispTxnRequest['vnp_OrderInfo']
+    );
+
+    // Generate the secure hash
+    $checksum = hash_hmac('SHA512', $dataHash, $vnp_HashSecret);
+    $ispTxnRequest["vnp_SecureHash"] = $checksum;
+
+    // Log the refund request data
+    Log::info("Refund Request Data", $ispTxnRequest);
+
+    // Call the VNPay API with the prepared data
+    $response = $this->callVNPayAPI('POST', $apiUrl, $ispTxnRequest);
+
+    // Decode the response from the VNPay API
+    $apiResponse = json_decode($response, true);
+
+    // Log the response from VNPay
+    Log::info("VNPay Refund API Response", $apiResponse);
+
+    // Check if the API response is valid
+    if ($apiResponse === null) {
+        return response()->json(['error' => 'Invalid response from VNPay', 'raw_response' => $response]);
+    }
+
+    // Return the result to the view
+    return view('admins.refund-result', [
+        'response' => $apiResponse,
+        'rawResponse' => $response,
+    ]);
+}
 }
