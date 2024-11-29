@@ -8,6 +8,6 @@
 <body>
     <h1>Thanh toán thành công</h1>
     <p>{{ $message }}</p>
-    <a href="{{ url('/') }}">Quay lại trang chủ</a>
+    <a href="{{ url('/customer/donhang') }}">Quay lại </a>
 </body>
 </html>
