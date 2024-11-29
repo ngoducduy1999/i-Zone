@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\BienTheSanPham;
+use App\Models\TraLoi;
 use App\Models\DanhGiaSanPham;
 use App\Models\DanhMuc;
 use App\Models\DungLuong;
@@ -28,7 +29,7 @@ class ChiTietSanPhamController extends Controller
     public function show(string $id)
     {
         $sanpham = SanPham::find($id);
-    
+        $danhgias = DanhGiaSanPham::with(['user', 'traLois.user'])->where('san_pham_id', $id)->get();
         if ($sanpham) {
             $sanpham->increment('luot_xem');
             $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
@@ -103,7 +104,8 @@ $mauSacs = MauSac::whereIn('id', $mauSacIds)
                 'sanPhamGiamGiaNhieuNhat',
                 'products',
                 'isLoved',
-                'hasReview'
+                'hasReview',
+                'danhgias'
             ));
         }
     
@@ -160,5 +162,37 @@ $mauSacs = MauSac::whereIn('id', $mauSacIds)
             ]);
         }
     }
-    
+    public function reply(Request $request, $id)
+{
+    // Kiểm tra xem người dùng có phải là admin không
+    if (Auth::user()->vai_tro !== 'admin') {
+        return redirect()->route('chitietsanpham')->with('error', 'Bạn không có quyền trả lời đánh giá!');
+    }
+
+    // Lấy đánh giá cần trả lời
+    $danhGia = DanhGiaSanPham::findOrFail($id);
+
+    // Tạo một bản ghi trả lời
+    TraLoi::create([
+        'danh_gia_id' => $danhGia->id,
+        'user_id' => Auth::id(),
+        'noi_dung' => $request->input('reply'),
+    ]);
+
+// Sau khi trả lời đánh giá, chuyển hướng về trang chi tiết sản phẩm
+return redirect()->route('chitietsanpham', ['id' => $danhGia->san_pham_id])->with('success', 'Trả lời đánh giá thành công!');
+}
+public function editReply(Request $request, TraLoi $traLoi)
+{
+    // Kiểm tra nếu người dùng có quyền sửa câu trả lời này
+    if (Auth::user()->id !== $traLoi->user_id && Auth::user()->vai_tro !== 'admin') {
+        return redirect()->route('chitietsanpham.index')->with('error', 'Bạn không có quyền sửa câu trả lời này.');
+    }
+
+    // Cập nhật nội dung câu trả lời
+    $traLoi->noi_dung = $request->input('reply');
+    $traLoi->save();
+
+    return redirect()->route('chitietsanpham', ['id' => $traLoi->danh_gia_id])->with('success', 'Câu trả lời đã được cập nhật!');
+}
 }
