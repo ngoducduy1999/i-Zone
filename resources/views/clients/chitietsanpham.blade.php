@@ -579,7 +579,9 @@
                                 <span>Tag: </span>
                                 <p>
                                 <p>@foreach ($tagsanphams as $tag)
-                                    <span class="badge bg-primary">#{{ $tag->tag->ten_tag }}</span>
+                                    @if ($tag->tag->trang_thai==1)
+                                        <span class="badge bg-primary">#{{ $tag->tag->ten_tag }}</span>
+                                    @endif
                                     @endforeach
                                 </p>
                             </div>
