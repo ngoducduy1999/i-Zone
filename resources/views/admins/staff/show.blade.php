@@ -35,14 +35,16 @@
         
     }
 
-    .edit-mode input {
+    .edit-mode input,
+    .edit-mode select {
         border: 1px solid #ddd;
         padding: 5px;
         width: 100%;
         border-radius: 4px;
     }
 
-    .info-field input {
+    .info-field input,
+    .info-field select {
         border: none; /* Loại bỏ viền */
         background: transparent; /* Loại bỏ nền */
         padding: 5px;
@@ -54,6 +56,7 @@
     .info-field input:disabled {
         cursor: not-allowed; /* Thay đổi con trỏ khi không có quyền chỉnh sửa */
     }
+    
 </style>
 
 
@@ -98,8 +101,18 @@
                                         <p>Họ và tên: <span class="info-field"><input type="text" name="ten" value="{{ $staff->ten }}" disabled></span></p>
                                         <p>Ngày sinh: <span class="info-field"><input type="text" name="ngay_sinh" value="{{ $staff->ngay_sinh }}" disabled></span></p>
                                         <!-- Vai trò không hiển thị dưới dạng input -->
-                                        <p>Chức vụ: <span class="info-field">{{ ucfirst($staff->getRoleNames()->first()) }}</span></p>
-                                    </div>
+                                        <p>Chức vụ: 
+                                            <span class="info-field">
+                                                <select name="vai_tro" disabled>
+                                                    @foreach ($roles as $role)
+                                                        <option value="{{ $role }}" {{ $role == $staff->getRoleNames()->first() ? 'selected' : '' }}>
+                                                            {{ ucfirst($role) }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </span>
+                                        </p>                                                                                
+                                                                            </div>
 
                                     <div class="col-md-6 mb-4">
                                         <h5 class="fs-16 text-dark fw-semibold">Liên hệ</h5>
@@ -119,24 +132,20 @@
 <script>
     // Chuyển sang chế độ chỉnh sửa
     document.getElementById('editBtn').addEventListener('click', function () {
-        let fields = document.querySelectorAll('.info-field input');
+        let fields = document.querySelectorAll('.info-field input, .info-field select');
         let form = document.getElementById('userForm');
         
         if (this.innerText === "Sửa") {
-            fields.forEach(function (input) {
-                input.removeAttribute('disabled');
-                input.classList.add('edit-mode'); // Thêm class để chỉnh sửa
-                input.style.backgroundColor = '#fff'; 
-                input.style.border = '1px solid #ddd'; // Thiết lập border cho các trường input
-                // Thay đổi nền khi ở chế độ sửa
+            fields.forEach(function (field) {
+                field.removeAttribute('disabled');
+                field.classList.add('edit-mode'); // Thêm class để chỉnh sửa
+                field.style.backgroundColor = '#fff'; 
+                field.style.border = '1px solid #ddd'; // Thiết lập border cho các trường input và select
             });
             this.innerText = "Lưu";
-
-        editAvatar.style.display = 'block';
-
-
+            editAvatar.style.display = 'block';
         } else {
-        editAvatar.style.display = 'none';
+            editAvatar.style.display = 'none';
 
             let formData = new FormData(form);
             fetch(form.action, {
@@ -151,11 +160,11 @@
             .then(data => {
                 if (data.success) {
                     alert(data.message); // Hiển thị thông báo thành công
-                    fields.forEach(function (input) {
-                        input.setAttribute('disabled', true);
-                        input.classList.remove('edit-mode'); // Xóa class khi không chỉnh sửa
-                        input.style.border = 'none'; // Thiết lập border cho các trường input                        
-                        input.style.backgroundColor = 'transparent'; // Thay đổi nền khi không ở chế độ sửa
+                    fields.forEach(function (field) {
+                        field.setAttribute('disabled', true);
+                        field.classList.remove('edit-mode'); // Xóa class khi không chỉnh sửa
+                        field.style.border = 'none'; // Thiết lập border cho các trường input và select
+                        field.style.backgroundColor = 'transparent'; // Thay đổi nền khi không ở chế độ sửa
                     });
                     document.getElementById('editBtn').innerText = "Sửa";
                 } else {
@@ -183,5 +192,6 @@
         reader.readAsDataURL(this.files[0]);
     });
 </script>
+
 
 @endsection
