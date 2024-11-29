@@ -25,17 +25,16 @@ class TagController extends Controller
 {
     // Kiểm tra dữ liệu đầu vào
     $request->validate([
-        'ten_tag' => 'required|string|max:255',
-        
+        'ten_tag' => 'required|string|max:255|unique:tags',
     ], [
         'ten_tag.required' => 'Tên không được để trống.',
         'ten_tag.string' => 'Tên phải là một chuỗi.',
         'ten_tag.max' => 'Tên không được quá 255 ký tự.', 
+        'ten_tag.unique' => 'Tag đã tồn tại.', 
     ]);
 
     $data = [
         'ten_tag' => $request->ten_tag,
-        
         'trang_thai' => 1, 
     ];
     
@@ -55,11 +54,12 @@ public function edit($id)
     public function update(Request $request, $id)
     {
         $request->validate([
-            'ten_tag' => 'required|string|max:255',
+            'ten_tag' => 'required|string|max:255|unique:tags,ten_tag,'.$id,
         ], [
             'ten_tag.required' => 'Tên không được để trống.',
             'ten_tag.string' => 'Tên phải là một chuỗi.',
             'ten_tag.max' => 'Tên không được quá 255 ký tự.', 
+            'ten_tag.unique' => 'Tag đã tồn tại.', 
         ]);
 
         // Tìm kiếm bản ghi Tên tag theo ID
