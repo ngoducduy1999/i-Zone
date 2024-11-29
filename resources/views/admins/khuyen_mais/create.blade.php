@@ -54,8 +54,10 @@
 
                                 <div class="mb-3">
                                     <label for="ngay_bat_dau" class="form-label">Ngày bắt đầu</label>
-                                    <input class="form-control" type="date" id="ngay_bat_dau" name="ngay_bat_dau"
+
+                                    <input class="form-control" type="datetime-local" id="ngay_bat_dau" name="ngay_bat_dau"
                                         placeholder="Ngày bắt đầu" value="{{ old('ngay_bat_dau') }}">
+
                                     @error('ngay_bat_dau')
                                     <p class="text-danger">{{ $message }}</p>
                                     @enderror
@@ -63,7 +65,7 @@
 
                                 <div class="mb-3">
                                     <label for="ngay_ket_thuc" class="form-label">Ngày kết thúc</label>
-                                    <input class="form-control" type="date" id="ngay_ket_thuc" name="ngay_ket_thuc"
+                                    <input class="form-control" type="datetime-local" id="ngay_ket_thuc" name="ngay_ket_thuc"
                                         placeholder="Ngày kết thúc" value="{{ old('ngay_ket_thuc') }}">
                                     @error('ngay_ket_thuc')
                                     <p class="text-danger">{{ $message }}</p>
