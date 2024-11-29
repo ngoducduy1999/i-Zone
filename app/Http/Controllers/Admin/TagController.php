@@ -26,10 +26,11 @@ class TagController extends Controller
     public function store(Request $request)
     {
         // Kiểm tra dữ liệu đầu vào
-        $request->validate([
+        $validatedData = $request->validate([
             'ten_tag' => 'required|string|unique:tags,ten_tag', 
         ], [
             'ten_tag.required' => 'Tên không được để trống.',
+            'ten_tag.unique' => 'Tên thẻ tag đã tồn tại',
         ]);
 
         $data = [
@@ -42,25 +43,21 @@ class TagController extends Controller
 
     public function edit($id)
     {
-        $tag = tag::find($id);
-        if (!$tag) {
-            return redirect()->route('admin.tags.index')->with('error', 'Khuyến mại không tồn tại');
-        }
+        $tag = Tag::withTrashed()->findOrFail($id);
         return view('admins.tags.update', compact('tag'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $tag = Tag::withTrashed()->findOrFail($id);
+
+        $validatedData = $request->validate([
             'ten_tag' => 'required|string|unique:tags,ten_tag,' . $id, // Kiểm tra duy nhất với ngoại lệ cho bản ghi hiện tại
         ], [
-            'ten_tag.required' => 'Tên tag không được để trống.'
+            'ten_tag.required' => 'Tên tag không được để trống.',
+            'ten_tag.unique' => 'Tên thẻ tag đã tồn tại',
         ]);
-        // Tìm kiếm bản ghi Tên tag theo ID
-        $tag = tag::find($id);
-        if (!$tag) {
-            return redirect()->route('admin.tag.index')->with('error', 'Tên tag không tồn tại.');
-        }
+        
         // Cập nhật dữ liệu Tên tag
         $tag->update([
             'ten_tag' => $request->ten_tag,
@@ -76,7 +73,7 @@ class TagController extends Controller
         if ($tag) {
             $sanPhamTags = $tag->sanPhams()->withTrashed()->get();
             if (count($sanPhamTags) > 0) {
-                return redirect()->back()->with('error', 'Danh mục vẫn còn sản phẩm, không thể ngừng hoạt động.');
+                return redirect()->back()->with('error', 'Thẻ tag vẫn còn sản phẩm, không thể ngừng hoạt động.');
             }
             $tag->trang_thai = 0;
             $tag->save();

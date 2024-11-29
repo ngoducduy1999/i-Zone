@@ -27,7 +27,7 @@
                                     <div class="mb-3">
                                     <label for="ten_tag" class="form-label">Tên tag</label>
                                     <input  class="form-control" type="text" id="ten_tag" name="ten_tag"
-                                        placeholder="Tên thẻ tag" value="{{ $tag-> ten_tag }}">
+                                        placeholder="Tên thẻ tag"  value="{{ old('ten_tag', $tag->ten_tag) }}" required">
                                     @error('ten_tag')
                                     <p class="text-danger">{{ $message }}</p>
                                     @enderror
