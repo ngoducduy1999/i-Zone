@@ -260,7 +260,6 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="mo_ta" class="form-label">Mô tả sản phẩm</label>
-                                        <label for="exampleInputPassword1">Mô tả sản phẩm</label>
                                         <textarea name="mo_ta" id="mo_ta" cols="30" rows="10">{{ $sanpham->mo_ta }}</textarea>
                                         @error('mo_ta')
                                             <p class="text-danger">{{ $message }}</p>

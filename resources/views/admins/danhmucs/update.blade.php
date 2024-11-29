@@ -40,14 +40,14 @@
                                     <input class="form-control" type="text" id="ten_danh_muc" name="ten_danh_muc"
                                         placeholder="Tên banner" value="{{ $danhmucs->ten_danh_muc }}">
                                     @error('ten_danh_muc')
-                                        <p class="text-danger">{{ $validatedData}}</p>
+                                        <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="anh_danh_muc" class="form-label">Ảnh Danh Mục</label>
                                     <input class="form-control" type="file" id="anh_danh_muc" name="anh_danh_muc">
                                     @error('anh_danh_muc')
-                                        <p class="text-danger">{{ $validatedData}}</p>
+                                        <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <button type="submit" class="btn btn-primary">Chỉnh sửa</button>

@@ -219,7 +219,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
         Route::put('/{id}', [TagController::class, 'update'])->name('update');
         Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
-        Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
+        Route::delete('/{id}/softDelete', [TagController::class, 'softDelete'])->name('softDelete');
+        Route::post('/{id}/restore', [TagController::class, 'restore'])->name('restore');
     });
   });
 // chuyển hướng nếu người dùng nhập route không tồn tại trong admin
@@ -241,6 +242,8 @@ use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Client\LienHeController;
+
+// use App\Http\Controllers\VNPayController;
   // Routes for unauthenticated users
 Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
@@ -279,7 +282,9 @@ Route::get('/bai-viet/{id}', [TrangBaiVietController::class, 'show'])->name('chi
 
 // Liên hệ
 Route::get('/lienhe', [LienHeController::class, 'index'])->name('lienhe');
-Route::post('/lienhe', [LienHeController::class, 'store'])->name('lienhe.store');
+Route::post('/lienhe', [LienHeController::class, 'store'])->name('lienhe.store')->middleware('auth');
+
+
 
 // giỏ hàng
 Route::get('/Cart-Index', [CartController::class, 'index'])->name('cart.index');

@@ -48,12 +48,12 @@
                                 <td>{{ $tag->id }}</td>
                                 <td>{{ $tag->ten_tag }}</td>
                                 <td>
-                                    @if ($tag->trang_thai == 1)
-                                    <span class="badge badge-success bg-success">Hoạt động</span>
-                                    @else
-                                    <span class="badge badge-danger bg-danger">Ngừng hoạt động</span>
-                                    @endif
-                                </td>
+                                        @if($tag->trashed())
+                                            <span class="text-danger">Không hoạt động</span>
+                                        @else
+                                            <span class="text-success">Đang hoạt động</span>
+                                        @endif
+                                    </td>
                                 <td>
                                     <div class="card-body">
                                         <div class="btn-group">
@@ -63,25 +63,21 @@
                                                     class="mdi mdi-chevron-down"></i></button>
                                             <div class="dropdown-menu">                               
                                                 <a class="dropdown-item"
-                                                    href="{{ route('admin.tag.edit', $tag->id) }}">Sửa</a>
-                                                @if ($tag->trang_thai == 1)
-                                                <form action="{{ route('admin.tag.onOffTag', $tag->id) }}" method="post">
-                                                    @csrf
-                                                    @method('post')
-                                                    <button class="dropdown-item" href="#">Ngừng hoạt động</button>
-                                                </form>
+                                                    href="{{ route('admin.tag.edit', $tag->id) }}">Sửa</a>                                               
+                                                @if($tag->trashed())
+                                                    <!-- Khôi phục -->
+                                                    <form action="{{ route('admin.tag.restore', $tag->id) }}" method="post" style="display: inline-block;">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item">Khôi phục</button>
+                                                    </form>
                                                 @else
-                                                <form action="{{ route('admin.tag.onOffTag', $tag->id) }}" method="post">
-                                                    @csrf
-                                                    @method('post')
-                                                    <button class="dropdown-item" href="#">Hoạt động</button>
-                                                </form>
+                                                    <!-- Xóa mềm -->
+                                                    <form action="{{ route('admin.tag.softDelete', $tag->id) }}" method="post" style="display: inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item">Xóa</button>
+                                                    </form>
                                                 @endif
-                                                <form action="{{ route('admin.tag.destroy', $tag->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa thẻ tag này?');">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="submit" class="dropdown-item">Xóa</button>
-                                                </form>
                                             </div>
                                         </div>
                                     </div>
