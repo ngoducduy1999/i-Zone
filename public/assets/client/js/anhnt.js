@@ -178,13 +178,12 @@ function bindCartEvents() {
             let quantity = parseInt(input.value) || 0;
             let maxQuantity = parseInt(input.getAttribute('data-max-quantity'));
             let idbt = this.closest('tr').dataset.id;
-            console.log('out if ' + quantity);
             if (quantity < maxQuantity) {
-                // quantity++;
-                if (quantity >= maxQuantity) {
-                    quantity = maxQuantity
-                    input.value = maxQuantity;
-                }
+                // // quantity++;
+                // if (quantity >= maxQuantity) {
+                //     quantity = maxQuantity
+                //     input.value = maxQuantity;
+                // }
                 input.value = quantity;
                 UpdateItemCart(idbt, quantity);
             }
@@ -196,6 +195,7 @@ function bindCartEvents() {
             if (quantity >= maxQuantity) {
                 input.value = maxQuantity;
                 quantity = maxQuantity;
+                UpdateItemCart(idbt, quantity);
                 alertify.warning(`Sản phẩm chỉ còn ${maxQuantity}`);
             }
             cartDropIndex();
