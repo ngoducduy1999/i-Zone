@@ -182,7 +182,9 @@ span {
                         <p><strong>Danh mục:</strong> {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</p>
                         <p><strong>Tags:</strong> 
                             @foreach ($tagsanphams as $tag)
-                                <span class="badge bg-primary">#{{ $tag->tag->ten_tag }}</span>
+                                @if ($tag->tag->trang_thai==1)
+                                    <span class="badge bg-primary">#{{ $tag->tag->ten_tag }}</span>
+                                @endif
                             @endforeach
                         </p>
 

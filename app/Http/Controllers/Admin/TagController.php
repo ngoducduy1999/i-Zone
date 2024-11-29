@@ -8,13 +8,11 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-
 class TagController extends Controller
 {
     public function index()
     {
-        // Lấy tất cả thẻ tag, kể cả đã bị xóa mềm
-        $tags = Tag::withTrashed()->get();
+        $tags = tag::all();
         return view('admins.tags.index', compact('tags'));
     }
     // Hiển thị form tạo Tên tag
@@ -22,25 +20,29 @@ class TagController extends Controller
     {
         return view('admins.tags.create');
     }
-
+     
     public function store(Request $request)
-    {
-        // Kiểm tra dữ liệu đầu vào
-        $request->validate([
-            'ten_tag' => 'required|string|unique:tags,ten_tag', 
-        ], [
-            'ten_tag.required' => 'Tên không được để trống.',
-        ]);
+{
+    // Kiểm tra dữ liệu đầu vào
+    $request->validate([
+        'ten_tag' => 'required|string|max:255|unique:tags',
+    ], [
+        'ten_tag.required' => 'Tên không được để trống.',
+        'ten_tag.string' => 'Tên phải là một chuỗi.',
+        'ten_tag.max' => 'Tên không được quá 255 ký tự.', 
+        'ten_tag.unique' => 'Tag đã tồn tại.', 
+    ]);
 
-        $data = [
-            'ten_tag' => $request->ten_tag,
-            'trang_thai' => 1,
-        ];
-        tag::create($data);
-        return redirect()->route('admin.tag.index')->with('success', 'Thẻ tag đã được tạo thành công.');
-    }
+    $data = [
+        'ten_tag' => $request->ten_tag,
+        'trang_thai' => 1, 
+    ];
+    
+    tag::create($data);
+    return redirect()->route('admin.tag.index')->with('success', 'Thẻ tag đã được tạo thành công.');
+}
 
-    public function edit($id)
+public function edit($id)
     {
         $tag = tag::find($id);
         if (!$tag) {
@@ -52,50 +54,69 @@ class TagController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'ten_tag' => 'required|string|unique:tags,ten_tag,' . $id, // Kiểm tra duy nhất với ngoại lệ cho bản ghi hiện tại
+            'ten_tag' => 'required|string|max:255|unique:tags,ten_tag,'.$id,
         ], [
-            'ten_tag.required' => 'Tên tag không được để trống.'
+            'ten_tag.required' => 'Tên không được để trống.',
+            'ten_tag.string' => 'Tên phải là một chuỗi.',
+            'ten_tag.max' => 'Tên không được quá 255 ký tự.', 
+            'ten_tag.unique' => 'Tag đã tồn tại.', 
         ]);
+
         // Tìm kiếm bản ghi Tên tag theo ID
         $tag = tag::find($id);
+
         if (!$tag) {
             return redirect()->route('admin.tag.index')->with('error', 'Tên tag không tồn tại.');
         }
+
         // Cập nhật dữ liệu Tên tag
         $tag->update([
             'ten_tag' => $request->ten_tag,
+            
             // Giữ trạng thái hiện tại không thay đổi
             'trang_thai' => $tag->trang_thai,
         ]);
+
+
         return redirect()->route('admin.tag.index')->with('success', 'Tên tag đã được cập nhật thành công.');
     }
-
-    public function softDelete($id)
+    
+    public function destroy($id)
     {
-        $tag = Tag::find($id);
-        if ($tag) {
-            $sanPhamTags = $tag->sanPhams()->withTrashed()->get();
-            if (count($sanPhamTags) > 0) {
-                return redirect()->back()->with('error', 'Danh mục vẫn còn sản phẩm, không thể ngừng hoạt động.');
-            }
-            $tag->trang_thai = 0;
-            $tag->save();
-            $tag->delete();
-            return redirect()->back()->with('success', 'Xóa mềm thành công.');
+        // Tìm kiếm bản ghi Tên tag theo ID
+        $tag = tag::find($id);
+    
+        if (!$tag) {
+            return redirect()->route('admin.tag.index')->with('error', 'Tag không tồn tại.');
         }
-        return redirect()->back()->with('error', 'Không tìm thấy dữ liệu.');
+    
+        // Xóa bản ghi
+        $tag->delete();
+    
+        return redirect()->route('admin.tag.index')->with('success', 'Tên tag đã được xóa thành công.');
     }
-
-    public function restore($id)
+    
+    public function onOffTag($id)
     {
-        $tag = Tag::withTrashed()->find($id);
-        if ($tag) {
-            $tag->trang_thai = 1;
-            $tag->save();
-            $tag->restore();
-            return redirect()->back()->with('success', 'Khôi phục thành công.');
-        }
-        return redirect()->back()->with('error', 'Không tìm thấy dữ liệu.');
-    }
+        // Tìm kiếm bản ghi Tên tag theo ID
+        $Tag = Tag::find($id);
 
+        if (!$Tag) {
+            return redirect()->route('admin.tags.index')->with('error', 'Tên tag không tồn tại.');
+        }
+
+        // Cập nhật trạng thái Tên tag nếu còn thời gian
+        if ($Tag->trang_thai) {
+            // Nếu trạng thái hiện tại là đang hoạt động, chuyển sang ngừng hoạt động
+            $Tag->trang_thai = false;
+            $Tag->save();
+            return redirect()->back()->with('success', 'Ngừng hoạt động Tên tag.');
+        } else {
+            // Nếu trạng thái hiện tại là ngừng hoạt động, chuyển sang hoạt động
+            $Tag->trang_thai = true;
+            $Tag->save();
+            return redirect()->back()->with('success', 'Tên tag đã được kích hoạt.');
+        }
+    }
+    
 }
