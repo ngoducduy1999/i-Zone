@@ -210,6 +210,14 @@
                                                                     href="{{ route('admin.hoadons.show', $item->id) }}">Xem
                                                                     chi tiết
                                                                 </a>
+                                                                <form action="{{ route('admin.hoadons.destroy', $item->id) }}"
+                                                                    method="POST"
+                                                                    onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');"
+                                                                    class="m-0">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item">Hủy đơn hàng</button>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>

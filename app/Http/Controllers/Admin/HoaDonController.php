@@ -179,7 +179,17 @@ class HoaDonController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        //
+{
+    $hoaDon = HoaDon::findOrFail($id);
+
+    // Kiểm tra thời gian hết hạn và trạng thái thanh toán
+    if (now()->lessThan($hoaDon->thoi_gian_het_han) || $hoaDon->trang_thai_thanh_toan !== HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']) {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể hủy đơn hàng. Thời gian thanh toán chưa hết hoặc đơn hàng đã được thanh toán.');
     }
+
+    // Thực hiện xóa đơn hàng
+    $hoaDon->delete();
+
+    return redirect()->route('admin.hoadons.index')->with('success', 'Hủy đơn hàng thành công');
+}
 }

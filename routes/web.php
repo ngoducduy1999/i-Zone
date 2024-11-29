@@ -151,7 +151,7 @@ Route::prefix('baiviets')->name('baiviets.')->group(function () {
     Route::get('/{id}/edit', [BaiVietController::class, 'edit'])->name('edit');
     Route::put('/{id}', [BaiVietController::class, 'update'])->name('update');
     Route::post('/{id}/onOffBaiViet', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
-    Route::delete('/{id}', [BaiVietController::class, 'destroy'])->name('destroy');
+    Route::delete('/{id}/destroy', [BaiVietController::class, 'destroy'])->name('destroy');
 });
 });
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL hoadons')->group(function () {
@@ -161,6 +161,7 @@ Route::prefix('hoadons')->name('hoadons.')->group(function () {
     Route::get('/', [HoaDonController::class, 'index'])->name('index');
     Route::get('/{id}/show', [HoaDonController::class, 'show'])->name('show');
     Route::put('/{id}/update', [HoaDonController::class, 'update'])->name('update');
+    Route::delete('/{id}/destroy', [HoaDonController::class, 'destroy'])->name('destroy');
 });
 });
 // Banner 
