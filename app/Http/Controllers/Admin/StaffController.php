@@ -12,17 +12,22 @@ class StaffController extends Controller
 {
     // Hiển thị danh sách nhân viên
     public function index()
-    {
-        // Lấy tất cả nhân viên có vai trò 'staff'
-        $staffs = User::role('staff')->get();  
+    {   $staffs = User::whereHas('roles', function ($query) {
+        $query->where('name', '!=', 'admin');
+    })->get();
+    
         return view('admins.staff.index', compact('staffs'));
     }
 
     // Hiển thị form tạo nhân viên mới
     public function create()
-    {
-        return view('admins.staff.create');
-    }
+{
+    // Lấy tất cả các vai trò trừ 'admin'
+    $roles = Role::where('name', '!=', 'admin')->get();
+
+    // Truyền vai trò vào view
+    return view('admins.staff.create', compact('roles'));
+}
 
     
 // Lưu nhân viên mới vào cơ sở dữ liệu
@@ -34,7 +39,7 @@ public function store(Request $request)
         'mat_khau' => 'required|string|min:8',
         'so_dien_thoai' => 'nullable|string|max:20',
         'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // validate cho file ảnh
-        'vai_tro' => 'required|in:staff', 
+        'vai_tro' => 'required|exists:roles,name', // Kiểm tra vai trò có tồn tại
         'dia_chi' => 'nullable|string',
         'ngay_sinh' => 'required|date', // Thêm field ngày sinh
     ]);
@@ -51,12 +56,12 @@ public function store(Request $request)
         'mat_khau' => bcrypt($request->input('mat_khau')),
         'so_dien_thoai' => $request->get('so_dien_thoai'),
         'anh_dai_dien' => $filePath,
-        'vai_tro' => $request->get('vai_tro'),
+        'vai_tro' => 'staff',
         'dia_chi' => $request->get('dia_chi'),
         'ngay_sinh' => $request->get('ngay_sinh'), // Lưu ngày sinh
     ]);
 
-    $user->assignRole('staff');
+    $user->assignRole($request->get('vai_tro'));
 
     return redirect()->route('admin.nhanviens')->with('success', 'Nhân viên đã được thêm thành công');
 }
@@ -64,8 +69,10 @@ public function store(Request $request)
     // Hiển thị thông tin chi tiết của nhân viên
     public function show($id)
     {
+        // Lấy tất cả các vai trò trừ 'admin'
+        $roles = Role::where('name', '!=', 'admin')->pluck('name')->toArray(); // Lấy tên vai trò, loại trừ admin
         $staff = User::findOrFail($id);
-        return view('admins.staff.show', compact('staff'));
+        return view('admins.staff.show', compact('staff','roles'));
     }
 
 
@@ -80,6 +87,7 @@ public function store(Request $request)
             'email' => 'required|email',
             'dia_chi' => 'required',
             'so_dien_thoai' => 'required',
+            'vai_tro' => 'required'
 
         ]);
     
@@ -103,7 +111,7 @@ public function store(Request $request)
             $path = $request->file('anh_dai_dien')->store('avatars', 'public');
             $user->anh_dai_dien = $path;
         }
-    
+        $user->syncRoles([$request->get('vai_tro')]);
         $user->save();
     
         return response()->json(['success' => true, 'message' => 'Cập nhật thành công!']);
@@ -120,6 +128,6 @@ public function store(Request $request)
 
         $user->delete();
 
-        return redirect()->route('admins.staff.index')->with('success', 'Nhân viên đã được xóa');
+        return redirect()->route('admin.nhanviens.index')->with('success', 'Nhân viên đã được xóa');
     }
 }

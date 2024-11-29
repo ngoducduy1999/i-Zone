@@ -64,6 +64,7 @@ class HoaDon extends Model
         'ghi_chu',
         'thoi_gian_het_han',
         'phuong_thuc_thanh_toan',
+        'thoi_gian_giao_dich',
         'trang_thai'
     ];
 

@@ -91,12 +91,12 @@
                     @enderror
                 </div>
 
-                <!-- Vai trò -->
                 <div class="col-md-6">
                     <label for="vai_tro" class="form-label">Vai trò</label>
                     <select name="vai_tro" class="form-select @error('vai_tro') is-invalid @enderror" id="vai_tro" required>
-                        <option value="staff" {{ old('vai_tro') == 'staff' ? 'selected' : '' }}>Staff</option>
-                        <!-- Nếu cần thêm vai trò khác, hãy thêm ở đây -->
+                        @foreach($roles as $role)
+                            <option value="{{ $role->name }}" {{ old('vai_tro') == $role->name ? 'selected' : '' }}>{{ ucfirst($role->name) }}</option>
+                        @endforeach
                     </select>
                     @error('vai_tro')
                         <div class="invalid-feedback">
@@ -104,6 +104,8 @@
                         </div>
                     @enderror
                 </div>
+                
+                
 
                 <!-- Tỉnh thành -->
                 <div class="col-md-6">

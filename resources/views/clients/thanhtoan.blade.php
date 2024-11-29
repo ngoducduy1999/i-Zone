@@ -264,9 +264,9 @@
           .then(data => {
           console.log(data); // Ghi log để kiểm tra phản hồi
           if (data.success) {
-          if (data.order_url) {
-            window.location.href = data.order_url; // Chuyển hướng đến ZaloPay
-         } else {
+          if (data.url) {
+            window.location.href = data.url; // Chuyển hướng đến ZaloPay
+           } else {
             window.location.href = '/customer/donhang';
             alert('Đặt hàng thành công!');
         }

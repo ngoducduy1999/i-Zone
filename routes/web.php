@@ -20,6 +20,7 @@ use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\KhuyenMaiController;
 use App\Http\Controllers\admin\TagController;
 use App\Http\Controllers\Admin\StaffController;
+use App\Http\Controllers\VNPayController;
 
 // Route riêng cho quản lý quyền, áp dụng middleware 'auth' và 'permission'
 Route::middleware(['auth', 'permission:QL phan quyen'])->group(function () {
@@ -161,6 +162,12 @@ Route::prefix('hoadons')->name('hoadons.')->group(function () {
     Route::get('/', [HoaDonController::class, 'index'])->name('index');
     Route::get('/{id}/show', [HoaDonController::class, 'show'])->name('show');
     Route::put('/{id}/update', [HoaDonController::class, 'update'])->name('update');
+    //admin
+Route::post('/query', [VNPayController::class, 'queryTransaction'])->name('query');
+Route::post('/refund', [VNPayController::class, 'queryTransaction'])->name('refund');
+Route::get('/tracuu', [VNPayController::class, 'tracuu'])->name('tracuu');
+Route::get('/hoantien', [VNPayController::class, 'hoantien'])->name('hoantien');
+    
     Route::delete('/{id}/destroy', [HoaDonController::class, 'destroy'])->name('destroy');
 });
 });
@@ -235,6 +242,7 @@ use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Client\LienHeController;
+
 // use App\Http\Controllers\VNPayController;
   // Routes for unauthenticated users
 Route::prefix('customer')->name('customer.')->group(function () {
@@ -254,9 +262,9 @@ Route::prefix('customer')->name('customer.')->group(function () {
 });
 
 // Trang chủ
-Route::get('/', [TrangChuController::class, 'index'])->name('/');
-Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
-Route::get('/trangchuold', [TrangChuController::class, 'indexOld'])->name('trangchuold');
+Route::get('/', [TrangChuController::class, 'indexOld'])->name('/');
+Route::get('/trangchu', [TrangChuController::class, 'indexOld'])->name('trangchu');
+Route::get('/trangchuold', [TrangChuController::class, 'index'])->name('trangchuold');
 // Trang sản phẩm
 Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
 Route::get('/danh-muc/{danh_muc_id}', [SanPhamDanhMucController::class, 'index'])->name('sanpham.danhmuc');
@@ -316,4 +324,5 @@ Route::prefix('/')->name('/.')->group(function () {
     });
 });
 //vnpay
-// Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
+

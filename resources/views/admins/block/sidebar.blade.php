@@ -48,9 +48,9 @@
                             <li>
                                 <a class='tp-link' href="{{ route('admin.roles.index') }}">Vai trò</a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a class='tp-link' href="{{ route('admin.permissions.index') }}">Quyền hạn</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>
@@ -174,6 +174,12 @@
                             <li>
                                 <a class='tp-link' href="{{ route('admin.hoadons.index') }}">Danh sách</a>
                             </li>
+                           {{--  <li>
+                                <a class='tp-link' href="{{ route('admin.hoadons.tracuu') }}">Tra cứu VNPAY</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.hoadons.hoantien') }}">Hoàn tiền VNPAY</a>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>
