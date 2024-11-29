@@ -143,28 +143,28 @@
                                 <div class="tp-product-details-variation-item">
                                     <h4 class="tp-product-details-variation-title">Màu sắc :</h4>
                                     <div class="tp-product-details-variation-list">
-    @foreach ($bienthesanphams as $bienThe)
-        @if ($bienThe->mauSac && $bienThe->mauSac->trang_thai == 1) <!-- Kiểm tra trạng thái của màu sắc -->
-            @php
-                // Lấy tên và mã màu từ đối tượng mauSac
-                $tenMau = $bienThe->mauSac->ten_mau_sac;
-                $maMau = $bienThe->mauSac->ma_mau; // Lấy mã màu từ cơ sở dữ liệu
+                                        @foreach ($bienthesanphams as $bienThe)
+                                        @if ($bienThe->mauSac && $bienThe->mauSac->trang_thai == 1) <!-- Kiểm tra trạng thái của màu sắc -->
+                                        @php
+                                        // Lấy tên và mã màu từ đối tượng mauSac
+                                        $tenMau = $bienThe->mauSac->ten_mau_sac;
+                                        $maMau = $bienThe->mauSac->ma_mau; // Lấy mã màu từ cơ sở dữ liệu
 
-                // Kiểm tra xem màu đã được hiển thị chưa
-                if (!in_array($tenMau, $displayedColors)) {
-                    $displayedColors[] = $tenMau; // Thêm vào mảng màu đã hiển thị
-            @endphp
-            <button type="button" class="color tp-color-variation-btn disabled" data-mau-sac-id="{{ $bienThe->mau_sac_id }}">
-                <span data-bg-color="{{ $maMau }}"
-                    style="background-color: {{ $maMau }}; border: 2px solid #000000; display: inline-block; width: 20px; height: 20px;"></span>
-                <span class="tp-color-variation-tootltip">{{ $tenMau }}</span>
-            </button>
-            @php
-                } // Đóng điều kiện kiểm tra màu đã được hiển thị
-            @endphp
-        @endif
-    @endforeach
-</div>
+                                        // Kiểm tra xem màu đã được hiển thị chưa
+                                        if (!in_array($tenMau, $displayedColors)) {
+                                        $displayedColors[] = $tenMau; // Thêm vào mảng màu đã hiển thị
+                                        @endphp
+                                        <button type="button" class="color tp-color-variation-btn disabled" data-mau-sac-id="{{ $bienThe->mau_sac_id }}">
+                                            <span data-bg-color="{{ $maMau }}"
+                                                style="background-color: {{ $maMau }}; border: 2px solid #000000; display: inline-block; width: 20px; height: 20px;"></span>
+                                            <span class="tp-color-variation-tootltip">{{ $tenMau }}</span>
+                                        </button>
+                                        @php
+                                        } // Đóng điều kiện kiểm tra màu đã được hiển thị
+                                        @endphp
+                                        @endif
+                                        @endforeach
+                                    </div>
 
                                 </div>
 
@@ -241,7 +241,7 @@
                                     </div>
                                 </div>
                                 <script>
-                                        let sanPhamId = {{ $sanpham->id }};
+                                    let sanPhamId = {{ $sanpham->id }};
                                         let selectedMauSacId = null;
                                         let selectedDungLuongId = null;
                                     // Khởi tạo: Kiểm tra các nút dung lượng và màu sắc
@@ -356,7 +356,7 @@
                                     // Vô hiệu hóa nút tăng nếu đạt max
                                     function togglePlusButton(currentValue, maxQuantity) {
                                         let plusButton = document.querySelector('.tp-cart-plus');
-                                        if (currentValue >= maxQuantity -1) {
+                                        if (currentValue >= maxQuantity - 1) {
                                             plusButton.classList.add('disabled');
                                         } else {
                                             plusButton.classList.remove('disabled');
@@ -784,33 +784,44 @@
                                                     <div class="col-xl-10">
                                                         <table>
                                                             <tbody>
-
+                                                            <tr>
+                                                                    <td>Mã sản phẩm</td>
+                                                                    <td>{{ $sanpham->ma_san_pham }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Tên sản phẩm</td>
+                                                                    <td>{{ $sanpham->ten_san_pham }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Danh mục sản phẩm</td>
+                                                                    <td>{{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Lượt xem sản phẩm</td>
+                                                                    <td>{{ $sanpham->luot_xem }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Sản phẩm đã bán</td>
+                                                                    <td>{{ $sanpham->da_ban }}</td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td>Color</td>
                                                                     <td>
-                                                                        @php
-                                                                        $displayedColors = [];
-                                                                        @endphp
+    @php
+        $displayedColors = [];
+    @endphp
 
-                                                                        @foreach ($bienthesanphams as $bienThe)
-                                                                        @if ($bienThe->mauSac && !in_array($bienThe->mauSac->ten_mau_sac, $displayedColors))
-                                                                        @php
-                                                                        $displayedColors[] = $bienThe->mauSac->ten_mau_sac;
-                                                                        @endphp
-                                                                        @endif
-                                                                        @endforeach
+    @foreach ($bienthesanphams as $bienThe)
+        @if ($bienThe->mauSac && $bienThe->mauSac->trang_thai === 1 && !in_array($bienThe->mauSac->ten_mau_sac, $displayedColors))
+            @php
+                $displayedColors[] = $bienThe->mauSac->ten_mau_sac;
+            @endphp
+        @endif
+    @endforeach
 
-                                                                        {{ implode(', ', $displayedColors) }}
+    {{ implode(', ', $displayedColors) }}
+</td>
 
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Độ phân giải</td>
-                                                                    <td>1920 x 1200 Pixels</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Độ phân giải tối đa</td>
-                                                                    <td>2000 x 1200</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Dung lượng</td>
@@ -830,6 +841,26 @@
                                                                         {{ implode(', ', $displayedCapacities) }}
                                                                     </td>
                                                                 </tr>
+                                                                <tr>
+                                                                <tr>
+    <td>Tag</td>
+    <td>
+        @foreach ($tagsanphams as $index => $tag)
+            #{{ $tag->tag->ten_tag }}@if ($index < count($tagsanphams) - 1), @endif
+        @endforeach
+    </td>
+</tr>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Độ phân giải</td>
+                                                                    <td>1920 x 1200 Pixels</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Độ phân giải tối đa</td>
+                                                                    <td>2000 x 1200</td>
+                                                                </tr>
+                                                                
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -898,159 +929,161 @@
                                                             </div>
                                                             {{-- Bảng người dùng xem đánh giá --}}
                                                             <div class="tp-product-details-review-list pr-110">
-    <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
+                                                                <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
 
-    @foreach ($danhgias as $danhgia)
-        @if ($danhgia->user)
-        <div class="tp-product-details-review-avater d-flex align-items-start">
-            <div class="tp-product-details-review-avater-thumb">
-                <a href="#">
-                    <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
-                </a>
-            </div>
-            <div class="tp-product-details-review-avater-content">
-                <div class="fs-1.9">
-                    @for ($i = 1; $i <= 5; $i++)
-                        <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
-                    @endfor
-                </div>
-                
+                                                                @foreach ($danhgias as $danhgia)
+                                                                @if ($danhgia->user)
+                                                                <div class="tp-product-details-review-avater d-flex align-items-start">
+                                                                    <div class="tp-product-details-review-avater-thumb">
+                                                                        <a href="#">
+                                                                            <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="tp-product-details-review-avater-content">
+                                                                        <div class="fs-1.9">
+                                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                                <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
+                                                                                @endfor
+                                                                        </div>
 
-                <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }}</h3>
-                <span class="tp-product-details-review-avater-meta">
-                    {{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}
-                </span>
+                                                                        <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }}</h3>
+                                                                        <span class="tp-product-details-review-avater-meta">
+                                                                            {{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}
+                                                                        </span>
 
-                <div class="tp-product-details-review-avater-comment">
-                    <p>{{ $danhgia->nhan_xet }}</p>
-                </div>
+                                                                        <div class="tp-product-details-review-avater-comment">
+                                                                            <p>{{ $danhgia->nhan_xet }}</p>
+                                                                        </div>
 
-                {{-- Hiển thị câu trả lời nếu có --}}
-                @foreach ($danhgia->traLois as $traLoi)
-                    <div class="tp-product-details-review-reply ml-4">
-                        <div class="fs-1.9">
-                            <span class="text-muted">
-                                <p>{{ $traLoi->user->ten }} {{ $traLoi->user->vai_tro }}  - {{ $traLoi->created_at ? $traLoi->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}</p>  
-                            </span>
-                            <p>{{ $traLoi->noi_dung }}</p>
+                                                                        {{-- Hiển thị câu trả lời nếu có --}}
+                                                                        @foreach ($danhgia->traLois as $traLoi)
+                                                                        <div class="tp-product-details-review-reply ml-4">
+                                                                            <div class="fs-1.9">
+                                                                                <span class="text-muted">
+                                                                                    <p>{{ $traLoi->user->ten }} {{ $traLoi->user->vai_tro }} - {{ $traLoi->created_at ? $traLoi->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}</p>
+                                                                                </span>
+                                                                                <p>{{ $traLoi->noi_dung }}</p>
 
-                            {{-- Nút sửa --}}
-                            @if (Auth::check() && Auth::user()->id === $traLoi->user_id) 
-                                <button class="btn btn-warning btn-sm btn-edit-reply" data-reply-id="{{ $traLoi->id }}">Sửa</button>
+                                                                                {{-- Nút sửa --}}
+                                                                                @if (Auth::check() && Auth::user()->id === $traLoi->user_id)
+                                                                                <button class="btn btn-warning btn-sm btn-edit-reply" data-reply-id="{{ $traLoi->id }}">Sửa</button>
 
-                                {{-- Form sửa trả lời ẩn --}}
-                                <form class="edit-reply-form mt-2 d-none" action="{{ route('admin.danhgia.editReply', $traLoi->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <textarea name="reply" class="form-control mb-2" rows="3">{{ $traLoi->noi_dung }}</textarea>
-                                    <button type="submit" class="btn btn-success">Cập nhật</button>
-                                    <button type="button" class="btn btn-secondary btn-cancel-edit">Hủy</button>
-                                </form>
-                            @endif
-                        </div>
-                    </div>
-                @endforeach
+                                                                                {{-- Form sửa trả lời ẩn --}}
+                                                                                <form class="edit-reply-form mt-2 d-none" action="{{ route('admin.danhgia.editReply', $traLoi->id) }}" method="POST">
+                                                                                    @csrf
+                                                                                    @method('PUT')
+                                                                                    <textarea name="reply" class="form-control mb-2" rows="3">{{ $traLoi->noi_dung }}</textarea>
+                                                                                    <button type="submit" class="btn btn-success">Cập nhật</button>
+                                                                                    <button type="button" class="btn btn-secondary btn-cancel-edit">Hủy</button>
+                                                                                </form>
+                                                                                @endif
+                                                                            </div>
+                                                                        </div>
+                                                                        @endforeach
 
-                {{-- Hiển thị nút trả lời nếu người dùng hiện tại là admin --}}
-                @if (Auth::check() && Auth::user()->vai_tro === 'admin')
-                    <button class="btn btn-primary mt-2 btn-reply" data-review-id="{{ $danhgia->id }}">Trả lời</button>
+                                                                        {{-- Hiển thị nút trả lời nếu người dùng hiện tại là admin --}}
+                                                                        @if (Auth::check() && Auth::user()->vai_tro === 'admin')
+                                                                        <button class="btn btn-primary mt-2 btn-reply" data-review-id="{{ $danhgia->id }}">Trả lời</button>
 
-                    {{-- Form trả lời ẩn --}}
-                    <form class="reply-form mt-2 d-none" action="{{ route('admin.danhgia.reply', $danhgia->id) }}" method="POST">
-                        @csrf
-                        <textarea name="reply" class="form-control mb-2" rows="3" placeholder="Nhập trả lời của bạn..."></textarea>
-                        <button type="submit" class="btn btn-success">Gửi</button>
-                        <button type="button" class="btn btn-secondary btn-cancel">Hủy</button>
-                    </form>
-                @endif
-            </div>
-        </div>
-        @endif
-    @endforeach
-</div>
+                                                                        {{-- Form trả lời ẩn --}}
+                                                                        <form class="reply-form mt-2 d-none" action="{{ route('admin.danhgia.reply', $danhgia->id) }}" method="POST">
+                                                                            @csrf
+                                                                            <textarea name="reply" class="form-control mb-2" rows="3" placeholder="Nhập trả lời của bạn..."></textarea>
+                                                                            <button type="submit" class="btn btn-success">Gửi</button>
+                                                                            <button type="button" class="btn btn-secondary btn-cancel">Hủy</button>
+                                                                        </form>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                                @endforeach
+                                                            </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Nút sửa câu trả lời
-        const editReplyButtons = document.querySelectorAll('.btn-edit-reply');
-        editReplyButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const replyId = this.dataset.replyId;
-                const form = this.nextElementSibling; // Form sửa
-                if (form) {
-                    form.classList.remove('d-none'); // Hiển thị form sửa
-                    this.style.display = 'none'; // Ẩn nút sửa
-                }
-            });
-        });
+                                                            <script>
+                                                                document.addEventListener('DOMContentLoaded', function() {
+                                                                    // Nút sửa câu trả lời
+                                                                    const editReplyButtons = document.querySelectorAll('.btn-edit-reply');
+                                                                    editReplyButtons.forEach(button => {
+                                                                        button.addEventListener('click', function() {
+                                                                            const replyId = this.dataset.replyId;
+                                                                            const form = this.nextElementSibling; // Form sửa
+                                                                            if (form) {
+                                                                                form.classList.remove('d-none'); // Hiển thị form sửa
+                                                                                this.style.display = 'none'; // Ẩn nút sửa
+                                                                            }
+                                                                        });
+                                                                    });
 
-        // Nút hủy sửa câu trả lời
-        const cancelEditButtons = document.querySelectorAll('.btn-cancel-edit');
-        cancelEditButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const form = this.closest('.edit-reply-form');
-                const editButton = form.previousElementSibling;
-                if (form && editButton) {
-                    form.classList.add('d-none'); // Ẩn form sửa
-                    editButton.style.display = ''; // Hiển thị lại nút sửa
-                }
-            });
-        });
+                                                                    // Nút hủy sửa câu trả lời
+                                                                    const cancelEditButtons = document.querySelectorAll('.btn-cancel-edit');
+                                                                    cancelEditButtons.forEach(button => {
+                                                                        button.addEventListener('click', function() {
+                                                                            const form = this.closest('.edit-reply-form');
+                                                                            const editButton = form.previousElementSibling;
+                                                                            if (form && editButton) {
+                                                                                form.classList.add('d-none'); // Ẩn form sửa
+                                                                                editButton.style.display = ''; // Hiển thị lại nút sửa
+                                                                            }
+                                                                        });
+                                                                    });
 
-        // Nút trả lời
-        const replyButtons = document.querySelectorAll('.btn-reply');
-        replyButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const reviewId = this.dataset.reviewId;
-                const form = this.nextElementSibling;
-                if (form) {
-                    form.classList.remove('d-none'); // Hiển thị form
-                    this.style.display = 'none'; // Ẩn nút trả lời
-                }
-            });
-        });
+                                                                    // Nút trả lời
+                                                                    const replyButtons = document.querySelectorAll('.btn-reply');
+                                                                    replyButtons.forEach(button => {
+                                                                        button.addEventListener('click', function() {
+                                                                            const reviewId = this.dataset.reviewId;
+                                                                            const form = this.nextElementSibling;
+                                                                            if (form) {
+                                                                                form.classList.remove('d-none'); // Hiển thị form
+                                                                                this.style.display = 'none'; // Ẩn nút trả lời
+                                                                            }
+                                                                        });
+                                                                    });
 
-        // Nút hủy trả lời
-        const cancelButtons = document.querySelectorAll('.btn-cancel');
-        cancelButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const form = this.closest('.reply-form');
-                const replyButton = form.previousElementSibling;
-                if (form && replyButton) {
-                    form.classList.add('d-none'); // Ẩn form
-                    replyButton.style.display = ''; // Hiển thị lại nút trả lời
-                }
-            });
-        });
-    });
-</script>
+                                                                    // Nút hủy trả lời
+                                                                    const cancelButtons = document.querySelectorAll('.btn-cancel');
+                                                                    cancelButtons.forEach(button => {
+                                                                        button.addEventListener('click', function() {
+                                                                            const form = this.closest('.reply-form');
+                                                                            const replyButton = form.previousElementSibling;
+                                                                            if (form && replyButton) {
+                                                                                form.classList.add('d-none'); // Ẩn form
+                                                                                replyButton.style.display = ''; // Hiển thị lại nút trả lời
+                                                                            }
+                                                                        });
+                                                                    });
+                                                                });
+                                                            </script>
 
-<style>
-    .tp-product-details-review-reply {
-        margin-left: 20px; /* Thụt vào một chút */
-        border-left: 2px solid #ddd; /* Thêm đường kẻ trái để làm nổi bật */
-        padding-left: 10px; /* Thêm khoảng cách giữa đường kẻ và nội dung */
-    }
+                                                            <style>
+                                                                .tp-product-details-review-reply {
+                                                                    margin-left: 20px;
+                                                                    /* Thụt vào một chút */
+                                                                    border-left: 2px solid #ddd;
+                                                                    /* Thêm đường kẻ trái để làm nổi bật */
+                                                                    padding-left: 10px;
+                                                                    /* Thêm khoảng cách giữa đường kẻ và nội dung */
+                                                                }
 
-    /* Thêm một chút style cho form sửa */
-    .edit-reply-form {
-        margin-top: 10px;
-    }
-</style>
+                                                                /* Thêm một chút style cho form sửa */
+                                                                .edit-reply-form {
+                                                                    margin-top: 10px;
+                                                                }
+                                                            </style>
 
-                                                {{-- form đánh giá và nhận xét --}}
+                                                            {{-- form đánh giá và nhận xét --}}
 
 
 
+                                                        </div>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
 
 
@@ -1065,7 +1098,6 @@
     <div class="container">
         <div class="row">
             <div class="tp-section-title-wrapper-6 text-center mb-40">
-                <span class="tp-section-title-pre-6">Sản phẩm ngày hôm sau</span>
                 <h3 class="tp-section-title-6">Sản phẩm liên quan</h3>
             </div>
         </div>
@@ -1073,262 +1105,44 @@
             <div class="tp-product-related-slider">
                 <div class="tp-product-related-slider-active swiper-container  mb-10">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="tp-product-item-3 tp-product-style-primary mb-50">
-                                <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
-                                    <a href="product-details.html">
-                                        <img src="{{ asset($sanPhamGiamGiaNhieuNhat->anh_san_pham) }}"
-                                            alt="">
-                                    </a>
+                        @foreach ($sanPhamMoiNhat as $sanPham)
+<div class="swiper-slide">
+    <div class="tp-product-item-3 tp-product-style-primary mb-50">
+        <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
+            <a href="{{ route('chitietsanpham', ['id' => $sanPham->id]) }}">
+                <img src="{{ asset($sanPham->anh_san_pham) }}" alt="{{ $sanPham->ten_san_pham }}">
+            </a>
 
-                                    <!-- product badge -->
-                                    <div class="tp-product-badge">
-                                        <span class="product-offer">{{ round((($sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_cu - $sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_moi) / $sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_cu) * 100, 2) }}%</span>
-                                    </div>
+            <!-- product action -->
+            <div class="tp-product-action-3 tp-product-action-4 has-shadow tp-product-action-primaryStyle">
+                <div class="tp-product-action-item-3 d-flex flex-column">
+                    <!-- <button type="button" class="tp-product-action-btn-3 tp-product-add-cart-btn">
+                        <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
+                    </button> -->
+                </div>
+            </div>
 
-                                    <!-- product action -->
-                                    <div
-                                        class="tp-product-action-3 tp-product-action-4 has-shadow tp-product-action-primaryStyle">
-                                        <div class="tp-product-action-item-3 d-flex flex-column">
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-add-cart-btn">
-                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
-                                            </button>
-                                        </div>
-                                    </div>
+            <!-- <div class="tp-product-add-cart-btn-large-wrapper">
+                <button type="button" class="tp-product-add-cart-btn-large">Thêm vào giỏ hàng</button>
+            </div> -->
+        </div>
+        <div class="tp-product-content-3">
+            <div class="tp-product-tag-3">
+                <span>{{ $sanPham->danhMuc ? $sanPham->danhMuc->ten_danh_muc : '' }}</span>
+            </div>
+            <h3 class="tp-product-title-3">
+                <a href="{{ route('chitietsanpham', ['id' => $sanPham->id]) }}">{{ $sanPham->ten_san_pham }}</a>
+            </h3>
+            <div class="tp-product-price-wrapper-3">
+                <span class="tp-product-price-3">
+                    {{ $sanPham->bienthesanphams->first() ? number_format($sanPham->bienthesanphams->first()->gia_moi) : 'Giá không có sẵn' }}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
-                                    <div class="tp-product-add-cart-btn-large-wrapper">
-                                        <button type="button" class="tp-product-add-cart-btn-large">
-                                            Thêm vào giỏ hàng
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="tp-product-content-3">
-                                    <div class="tp-product-tag-3">
-                                        <span>{{ $sanPhamGiamGiaNhieuNhat->danhMuc ? $sanPhamGiamGiaNhieuNhat->danhMuc->ten_danh_muc : '' }}</span>
-                                    </div>
-                                    <h3 class="tp-product-title-3">
-                                        <a href="product-details.html">{{ $sanPhamGiamGiaNhieuNhat->ten_san_pham }}</a>
-                                    </h3>
-                                    <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3 new-price">{{ $sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_moi }}</span>
-                                        <span class="tp-product-price-3 old-price">{{ $sanPhamGiamGiaNhieuNhat->bienthesanphams->first()->gia_cu }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="tp-product-item-3 tp-product-style-primary mb-50">
-                                <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
-                                    <a href="product-details.html">
-                                        <img src="{{ asset($sanPhamMoiNhat->anh_san_pham) }}"
-                                            alt="">
-                                    </a>
-
-
-                                    <!-- product action -->
-                                    <div
-                                        class="tp-product-action-3 tp-product-action-4 has-shadow tp-product-action-primaryStyle">
-                                        <div class="tp-product-action-item-3 d-flex flex-column">
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-add-cart-btn">
-                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="tp-product-add-cart-btn-large-wrapper">
-                                        <button type="button" class="tp-product-add-cart-btn-large">
-                                            Thêm vào giỏ hàng
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="tp-product-content-3">
-                                    <div class="tp-product-tag-3">
-                                        <span>{{ $sanPhamMoiNhat->danhMuc ? $sanPhamMoiNhat->danhMuc->ten_danh_muc : '' }}</span>
-                                    </div>
-                                    <h3 class="tp-product-title-3">
-                                        <a href="product-details.html">{{ $sanPhamMoiNhat->ten_san_pham }}</a>
-                                    </h3>
-                                    <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3">
-                                            {{ $sanPhamMoiNhat->bienthesanphams->first() ? $sanPhamMoiNhat->bienthesanphams->first()->gia_moi : 'Giá không có sẵn' }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="tp-product-item-3 tp-product-style-primary mb-50">
-                                <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
-                                    <a href="product-details.html">
-                                        <img src="{{ asset($sanPhamBanNhieuNhat->anh_san_pham) }}"
-                                            alt="">
-                                    </a>
-
-                                    <!-- product badge -->
-                                    <div class="tp-product-badge">
-                                        <span class="product-hot">hot</span>
-                                    </div>
-
-                                    <!-- product action -->
-                                    <div
-                                        class="tp-product-action-3 tp-product-action-4 has-shadow tp-product-action-primaryStyle">
-                                        <div class="tp-product-action-item-3 d-flex flex-column">
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-add-cart-btn">
-                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="tp-product-add-cart-btn-large-wrapper">
-                                        <button type="button" class="tp-product-add-cart-btn-large">
-                                            Thêm vào giỏ hàng
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="tp-product-content-3">
-                                    <div class="tp-product-tag-3">
-                                        <span>{{ $sanPhamBanNhieuNhat->danhMuc ? $sanPhamBanNhieuNhat->danhMuc->ten_danh_muc : '' }}</span>
-                                    </div>
-                                    <h3 class="tp-product-title-3">
-                                        <a href="product-details.html">{{ $sanPhamBanNhieuNhat->ten_san_pham }}</a>
-                                    </h3>
-                                    <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3 new-price">{{ $sanPhamBanNhieuNhat->bienthesanphams->first()->gia_moi }}</span>
-                                        <span class="tp-product-price-3 old-price">{{ $sanPhamBanNhieuNhat->bienthesanphams->first()->gia_cu }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="tp-product-item-3 tp-product-style-primary mb-50">
-                                <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
-                                    <a href="product-details.html">
-                                        <img src="{{ asset($sanPhamXemNhieuNhat->anh_san_pham) }}"
-                                            alt="">
-                                    </a>
-
-                                    <!-- product badge -->
-                                    <div class="tp-product-badge">
-                                        <span class="product-trending">trending</span>
-                                    </div>
-
-                                    <!-- product action -->
-                                    <div
-                                        class="tp-product-action-3 tp-product-action-4 has-shadow tp-product-action-primaryStyle">
-                                        <div class="tp-product-action-item-3 d-flex flex-column">
-                                            <button type="button"
-                                                class="tp-product-action-btn-3 tp-product-add-cart-btn">
-                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="tp-product-tooltip">Thêm vào giỏ hàng</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="tp-product-add-cart-btn-large-wrapper">
-                                        <button type="button" class="tp-product-add-cart-btn-large">
-                                            Thêm vào giỏ hàng
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="tp-product-content-3">
-                                    <div class="tp-product-tag-3">
-                                        <span>{{ $sanPhamXemNhieuNhat->danhMuc ? $sanPhamXemNhieuNhat->danhMuc->ten_danh_muc : '' }}</span>
-                                    </div>
-                                    <h3 class="tp-product-title-3">
-                                        <a href="product-details.html">{{ $sanPhamXemNhieuNhat->ten_san_pham }}</a>
-                                    </h3>
-                                    <div class="tp-product-price-wrapper-3">
-                                        <span class="tp-product-price-3">{{ $sanPhamXemNhieuNhat->bienthesanphams->first()->gia_moi }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="tp-related-swiper-scrollbar tp-swiper-scrollbar"></div>
