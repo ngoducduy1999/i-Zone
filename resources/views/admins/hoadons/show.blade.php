@@ -75,7 +75,7 @@
                                                             Mã giao dịch thanh toán: 
                                                             <b>{{ $hoaDon->ma_hoa_don }}</b>
                                                             @if ($hoaDon->phuong_thuc_thanh_toan === 'Thanh toán qua chuyển khoản ngân hàng')
-                                                            <form action="{{ route('admin.transactions.query') }}" method="POST" style="display: inline;">
+                                                            <form action="{{ route('admin.hoadons.query') }}" method="POST" style="display: inline;">
                                                                 @csrf
                                                                 <input type="hidden" name="txnRef" value="{{ $hoaDon->ma_hoa_don }}">
                                                                 
