@@ -897,43 +897,147 @@
                                                                 </div>
                                                             </div>
                                                             {{-- Bảng người dùng xem đánh giá --}}
-
-
                                                             <div class="tp-product-details-review-list pr-110">
-                                                                <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
+    <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
 
-                                                                @foreach ($danhgias as $danhgia)
+    @foreach ($danhgias as $danhgia)
+        @if ($danhgia->user)
+        <div class="tp-product-details-review-avater d-flex align-items-start">
+            <div class="tp-product-details-review-avater-thumb">
+                <a href="#">
+                    <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
+                </a>
+            </div>
+            <div class="tp-product-details-review-avater-content">
+                <div class="fs-1.9">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
+                    @endfor
+                </div>
+                
 
-                                                                @if ($danhgia->user)
-                                                                <div class="tp-product-details-review-avater d-flex align-items-start">
-                                                                    <div class="tp-product-details-review-avater-thumb">
-                                                                        <a href="#">
-                                                                            <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="tp-product-details-review-avater-content">
+                <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }}</h3>
+                <span class="tp-product-details-review-avater-meta">
+                    {{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}
+                </span>
 
+                <div class="tp-product-details-review-avater-comment">
+                    <p>{{ $danhgia->nhan_xet }}</p>
+                </div>
 
-                                                                        <div class="fs-1.9">
-                                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                                <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
-                                                                                @endfor
-                                                                        </div>
+                {{-- Hiển thị câu trả lời nếu có --}}
+                @foreach ($danhgia->traLois as $traLoi)
+                    <div class="tp-product-details-review-reply ml-4">
+                        <div class="fs-1.9">
+                            <span class="text-muted">
+                                <p>{{ $traLoi->user->ten }} {{ $traLoi->user->vai_tro }}  - {{ $traLoi->created_at ? $traLoi->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}</p>  
+                            </span>
+                            <p>{{ $traLoi->noi_dung }}</p>
 
+                            {{-- Nút sửa --}}
+                            @if (Auth::check() && Auth::user()->id === $traLoi->user_id) 
+                                <button class="btn btn-warning btn-sm btn-edit-reply" data-reply-id="{{ $traLoi->id }}">Sửa</button>
 
-                                                                        <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }}</h3>
+                                {{-- Form sửa trả lời ẩn --}}
+                                <form class="edit-reply-form mt-2 d-none" action="{{ route('admin.danhgia.editReply', $traLoi->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <textarea name="reply" class="form-control mb-2" rows="3">{{ $traLoi->noi_dung }}</textarea>
+                                    <button type="submit" class="btn btn-success">Cập nhật</button>
+                                    <button type="button" class="btn btn-secondary btn-cancel-edit">Hủy</button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
 
-                                                                        <span class="tp-product-details-review-avater-meta"> {{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }} </span>
+                {{-- Hiển thị nút trả lời nếu người dùng hiện tại là admin --}}
+                @if (Auth::check() && Auth::user()->vai_tro === 'admin')
+                    <button class="btn btn-primary mt-2 btn-reply" data-review-id="{{ $danhgia->id }}">Trả lời</button>
 
-                                                                        <div class="tp-product-details-review-avater-comment">
-                                                                            <p>{{ $danhgia->nhan_xet }}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @endif
-                                                                @endforeach
-                                                            </div>
-                                                            
+                    {{-- Form trả lời ẩn --}}
+                    <form class="reply-form mt-2 d-none" action="{{ route('admin.danhgia.reply', $danhgia->id) }}" method="POST">
+                        @csrf
+                        <textarea name="reply" class="form-control mb-2" rows="3" placeholder="Nhập trả lời của bạn..."></textarea>
+                        <button type="submit" class="btn btn-success">Gửi</button>
+                        <button type="button" class="btn btn-secondary btn-cancel">Hủy</button>
+                    </form>
+                @endif
+            </div>
+        </div>
+        @endif
+    @endforeach
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Nút sửa câu trả lời
+        const editReplyButtons = document.querySelectorAll('.btn-edit-reply');
+        editReplyButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const replyId = this.dataset.replyId;
+                const form = this.nextElementSibling; // Form sửa
+                if (form) {
+                    form.classList.remove('d-none'); // Hiển thị form sửa
+                    this.style.display = 'none'; // Ẩn nút sửa
+                }
+            });
+        });
+
+        // Nút hủy sửa câu trả lời
+        const cancelEditButtons = document.querySelectorAll('.btn-cancel-edit');
+        cancelEditButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('.edit-reply-form');
+                const editButton = form.previousElementSibling;
+                if (form && editButton) {
+                    form.classList.add('d-none'); // Ẩn form sửa
+                    editButton.style.display = ''; // Hiển thị lại nút sửa
+                }
+            });
+        });
+
+        // Nút trả lời
+        const replyButtons = document.querySelectorAll('.btn-reply');
+        replyButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const reviewId = this.dataset.reviewId;
+                const form = this.nextElementSibling;
+                if (form) {
+                    form.classList.remove('d-none'); // Hiển thị form
+                    this.style.display = 'none'; // Ẩn nút trả lời
+                }
+            });
+        });
+
+        // Nút hủy trả lời
+        const cancelButtons = document.querySelectorAll('.btn-cancel');
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('.reply-form');
+                const replyButton = form.previousElementSibling;
+                if (form && replyButton) {
+                    form.classList.add('d-none'); // Ẩn form
+                    replyButton.style.display = ''; // Hiển thị lại nút trả lời
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .tp-product-details-review-reply {
+        margin-left: 20px; /* Thụt vào một chút */
+        border-left: 2px solid #ddd; /* Thêm đường kẻ trái để làm nổi bật */
+        padding-left: 10px; /* Thêm khoảng cách giữa đường kẻ và nội dung */
+    }
+
+    /* Thêm một chút style cho form sửa */
+    .edit-reply-form {
+        margin-top: 10px;
+    }
+</style>
+
                                                 {{-- form đánh giá và nhận xét --}}
 
 
