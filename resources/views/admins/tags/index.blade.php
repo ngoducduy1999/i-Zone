@@ -57,7 +57,7 @@
 
                             <tr>
                                 <td>{{ $tag->id }}</td>
-                                <td>{{ $tag->ten_tag }}</td>
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">{{ $tag->ten_tag }}</td>
                                 <td>
                                     @if ($tag->trang_thai == 1)
                                     <span class="badge badge-success bg-success">Hoạt động</span>

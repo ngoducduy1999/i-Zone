@@ -25,11 +25,12 @@ class TagController extends Controller
 {
     // Kiểm tra dữ liệu đầu vào
     $request->validate([
-        'ten_tag' => 'required|string|unique:tags,ten_tag', // Tên là bắt buộc, phải là chuỗi, và duy nhất trong bảng tags
+        'ten_tag' => 'required|string|max:255',
         
     ], [
         'ten_tag.required' => 'Tên không được để trống.',
-       
+        'ten_tag.string' => 'Tên phải là một chuỗi.',
+        'ten_tag.max' => 'Tên không được quá 255 ký tự.', 
     ]);
 
     $data = [
@@ -54,11 +55,11 @@ public function edit($id)
     public function update(Request $request, $id)
     {
         $request->validate([
-            'ten_tag' => 'required|string|unique:tags,ten_tag,' . $id, // Kiểm tra duy nhất với ngoại lệ cho bản ghi hiện tại
-            
+            'ten_tag' => 'required|string|max:255',
         ], [
-            'ten_tag.required' => 'Tên tag không được để trống.'
-            
+            'ten_tag.required' => 'Tên không được để trống.',
+            'ten_tag.string' => 'Tên phải là một chuỗi.',
+            'ten_tag.max' => 'Tên không được quá 255 ký tự.', 
         ]);
 
         // Tìm kiếm bản ghi Tên tag theo ID
@@ -86,7 +87,7 @@ public function edit($id)
         $tag = tag::find($id);
     
         if (!$tag) {
-            return redirect()->route('admin.tag.index')->with('error', 'Tên tag không tồn tại.');
+            return redirect()->route('admin.tag.index')->with('error', 'Tag không tồn tại.');
         }
     
         // Xóa bản ghi
