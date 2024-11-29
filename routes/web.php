@@ -152,7 +152,7 @@ Route::prefix('baiviets')->name('baiviets.')->group(function () {
     Route::get('/{id}/edit', [BaiVietController::class, 'edit'])->name('edit');
     Route::put('/{id}', [BaiVietController::class, 'update'])->name('update');
     Route::post('/{id}/onOffBaiViet', [BaiVietController::class, 'onOffBaiViet'])->name('onOffBaiViet');
-    Route::delete('/{id}', [BaiVietController::class, 'destroy'])->name('destroy');
+    Route::delete('/{id}/destroy', [BaiVietController::class, 'destroy'])->name('destroy');
 });
 });
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL hoadons')->group(function () {
@@ -168,6 +168,7 @@ Route::post('/refund', [VNPayController::class, 'queryTransaction'])->name('refu
 Route::get('/tracuu', [VNPayController::class, 'tracuu'])->name('tracuu');
 Route::get('/hoantien', [VNPayController::class, 'hoantien'])->name('hoantien');
     
+    Route::delete('/{id}/destroy', [HoaDonController::class, 'destroy'])->name('destroy');
 });
 });
 // Banner 
@@ -219,8 +220,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::get('/{id}/edit', [TagController::class, 'edit'])->name('edit');
         Route::put('/{id}', [TagController::class, 'update'])->name('update');
         Route::post('/{id}/onOffTag', [TagController::class, 'onOffTag'])->name('onOffTag');
-        Route::delete('/{id}/softDelete', [TagController::class, 'softDelete'])->name('softDelete');
-        Route::post('/{id}/restore', [TagController::class, 'restore'])->name('restore');
+        Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
     });
   });
 // chuyển hướng nếu người dùng nhập route không tồn tại trong admin
