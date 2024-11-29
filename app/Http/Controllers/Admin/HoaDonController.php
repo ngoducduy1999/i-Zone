@@ -23,6 +23,7 @@ class HoaDonController extends Controller
     $phuongThucThanhToan = $request->input('phuong_thuc_thanh_toan');
     $trangThaiThanhToan = $request->input('trang_thai_thanh_toan');
     $trangThai = $request->input('trang_thai');
+    $maDonHang = $request->input('ma_don_hang');
 
     $query = HoaDon::query();
 
@@ -50,8 +51,18 @@ class HoaDonController extends Controller
 
     }
 
+    // Áp dụng lọc theo mã đơn hàng
+    if ($maDonHang) {
+        $query->where('ma_hoa_don', 'LIKE', "%$maDonHang%");
+    }
+
     // Lấy danh sách hóa đơn
-    $listHoaDon = $query->orderBy('created_at', 'desc')->paginate(6);
+    $listHoaDon = $query->orderByRaw(
+        "CASE WHEN trang_thai = ? THEN 0 ELSE 1 END", 
+        [HoaDon::CHO_XAC_NHAN]
+    )
+    ->orderBy('created_at', 'desc')
+    ->paginate(9);
     
     $trangThaiHoaDon = HoaDon::TRANG_THAI;
     $type_huy_don_hang = HoaDon::HUY_DON_HANG;

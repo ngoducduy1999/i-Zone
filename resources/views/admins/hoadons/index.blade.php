@@ -91,14 +91,35 @@
                                     <option value="Chưa thanh toán" {{ request('trang_thai_thanh_toan') == 'Chưa thanh toán' ? 'selected' : '' }}>Chưa thanh toán</option>
                                 </select>
                             </div>
-                        
+                            
                             <div class="mt-3">
                                 <button type="submit"
                                     style="padding: 10px; border: none; border-radius: 4px; background-color: #4CAF50; color: white; font-weight: bold; cursor: pointer;">Lọc</button>
                             </div>
                             
                         </form>
-                        
+
+                        <form action="{{ route('admin.hoadons.index') }}" method="GET" class="search-form" style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                            <!-- Mã đơn hàng -->
+                            <div class="form-group" style="position: relative; width: 100%; max-width: 250px; padding-right: 20px">
+                                <input 
+                                    type="text" 
+                                    name="ma_don_hang" 
+                                    id="ma_don_hang" 
+                                    class="form-input" 
+                                    value="{{ request('ma_don_hang') }}" 
+                                    placeholder="Tìm kiếm..." 
+                                    style="padding: 6px 35px 6px 8px; width: 100%; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);"
+                                >
+                                <!-- Icon tìm kiếm bên trong input -->
+                                <button 
+                                    type="submit" 
+                                    style="position: absolute; right: 25px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #555;"
+                                >
+                                    <i class="fas fa-search" style="font-size: 16px;"></i>
+                                </button>
+                            </div>
+                        </form>    
                                     
                     <div class="card-body">
                         <div class="table-responsive">
