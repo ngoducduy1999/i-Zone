@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\BienTheSanPham;
+use App\Models\TraLoi;
 use App\Models\DanhGiaSanPham;
 use App\Models\DanhMuc;
 use App\Models\DungLuong;
@@ -28,22 +29,22 @@ class ChiTietSanPhamController extends Controller
     public function show(string $id)
     {
         $sanpham = SanPham::find($id);
-    
+        $danhgias = DanhGiaSanPham::with(['user', 'traLois.user'])->where('san_pham_id', $id)->get();
         if ($sanpham) {
             $sanpham->increment('luot_xem');
             $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
             $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
             $anhsanphams = HinhAnhSanPham::where('san_pham_id', $id)->get();
-    
-            $mauSacIds = $bienthesanphams->pluck('mau_sac_id')->unique();
-$mauSacs = MauSac::whereIn('id', $mauSacIds)
-                 ->where('trang_thai', 1) // Thêm điều kiện trạng thái bằng 1
-                 ->get();
 
-    
+            $mauSacIds = $bienthesanphams->pluck('mau_sac_id')->unique();
+            $mauSacs = MauSac::whereIn('id', $mauSacIds)
+                ->where('trang_thai', 1) // Thêm điều kiện trạng thái bằng 1
+                ->get();
+
+
             $dungLuongIds = $bienthesanphams->pluck('dung_luong_id')->unique();
             $dungLuongs = DungLuong::whereIn('id', $dungLuongIds)->get();
-    
+
             $danhgias = DanhGiaSanPham::latest('id')->where('san_pham_id', $id)->paginate(10);
             $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
             $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
@@ -54,32 +55,21 @@ $mauSacs = MauSac::whereIn('id', $mauSacIds)
                 ->where('san_pham_id', $id)
                 ->groupBy('diem_so')
                 ->pluck('count', 'diem_so');
-    
+
             $tongDanhGia = $starCounts->sum();
             $phanTramSao = [];
             for ($i = 1; $i <= 5; $i++) {
                 $phantram = $tongDanhGia > 0 ? ($starCounts->get($i, 0) / $tongDanhGia) * 100 : 0;
                 $phanTramSao[$i] = $phantram;
             }
-    
-            // Lấy sản phẩm mới nhất, bán nhiều nhất, xem nhiều nhất, và có giảm giá nhiều nhất trên toàn bộ bảng
-            $sanPhamMoiNhat = SanPham::latest()->first();
-            $sanPhamBanNhieuNhat = SanPham::orderBy('da_ban', 'desc')->first();
-            $sanPhamXemNhieuNhat = SanPham::orderBy('luot_xem', 'desc')->first();
-    
-            // Lấy sản phẩm có giảm giá nhiều nhất từ biến thể
-            $sanPhamGiamGiaNhieuNhat = SanPham::whereHas('bienthesanphams', function ($query) {
-                    $query->orderByRaw('(gia_cu - gia_moi) desc');
-                })
-                ->with(['bienthesanphams' => function ($query) {
-                    $query->orderByRaw('(gia_cu - gia_moi) desc')->limit(1);
-                }])
-                ->first();
+
+            $sanPhamMoiNhat = SanPham::latest()->take(5)->with('bienthesanphams', 'danhMuc')->get();
+
+            $isLoved = [];
+            $products = [];
+            if (Auth::user()) {
                 $isLoved = [];
-                $products = [];
-            if(Auth::user()){
-                $isLoved = [];
-                $products = SanPham::with('bienTheSanPhams', 'hinhAnhSanPhams')->get(); 
+                $products = SanPham::with('bienTheSanPhams', 'hinhAnhSanPhams')->get();
                 $yeuThichs = Auth::user()->sanPhamYeuThichs()->pluck('san_pham_id')->toArray();
                 foreach ($products as $product) {
                     $isLoved[$product->id] = in_array($product->id, $yeuThichs);
@@ -98,18 +88,16 @@ $mauSacs = MauSac::whereIn('id', $mauSacIds)
                 'soluotdanhgia',
                 'phanTramSao',
                 'sanPhamMoiNhat',
-                'sanPhamBanNhieuNhat',
-                'sanPhamXemNhieuNhat',
-                'sanPhamGiamGiaNhieuNhat',
                 'products',
                 'isLoved',
-                'hasReview'
+                'hasReview',
+                'danhgias'
             ));
         }
-    
+
         return redirect()->route('trangchu')->with('error', 'Không tìm thấy sản phẩm');
     }
-    
+
     public function layGiaBienThe(Request $request)
     {
         $sanPhamId = $request->input('san_pham_id');
@@ -140,13 +128,13 @@ $mauSacs = MauSac::whereIn('id', $mauSacIds)
         $sanPhamId = $request->input('san_pham_id');
         $mauSacId = $request->input('mau_sac_id');
         $dungLuongId = $request->input('dung_luong_id');
-    
+
         // Lấy biến thể từ cơ sở dữ liệu dựa trên các tham số
         $bienThe = BienTheSanPham::where('san_pham_id', $sanPhamId)
-                                  ->where('mau_sac_id', $mauSacId)
-                                  ->where('dung_luong_id', $dungLuongId)
-                                  ->first();
-    
+            ->where('mau_sac_id', $mauSacId)
+            ->where('dung_luong_id', $dungLuongId)
+            ->first();
+
         // Kiểm tra nếu biến thể tồn tại và trả về số lượng còn lại
         if ($bienThe) {
             return response()->json([
@@ -160,5 +148,46 @@ $mauSacs = MauSac::whereIn('id', $mauSacIds)
             ]);
         }
     }
-    
+    public function reply(Request $request, $id)
+    {
+        // Kiểm tra xem người dùng có phải là admin không
+        if (Auth::user()->vai_tro !== 'admin') {
+            return redirect()->route('chitietsanpham')->with('error', 'Bạn không có quyền trả lời đánh giá!');
+        }
+
+        // Lấy đánh giá cần trả lời
+        $danhGia = DanhGiaSanPham::findOrFail($id);
+
+        // Tạo một bản ghi trả lời
+        TraLoi::create([
+            'danh_gia_id' => $danhGia->id,
+            'user_id' => Auth::id(),
+            'noi_dung' => $request->input('reply'),
+        ]);
+
+        // Sau khi trả lời đánh giá, chuyển hướng về trang chi tiết sản phẩm
+        return redirect()->route('chitietsanpham', ['id' => $danhGia->san_pham_id])->with('success', 'Trả lời đánh giá thành công!');
+    }
+    public function editReply(Request $request, TraLoi $traLoi)
+{
+    // Kiểm tra quyền chỉnh sửa (chỉ chủ sở hữu hoặc admin mới có thể chỉnh sửa)
+    if (Auth::user()->id !== $traLoi->user_id && Auth::user()->vai_tro !== 'admin') {
+        return redirect()->route('chitietsanpham.index')->with('error', 'Bạn không có quyền sửa câu trả lời này.');
+    }
+
+    // Validate nội dung trả lời
+    $request->validate([
+        'reply' => 'required|string|max:1000',
+    ]);
+
+    // Cập nhật nội dung trả lời
+    $traLoi->noi_dung = $request->input('reply');
+    $traLoi->save();
+
+    // Lấy ID sản phẩm từ đánh giá liên quan
+    $sanPhamId = $traLoi->danhGiaSanPham->san_pham_id;
+
+    // Redirect về chi tiết sản phẩm sau khi sửa
+    return redirect()->route('chitietsanpham', ['id' => $sanPhamId])->with('success', 'Câu trả lời đã được cập nhật!');
+}
 }

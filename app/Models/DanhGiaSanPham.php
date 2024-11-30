@@ -24,4 +24,8 @@ class DanhGiaSanPham extends Model
     {
         return $this->belongsTo(SanPham::class);
     }
+    public function traLois()
+    {
+        return $this->hasMany(TraLoi::class, 'danh_gia_id');
+    }
 }
