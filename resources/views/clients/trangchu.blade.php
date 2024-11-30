@@ -23,7 +23,8 @@
                    </div>
                    <div class="col-xl-7 col-lg-6 col-md-6">
                        <div class="tp-slider-thumb text-end">
-                           <img src="{{ asset('storage/' . $banner->anh_banner) }}" alt="slider-img" style="max-width: 100%; height: auto;"> <!-- Giới hạn chiều rộng ảnh -->
+                           <img src="{{ asset('storage/' . $banner->anh_banner) }}" width="420px"
+                           height="350px" style="object-fit: contain; border-radius: 10%;" alt="slider-img" > <!-- Giới hạn chiều rộng ảnh -->
                        </div>
                    </div>
                </div>
