@@ -50,16 +50,47 @@
                         @endphp
                         
                         @if($ord->trang_thai_thanh_toan === App\Models\HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán'] && $ord->thoi_gian_het_han > now())
-                            <form action="{{ route('customer.retryPayment', $ord->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">Thanh toán lại</button>
-                            </form>
-                            @if($thoiGianConLai)
-                                <small class="text-warning d-block">Thời gian còn lại: {{ $thoiGianConLai }}</small>
-                            @endif
-                        @else
-                            <span class="text-danger">Đơn hàng đã hết hạn thanh toán.</span>
-                        @endif
+    <form action="{{ route('customer.retryPayment', $ord->id) }}" method="POST" class="d-inline">
+        @csrf
+        <button type="submit" class="btn btn-sm btn-danger">Thanh toán lại</button>
+    </form>
+    @if($thoiGianConLai)
+        <small class="text-warning d-block">Thời gian còn lại: {{ $thoiGianConLai }}</small>
+    @endif
+@else
+    <span class="text-danger">Đơn hàng đã hết hạn thanh toán.</span>
+    <form id="cancel-order-form-{{ $ord->id }}" 
+        action="{{ route('customer.cancelOrder', $ord->id) }}" 
+        method="POST" 
+        class="d-inline auto-cancel-form" 
+        data-expiration-time="{{ $ord->thoi_gian_het_han }}">
+      @csrf
+      <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
+  </form>
+  
+@endif
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Tìm tất cả các form hủy đơn tự động
+        const autoCancelForms = document.querySelectorAll('.auto-cancel-form');
+
+        autoCancelForms.forEach(form => {
+            // Lấy thời gian hết hạn từ dataset hoặc kiểm tra điều kiện (cần truyền vào từ server)
+            const expirationTime = form.getAttribute('data-expiration-time'); // Giả sử bạn truyền thời gian này qua attribute
+
+            if (expirationTime) {
+                const expirationDate = new Date(expirationTime).getTime();
+                const currentTime = new Date().getTime();
+
+                if (expirationDate < currentTime) {
+                    // Nếu hết hạn, tự động submit form
+                    form.submit();
+                }
+            }
+        });
+    });
+</script>
+
                         
                         @endif                        
                     @elseif (in_array($ord->trang_thai, [2, 3, 4]))
@@ -86,3 +117,8 @@
         @endforelse
     </tbody>
 </table>
+@if (isset($message))
+    <script>
+        alert('Thông báo: ' + @json($message));
+    </script>
+@endif

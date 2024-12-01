@@ -31,7 +31,7 @@
                                 <th>Số điện thoại</th>
                                 <th>Ngày tạo</th>
                                 <th>Tuổi</th>
-                                <th>vai_tro</th>
+                                <th>Chức vụ</th>
                                 <th>Thao tác</th>
                             </tr>
                             </thead>

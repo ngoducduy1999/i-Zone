@@ -3,19 +3,30 @@
 @section('content')
 <div class="container-xxl">
     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
+
         <div class="flex-grow-1">
+
             <h4 class="fs-18 fw-semibold m-0">Thẻ Tag</h4>
+
         </div>
+
     </div>
     <div class="row">
+
         <div class="col-12">
+
             <div class="card">
                 <div class="card-header">
+
                     <h5 class="card-title mb-0">Thẻ Tag</h5>
+
                 </div><!-- end card header -->
                 <div class="card-body">
+
                     <div class="row">
+
                         <div class="col-lg-6">
+
                             <form action="{{ route('admin.tag.store') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
@@ -28,9 +39,13 @@
                                     @error('ten_tag')
                                     <p class="text-danger">{{ $message }}</p>
                                     @enderror
-                                </div> 
-                                <button type="submit" class="btn btn-primary">Thêm mới</button>                         
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                            
                             </form>
+
+
                         </div>
                     </div>
                 </div>
@@ -38,4 +53,7 @@
         </div>
     </div>
 </div>
+
+
+
 @endsection

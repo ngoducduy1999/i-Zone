@@ -51,8 +51,11 @@
                                                 </td>
                                                 <td>
                                                     <ul>
-                                                        <li>Tên người nhận: <b>{{ $hoaDon->ten_nguoi_nhan }}</b></li>
-                                                        <li>Email người nhận: <b>{{ $hoaDon->email }}</b></li>
+                                                        <li>
+                                                            Tên người nhận: <b>{{ $hoaDon->ten_nguoi_nhan }}</b>
+                                                        </li>
+                                                      
+                                                                                                                <li>Email người nhận: <b>{{ $hoaDon->email }}</b></li>
                                                         <li>Số điện thoại người nhận: <b>{{ $hoaDon->so_dien_thoai }}</b>
                                                         </li>
                                                         <li>Địa chỉ người nhận: <b>{{ $hoaDon->dia_chi_nhan_hang }}</b>
@@ -68,7 +71,22 @@
                                                         <li>Phương thức thanh toán:
                                                             <b>{{ $phuongThucThanhToan[$hoaDon->phuong_thuc_thanh_toan] }}</b>
                                                         </li>
-
+                                                        <li>
+                                                            Mã giao dịch thanh toán: 
+                                                            <b>{{ $hoaDon->ma_hoa_don }}</b>
+                                                            @if ($hoaDon->phuong_thuc_thanh_toan === 'Thanh toán qua chuyển khoản ngân hàng')
+                                                            <form action="{{ route('admin.hoadons.query') }}" method="POST" style="display: inline;">
+                                                                @csrf
+                                                                <input type="hidden" name="txnRef" value="{{ $hoaDon->ma_hoa_don }}">
+                                                                
+                                                                <!-- Sửa đây: Chuyển thời gian từ 'ngay_dat_hang' sang định dạng 'YmdHis' -->
+                                                                <input type="hidden" name="transactionDate" value="{{ \Carbon\Carbon::parse($hoaDon->thoi_gian_giao_dich)->format('YmdHis') }}">
+                                                                
+                                                                <button type="submit" class="btn btn-sm btn-info">Tra cứu</button>
+                                                            </form>
+                                                            @endif
+                                                        </li>
+                                                        
                                                         <li>
                                                             Trạng thái thanh toán:
                                                             <b class="badge text-white
@@ -202,6 +220,7 @@
         </div>
 
     </div> <!-- container-fluid -->
+    
     </div> <!-- content -->
 @endsection
 
