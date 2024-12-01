@@ -30,6 +30,24 @@
                 <div class="col-xl-3 col-lg-4">
                     <div class="tp-shop-sidebar mr-10">
                         <form id="filterForm" action="{{ route('san-pham') }}" method="GET">
+                            <!-- Lọc theo danh mục -->
+                            <div class="tp-shop-widget mb-50">
+                                <h3 class="tp-shop-widget-title">Danh Mục</h3>
+                                <div class="tp-shop-widget-content">
+                                    <div class="tp-shop-widget-categories">
+                                        <ul>
+                                            @foreach ($danhMucs as $danhMuc)
+                                                <li>
+                                                    <a href="#" onclick="selectCategory('{{ $danhMuc->id }}'); return false;">
+                                                        {{ $danhMuc->ten_danh_muc }} 
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!-- Lọc theo giá -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Lọc Theo Giá</h3>
@@ -37,30 +55,26 @@
                                     <div class="tp-shop-widget-checkbox">
                                         <ul class="filter-items filter-checkbox">
                                             <li class="filter-item checkbox">
-                                                <input id="price_under_1m" type="radio" name="price[]" value="duoi-1-trieu" onchange="submitFilterForm()">
-                                                <label for="price_under_1m">Dưới 1 triệu</label>
+                                                <input id="price_duoi_5_trieu" type="radio" name="price[]" value="duoi-5-trieu" onchange="submitFilterForm()">
+                                                <label for="price_duoi_5_trieu">Dưới 5 triệu</label>
                                             </li>
                                             <li class="filter-item checkbox">
-                                                <input id="price_1m_to_5m" type="radio" name="price[]" value="1-den-5-trieu" onchange="submitFilterForm()">
-                                                <label for="price_1m_to_5m">1 triệu - 5 triệu</label>
+                                                <input id="price_5_den_10_trieu" type="radio" name="price[]" value="5-den-10-trieu" onchange="submitFilterForm()">
+                                                <label for="price_5_den_10_trieu">5 triệu - 10 triệu</label>
                                             </li>
                                             <li class="filter-item checkbox">
-                                                <input id="price_5m_to_10m" type="radio" name="price[]" value="5-den-10-trieu" onchange="submitFilterForm()">
-                                                <label for="price_5m_to_10m">5 triệu - 10 triệu</label>
+                                                <input id="price_10_den_20_trieu" type="radio" name="price[]" value="10-den-20-trieu" onchange="submitFilterForm()">
+                                                <label for="price_10_den_20_trieu">10 triệu - 20 triệu</label>
                                             </li>
                                             <li class="filter-item checkbox">
-                                                <input id="price_10m_to_20m" type="radio" name="price[]" value="10-den-20-trieu" onchange="submitFilterForm()">
-                                                <label for="price_10m_to_20m">10 triệu - 20 triệu</label>
-                                            </li>
-                                            <li class="filter-item checkbox">
-                                                <input id="price_above_20m" type="radio" name="price[]" value="tren-20-trieu" onchange="submitFilterForm()">
-                                                <label for="price_above_20m">Trên 20 triệu</label>
+                                                <input id="price_tren_20_trieu" type="radio" name="price[]" value="tren-20-trieu" onchange="submitFilterForm()">
+                                                <label for="price_tren_20_trieu">Trên 20 triệu</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                            </div>                            
-                        
+                            </div>
+                                                                          
                             <!-- Lọc theo dung lượng -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Dung Lượng</h3>
@@ -81,25 +95,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
-                        
-                            <!-- Lọc theo danh mục -->
-                            <div class="tp-shop-widget mb-50">
-                                <h3 class="tp-shop-widget-title">Danh Mục</h3>
-                                <div class="tp-shop-widget-content">
-                                    <div class="tp-shop-widget-categories">
-                                        <ul>
-                                            @foreach ($danhMucs as $danhMuc)
-                                                <li>
-                                                    <a href="#" onclick="selectCategory('{{ $danhMuc->id }}'); return false;">
-                                                        {{ $danhMuc->ten_danh_muc }} 
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            </div>                                      
                         
                             <!-- Lọc theo màu sắc -->
                             <div class="tp-shop-widget mb-50">
