@@ -128,6 +128,6 @@ public function store(Request $request)
 
         $user->delete();
 
-        return redirect()->route('admin.nhanviens.index')->with('success', 'Nhân viên đã được xóa');
+        return redirect()->back()->with('success', 'Nhân viên đã được xóa');
     }
 }
