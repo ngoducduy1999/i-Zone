@@ -54,8 +54,8 @@ class UserController extends Controller
         }
 
         $user->delete();
-
-        return redirect('/taikhoans')->with('success', 'User deleted successfully.');
+        return redirect()->back()->with('success', 'Đã xóa tài khoản khách hàng.');
+        // return redirect('/taikhoans')->with('success', 'User deleted successfully.');
     }
     public function profile()
     {
