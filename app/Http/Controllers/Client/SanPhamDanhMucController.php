@@ -25,33 +25,28 @@ class SanPhamDanhMucController extends Controller
     // Xử lý lọc theo giá
     if ($request->filled('price_range')) {
         switch ($request->price_range) {
-            case 'under_1m':
+            case 'duoi-5-trieu':
                 $query->whereHas('bienTheSanPhams', function ($q) {
-                    $q->where('gia_moi', '<', 1000000);
+                    $q->where('gia_moi', '<', 5000000); // Dưới 5 triệu
                 });
                 break;
-            case '1m_5m':
+            case '5-den-10-trieu':
                 $query->whereHas('bienTheSanPhams', function ($q) {
-                    $q->whereBetween('gia_moi', [1000000, 5000000]);
+                    $q->whereBetween('gia_moi', [5000000, 10000000]); // Từ 5 triệu - 10 triệu
                 });
                 break;
-            case '5m_10m':
+            case '10-den-20-trieu':
                 $query->whereHas('bienTheSanPhams', function ($q) {
-                    $q->whereBetween('gia_moi', [5000000, 10000000]);
+                    $q->whereBetween('gia_moi', [10000000, 20000000]); // Từ 10 triệu - 20 triệu
                 });
                 break;
-            case '10m_20m':
+            case 'tren-20-trieu':
                 $query->whereHas('bienTheSanPhams', function ($q) {
-                    $q->whereBetween('gia_moi', [10000000, 20000000]);
-                });
-                break;
-            case 'above_20m':
-                $query->whereHas('bienTheSanPhams', function ($q) {
-                    $q->where('gia_moi', '>', 20000000);
+                    $q->where('gia_moi', '>', 20000000); // Trên 20 triệu
                 });
                 break;
         }
-    }
+    }    
 
     // Xử lý lọc theo màu sắc
     if ($request->filled('mau_sac_id')) {

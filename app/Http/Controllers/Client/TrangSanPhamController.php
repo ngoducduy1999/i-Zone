@@ -58,11 +58,8 @@ class TrangSanPhamController extends Controller
                 $q->where(function($query) use ($request) {
                     foreach ($request->price as $priceRange) {
                         switch ($priceRange) {
-                            case 'duoi-1-trieu':
-                                $query->orWhere('gia_moi', '<', 1000000);
-                                break;
-                            case '1-den-5-trieu':
-                                $query->orWhereBetween('gia_moi', [1000000, 5000000]);
+                            case 'duoi-5-trieu':
+                                $query->orWhere('gia_moi', '<', 5000000);
                                 break;
                             case '5-den-10-trieu':
                                 $query->orWhereBetween('gia_moi', [5000000, 10000000]);

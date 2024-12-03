@@ -135,13 +135,12 @@
                                         <div class="filter-item pr-3">
                                             <select name="price_range" id="price_range" onchange="this.form.submit()" class="form-control">
                                                 <option value="">Chọn mức giá</option>
-                                                <option value="under_1m" {{ request('price_range') == 'under_1m' ? 'selected' : '' }}>Dưới 1 triệu</option>
-                                                <option value="1m_5m" {{ request('price_range') == '1m_5m' ? 'selected' : '' }}>1 triệu - 5 triệu</option>
-                                                <option value="5m_10m" {{ request('price_range') == '5m_10m' ? 'selected' : '' }}>5 triệu - 10 triệu</option>
-                                                <option value="10m_20m" {{ request('price_range') == '10m_20m' ? 'selected' : '' }}>10 triệu - 20 triệu</option>
-                                                <option value="above_20m" {{ request('price_range') == 'above_20m' ? 'selected' : '' }}>Trên 20 triệu</option>
+                                                <option value="duoi-5-trieu" {{ request('price_range') == 'duoi-5-trieu' ? 'selected' : '' }}>Dưới 5 triệu</option>
+                                                <option value="5-den-10-trieu" {{ request('price_range') == '5-den-10-trieu' ? 'selected' : '' }}>5 triệu - 10 triệu</option>
+                                                <option value="10-den-20-trieu" {{ request('price_range') == '10-den-20-trieu' ? 'selected' : '' }}>10 triệu - 20 triệu</option>
+                                                <option value="tren-20-trieu" {{ request('price_range') == 'tren-20-trieu' ? 'selected' : '' }}>Trên 20 triệu</option>
                                             </select>
-                                        </div>
+                                        </div>                                        
                         
                                         <!-- Lọc theo màu sắc -->
                                         <div class="filter-item pr-3">
