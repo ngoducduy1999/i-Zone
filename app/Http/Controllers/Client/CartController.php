@@ -16,11 +16,13 @@ class CartController extends Controller
 
     public function index()
     {
+        $this->UpdateCart();
         return view('clients.cart.cart');
     }
 
     public function AddCart(Request $request, string $id)
     {
+        $this->UpdateCart();
         $quantity = intval($request->query('quantity'));
         $mauSacId = intval($request->query('mauSacId'));
         $dungLuongId = intval($request->query('dungLuongId'));
@@ -45,6 +47,7 @@ class CartController extends Controller
 
     public function DeleteItemCart(Request $request, $idbt)
     {
+        $this->UpdateCart();
         $oldCart = Session('cart') ? Session('cart') : [];
         $newCart = new Cart($oldCart);
         $newCart->DeleteItemCart($idbt);
@@ -58,6 +61,7 @@ class CartController extends Controller
 
     public function DeleteItemListCart(Request $request, $idbt)
     {
+        $this->UpdateCart();
         $oldCart = Session('cart') ? Session('cart') : [];
         $newCart = new Cart($oldCart);
         $newCart->DeleteItemCart($idbt);
@@ -71,6 +75,7 @@ class CartController extends Controller
 
     public function UpdateItemCart(Request $request, $idbt)
     {
+        $this->UpdateCart();
         $quantity = intval($request->query('quantity'));
         if ($quantity < 1) {
             $quantity = 1;
@@ -84,17 +89,20 @@ class CartController extends Controller
 
     public function  CartListDrop()
     {
+        $this->UpdateCart();
         return view('clients.cart.cart-drop');
     }
 
     public function  CartList()
     {
+        $this->UpdateCart();
         return view('clients.cart.cart-list');
     }
 
 
     public function discount(Request $request, string $discountCode)
     {
+        $this->UpdateCart();
         Log::info("Received discount code: " . $discountCode);
         $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
 
@@ -119,5 +127,41 @@ class CartController extends Controller
         return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 404);
     }
 
+    public function  UpdateCart(){
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
+            $totalPrice = 0;
+            foreach ($cart->products as $idbt => $product) {
+                $bienThe = BienTheSanPham::where('id', $idbt)->first();
+                if ($bienThe) {
+                    $sanPham = SanPham::where('id', $bienThe->san_pham_id)->first();
+                    if ($sanPham) {
+                        $cart->products[$idbt]['bienthe'] = $bienThe;
+                        if ($product['quantity'] >= $bienThe->so_luong) {
+                            $cart->products[$idbt]['quantity'] = $bienThe->so_luong;
+                        }
+                        if ($bienThe->so_luong <= 0) {
+                            unset($cart->products[$idbt]);
+                            continue;
+                        }
+                        $totalPrice += $cart->products[$idbt]['quantity'] * $bienThe->gia_moi;
+                    } else {
+                        unset($cart->products[$idbt]);
+                        continue;
+                    }
+                } else {
+                    unset($cart->products[$idbt]);
+                    continue;
+                }
+            }
+            if (count($cart->products) > 0) {
+                $cart->totalProduct = count($cart->products);
+                $cart->totalPrice = $totalPrice;
+                Session::put('cart', value: $cart);
+            } else {
+                Session::forget('cart');
+            }
+        }
+    }
     
 }
