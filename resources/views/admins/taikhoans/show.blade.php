@@ -72,7 +72,7 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Form để lưu thay đổi -->
-                        <form id="userForm" action="{{ route('admin.taikhoans.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                        <form id="userForm" action="" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 

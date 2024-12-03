@@ -182,7 +182,9 @@ span {
                         <p><strong>Danh mục:</strong> {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</p>
                         <p><strong>Tags:</strong> 
                             @foreach ($tagsanphams as $tag)
-                                <span class="badge bg-primary">#{{ $tag->tag->ten_tag }}</span>
+                                @if ($tag->tag->trang_thai==1)
+                                    <span class="badge bg-primary">#{{ $tag->tag->ten_tag }}</span>
+                                @endif
                             @endforeach
                         </p>
 
@@ -195,6 +197,7 @@ span {
                                     <th>Màu sắc</th>
                                     <th>Giá</th>
                                     <th>Số lượng</th>
+                                    <th>Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -210,6 +213,13 @@ span {
                                         </span>
                                         </td>
                                         <td>{{ number_format($bienthesanpham->so_luong, 0, ',', '.') }}</td>
+                                        <td>
+                                            @if ($bienthesanpham->deleted_at == null)
+                                            <span class="badge badge-success bg-success">Hoạt động</span>
+                                            @else
+                                            <span class="badge badge-danger bg-danger">Ngừng hoạt động</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

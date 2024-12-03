@@ -1,16 +1,17 @@
-{{-- resources/views/admin/blog/show.blade.php --}}
-@extends('layouts.client') {{-- or any other layout you are using --}}
+
+@extends('layouts.client') 
 
 @section('content')
 <section class="tp-postbox-details-area pb-120 pt-95">
     <div class="container">
         <div class="row">
-            <div class="col-xl-9">
+            <div class="col-xl-12">
                 <div class="tp-postbox-details-top">
                     <div class="tp-postbox-details-category">
                         <span>
-                            @if($post->danhMuc)  <!-- Ensure that danhMuc exists -->
-                                <a href="{{ route('trangbaiviet', ['danh_muc' => $post->danhMuc->id]) }}">
+                            <i class="fa-light fa-tag"></i>
+                            @if($post->danhMuc) 
+                                <a href="{{ route('bai-viet', ['danh_muc' => $post->danhMuc->id]) }}">
                                     {{ $post->danhMuc->ten_danh_muc }}
                                 </a>
                             @else
@@ -18,7 +19,7 @@
                             @endif
                         </span>
                     </div>
-                    <h3 class="tp-postbox-details-title">{{ $post->tieu_de }}</h3>
+                    <h4 class="tp-postbox-details-title">{{ $post->tieu_de }}</h4>
                     <div class="tp-postbox-details-meta mb-50">
                         <span data-meta="author">
                             <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,8 +47,8 @@
         <div class="row">
             <div class="col-xl-9 col-lg-8">
                 <div class="tp-postbox-details-main-wrapper">
-                    <div class="tp-postbox-details-content" style="overflow: hidden;">
-                        {!! $post->noi_dung !!} <!-- Render HTML content safely -->
+                    <div class="tp-postbox-details-content" style="overflow: hidden;">                      
+                        {!! $post->noi_dung !!} 
                         <div class="tp-postbox-details-share-wrapper">
                             <div class="row">
                                 <div class="col-xl-8 col-lg-6">
@@ -94,7 +95,7 @@
                             <div class="tp-sidebar-about">
                                 <div class="tp-sidebar-about-thumb mb-25">
                                     <a href="#">
-                                        <img src="{{ isset($user) && $user->anh_dai_dien ? Storage::url($user->anh_dai_dien) : asset('path/to/default/image.jpg') }}" alt="">
+                                        <img src="{{ isset($user) && $user->anh_dai_dien ? Storage::url($user->anh_dai_dien) : asset('assets/client/img/about/anhchuadangnhap.jpg') }}" alt="">
                                     </a>
                                 </div>
                                 <div class="tp-sidebar-about-content">
@@ -102,7 +103,7 @@
                                         <a href="#">{{ isset($user) ? $user->ten : 'Chưa đăng nhập' }}</a>
                                     </h3>
                                     <span class="tp-sidebar-about-designation">
-                                        {{ isset($user) ? $user->vai_tro : 'Vai trò không xác định' }}
+                                        {{ isset($user) ? $user->vai_tro : 'Khách' }}
                                     </span>
                                     <div class="tp-sidebar-about-signature">
                                         <img src="assets/img/blog/signature/signature.png" alt="">
@@ -114,7 +115,7 @@
 
                     <!-- latest post start -->
                     <div class="tp-sidebar-widget mb-35">
-                        <h3 class="tp-sidebar-widget-title">Bài viết mới nhất</h3>
+                        <h3 class="tp-sidebar-widget-title">Tin tức mới nhất</h3>
                         <div class="tp-sidebar-widget-content">
                             <div class="tp-sidebar-blog-item-wrapper">
                                 @foreach ($latestPosts as $bai_viet)
@@ -129,7 +130,7 @@
                                                 <span>{{ $bai_viet->created_at->format('d/m/Y') }}</span>
                                             </div>
                                             <h3 class="tp-sidebar-blog-title">
-                                                <a href="{{ route('chitietbaiviet', ['id' => $bai_viet->id]) }}">{{ $bai_viet->tieu_de }}</a>
+                                                <a href="{{ route('chitietbaiviet', ['id' => $bai_viet->id]) }}">{{ Str::limit($bai_viet->tieu_de, 50) }}</a>
                                             </h3>
                                         </div>
                                     </div>
@@ -145,7 +146,7 @@
                             <ul>
                                 @foreach ($danhMucs as $danhMuc)
                                     <li>
-                                        <a href="{{ route('trangbaiviet', ['danh_muc' => $danhMuc->id]) }}">
+                                        <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
                                             {{ $danhMuc->ten_danh_muc }}
                                             <span>({{ $danhMuc->bai_viets_count }})</span>
                                         </a>

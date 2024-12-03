@@ -67,7 +67,7 @@
                                     <div class="mb-3">
                                         <label for="ten_san_pham" class="form-label">Tên sản phẩm</label>
                                         <input type="text" id="ten_san_pham" id="ten_san_pham" name="ten_san_pham"
-                                            class="form-control" placeholder="Tên sản phẩm"
+                                            class="form-control" placeholder="Tên sản phẩm" style="text-transform: capitalize;"
                                             value=" {{ old('ten_san_pham') }}">
                                         @error('ten_san_pham')
                                             <p class="text-danger">{{ $message }}</p>
@@ -202,7 +202,6 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="mo_ta" class="form-label">Mô tả sản phẩm</label>
-                                        <label for="exampleInputPassword1">Mô tả sản phẩm</label>
                                         <textarea name="mo_ta" id="mo_ta" cols="30" rows="10">{{ old('mo_ta') }}</textarea>
                                         @error('mo_ta')
                                             <p class="text-danger">{{ $message }}</p>

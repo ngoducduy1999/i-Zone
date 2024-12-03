@@ -1,9 +1,13 @@
 @extends('layouts.admin')
 
-@section('title')
-@endsection
+@section('title', 'Danh sách dung lượng')
 
 @section('css')
+    <link href="{{ asset('assets/admin/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/admin/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/admin/libs/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/admin/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/admin/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -18,6 +22,9 @@
         @if (session('success'))
             <div class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -28,8 +35,7 @@
                                 <h5 class="card-title mb-0">Danh sách dung lượng</h5>
                             </div>
                             <div>
-                                <a href="{{ route('admin.dungluongs.create') }}" class="btn btn-success">Thêm mới dung
-                                    lượng</a>
+                                <a href="{{ route('admin.dungluongs.create') }}" class="btn btn-success">Thêm mới</a>
                             </div>
                         </div>
 
@@ -43,6 +49,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Dung lượng</th>
+                                    {{-- <th>Trạng thái</th> --}}
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -51,6 +58,13 @@
                                     <tr>
                                         <td>{{ $gb->id }}</td>
                                         <td>{{ $gb->ten_dung_luong }}</td>
+                                        {{-- <td>
+                                            @if ($gb->trang_thai == 1)
+                                                <span class="badge badge-success bg-success">Hoạt động</span>
+                                            @else
+                                                <span class="badge badge-danger bg-danger">Ngừng hoạt động</span>
+                                            @endif
+                                        </td> --}}
                                         <td>
                                             <div class="">
                                                 <div class="btn-group">
@@ -61,7 +75,7 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item"
                                                             href="{{ route('admin.dungluongs.edit', $gb->id) }}">Sửa</a>
-                                                            @if ($gb->trang_thai == 1)
+                                                        {{-- @if ($gb->trang_thai == 1)
                                                             <form
                                                                 action="{{ route('admin.dungluongs.onOffDungLuong', $gb->id) }}"
                                                                 method="post">
@@ -79,13 +93,13 @@
                                                                 <button class="dropdown-item" href="#">Hoạt
                                                                     động</button>
                                                             </form>
-                                                        @endif
+                                                        @endif --}}
                                                         <form action="{{ route('admin.dungluongs.destroy' , $gb->id) }}" method="POST"
                                                             onsubmit="return confirm('Bạn có chắc xóa kích cỡ dung lượng này không?')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
-                                                                class="btn btn-outline-danger">xóa</button>
+                                                                class="dropdown-item">Xóa</button>
                                                         </form>
 
                                                     </div>
@@ -106,4 +120,22 @@
 @endsection
 
 @section('js')
+<!-- DataTables JS -->
+<script src="{{ asset('assets/admin/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-keytable-bs5/js/keyTable.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('assets/admin/libs/datatables.net-select-bs5/js/select.bootstrap5.min.js') }}"></script>
+
+<!-- DataTable Demo App JS -->
+<script src="{{ asset('assets/admin/js/pages/datatable.init.js') }}"></script>   
 @endsection

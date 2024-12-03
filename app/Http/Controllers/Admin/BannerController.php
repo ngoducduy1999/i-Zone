@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\SanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,8 +15,10 @@ class BannerController extends Controller
      */
     public function index()
     {
-        $banners = Banner::all();
-        return view('admins.banners.index', compact('banners'));
+        $bannersHea = Banner::where('vi_tri', 'header')->get();
+        $bannersSide = Banner::where('vi_tri', 'sidebar')->get();
+        $bannersFoot = Banner::where('vi_tri', 'footer')->get();
+        return view('admins.banners.index', compact('bannersHea', 'bannersSide', 'bannersFoot'));
     }
 
     /**
@@ -23,7 +26,8 @@ class BannerController extends Controller
      */
     public function create()
     {
-        return view('admins.banners.create');
+        $sanphams = SanPham::latest()->get();
+        return view('admins.banners.create', compact('sanphams'));
     }
 
     /**
@@ -33,124 +37,104 @@ class BannerController extends Controller
     {
         // Validate các trường dữ liệu
         $request->validate([
-            'ten_banner' => 'required|array',
             'ten_banner.*' => 'required|string|max:255',
-            'vi_tri' => 'required|string|max:50',
-            'ngay_bat_dau' => 'required|array',
-            'ngay_bat_dau.*' => 'required|date',
-            'ngay_ket_thuc' => 'required|array',
-            'ngay_ket_thuc.*' => 'required|date|after_or_equal:ngay_bat_dau.*',
-            'hinh_anh' => 'required|array',
-            'hinh_anh.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'url_lien_ket' => 'nullable|array', // Add validation for URLs (optional)
-            'url_lien_ket.*' => 'nullable|url', // Validate each URL
+            'hinh_anh' => 'required',
+            'hinh_anh.*' => 'image|mimes:jpg,jpeg,png,gif,bmp,webp,svg|max:2048',
+            'url_lien_ket.*' => 'nullable',
+        ], [
+            'ten_banner.*.required' => 'Tên banner không được để trống.',
+            'ten_banner.*.string' => 'Tên banner phải là một đoạn chuỗi.',
+            'ten_banner.*.max' => 'Tên banner phải < 255 ký tự.',
+
+            'hinh_anh.required' => 'Hình ảnh banner không được để trống.',
+            'hinh_anh.*.image' => 'Hình ảnh phải là ảnh',
+            'hinh_anh.*.mimes' => 'Hình ảnh phải có định dạng jpg,jpeg,png,gif,bmp,webp,svg.',
+            'hinh_anh.*.max' => 'Hình ảnh phải có dung lượng nhỏ hơn 2mb.',
+
         ]);
-    
+
         // Lấy tất cả thông tin từ form
         $ten_banners = $request->input('ten_banner');
         $vi_tri = $request->input('vi_tri');
-        $ngay_bat_dau = $request->input('ngay_bat_dau');
-        $ngay_ket_thuc = $request->input('ngay_ket_thuc');
         $hinh_anhs = $request->file('hinh_anh'); // Lấy danh sách ảnh đã upload
         $url_lien_kets = $request->input('url_lien_ket'); // Lấy danh sách URL liên kết (có thể rỗng)
-    
+
         // Duyệt qua tất cả các ảnh và tạo banner cho từng ảnh
         foreach ($hinh_anhs as $index => $file) {
             // Lưu file ảnh vào thư mục storage (hoặc public nếu cần)
             $fileName = time() . '-' . $file->getClientOriginalName();
             $filePath = $file->storeAs('banners', $fileName, 'public');
-    
+
             // Tạo mới banner cho mỗi ảnh
             $banner = new Banner();
             $banner->ten_banner = $ten_banners[$index]; // Tên banner tương ứng
             $banner->vi_tri = $vi_tri; // "Vị trí" áp dụng chung
-            $banner->ngay_bat_dau = $ngay_bat_dau[$index]; // Ngày bắt đầu tương ứng
-            $banner->ngay_ket_thuc = $ngay_ket_thuc[$index]; // Ngày kết thúc tương ứng
             $banner->anh_banner = $filePath; // Lưu đường dẫn ảnh
             $banner->url_lien_ket = $url_lien_kets[$index] ?? null; // Lưu URL liên kết nếu có
             $banner->save();
         }
-    
+
         // Redirect lại trang hoặc thông báo thành công
         return redirect()->route('admin.banners.index')->with('success', 'Banner đã được thêm thành công.');
     }
     public function show($vi_tri)
-{
-    // Lọc các banner theo vị trí được truyền vào
-    $banners = Banner::where('vi_tri', $vi_tri)->get();
-    
-    return view('admins.banners.show', compact('banners', 'vi_tri'));
-}
+    {
+        // Lọc các banner theo vị trí được truyền vào
+        $banners = Banner::latest('id')->where('vi_tri', $vi_tri)->get();
+        $sanphams = SanPham::latest()->get();
+        return view('admins.banners.show', compact('banners', 'vi_tri', 'sanphams'));
+    }
 
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($vi_tri)
     {
-        $banner = Banner::find($id);
-        if (!$banner) {
+        $banners = Banner::where('vi_tri', $vi_tri)->get();
+        if (!$banners) {
             return redirect()->route('admin.banners.index')->with('error', 'Banner không tồn tại');
         }
-        return view('admins.banners.update', compact('banner'));
+        // dd($banners);
+        $sanphams = SanPham::latest()->get();
+        return view('admins.banners.update', compact('banners', 'sanphams'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $banner = Banner::find($id);
-        if (!$banner) {
-            return redirect()->route('admin.banners.index')->with('error', 'Banner không tồn tại');
-        }
+        $request->validate([
+            'ten_banner' => 'required',
+            'ten_banner.*' => 'required|string|max:255',
+            'anh_banner.*' => 'nullable|image|mimes:jpg,jpeg,png,gif,bmp,webp,svg|max:2048',
+            'url_lien_ket.*' => 'required',
+        ],[
+            'ten_banner.required' => 'Tên banner không được để trống.',
+            'ten_banner.*.required' => 'Tên banner không được để trống.',
+            'ten_banner.*.string' => 'Tên banner phải là một đoạn chuỗi.',
+            'ten_banner.*.max' => 'Tên banner phải < 255 ký tự.',
 
-        $data = $request->validate(
-            [
-                'ten_banner' => ['required', 'string', 'max:255'],
-                'anh_banner' => ['array'],
-                'anh_banner.*' => ['image', 'mimes:jpg,png,jpeg,gif'],
-                'ngay_bat_dau' => ['required', 'date'],
-                'ngay_ket_thuc' => ['required', 'date', 'after_or_equal:ngay_bat_dau'],
-                'vi_tri' => ['required', 'integer'],
-            ],
-            [
-                'ten_banner.required' => 'Tên banner không được để trống',
-                'ten_banner.string' => 'Tên banner phải là chuỗi',
-                'ten_banner.max' => 'Tên banner không quá 255 ký tự',
-
-                'anh_banner.array' => 'Ảnh banner phải là một mảng',
-                'anh_banner.*.image' => 'Ảnh banner phải là ảnh',
-                'anh_banner.*.mimes' => 'Ảnh banner phải có đuôi jpg, png, jpeg, gif',
-
-                'ngay_bat_dau.required' => 'Ngày bắt đầu không được để trống',
-                'ngay_ket_thuc.required' => 'Ngày kết thúc không được để trống',
-                'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải sau hoặc bằng ngày bắt đầu',
-                'vi_tri.required' => 'Vị trí không được để trống',
-            ]
-        );
-
-        // Update banner images
-        $old_banners = json_decode($banner->anh_banner, true);
-        
-        // Delete old images
-        foreach ($old_banners as $old_banner) {
-            if (file_exists(public_path($old_banner))) {
-                unlink(public_path($old_banner));
+            'anh_banner.*.image' => 'Hình ảnh phải là ảnh',
+            'anh_banner.*.mimes' => 'Hình ảnh phải có định dạng jpg,jpeg,png,gif,bmp,webp,svg.',
+            'anh_banner.*.max' => 'Hình ảnh phải có dung lượng nhỏ hơn 2mb.',
+        ]);
+        foreach ($request->ten_banner as $key => $value) {
+            $banner = Banner::find($key);
+            $old_image = $banner->anh_banner;
+            $banner->ten_banner = $value;
+            if ($request->hasFile('anh_banner.' . $key)) {
+                $file = $request->file('anh_banner.' . $key);
+                $path = $file->store('banners', 'public');
+                $banner->anh_banner = $path;
+                if (file_exists(public_path('storage/' . $old_image))) {
+                    unlink(public_path('storage/' . $old_image));
+                }
             }
+            $banner->url_lien_ket = $request->input('url_lien_ket')[$key];
+            $banner->save();
         }
-
-        $paths = [];
-        if (isset($request['anh_banner'])) {
-            foreach ($request['anh_banner'] as $file) {
-                $path_banner = $file->store('banners', 'public');
-                $paths[] = 'storage/' . $path_banner;
-            }
-        }
-
-        $data['anh_banner'] = json_encode($paths);
-        $banner->update($data);
-        
         return redirect()->back()->with('success', 'Cập nhật banner thành công');
     }
 
@@ -172,19 +156,18 @@ class BannerController extends Controller
     public function destroy(string $id)
     {
         $banner = Banner::find($id);
+        $banners = Banner::where('vi_tri', $banner->vi_tri)->get();
+        if (count($banners) <= 1) {
+            return redirect()->back()->with('error', 'Còn một banner không thể xóa!');
+        }
         if (!$banner) {
-            return redirect()->route('admin.banners.index')->with('error', 'Banner không tồn tại');
+            return redirect()->route('admin.banners.index')->with('error', 'Banner không tồn tại!');
         }
-
-        // Delete old images
-        $old_banners = json_decode($banner->anh_banner, true);
-        foreach ($old_banners as $old_banner) {
-            if (file_exists(public_path($old_banner))) {
-                unlink(public_path($old_banner));
-            }
+        $old_image = $banner->anh_banner;
+        if (file_exists(public_path('storage/' . $old_image))) {
+            unlink(public_path('storage/' . $old_image));
         }
-
         $banner->delete();
-        return redirect()->back()->with('success', 'Xóa banner thành công');
+        return redirect()->back()->with('success', 'Xóa banner thành công!');
     }
 }

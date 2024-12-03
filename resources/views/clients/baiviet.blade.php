@@ -1,5 +1,16 @@
 @extends('layouts.client')
 
+@section('css')
+    <style>
+        .tp-blog-list-thumb img {
+            width: 100%; /* Hoặc giá trị cụ thể như '300px' nếu cần */
+            height: 250px; /* Đặt chiều cao cố định */
+            object-fit: cover; /* Đảm bảo ảnh không bị méo, chỉ crop phần thừa */
+            display: block; /* Loại bỏ khoảng trắng dưới ảnh nếu có */
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- section title area start -->
     <section class="tp-section-title-area pt-95 pb-80">
@@ -7,10 +18,10 @@
             <div class="row">
                 <div class="col-xl-8">
                     <div class="tp-section-title-wrapper-7">
-                        <h3 class="tp-section-title-7">Bài viết</h3>
+                        <h3 class="tp-section-title-7">Tin tức</h3>
                         <div class="breadcrumb__list">
-                            <span><a href="#">Trang chủ</a></span>
-                            <span>Bài viết</span>
+                            <span><a href="{{ route('trangchu') }}">Trang chủ</a></span>
+                            <span>Tin tức</span>
                         </div>
                     </div>
                 </div>
@@ -31,9 +42,12 @@
                                 aria-labelledby="nav-list-tab" tabindex="0">
                                 <!-- blog list wrapper -->
                                 <div class="tp-blog-list-item-wrapper">
+                                    @if($baiViet->isEmpty() && request('search'))
+                                        <p>Không tìm thấy bài viết nào phù hợp với tìm kiếm của bạn.</p>
+                                    @endif
                                     @foreach ($baiViet as $baiviet)
                                         <div class="tp-blog-list-item d-md-flex d-lg-block d-xl-flex">
-                                            <div class="tp-blog-list-thumb">
+                                            <div class="tp-blog-list-thumb">                                           
                                                 <a href="{{ route('chitietbaiviet', ['id' => $baiviet->id]) }}">
                                                     <img src="{{ $baiviet->anh_bai_viet ? asset('storage/' . $baiviet->anh_bai_viet) : 'assets/img/blog/grid/blog-grid-1.jpg' }}"
                                                         alt="{{ $baiviet->tieu_de }}">
@@ -60,8 +74,9 @@
                                                         </span>                                                      
                                                     </div>
                                                     <h3 class="tp-blog-grid-title">
-                                                        <a
-                                                            href="{{ route('chitietsanpham', ['id' => $baiviet->id]) }}">{{ $baiviet->tieu_de }}</a>
+                                                        <a href="{{ route('chitietsanpham', ['id' => $baiviet->id]) }}">
+                                                            {{ Str::limit($baiviet->tieu_de, 50) }}
+                                                        </a>
                                                     </h3>
                                                     <p>{{ Str::limit(strip_tags($baiviet->noi_dung), 100) }}</p>
 
@@ -86,15 +101,66 @@
                                             </div>
                                         </div>
                                     @endforeach
-
-
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xl-12">
-                                    <div class="tp-blog-pagination mt-30">
+                                    <div class="tp-shop-pagination mt-30">
                                         <div class="tp-pagination">
-                                            {{ $baiViet->links() }}
+                                            <nav>
+                                                <ul class="pagination">
+                                                    <!-- Nút trang trước -->
+                                                    @if ($baiViet->onFirstPage())
+                                                        <li class="disabled">
+                                                            <span class="tp-pagination-prev prev page-numbers">
+                                                                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                    <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            <a href="{{ $baiViet->previousPageUrl() }}" class="tp-pagination-prev prev page-numbers">
+                                                                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                    <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                </svg>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                    
+                                                    <!-- Các số trang -->
+                                                    @foreach ($baiViet->getUrlRange(1, $baiViet->lastPage()) as $page => $url)
+                                                        @if ($page == $baiViet->currentPage())
+                                                            <li><span class="current">{{ $page }}</span></li>
+                                                        @else
+                                                            <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                                        @endif
+                                                    @endforeach
+                                    
+                                                    <!-- Nút trang sau -->
+                                                    @if ($baiViet->hasMorePages())
+                                                        <li>
+                                                            <a href="{{ $baiViet->nextPageUrl() }}" class="next page-numbers">
+                                                                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                    <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                </svg>                                     
+                                                            </a>
+                                                        </li>
+                                                    @else
+                                                        <li class="disabled">
+                                                            <span class="next page-numbers">
+                                                                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                    <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </nav>
                                         </div>
                                     </div>
                                 </div>
@@ -106,22 +172,18 @@
                     <div class="tp-sidebar-wrapper tp-sidebar-ml--24">
                         <div class="tp-sidebar-widget mb-35">
                             <div class="tp-sidebar-search">
-                                <form action="#">
+                                <form action="{{ route('bai-viet') }}" method="GET">
                                     <div class="tp-sidebar-search-input">
-                                        <input type="text" placeholder="Search...">
+                                        <input type="text" name="search" placeholder="Tìm kiếm bài viết..." value="{{ request('search') }}">
                                         <button type="submit">
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M16.9995 17L13.1328 13.1333" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M16.9995 17L13.1328 13.1333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </button>
                                     </div>
                                 </form>
+                                
                             </div>
                         </div>
 
@@ -132,7 +194,7 @@
                                 <div class="tp-sidebar-about">
                                     <div class="tp-sidebar-about-thumb mb-25">
                                         <a href="#">
-                                            <img src="{{ isset($user) && $user->anh_dai_dien ? Storage::url($user->anh_dai_dien) : asset('path/to/default/image.jpg') }}" alt="">
+                                            <img src="{{ isset($user) && $user->anh_dai_dien ? Storage::url($user->anh_dai_dien) : asset('assets/client/img/about/anhchuadangnhap.jpg') }}" alt="">
                                         </a>
                                     </div>
                                     <div class="tp-sidebar-about-content">
@@ -155,7 +217,7 @@
 
                         <!-- latest post start -->
                         <div class="tp-sidebar-widget mb-35">
-                            <h3 class="tp-sidebar-widget-title">Bài viết mới nhất</h3>
+                            <h3 class="tp-sidebar-widget-title">Tin tức mới nhất</h3>
                             <div class="tp-sidebar-widget-content">
                                 <div class="tp-sidebar-blog-item-wrapper">
                                     @foreach ($latestPosts as $bai_viet)
@@ -172,7 +234,7 @@
                                                 </div>
                                                 <h3 class="tp-sidebar-blog-title">
                                                     <a
-                                                        href="{{ route('chitietbaiviet', ['id' => $bai_viet->id]) }}">{{ $bai_viet->tieu_de }}</a>
+                                                        href="{{ route('chitietbaiviet', ['id' => $bai_viet->id]) }}">{{ Str::limit($bai_viet->tieu_de, 50) }}</a>
                                                 </h3>
                                             </div>
                                         </div>
@@ -190,9 +252,8 @@
                                 <ul>
                                     @foreach ($danhMucs as $danhMuc)
                                         <li>
-                                            <a href="{{ route('trangbaiviet', ['danh_muc' => $danhMuc->id]) }}">
-                                                {{ $danhMuc->ten_danh_muc }}
-                                                <span>({{ $danhMuc->bai_viets_count }})</span>
+                                            <a href="{{ route('bai-viet', ['danh_muc' => $danhMuc->id]) }}">
+                                                {{ $danhMuc->ten_danh_muc }}                                            
                                             </a>
                                         </li>
                                     @endforeach

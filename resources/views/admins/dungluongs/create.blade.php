@@ -1,8 +1,6 @@
 @extends('layouts.admin')
 
-@section('title')
-
-@endsection
+@section('title', 'Thêm mới dung lượng')
 
 @section('css')
 

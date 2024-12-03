@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Models\DanhMuc;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Validator;
+
 class CustomerRegisterController extends Controller
 {
     //
     // Hiển thị trang đăng ký
     public function showRegistrationForm()
     {
-        return view('auth.customer_register');
+        $danhMucs=DanhMuc::all();
+        return view('auth.customer_register',compact('danhMucs'));
     }
 
     // Xử lý đăng ký

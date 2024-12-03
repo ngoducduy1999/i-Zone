@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+
+use App\Models\DanhMuc;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerLoginController extends Controller
@@ -12,7 +14,9 @@ class CustomerLoginController extends Controller
     // Hiển thị form đăng nhập
     public function showLoginForm()
     {
-        return view('auth.customer_login');
+        $danhMucs=DanhMuc::all();
+
+        return view('auth.customer_login',compact('danhMucs'));
     }
 
     // Xử lý đăng nhập

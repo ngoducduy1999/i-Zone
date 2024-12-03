@@ -9,10 +9,11 @@ use App\Models\KhuyenMai;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
-    
+
     public function index()
     {
         return view('clients.cart.cart');
@@ -91,25 +92,32 @@ class CartController extends Controller
         return view('clients.cart.cart-list');
     }
 
-    public function discount(string $discountCode)
+
+    public function discount(Request $request, string $discountCode)
     {
         Log::info("Received discount code: " . $discountCode);
         $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
+
         if ($discount) {
             $nowDate = now();
             $startDate = $discount->ngay_bat_dau;
             $endDate = $discount->ngay_ket_thuc;
-            if($discount->trang_thai!= 0){
-                if ($nowDate->between($startDate, $endDate)) {
-                    $discountPercentage = $discount->phan_tram_khuyen_mai;
-                    return view('clients.cart.cart-list', ['discount' => $discountPercentage]);
-                } else {
-                    return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 400);
-                }
-            }else{
-                return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 400);
+
+            if ($nowDate->between($startDate, $endDate) && $discount->trang_thai != 0) {
+                $discountPercentage = $discount->phan_tram_khuyen_mai;
+
+                // Lưu mã giảm giá và phần trăm giảm giá vào session
+                $request->session()->put('discount_code', $discountCode);
+                $request->session()->put('discount_percentage', $discountPercentage);
+                $request->session()->put('maxDiscount', $discount->giam_toi_da);
+
+                return view('clients.cart.cart-list', ['discount' => $discountPercentage, 'maxDiscount' => $discount->giam_toi_da]);
+            } else {
+                return response()->json(['message' => 'Mã giảm giá đã hết hạn.'], 400);
             }
         }
         return response()->json(['message' => 'Mã giảm giá không hợp lệ.'], 404);
     }
+
+    
 }

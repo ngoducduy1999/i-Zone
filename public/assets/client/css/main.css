@@ -9594,7 +9594,7 @@ div.tp-blog-thumb img {
   margin-bottom: 5px;
 }
 .tp-blog-list-content .tp-blog-grid-content {
-  padding: 40px 40px 45px 40px;
+  padding: 20px 40px 0px 40px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .tp-blog-list-content .tp-blog-grid-content {

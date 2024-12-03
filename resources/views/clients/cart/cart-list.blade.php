@@ -3,10 +3,10 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th colspan="2" class="tp-cart-header-product">Product</th>
-                    <th class="tp-cart-header-price">Type</th>
-                    <th class="tp-cart-header-price">Price</th>
-                    <th class="tp-cart-header-quantity">Quantity</th>
+                    <th colspan="2" class="tp-cart-header-product">Sản phẩm</th>
+                    <th class="tp-cart-header-price">Loại sản phẩm</th>
+                    <th class="tp-cart-header-price">Giá</th>
+                    <th class="tp-cart-header-quantity">Số lượng</th>
                     <th></th>
                 </tr>
             </thead>
@@ -71,7 +71,7 @@
                             </td>
                             <!-- action -->
                             <td class="tp-cart-action">
-                                <button class="tp-cart-action-btn" onclick="DeleteItemCart({{ $idbt }})"> 
+                                <button class="tp-cart-action-btn" onclick="DeleteItemCart({{ $idbt }})">
                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -92,10 +92,10 @@
                 <div class="tp-cart-coupon">
                     {{-- <form action="#"> --}}
                     <div class="tp-cart-coupon-input-box">
-                        <label>Coupon Code:</label>
+                        <label>Mã khuyễn mãi:</label>
                         <div class="tp-cart-coupon-input d-flex align-items-center">
-                            <input type="text" id="discount-code" placeholder="Enter Coupon Code">
-                            <button onclick="discount()">Apply</button>
+                            <input type="text" id="discount-code" placeholder="Nhập mã khuyến mãi">
+                            <button onclick="discount()" style="font-size: 15px">Áp dụng</button>
                         </div>
                     </div>
                     {{-- </form> --}}
@@ -104,7 +104,7 @@
             <div class="col-xl-6 col-md-4">
                 <div class="tp-cart-update text-md-end">
                     {{-- <button type="button" class="tp-cart-update-btn">Update Cart</button> --}}
-                    <a href="{{ route('trangchu') }}" type="button" class="tp-cart-update-btn">Go to Shopping</a>
+                    <a href="{{ route('trangchu') }}" type="button" class="tp-cart-update-btn">Đi đến mua sắm</a>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
 <div class="col-xl-3 col-lg-4 col-md-6">
     <div class="tp-cart-checkout-wrapper">
         <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between">
-            <span class="tp-cart-checkout-top-title">Subtotal</span>
+            <span class="tp-cart-checkout-top-title">Tổng phụ</span>
             <span class="tp-cart-checkout-top-price" style="font-size: 16px">
                 {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : '0' }}
                 VNĐ
@@ -124,10 +124,15 @@
 
             <div class="tp-cart-checkout-shipping-option-wrapper">
                 <div class="tp-cart-checkout-shipping-option text-black">
-                    Discount:
+                    Giảm giá:
                     @if (isset($discount))
                         @php
                             $discountAmount = Session::get('cart')->totalPrice * ($discount / 100);
+                            if ($maxDiscount > 0 && $maxDiscount != null && $maxDiscount <= $discountAmount) {
+                                $discountAmount = $maxDiscount;
+                            } elseif ($maxDiscount <= 0) {
+                                $discountAmount = 0;
+                            }
                         @endphp
                         <span class="text-danger">
                             {{ number_format($discountAmount, 0, ',', '.') }} VNĐ
@@ -141,7 +146,7 @@
             </div>
         </div>
         <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
-            <span>Total</span>
+            <span>Tổng cộng</span>
             @if (isset($discount))
                 <span>
                     @php
@@ -160,7 +165,7 @@
 
         </div>
         <div class="tp-cart-checkout-proceed">
-            <a href="{{ route('thanhtoan') }}" class="tp-cart-checkout-btn w-100">Proceed to Checkout</a>
+            <a href="{{ route('thanhtoan') }}" class="tp-cart-checkout-btn w-100">Tiến hành thanh toán</a>
         </div>
     </div>
 </div>
