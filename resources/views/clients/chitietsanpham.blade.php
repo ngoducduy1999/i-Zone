@@ -984,7 +984,7 @@
                                                                         @endforeach
 
                                                                         {{-- Hiển thị nút trả lời nếu người dùng hiện tại là admin --}}
-                                                                        @if (Auth::check() && Auth::user()->vai_tro === 'admin')
+                                                                        @if (Auth::check() && Auth::user()->vai_tro !== 'user')
                                                                         <button class="btn btn-primary mt-2 btn-reply" data-review-id="{{ $danhgia->id }}">Trả lời</button>
 
                                                                         {{-- Form trả lời ẩn --}}

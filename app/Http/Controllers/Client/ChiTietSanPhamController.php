@@ -151,7 +151,7 @@ class ChiTietSanPhamController extends Controller
     public function reply(Request $request, $id)
     {
         // Kiểm tra xem người dùng có phải là admin không
-        if (Auth::user()->vai_tro !== 'admin') {
+        if (Auth::user()->vai_tro === 'user') {
             return redirect()->route('chitietsanpham')->with('error', 'Bạn không có quyền trả lời đánh giá!');
         }
 
