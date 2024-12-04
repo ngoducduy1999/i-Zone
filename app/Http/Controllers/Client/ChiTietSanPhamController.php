@@ -8,6 +8,8 @@ use App\Models\TraLoi;
 use App\Models\DanhGiaSanPham;
 use App\Models\DanhMuc;
 use App\Models\DungLuong;
+use App\Models\HoaDon;
+use App\Models\ChiTietHoaDon;
 use App\Models\HinhAnhSanPham;
 use App\Models\MauSac;
 use App\Models\SanPham;
@@ -27,76 +29,98 @@ class ChiTietSanPhamController extends Controller
         return view('clients.chitietsanpham');
     }
     public function show(string $id)
-    {
-        $sanpham = SanPham::find($id);
-        $danhgias = DanhGiaSanPham::with(['user', 'traLois.user'])->where('san_pham_id', $id)->get();
-        if ($sanpham) {
-            $sanpham->increment('luot_xem');
-            $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
-            $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
-            $anhsanphams = HinhAnhSanPham::where('san_pham_id', $id)->get();
+{
+    $sanpham = SanPham::find($id);
 
-            $mauSacIds = $bienthesanphams->pluck('mau_sac_id')->unique();
-            $mauSacs = MauSac::whereIn('id', $mauSacIds)
-                ->where('trang_thai', 1) // Thêm điều kiện trạng thái bằng 1
-                ->get();
+    if ($sanpham) {
+        $sanpham->increment('luot_xem');
 
+        // Lấy danh sách đánh giá và thêm biến thể đã mua cho từng người dùng
+        $danhgias = DanhGiaSanPham::with(['user', 'traLois.user'])
+            ->where('san_pham_id', $id)
+            ->get()
+            ->map(function ($danhgia) use ($id) {
+                $hoaDonIds = HoaDon::where('user_id', $danhgia->user_id)
+                    ->where('trang_thai', 7) // Trạng thái = 7 (hoàn thành)
+                    ->pluck('id');
 
-            $dungLuongIds = $bienthesanphams->pluck('dung_luong_id')->unique();
-            $dungLuongs = DungLuong::whereIn('id', $dungLuongIds)->get();
+                $bienTheIds = ChiTietHoaDon::whereIn('hoa_don_id', $hoaDonIds)
+                    ->whereHas('bienTheSanPham', function ($query) use ($id) {
+                        $query->where('san_pham_id', $id);
+                    })
+                    ->pluck('bien_the_san_pham_id');
 
-            $danhgias = DanhGiaSanPham::latest('id')->where('san_pham_id', $id)->paginate(10);
-            $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
-            $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
-            $danhMucs = DanhMuc::withCount('sanPhams')->get(); // Lấy danh sách danh mục và số lượng sản phẩm
-            $hasReview = DanhGiaSanPham::where('san_pham_id', $id)->exists(); // Kiểm tra sản phẩm có đánh giá hay chưa
+                $danhgia->bienTheDaMua = BienTheSanPham::whereIn('id', $bienTheIds)
+                    ->with(['mauSac', 'dungLuong'])
+                    ->get();
 
-            $starCounts = DanhGiaSanPham::select(DB::raw('diem_so, count(*) as count'))
-                ->where('san_pham_id', $id)
-                ->groupBy('diem_so')
-                ->pluck('count', 'diem_so');
+                return $danhgia;
+            });
 
-            $tongDanhGia = $starCounts->sum();
-            $phanTramSao = [];
-            for ($i = 1; $i <= 5; $i++) {
-                $phantram = $tongDanhGia > 0 ? ($starCounts->get($i, 0) / $tongDanhGia) * 100 : 0;
-                $phanTramSao[$i] = $phantram;
-            }
+        // Các dữ liệu khác
+        $tagsanphams = TagSanPham::where('san_pham_id', $id)->get();
+        $bienthesanphams = BienTheSanPham::withTrashed()->where('san_pham_id', $id)->get();
+        $anhsanphams = HinhAnhSanPham::where('san_pham_id', $id)->get();
 
-            $sanPhamMoiNhat = SanPham::latest()->take(5)->with('bienthesanphams', 'danhMuc')->get();
+        $mauSacIds = $bienthesanphams->pluck('mau_sac_id')->unique();
+        $mauSacs = MauSac::whereIn('id', $mauSacIds)->where('trang_thai', 1)->get();
 
-            $isLoved = [];
-            $products = [];
-            if (Auth::user()) {
-                $isLoved = [];
-                $products = SanPham::with('bienTheSanPhams', 'hinhAnhSanPhams')->get();
-                $yeuThichs = Auth::user()->sanPhamYeuThichs()->pluck('san_pham_id')->toArray();
-                foreach ($products as $product) {
-                    $isLoved[$product->id] = in_array($product->id, $yeuThichs);
-                }
-            }
-            return view('clients.chitietsanpham', compact(
-                'danhMucs',
-                'sanpham',
-                'bienthesanphams',
-                'anhsanphams',
-                'tagsanphams',
-                'mauSacs',
-                'dungLuongs',
-                'danhgias',
-                'diemtrungbinh',
-                'soluotdanhgia',
-                'phanTramSao',
-                'sanPhamMoiNhat',
-                'products',
-                'isLoved',
-                'hasReview',
-                'danhgias'
-            ));
+        $dungLuongIds = $bienthesanphams->pluck('dung_luong_id')->unique();
+        $dungLuongs = DungLuong::whereIn('id', $dungLuongIds)->get();
+
+        $diemtrungbinh = DanhGiaSanPham::where('san_pham_id', $id)->avg('diem_so');
+        $soluotdanhgia = DanhGiaSanPham::where('san_pham_id', $id)->count();
+
+        $danhMucs = DanhMuc::withCount('sanPhams')->get();
+        $hasReview = DanhGiaSanPham::where('san_pham_id', $id)->exists();
+
+        $starCounts = DanhGiaSanPham::select(DB::raw('diem_so, count(*) as count'))
+            ->where('san_pham_id', $id)
+            ->groupBy('diem_so')
+            ->pluck('count', 'diem_so');
+
+        $tongDanhGia = $starCounts->sum();
+        $phanTramSao = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $phantram = $tongDanhGia > 0 ? ($starCounts->get($i, 0) / $tongDanhGia) * 100 : 0;
+            $phanTramSao[$i] = $phantram;
         }
 
-        return redirect()->route('trangchu')->with('error', 'Không tìm thấy sản phẩm');
+        $sanPhamMoiNhat = SanPham::latest()->take(5)->with('bienthesanphams', 'danhMuc')->get();
+
+        $isLoved = [];
+        $products = [];
+        if (Auth::user()) {
+            $isLoved = [];
+            $products = SanPham::with('bienTheSanPhams', 'hinhAnhSanPhams')->get();
+            $yeuThichs = Auth::user()->sanPhamYeuThichs()->pluck('san_pham_id')->toArray();
+            foreach ($products as $product) {
+                $isLoved[$product->id] = in_array($product->id, $yeuThichs);
+            }
+        }
+
+        return view('clients.chitietsanpham', compact(
+            'danhMucs',
+            'sanpham',
+            'bienthesanphams',
+            'anhsanphams',
+            'tagsanphams',
+            'mauSacs',
+            'dungLuongs',
+            'danhgias',
+            'diemtrungbinh',
+            'soluotdanhgia',
+            'phanTramSao',
+            'sanPhamMoiNhat',
+            'products',
+            'isLoved',
+            'hasReview'
+        ));
     }
+
+    return redirect()->route('trangchu')->with('error', 'Không tìm thấy sản phẩm');
+}
+
 
     public function layGiaBienThe(Request $request)
     {

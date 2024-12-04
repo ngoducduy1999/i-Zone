@@ -872,7 +872,7 @@
                                         <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab" tabindex="0">
                                             <div class="tp-product-details-review-wrapper pt-60">
                                                 <div class="row">
-                                                    <div class="col-lg-6">
+                                                    <div class="">
                                                         <div class="tp-product-details-review-statics">
                                                             <!-- number -->
 
@@ -932,73 +932,80 @@
                                                             {{-- Bảng người dùng xem đánh giá --}}
                                                             <div class="tp-product-details-review-list pr-110">
                                                                 <h3 class="tp-product-details-review-title">Đánh giá & Nhận xét</h3>
-
+                                                                
                                                                 @foreach ($danhgias as $danhgia)
+                                                                <br>
+                                                                <hr style="width: 80%;" >
                                                                 @if ($danhgia->user)
-                                                                <div class="tp-product-details-review-avater d-flex align-items-start">
                                                                     <div class="tp-product-details-review-avater-thumb">
-                                                                        <a href="#">
-                                                                            <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="tp-product-details-review-avater-content">
-                                                                        <div class="fs-1.9">
-                                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                                <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
+                                                                        <a href="">
+                                                                        <img src="{{ asset('storage/' . $danhgia->user->anh_dai_dien) }}" alt="">
+                                                                        <div class="review-info">
+                                                                            <div>
+                                                                                <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }} - </h3>
+                                                                                <span>{{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}</span>
+                                                                            </div>
+                                                                            <div>
+                                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                                    <span class="{{ $i <= $danhgia->diem_so ? 'text-warning' : 'text-muted' }}">★</span>
                                                                                 @endfor
+                                                                            </div>
+                                                                            <!-- <div>
+                                                                                <span>Phân loại hàng:</span>
+                                                                                @if ($danhgia->bienTheDaMua->isNotEmpty())
+                                                                                    @foreach ($danhgia->bienTheDaMua as $index => $bienThe)
+                                                                                        {{ $bienThe->mauSac->ten_mau_sac ?? 'Không xác định' }} - {{ $bienThe->dungLuong->ten_dung_luong ?? 'Không xác định' }}
+                                                                                        @if ($index < $danhgia->bienTheDaMua->count() - 1)
+                                                                                            , 
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                @else
+                                                                                    <p>Không có biến thể nào được mua từ sản phẩm này.</p>
+                                                                                @endif
+                                                                            </div> -->
                                                                         </div>
+                                                                    </a>
+                                                                    <style>
+                                                                        a {
+                                                                        display: flex; /* Arrange img and div next to each other */
+                                                                        align-items: flex-start; /* Align vertically at the top */
+                                                                    }
 
-                                                                        <h3 class="tp-product-details-review-avater-title">{{ $danhgia->user->ten }}</h3>
-                                                                        <span class="tp-product-details-review-avater-meta">
-                                                                            {{ $danhgia->created_at ? $danhgia->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}
-                                                                        </span>
+                                                                    .review-info {
+                                                                        margin-left: 10px; /* Add some space between image and review info */
+                                                                        display: flex;
+                                                                        flex-direction: column; /* Stack content vertically inside the div */
+                                                                    }
 
-                                                                        <div class="tp-product-details-review-avater-comment">
-                                                                            <p>{{ $danhgia->nhan_xet }}</p>
+                                                                    .tp-product-details-review-avater-title {
+                                                                        margin-bottom: 5px; /* Add spacing between the name and the date */
+                                                                    }
+
+                                                                    .review-info div {
+                                                                        margin-bottom: 5px; /* Add spacing between each section (name, stars, etc.) */
+                                                                    }
+
+                                                                    </style>
                                                                         </div>
-
+                                                                        <div class="tp-product-details-review-avater-content">
+                                                                            <h3 class="tp-product-details-review-avater-title" style=" font-size: 20px; margin-left: 20px; ">{{ $danhgia->nhan_xet }}</h3>
                                                                         {{-- Hiển thị câu trả lời nếu có --}}
                                                                         @foreach ($danhgia->traLois as $traLoi)
-                                                                        <div class="tp-product-details-review-reply ml-4">
-                                                                            <div class="fs-1.9">
-                                                                                <span class="text-muted">
-                                                                                    <p>{{ $traLoi->user->ten }} {{ $traLoi->user->vai_tro }} - {{ $traLoi->created_at ? $traLoi->created_at->format('H:i d/m/Y') : 'Chưa xác định' }}</p>
+                                                                        <div class="tp-product-details-review-reply ml-4" style="background-color: 	#ededed;">
+                                                                            
+                                                                                <span class="text-muted"  >
+                                                                                    <p style="font-weight: bold;">Phản hồi của Người Bán _ {{ $traLoi->created_at ? $traLoi->created_at->format('d/m/Y') : 'Chưa xác định' }}</p>
                                                                                 </span>
                                                                                 <p>{{ $traLoi->noi_dung }}</p>
-
-                                                                                {{-- Nút sửa --}}
-                                                                                @if (Auth::check() && Auth::user()->id === $traLoi->user_id)
-                                                                                <button class="btn btn-warning btn-sm btn-edit-reply" data-reply-id="{{ $traLoi->id }}">Sửa</button>
-
-                                                                                {{-- Form sửa trả lời ẩn --}}
-                                                                                <form class="edit-reply-form mt-2 d-none" action="{{ route('admin.danhgia.editReply', $traLoi->id) }}" method="POST">
-                                                                                    @csrf
-                                                                                    @method('PUT')
-                                                                                    <textarea name="reply" class="form-control mb-2" rows="3">{{ $traLoi->noi_dung }}</textarea>
-                                                                                    <button type="submit" class="btn btn-success">Cập nhật</button>
-                                                                                    <button type="button" class="btn btn-secondary btn-cancel-edit">Hủy</button>
-                                                                                </form>
-                                                                                @endif
-                                                                            </div>
+                                                                            
                                                                         </div>
                                                                         @endforeach
-
-                                                                        {{-- Hiển thị nút trả lời nếu người dùng hiện tại là admin --}}
-                                                                        @if (Auth::check() && Auth::user()->vai_tro !== 'user')
-                                                                        <button class="btn btn-primary mt-2 btn-reply" data-review-id="{{ $danhgia->id }}">Trả lời</button>
-
-                                                                        {{-- Form trả lời ẩn --}}
-                                                                        <form class="reply-form mt-2 d-none" action="{{ route('admin.danhgia.reply', $danhgia->id) }}" method="POST">
-                                                                            @csrf
-                                                                            <textarea name="reply" class="form-control mb-2" rows="3" placeholder="Nhập trả lời của bạn..."></textarea>
-                                                                            <button type="submit" class="btn btn-success">Gửi</button>
-                                                                            <button type="button" class="btn btn-secondary btn-cancel">Hủy</button>
-                                                                        </form>
-                                                                        @endif
+                                                                        
                                                                     </div>
                                                                 </div>
                                                                 @endif
                                                                 @endforeach
+
                                                             </div>
 
                                                             <script>

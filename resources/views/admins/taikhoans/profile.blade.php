@@ -141,9 +141,6 @@
                                                         <label class="form-label">Họ và tên</label>
                                                         <div class="col-lg-12 col-xl-12">
                                                             <input type="text" name="ten" id="ten" class="form-control" value="{{ old('ten', $profile->ten) }}">
-                                                            @error('ten')
-                                                            <div class="text-danger">{{ $message }}</div>
-                                                            @enderror
                                                         </div>
                                                 </div>
 
@@ -153,10 +150,6 @@
                                                         <div class="input-group">
                                                             <span class="input-group-text"><i class="mdi mdi-phone-outline"></i></span>
                                                             <input class="form-control" type="text" name="so_dien_thoai" id="so_dien_thoai" placeholder="Số điện thoại" value="{{ old('so_dien_thoai', $profile->so_dien_thoai) }}">
-                                                            <br>
-                                                            @error('so_dien_thoai')
-                                                            <div class="text-danger">{{ $message }}</div>
-                                                            @enderror
                                                         </div>
                                                     </div>
                                                 </div>
@@ -167,9 +160,6 @@
                                                         <div class="input-group">
                                                             <span class="input-group-text"><i class="mdi mdi-email"></i></span>
                                                             <input type="text" name="email" id="email" class="form-control" value="{{ old('email', $profile->email) }}" placeholder="Email" readonly>
-                                                            @error('email')
-                                                            <div class="text-danger">{{ $message }}</div>
-                                                            @enderror
                                                         </div>
                                                     </div>
                                                 </div>
@@ -180,9 +170,6 @@
                                                     @if ($profile->anh_dai_dien)
                                                     <div class="current-image mt-2">
                                                         <img src="{{ asset('storage/' . $profile->anh_dai_dien) }}" alt="Ảnh đại diện" style="width: 100px;  margin-top: 10px;" id="current-image">
-                                                        @error('anh_dai_dien')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                        @enderror
                                                     </div>
                                                     @endif
                                                     <div id="image-preview" class="mt-2"></div>
@@ -216,11 +203,8 @@
                                                 <div class="form-group">
                                                     <label for="dia_chi">Địa chỉ</label>
                                                     <textarea name="dia_chi" id="dia_chi" class="form-control">{{ old('dia_chi', $profile->dia_chi) }}</textarea>
-                                                    @error('dia_chi')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
                                                 </div>
-                                                <button type="submit" id="updateProfileBtn" class="btn btn-primary">Cập nhật</button>
+                                                <button type="submit" id="updateProfileBtn" class="btn btn-primary mt-2">Cập nhật</button>
 
                                                 </form>
                                             </div>
@@ -241,10 +225,6 @@
                                                         <label class="form-label">Mật khẩu cũ</label>
                                                         <div class="col-lg-12 col-xl-12">
                                                             <input type="password" name="current_password" id="current_password" class="form-control">
-                                                            <!-- Hiển thị lỗi nếu có -->
-                                                            @if ($errors->has('current_password'))
-                                                            <span class="text-danger">{{ $errors->first('current_password') }}</span>
-                                                            @endif
                                                         </div>
                                                     </div>
 
@@ -252,10 +232,6 @@
                                                         <label class="form-label">Mật khẩu mới</label>
                                                         <div class="col-lg-12 col-xl-12">
                                                             <input type="password" name="new_password" id="new_password" class="form-control">
-                                                            <!-- Hiển thị lỗi nếu có -->
-                                                            @if ($errors->has('new_password'))
-                                                            <span class="text-danger">{{ $errors->first('new_password') }}</span>
-                                                            @endif
                                                         </div>
                                                     </div>
 
@@ -263,10 +239,6 @@
                                                         <label class="form-label">Xác nhận mật khẩu mới</label>
                                                         <div class="col-lg-12 col-xl-12">
                                                             <input type="password" name="new_password_confirmation" id="new_password_confirmation" class="form-control">
-                                                            <!-- Hiển thị lỗi nếu có -->
-                                                            @if ($errors->has('new_password_confirmation'))
-                                                            <span class="text-danger">{{ $errors->first('new_password_confirmation') }}</span>
-                                                            @endif
                                                         </div>
                                                     </div>
 
