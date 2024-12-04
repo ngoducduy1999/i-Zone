@@ -42,5 +42,12 @@ class BienTheSanPham extends Model
     {
         return $this->belongsTo(SanPham::class, 'san_pham_id');
     }
- 
+    public function danhGiaSanPham()
+    {
+        return $this->belongsTo(DanhGiaSanPham::class, 'san_pham_id', 'san_pham_id');
+    }
+    public function bienTheSanPham()
+    {
+        return $this->belongsTo(BienTheSanPham::class, 'bien_the_san_pham_id');
+    }
 }
