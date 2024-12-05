@@ -64,15 +64,16 @@
 
                             <td>
                                 @if ($lienhe->trang_thai_phan_hoi == 'pending')
-                                    Đang chờ xử lý
+                                  <p class="text-center text-warning">Đang chờ xử lý</p> 
                                 @elseif ($lienhe->trang_thai_phan_hoi == 'resolved')
-                                    Đã xử lý
+                                     <p class="text-center text-success">Đã xử lý</p>
                                 @else
                                     
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('admin.lienhes.phan_hoi.cap_nhat', ['id' => $lienhe->id, 'trang_thai_phan_hoi' => 'resolved']) }}"  role="button">
+                                <a href="{{ route('admin.lienhes.phan_hoi.cap_nhat', ['id' => $lienhe->id, 'trang_thai_phan_hoi' => 'resolved']) }}"  role="button"
+                                    >
                                     <i class="fas fa-check-circle"></i>Đánh dấu đã xử lý
                                 </a>
                                 
