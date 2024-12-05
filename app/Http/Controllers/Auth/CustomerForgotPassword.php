@@ -15,6 +15,6 @@ class CustomerForgotPassword extends Controller
     }
 
     public function formResetPassword(Request $request, $token = null){
-
+        
     }
 }
