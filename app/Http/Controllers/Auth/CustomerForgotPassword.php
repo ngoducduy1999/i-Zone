@@ -28,15 +28,15 @@ class CustomerForgotPassword extends Controller
 
         $status = Password::broker('users')->sendResetLink(
             $request->only('email'),
-            function ($admin, $token) {
+            function ($user, $token) {
                 // Tùy chỉnh URL
                 $path = url(route('customer.password.reset', [
                     'token' => $token,
-                    'email' => $admin->getEmailForPasswordReset(),
+                    'email' => $user->getEmailForPasswordReset(),
                 ], false));
 
                 // Sử dụng Notification với URL custom
-                $admin->notify(new CustomerForgotPasswordNoti($path));
+                $user->notify(new CustomerForgotPasswordNoti($path));
             }
         );
 
