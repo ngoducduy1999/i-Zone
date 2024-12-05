@@ -194,7 +194,7 @@
                                 <div class="tp-sidebar-about">
                                     <div class="tp-sidebar-about-thumb mb-25">
                                         <a href="#">
-                                            <img src="{{ isset($user) && $user->anh_dai_dien ? Storage::url($user->anh_dai_dien) : asset('assets/client/img/about/anhchuadangnhap.jpg') }}" alt="">
+                                            <img src="{{ isset($user) && $user->anh_dai_dien ? asset('storage/' . $user->anh_dai_dien) : asset('assets/client/img/about/anhchuadangnhap.jpg') }}" alt="">
                                         </a>
                                     </div>
                                     <div class="tp-sidebar-about-content">

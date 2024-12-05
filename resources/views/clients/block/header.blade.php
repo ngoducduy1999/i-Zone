@@ -220,7 +220,7 @@ $(document).ready(function() {
                              <span>
                                  @if (Auth::user()->anh_dai_dien)
                                      <!-- Hiển thị ảnh đại diện -->
-                                     <img src="{{ Storage::url(Auth::user()->anh_dai_dien) }}" alt="Ảnh đại diện" style="width: 40px; height: 40px; border-radius: 50%;">
+                                     <img src="{{ asset('storage/' . Auth::user()->anh_dai_dien) }}" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover">
                                  @else                             
                                      <!-- SVG mặc định nếu không có ảnh đại diện -->
                                      <svg width="17" height="21" viewBox="0 0 17 21" fill="none" xmlns="http://www.w3.org/2000/svg">
