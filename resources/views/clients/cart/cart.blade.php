@@ -147,24 +147,35 @@
                         </div>
                         <div class="tp-cart-checkout-shipping">
                             {{-- <h4 class="tp-cart-checkout-shipping-title">Shipping</h4> --}}
-
+                
                             <div class="tp-cart-checkout-shipping-option-wrapper">
-                                {{-- <div class="tp-cart-checkout-shipping-option">
-                                    <input id="flat_rate" type="radio" name="shipping">
-                                    <label for="flat_rate">Flat rate: <span>$20.00</span></label>
+                                <div class="tp-cart-checkout-shipping-option text-black">
+                                    Mã giảm giá:
+                                    @if (Session::get('discount_code'))
+                                        <span class="text-dark">
+                                            {{Session::get('discount_code')}} 
+                                        </span>
+                                        <td class="tp-cart-action">
+                                            <button class="tp-cart-action-btn"
+                                                onclick="DeleteDiscount()">
+                                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M9.53033 1.53033C9.82322 1.23744 9.82322 0.762563 9.53033 0.46967C9.23744 0.176777 8.76256 0.176777 8.46967 0.46967L5 3.93934L1.53033 0.46967C1.23744 0.176777 0.762563 0.176777 0.46967 0.46967C0.176777 0.762563 0.176777 1.23744 0.46967 1.53033L3.93934 5L0.46967 8.46967C0.176777 8.76256 0.176777 9.23744 0.46967 9.53033C0.762563 9.82322 1.23744 9.82322 1.53033 9.53033L5 6.06066L8.46967 9.53033C8.76256 9.82322 9.23744 9.82322 9.53033 9.53033C9.82322 9.23744 9.82322 8.76256 9.53033 8.46967L6.06066 5L9.53033 1.53033Z"
+                                                        fill="currentColor" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    @endif
                                 </div>
-                                <div class="tp-cart-checkout-shipping-option">
-                                    <input id="local_pickup" type="radio" name="shipping">
-                                    <label for="local_pickup">Local pickup: <span> $25.00</span></label>
-                                </div>
-                                <div class="tp-cart-checkout-shipping-option">
-                                    <input id="free_shipping" type="radio" name="shipping">
-                                    <label for="free_shipping">Free shipping</label>
-                                </div> --}}
+                                
                                 <div class="tp-cart-checkout-shipping-option text-black">
                                     Giảm giá:
-                                    @if (isset($discount))
+                                    @if (Session::get('discount_code'))
                                         @php
+                                            $discountCode = Session::get('discount_code');
+                                            $discount = Session::get('discount_percentage');
+                                            $maxDiscount = Session::get('maxDiscount');
                                             $discountAmount = Session::get('cart')->totalPrice * ($discount / 100);
                                             if ($maxDiscount > 0 && $maxDiscount != null && $maxDiscount <= $discountAmount) {
                                                 $discountAmount = $maxDiscount;
@@ -184,22 +195,28 @@
                             </div>
                         </div>
                         <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
-                            <span>Tổng cộng</span>
+                            <span>Còn lại</span>
                             @if (isset($discount))
                                 <span>
                                     @php
                                         $total = Session::get('cart')->totalPrice - $discountAmount;
+                                        $total = $total > 0 ? number_format($total, 2, ',', '.') : 0;
                                     @endphp
-                                    {{ isset($total) ? number_format($total, 0, ',', '.') : '0' }}
+                                    {{ isset($total) ? $total : 0 }}
                                     VNĐ
                                 </span>
                             @else
                                 <span>
-                                    {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : '0' }}
-                                    VNĐ
+                                    @if (fmod(Session::get('cart')->totalPrice, 1) == 0)
+                                        {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : 0 }}
+                                        VNĐ
+                                    @else
+                                        {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 2, ',', '.') : 0 }}
+                                        VNĐ
+                                    @endif
                                 </span>
                             @endif
-
+                
                         </div>
                         <div class="tp-cart-checkout-proceed">
                             <a href="{{ route('thanhtoan') }}" class="tp-cart-checkout-btn w-100">Tiến hành thanh toán</a>

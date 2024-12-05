@@ -16,6 +16,7 @@ class CartController extends Controller
 
     public function index()
     {
+        // dd( Session::get('discount_code'));
         $this->UpdateCart();
         return view('clients.cart.cart');
     }
@@ -164,4 +165,10 @@ class CartController extends Controller
         }
     }
     
+    public function  DeleteDiscount(){
+        Session::forget('discount_code');
+        Session::forget('discount_percentage');
+        Session::forget('maxDiscount');
+        return view('clients.cart.cart-list');
+    }
 }

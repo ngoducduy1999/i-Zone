@@ -124,9 +124,21 @@
 
             <div class="tp-cart-checkout-shipping-option-wrapper">
                 <div class="tp-cart-checkout-shipping-option text-black">
+                    Mã giảm giá:
+                    @if (Session::get('discount_code'))
+                        <span class="text-dark">
+                            {{Session::get('discount_code')}} 
+                        </span>
+                        <button onclick="DeleteDiscount()">x</button>
+                    @endif
+                </div>
+                <div class="tp-cart-checkout-shipping-option text-black">
                     Giảm giá:
-                    @if (isset($discount))
+                    @if (Session::get('discount_code'))
                         @php
+                            $discountCode = Session::get('discount_code');
+                            $discount = Session::get('discount_percentage');
+                            $maxDiscount = Session::get('maxDiscount');
                             $discountAmount = Session::get('cart')->totalPrice * ($discount / 100);
                             if ($maxDiscount > 0 && $maxDiscount != null && $maxDiscount <= $discountAmount) {
                                 $discountAmount = $maxDiscount;
@@ -146,20 +158,25 @@
             </div>
         </div>
         <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
-            <span>Tổng cộng</span>
+            <span>Còn lại</span>
             @if (isset($discount))
                 <span>
                     @php
                         $total = Session::get('cart')->totalPrice - $discountAmount;
-                        $total = $total > 0 ? number_format($total, 0, ',', '.') : 0;
+                        $total = $total > 0 ? number_format($total, 2, ',', '.') : 0;
                     @endphp
                     {{ isset($total) ? $total : 0 }}
                     VNĐ
                 </span>
             @else
                 <span>
-                    {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : 0 }}
-                    VNĐ
+                    @if (fmod(Session::get('cart')->totalPrice, 1) == 0)
+                        {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : 0 }}
+                        VNĐ
+                    @else
+                        {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 2, ',', '.') : 0 }}
+                        VNĐ
+                    @endif
                 </span>
             @endif
 
