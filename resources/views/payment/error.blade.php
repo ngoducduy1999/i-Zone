@@ -8,6 +8,6 @@
 <body>
     <h1>Giao dịch thất bại</h1>
     <p>{{ $message }}</p>
-    <a href="{{ url('/customer/donhang') }}">Quay lại </a>
+    <a href="{{ route('customer.donhang') }}">Quay lại </a>
 </body>
 </html>

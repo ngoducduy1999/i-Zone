@@ -151,26 +151,46 @@
 
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        @if (Auth::user()->anh_dai_dien!='')
-                        <img src="{{ asset('storage/' .Auth::user()->anh_dai_dien) }}" alt="user-image" class="rounded-circle">                                        
-                        @else                                       
-                        <img src="{{ asset('assets/admin/images/users/user-11.jpg') }}" alt="user-image" class="rounded-circle">    
+                        @if (Auth::check() && Auth::user()->anh_dai_dien != '')
+                            <img src="{{ asset('storage/' . Auth::user()->anh_dai_dien) }}" alt="user-image" class="rounded-circle">
+                        @else
+                            <img src="{{ asset('assets/admin/images/users/user-11.jpg') }}" alt="user-image" class="rounded-circle">
                         @endif
                         <span class="pro-user-name ms-1">
-                            {{ Auth::user()->ten }} <i class="mdi mdi-chevron-down"></i> 
+                            @if (Auth::check())
+                                {{ Auth::user()->ten }}
+                            @else
+                                Guest
+                            @endif
+                            <i class="mdi mdi-chevron-down"></i>
                         </span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
+                            
+                    <div class="dropdown-menu dropdown-menu-end profile-dropdown">
                         <!-- item-->
                         <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Chào mừng, {{ Auth::user()->ten }}!</h6>
-                        </div>                        
-
+                            <h6 class="text-overflow m-0">
+                                @if (Auth::check())
+                                    Chào mừng, {{ Auth::user()->ten }}!
+                                @else
+                                    Chào mừng, Khách!
+                                @endif
+                            </h6>
+                        </div>
+                    
                         <!-- item-->
-                        <a class='dropdown-item notify-item' href='{{ route('admin.profile') }}'>
-                            <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
-                            <span>Tài khoản của tôi</span>
-                        </a>
+                        @if (Auth::check())
+                            <a class="dropdown-item notify-item" href="{{ route('admin.profile') }}">
+                                <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
+                                <span>Tài khoản của tôi</span>
+                            </a>
+                        @else
+                            <a class="dropdown-item notify-item" href="{{ route('/') }}">
+                                <i class="mdi mdi-login fs-16 align-middle"></i>
+                                <span>Đăng nhập</span>
+                            </a>
+                        @endif
+                                    
 
                         <!-- item-->
                         <a class='dropdown-item notify-item' href='auth-lock-screen.html'>

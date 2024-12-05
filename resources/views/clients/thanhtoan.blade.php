@@ -246,38 +246,50 @@
           const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
   
           fetch('{{ route("placeOrder") }}', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRF-TOKEN': '{{ csrf_token() }}'
-              },
-              body: JSON.stringify({
-                  name: name,
-                  phone: phone,
-                  address: address,
-                  email: email,
-                  payment_method: paymentMethod,
-                  note: note
-              })
-          })
-          .then(response => response.json())
-          .then(data => {
-          console.log(data); // Ghi log để kiểm tra phản hồi
-          if (data.success) {
-          if (data.url) {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify({
+        name,
+        phone,
+        address,
+        email,
+        payment_method: paymentMethod,
+        note
+    })
+})
+.then(response => response.json())
+.then(data => {
+    if (data.success) {
+        if (data.url) {
             window.location.href = data.url; // Chuyển hướng đến ZaloPay
-           } else {
+        } else {
             window.location.href = '/customer/donhang';
             alert('Đặt hàng thành công!');
         }
     } else {
-        alert('Có lỗi xảy ra: ' + data.message);
+        if (data.insufficient_stock) {
+            let message = 'Một số sản phẩm không đủ tồn kho:\n';
+            data.insufficient_stock.forEach(item => {
+                message += `- ${item.product_name}: Còn lại ${item.available_quantity} sản phẩm.\n`;
+            });
+            if (confirm(message + '\nBạn có muốn đặt hàng với số lượng khả dụng không?')) {
+                // Người dùng xác nhận, thực hiện đặt hàng lại
+                document.getElementById('submitOrder').click();
+            } else {
+                // Người dùng không đồng ý, chuyển hướng về trang giỏ hàng
+                window.location.href = '/Cart-Index';
+            }
+        } else {
+            alert('Có lỗi xảy ra: ' + data.message);
+        }
     }
 })
-
-          .catch(error => {
-              console.error('Error:', error);
-          });
+.catch(error => {
+    console.error('Error:', error);
+});
       });
 //them mã
 document.addEventListener('DOMContentLoaded', function() {
