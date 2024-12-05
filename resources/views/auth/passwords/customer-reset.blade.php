@@ -65,7 +65,7 @@
                                         <ul>
                                             @foreach ($errors->all() as $error)
                                                 <li>{{ $error }}</li>
-                                            @endforeach 
+                                            @endforeach
                                         </ul>
                                     </div>
                                 @endif
@@ -89,13 +89,8 @@
                                     </div>
                                     <div class="tp-login-input-box">
                                         <div class="tp-login-input">
-                                            <input id="tp_password @error('mat_khau') is-invalid @enderror" type="password"
-                                                name="password" placeholder="Nhập mật khẩu của bạn">
-                                            @error('mat_khau')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
+                                            <input class="form-control" type="password" id="password" name="password" required placeholder="Nhập mật khẩu mới">
+
                                         </div>
                                         <div class="tp-login-input-eye" id="password-show-toggle">
                                             <span id="open-eye" class="open-eye">
@@ -141,12 +136,11 @@
                                     </div>
                                     <div class="tp-login-input-box">
                                         <div class="tp-login-input">
-                                            <input id="email" class="form-control" type="password"
-                                                id="password_confirmation" name="password_confirmation" required
-                                                placeholder="Nhập lại mật khẩu mới">
+                                            <input class="form-control" type="password" id="password_confirmation"
+                                                name="password_confirmation" required placeholder="Nhập lại mật khẩu mới">>
                                         </div>
                                         <div class="tp-login-input-title">
-                                            <label for="email"> Nhập mật khẩu mới</label>
+                                            <label for="email"> Nhập lại mật khẩu mới</label>
                                         </div>
                                     </div>
                                 </div>
