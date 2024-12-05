@@ -50,12 +50,12 @@ class CustomerForgotPassword extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
+            'mat_khau' => 'required|confirmed|min:8',
             'token' => 'required'
         ]);
 
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            $request->only('email', 'mat_khau', 'password_confirmation', 'token'),
             function ($customer, $password) {
                 $customer->forceFill([
                     'mat_khau' => Hash::make($password), // Sử dụng cột 'mat_khau'
