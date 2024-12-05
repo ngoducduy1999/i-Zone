@@ -191,7 +191,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banner
         Route::post('store', [AdminLienHeController::class, 'store'])->name('store');
         Route::post('/phanhoi/reply/send/{id}', [AdminLienHeController::class, 'sendReply'])->name('phanhoi.reply.send');
         Route::get('/form-phan-hoi/{id}', [AdminLienHeController::class, 'showReplyForm'])->name('form.reply');
-
+        Route::get('/phan-hoi/cap-nhat/{id}/{trang_thai_phan_hoi}', [AdminLienHeController::class, 'capNhatTrangThai'])->name('phan_hoi.cap_nhat');
+     
 
     });
 
@@ -258,6 +259,7 @@ use App\Http\Controllers\Client\TrangBaiVietController;
 use App\Http\Controllers\Client\TrangSanPhamController;
 use App\Http\Controllers\Auth\CustomerRegisterController;
 use App\Http\Controllers\Client\ChiTietSanPhamController;
+use App\Http\Controllers\Client\HomThuPhanHoiController;
 use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Client\LienHeController;

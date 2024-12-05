@@ -41,6 +41,8 @@
                                 <th>Tên người dùng</th>
                                 <th>Email người gửi</th>
                                 <th>Tin nhắn người dùng phản hồi</th>
+                                <th>Trạng thái phản hồi</th>
+                                <th>Trạng thái xử lý</th>
                                <th>Trả lời</th>
                            
                             </tr>
@@ -60,6 +62,22 @@
                         </td>
                             <td>{{$lienhe->tin_nhan}}</td>
 
+                            <td>
+                                @if ($lienhe->trang_thai_phan_hoi == 'pending')
+                                  <p class="text-center text-warning">Đang chờ xử lý</p> 
+                                @elseif ($lienhe->trang_thai_phan_hoi == 'resolved')
+                                     <p class="text-center text-success">Đã xử lý</p>
+                                @else
+                                    
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.lienhes.phan_hoi.cap_nhat', ['id' => $lienhe->id, 'trang_thai_phan_hoi' => 'resolved']) }}"  role="button"
+                                    >
+                                    <i class="fas fa-check-circle"></i>Đánh dấu đã xử lý
+                                </a>
+                                
+                            </td>
                             <td>
                             <a href="{{ route('admin.lienhes.form.reply', ['id' => $lienhe->id]) }}" class="btn btn-success">Gửi phản hồi</a>
                             </td>

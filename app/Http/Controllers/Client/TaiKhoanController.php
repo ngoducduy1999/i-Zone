@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DanhMuc;
 use App\Models\HoaDon;
 use App\Models\ChiTietHoaDon;
-
+use App\Models\lien_hes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class TaiKhoanController extends Controller
     {
         //lấy thông tin ng dùng đang đăng nhập
         $user = Auth::user();
-
+       
         $danhMucs = DanhMuc::all();
         // lấy thông tin đơn hàng người dùng đã mua
         $donHangs = $user->hoaDons()->get();
@@ -140,6 +140,9 @@ class TaiKhoanController extends Controller
         // đếm
         return view('clients.taikhoan.profile',compact('donHangs','danhMucs','profile'));
     }
+
+
+    
 
     public function changePassword(Request $request){
         $user = Auth::user();
