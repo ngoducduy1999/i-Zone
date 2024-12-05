@@ -38,7 +38,7 @@ class CustomerForgotPassword extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-        ->subject('Yêu cầu đặt lại mật khẩu Admin') // Thêm tiêu đề email
+        ->subject('Yêu cầu đặt lại mật khẩu người dùng') // Thêm tiêu đề email
         ->line('Bạn đã yêu cầu đặt lại mật khẩu.')
         ->action('Đặt lại mật khẩu', $this->pash)
         ->line('Nếu bạn không yêu cầu điều này, hãy bỏ qua email này.');
