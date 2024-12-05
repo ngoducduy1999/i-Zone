@@ -6,7 +6,7 @@
        <div class="row">
           <div class="col-xxl-12">
              <div class="breadcrumb__content p-relative z-index-1">
-                <h3 class="breadcrumb__title">Chào bạn !</h3>
+                <h3 class="breadcrumb__title">Xin chào bạn !</h3>
                 {{-- <div class="breadcrumb__list">
                    <span><a href="#">Ho</a></span>
                    <span>My account</span>
@@ -84,7 +84,7 @@
                       </div>
                       <div class="tp-login-input-box">
                          <div class="tp-login-input">
-                            <input id="tp_password @error('mat_khau') is-invalid @enderror" type="password"  name="mat_khau" placeholder="Nhập mật khẩu của bạn">
+                            <input id="tp_password @error('mat_khau') is-invalid @enderror" type="password"  name="password" placeholder="Nhập mật khẩu của bạn">
                             @error('mat_khau')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -109,7 +109,8 @@
                                </svg>
                             </span>
                          </div>
-                         <div class="tp-login-input-title"> Mật khẩu mới</label>
+                         <div class="tp-login-input-title">
+                            <label for="mat_khau">Mật khẩu mới</label>
                          </div>
                       </div>
                       <div class="tp-login-input-box">
