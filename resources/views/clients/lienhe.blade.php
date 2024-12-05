@@ -23,66 +23,109 @@
      <!-- contact area start -->
      
 
-<section class="tp-contact-area pb-100">
-<div class="container">
-<div class="tp-contact-inner">
-<div class="row">
-<div  class="col-xl-9 col-lg-8">
-<div class="tp-contact-wrapper">
-   <h3 class="tp-contact-title">Thông tin và tin nhắn liên hệ</h3>
-<div class="tp-contact-form">
-   @if(auth()->check())
-   <form action="{{ route('lienhe.store') }}" id="contact-form" method="POST">
-      @csrf
-      <div class="tp-contact-input-wrapper">
-<div class="tp-contact-input-box">
-
-<div class="tp-contact-input">
-<input type="text" name="ten_nguoi_gui" placeholder="Tên người gửi" required>
-</div>
-
-<div class="tp-contact-input-title">
-   <label for="ten_nguoi_gui">Tên của bạn</label>
-</div>
-
-</div>
-
-
-<div class="tp-contact-input-box">
-   <div class="tp-contact-input">
-<textarea name="tin_nhan" placeholder="Tin nhắn" required></textarea>
-   </div>
-   <div class="tp-contact-input-title">
-      <label for="tin_nhan">Tin nhắn của bạn</label>
-   </div>
-</div>
-      
-<div class="tp-contact-btn">
-    <button type="submit">Gửi</button>
-</div>
-      
-  
+     <section class="tp-contact-area pb-100">
+      <div class="container">
+         <div class="tp-contact-inner">
+            <div class="row">
+               <div class="col-xl-9 col-lg-8">
+                  <div class="tp-contact-wrapper">
+                     <h3 class="tp-contact-title">Thông tin và tin nhắn liên hệ</h3>
+   
+                     <div class="tp-contact-form">
+                        @if(auth()->check())
+                        <form id="contact-form" action="{{ route('lienhe.store') }}" method="POST">
+                           @csrf
+                           <div class="tp-contact-input-wrapper">
+                              <div class="tp-contact-input-box">
+                                 <div class="tp-contact-input">
+                                    <input name="ten_nguoi_gui" id="ten_nguoi_gui" type="text" placeholder="Tên của bạn" required>
+                                 </div>
+                                 <div class="tp-contact-input-title">
+                                    <label for="ten_nguoi_gui">Tên của bạn</label>
+                                 </div>
+                              </div>
+                              {{-- <div class="tp-contact-input-box">
+                                 <div class="tp-contact-input">
+                                    <input name="email" id="email" type="email" placeholder="Email của bạn" required>
+                                 </div>
+                                 <div class="tp-contact-input-title">
+                                    <label for="email">Email</label>
+                                 </div>
+                              </div> --}}
+                              <div class="tp-contact-input-box">
+                                 <div class="tp-contact-input">
+                                    <textarea id="tin_nhan" name="tin_nhan" placeholder="Viết tin nhắn của bạn..." required></textarea>
+                                 </div>
+                                 <div class="tp-contact-input-title">
+                                    <label for="tin_nhan">Tin nhắn của bạn</label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="tp-contact-btn">
+                              <button type="submit">Gửi tin nhắn</button>
+                           </div>
+                        </form>
+                        @else
+                        <p class="fs-5">Bạn cần <a class="text-decoration-underline text-danger" href="{{ route('customer.login') }}">đăng nhập</a> để gửi form!</p>
+                        @endif
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xl-3 col-lg-4">
+                  <div class="tp-contact-info-wrapper">
+                     <div class="tp-contact-info-item">
+                        <div class="tp-contact-info-icon">
+                           <span>
+                              <img src="{{ asset('assets/client/img/contact/contact-icon-1.png') }}" alt="">
+                           </span>
+                        </div>
+                        <div class="tp-contact-info-content">
+                           <p data-info="mail">
+                              <a href="mailto:your_email@example.com">izone@gmail.com</a>
+                           </p>
+                           <p data-info="phone">
+                              <a href="tel:123-456-7890">+(402) 763 282 46</a>
+                           </p>
+                        </div>
+                     </div>
+                     {{-- <div class="tp-contact-info-item">
+                        <div class="tp-contact-info-icon">
+                           <span>
+                              <img src="assets/img/contact/contact-icon-2.png" alt="">
+                           </span>
+                        </div>
+                        <div class="tp-contact-info-content">
+                           <p>
+                              <a href="https://www.google.com/maps" target="_blank">
+                                 123 Đường ABC, Thành phố XYZ
+                              </a>
+                           </p>
+                        </div>
+                     </div> --}}
+                     <div class="tp-contact-info-item">
+                        <div class="tp-contact-info-icon">
+                           <span>
+                              <img src="{{ asset('assets/client/img/contact/contact-icon-3.png') }}" alt="">
+                           </span>
+                        </div>
+                        <div class="tp-contact-info-content">
+                           <div class="tp-contact-social-wrapper mt-5">
+                              <h4 class="tp-contact-social-title">Kết nối trên mạng xã hội</h4>
+                              <div class="tp-contact-social-icon">
+                                 <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                                 <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                 <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
-      
-  </form>
-@else
-   <p class="fs-5">Bạn cần <a class="text-decoration-underline text-danger" href="{{ route('customer.login') }}">đăng nhập</a> để gửi form!</p>
-@endif
-</div>
-
-
-</div>
-</div>
-</div>
-</div>
-</div>
-
-
-
-
-
-
-</section>
+   </section>
+   
 
 
 

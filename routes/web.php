@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\AdminForgotPasswordController;
 use App\Http\Controllers\Admin\DashboardController;
-
+use App\Http\Controllers\Admin\DanhGiaSanPhamController;
 use App\Http\Controllers\admin\DanhMucController;
 use App\Http\Controllers\admin\SanPhamController;
 use App\Http\Controllers\Admin\MauSacController;
@@ -223,6 +223,24 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
     });
   });
+  Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL danh gia')->group(function () {
+
+    Route::prefix('Danhgias')->name('Danhgias.')->group(function () {
+        // Route hiển thị danh sách đánh giá
+        Route::get('/', [DanhGiaSanPhamController::class, 'index'])->name('index');
+
+        // Route xem chi tiết đánh giá
+        Route::get('/danh-gia/{danhGiaId}', [DanhGiaSanPhamController::class, 'show'])->name('show');    
+
+        // Route trả lời đánh giá (admin trả lời)
+        Route::post('/danh-gia/{danhGiaId}/tra-loi', [DanhGiaSanPhamController::class, 'traLoi'])->name('traLoi');
+
+        Route::put('admin/danhgias/tra-loi/{id}', [DanhGiaSanPhamController::class, 'updateResponse'])->name('traLoi.update');
+
+    });
+});
+
+
 // chuyển hướng nếu người dùng nhập route không tồn tại trong admin
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::fallback(function () {
@@ -262,9 +280,9 @@ Route::prefix('customer')->name('customer.')->group(function () {
 });
 
 // Trang chủ
-Route::get('/', [TrangChuController::class, 'indexOld'])->name('/');
-Route::get('/trangchu', [TrangChuController::class, 'indexOld'])->name('trangchu');
-Route::get('/trangchuold', [TrangChuController::class, 'index'])->name('trangchuold');
+Route::get('/', [TrangChuController::class, 'index'])->name('/');
+Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('/trangchuold', [TrangChuController::class, 'indexOld'])->name('trangchuold');
 // Trang sản phẩm
 Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
 Route::get('/danh-muc/{danh_muc_id}', [SanPhamDanhMucController::class, 'index'])->name('sanpham.danhmuc');
