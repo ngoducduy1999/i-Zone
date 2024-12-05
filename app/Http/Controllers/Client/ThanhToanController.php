@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\VNPayController;
 use App\Mail\InvoiceCreated;
 use Illuminate\Support\Facades\Mail;
-
+use App\Models\BienTheSanPham;
 class ThanhToanController extends Controller
 {
 
@@ -189,6 +189,42 @@ public function placeOrder(Request $request)
         }
 
         Log::info("Cart data: ", (array) $cart);
+        $insufficientStock = []; // Danh sách sản phẩm không đủ tồn kho
+
+        
+        $insufficientStock = []; // Danh sách sản phẩm không đủ tồn kho
+$updatedTotalPrice = 0;  // Tổng tiền sau khi cập nhật giỏ hàng
+
+foreach ($cart->products as &$item) {
+    $bienThe = BienTheSanPham::find($item['bienthe']->id);
+    
+    // Kiểm tra nếu tồn kho không đủ
+    if ($item['quantity'] > $bienThe->so_luong) {
+        $insufficientStock[] = [
+            'product_name' => $bienThe->sanPham->ten_san_pham,
+            'available_quantity' => $bienThe->so_luong,
+        ];
+        // Cập nhật lại số lượng khả dụng trong giỏ hàng
+        $item['quantity'] = $bienThe->so_luong; 
+    }
+
+    // Cập nhật tổng tiền sau khi kiểm tra số lượng
+    $updatedTotalPrice += $item['quantity'] * $item['bienthe']->gia_moi;
+}
+
+// Cập nhật lại giỏ hàng nếu cần
+$cart->totalPrice = $updatedTotalPrice;
+Session::put('cart', $cart);
+
+// Thông báo lỗi nếu có sản phẩm không đủ tồn kho
+if (!empty($insufficientStock)) {
+    return response()->json([
+        'success' => false,
+        'message' => 'Một số sản phẩm không đủ tồn kho.',
+        'insufficient_stock' => $insufficientStock,
+    ]);
+}
+
 
         // Kiểm tra mã giảm giá
         $discountCode = Session::get('discount_code', null);
@@ -223,30 +259,6 @@ public function placeOrder(Request $request)
             Log::error("Người dùng chưa đăng nhập.");
             return response()->json(['success' => false, 'message' => 'Bạn cần đăng nhập để đặt hàng'], 401);
         }
-       /*  if ($request->payment_method == 'VNPay') {
-            // Tạo hóa đơn trước khi chuyển sang thanh toán
-            $hoaDon = HoaDon::create([
-                'ma_hoa_don' => date("ymd") . "_" . rand(0, 1000000),
-                'user_id' => $userId,
-                'giam_gia' => $discountAmount,
-                'tong_tien' => $tongTienSauGiam,
-                'dia_chi_nhan_hang' => $request->address,
-                'email' => $request->email,
-                'so_dien_thoai' => $request->phone,
-                'ten_nguoi_nhan' => $request->name,
-                'ngay_dat_hang' => now(),
-                'ghi_chu' => $request->note,
-                'phuong_thuc_thanh_toan' => $request->payment_method,
-                'trang_thai' => HoaDon::CHO_XAC_NHAN,
-                'trang_thai_thanh_toan' => HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán'],
-                'thoi_gian_het_han' => now()->addMinutes(15),
-            ]);
-        
-            // Gọi VNPay Controller để tạo thanh toán
-            return app(VNPayController::class)->createPayment($tongTienSauGiam, $hoaDon->ma_hoa_don, "Thanh toán đơn hàng #$hoaDon->ma_hoa_don");
-        } */
-        
-
         // Kiểm tra phương thức thanh toán
         if ($request->payment_method == 'Thanh toán qua chuyển khoản ngân hàng') {
             
@@ -270,24 +282,34 @@ public function placeOrder(Request $request)
 
         Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
 
-        // Thêm chi tiết hóa đơn và cập nhật số lượng tồn kho
         foreach ($cart->products as $item) {
-        Log::info("Chi tiết sản phẩm: ", (array) $item);
+    Log::info("Chi tiết sản phẩm: ", (array) $item);
 
-        // Tạo chi tiết hóa đơn
-        ChiTietHoaDon::create([
-            'hoa_don_id' => $hoaDon->id,
-            'bien_the_san_pham_id' => $item['bienthe']->id,
-            'so_luong' => $item['quantity'],
-            'don_gia' => $item['bienthe']->gia_moi,
-            'thanh_tien' => $item['quantity'] * $item['bienthe']->gia_moi,
+    // Tìm biến thể sản phẩm từ cơ sở dữ liệu
+    $bienThe = BienTheSanPham::find($item['bienthe']->id);
+
+    // Kiểm tra tồn kho trước khi giảm số lượng
+    if ($bienThe->so_luong < $item['quantity']) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Sản phẩm ' . $bienThe->sanPham->ten_san_pham . ' chỉ còn lại ' . $bienThe->so_luong . ' trong kho.',
         ]);
+    }
 
-        // Cập nhật số lượng tồn kho của biến thể sản phẩm
-        $bienThe = $item['bienthe'];
-        $bienThe->so_luong -= $item['quantity'];
-        $bienThe->save();
-        }
+    // Tạo chi tiết hóa đơn
+    ChiTietHoaDon::create([
+        'hoa_don_id' => $hoaDon->id,
+        'bien_the_san_pham_id' => $item['bienthe']->id,
+        'so_luong' => $item['quantity'],
+        'don_gia' => $item['bienthe']->gia_moi,
+        'thanh_tien' => $item['quantity'] * $item['bienthe']->gia_moi,
+    ]);
+
+    // Giảm số lượng tồn kho
+    $bienThe->so_luong -= $item['quantity'];
+    $bienThe->save();
+}
+
         // Xóa session giỏ hàng và mã giảm giá
         Session::forget('cart');
         Session::forget('discount_code');
@@ -305,6 +327,7 @@ public function placeOrder(Request $request)
         Log::error("Lỗi khi đặt hàng: " . $e->getMessage());
         return response()->json(['success' => false, 'message' => 'Đã xảy ra lỗi khi đặt hàng'], 500);
     }
+    
 }
 
 
@@ -329,10 +352,20 @@ protected function createInvoice($userId, $request, $cart, $giamGia, $tongTienSa
 
     Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
 
-    // Thêm chi tiết hóa đơn và cập nhật số lượng tồn kho
     foreach ($cart->products as $item) {
         Log::info("Chi tiết sản phẩm: ", (array) $item);
-
+    
+        // Tìm biến thể sản phẩm từ cơ sở dữ liệu
+        $bienThe = BienTheSanPham::find($item['bienthe']->id);
+    
+        // Kiểm tra tồn kho trước khi giảm số lượng
+        if ($bienThe->so_luong < $item['quantity']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sản phẩm ' . $bienThe->sanPham->ten_san_pham . ' chỉ còn lại ' . $bienThe->so_luong . ' trong kho.',
+            ]);
+        }
+    
         // Tạo chi tiết hóa đơn
         ChiTietHoaDon::create([
             'hoa_don_id' => $hoaDon->id,
@@ -341,13 +374,12 @@ protected function createInvoice($userId, $request, $cart, $giamGia, $tongTienSa
             'don_gia' => $item['bienthe']->gia_moi,
             'thanh_tien' => $item['quantity'] * $item['bienthe']->gia_moi,
         ]);
-
-        // Cập nhật số lượng tồn kho của biến thể sản phẩm
-        $bienThe = $item['bienthe'];
+    
+        // Giảm số lượng tồn kho
         $bienThe->so_luong -= $item['quantity'];
         $bienThe->save();
     }
-
+    
     // Gửi email xác nhận
     Mail::to($request->email)->send(new InvoiceCreated($hoaDon));
 

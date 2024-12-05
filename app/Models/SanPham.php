@@ -83,5 +83,9 @@ class SanPham extends Model
     {
         return $this->belongsToMany(User::class, 'yeu_thichs', 'san_pham_id', 'user_id');
     }
-    
+    public function hasBeenReviewedBy($user)
+{
+    return $this->reviews()->where('user_id', $user->id)->exists();
+}
+
 }

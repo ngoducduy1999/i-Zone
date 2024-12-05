@@ -20,38 +20,8 @@
 </head>
 
 <body class="bg-white">
-    <!-- Begin page -->
-    <div class="account-page">
-        <div class="container-fluid p-0">
-            <div class="row align-items-center g-0">
-                <div class="col-xl-5">
-                    <div class="row">
-                        <div class="col-md-7 mx-auto">
-                            <div class="mb-0 border-0 p-md-5 p-lg-0 p-4">
-                                <div class="mb-4 p-0">
-                                    <a class='auth-logo' href='index.html'>
-                                        <img src="{{asset('assets/admin/images/logo-dark.png')}}" alt="logo-dark" class="mx-auto" height="28" />
-                                    </a>
-                                </div>
-                                @yield('content')
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-7">
-                    <div class="account-page-bg p-md-5 p-4">
-                        <div class="text-center">
-                            <h3 class="text-dark mb-3 pera-title">Nhanh chóng, hiệu quả và năng suất với Bảng điều khiển dành cho quản trị viên iZone</h3>
-                            <div class="auth-image">
-                                <img src="{{asset('assets/admin/images/authentication.svg')}}" class="mx-auto img-fluid"  alt="images">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @yield('content')
+    
     <!-- END wrapper -->
 
     <!-- Vendor -->

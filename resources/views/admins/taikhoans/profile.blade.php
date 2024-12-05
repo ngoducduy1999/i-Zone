@@ -2,12 +2,29 @@
 
 @section('content')
 <div class="content">
-
-    <!-- Bắt đầu nội dung -->
-    <div class="container-xxl">
-        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
-            <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Hồ sơ cá nhân</h4>
+        <!-- Bắt đầu nội dung -->
+        <div class="container-xxl">
+            <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
+                <div class="flex-grow-1">
+                    <h4 class="fs-18 fw-semibold m-0">Hồ sơ cá nhân</h4>
+                </div>
+            </div>
+            @if (session('success'))
+            <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+            @endif
+            
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
             </div>
         </div>
         @if ($errors->any())

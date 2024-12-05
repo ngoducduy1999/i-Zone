@@ -51,53 +51,38 @@
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const reviewModal = document.getElementById('reviewModal');
-    reviewModal.addEventListener('show.bs.modal', (event) => {
-        const button = event.relatedTarget;
-        const sanPhamId = button.getAttribute('data-san-pham-id');
-        const reviewsList = document.getElementById('reviewsList');
-        const avgRatingStars = document.getElementById('avgRatingStars');
-        const avgRatingText = document.getElementById('avgRatingText');
-        
-        // Đặt ID sản phẩm vào input ẩn
-        document.getElementById('sanPhamId').value = sanPhamId;
+    const reviewForm = document.getElementById('reviewForm');
 
-        // Load đánh giá qua AJAX
-        reviewsList.innerHTML = '<p class="text-muted">Đang tải đánh giá...</p>';
-        fetch(`/api/reviews/${sanPhamId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length) {
-                    // Tính điểm trung bình
-                    const totalRating = data.reduce((sum, review) => sum + review.diem_so, 0);
-                    const avgRating = (totalRating / data.length).toFixed(1);
+    reviewForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
 
-                    // Hiển thị tổng điểm trung bình
-                    avgRatingStars.innerHTML = 
-                        `${'★'.repeat(Math.round(avgRating))}${'☆'.repeat(5 - Math.round(avgRating))}`;
-                    avgRatingText.textContent = `Trung bình: ${avgRating} / 5 (${data.length} đánh giá)`;
-
-                    // Lấy 2-3 đánh giá mới nhất
-                    const latestReviews = data.slice(0, 3);
-                    reviewsList.innerHTML = latestReviews.map(review => `
-<div class="review-item mb-2">
-    <div class="review-header">
-        <strong class="review-user">${review.user.ten}</strong>
-        <small class="review-date">${new Date(review.created_at).toLocaleDateString()}</small>
-    </div>
-    <p class="review-comment">${review.nhan_xet}</p>
-    <div class="review-stars">
-        ${'★'.repeat(review.diem_so)}${'☆'.repeat(5 - review.diem_so)}
-    </div>
-</div>
-                    `).join('');
-                } else {
-                    reviewsList.innerHTML = '<p class="text-muted">Chưa có đánh giá nào.</p>';
-                }
-            })
-            .catch(() => reviewsList.innerHTML = '<p class="text-danger">Không thể tải đánh giá.</p>');
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Cập nhật giao diện sản phẩm đã đánh giá
+                const sanPhamId = formData.get('san_pham_id');
+                const reviewButton = document.querySelector(`[data-san-pham-id="${sanPhamId}"]`);
+                reviewButton.outerHTML = '<span class="text-success">Đã đánh giá</span>';
+                
+                // Ẩn modal
+                const reviewModal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
+                reviewModal.hide();
+            } else {
+                alert('Đánh giá thất bại, vui lòng thử lại.');
+            }
+        })
+        .catch(error => console.error('Lỗi:', error));
     });
 });
+
 
    
 </script>
