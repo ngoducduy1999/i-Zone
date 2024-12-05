@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
-use App\Notifications\CustomerForgotPassword;
+use App\Notifications\CustomerForgotPasswordNoti;
 
 class CustomerForgotPassword extends Controller
 {
@@ -26,7 +26,7 @@ class CustomerForgotPassword extends Controller
     public function SendEmailForgot(Request $request){
         $request->validate(['email' => 'required|email']);
 
-        $status = Password::broker('user')->sendResetLink(
+        $status = Password::broker('users')->sendResetLink(
             $request->only('email'),
             function ($admin, $token) {
                 // Tùy chỉnh URL
@@ -36,7 +36,7 @@ class CustomerForgotPassword extends Controller
                 ], false));
 
                 // Sử dụng Notification với URL custom
-                $admin->notify(new CustomerForgotPassword($url));
+                $admin->notify(new CustomerForgotPasswordNoti($url));
             }
         );
 
@@ -45,5 +45,7 @@ class CustomerForgotPassword extends Controller
             : back()->withErrors(['email' => __($status)]);
 
     }
+
+    
 
 }
