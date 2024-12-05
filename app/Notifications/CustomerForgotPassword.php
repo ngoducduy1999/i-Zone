@@ -15,11 +15,11 @@ class CustomerForgotPassword extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
 
-     public $pash;
-    public function __construct($pash)
+     public $path;
+    public function __construct($path)
     {
         //
-        $this->pash = $pash;
+        $this->path = $path;
     }
 
     /**
@@ -40,7 +40,7 @@ class CustomerForgotPassword extends Notification implements ShouldQueue
         return (new MailMessage)
         ->subject('Yêu cầu đặt lại mật khẩu người dùng') // Thêm tiêu đề email
         ->line('Bạn đã yêu cầu đặt lại mật khẩu.')
-        ->action('Đặt lại mật khẩu', $this->pash)
+        ->action('Đặt lại mật khẩu', $this->path)
         ->line('Nếu bạn không yêu cầu điều này, hãy bỏ qua email này.');
     }
 

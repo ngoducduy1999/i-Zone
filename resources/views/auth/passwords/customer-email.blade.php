@@ -56,7 +56,7 @@
                    <div class="tp-login-mail text-center mb-40">
                       <p>Quên mật khẩu <a href="#"></a></p>
                    </div>
-<form action="" method="POST" class="my-4">
+<form action="{{route}}" method="POST" class="my-4">
 @csrf
 <!-- Hiển thị lỗi xác thực -->
 @if ($errors->any())
