@@ -32,7 +32,7 @@
                  <div class="tp-login-wrapper">
                     <div class="tp-login-top text-center mb-30">
                        <h3 class="tp-login-title">Đăng ký Izone.</h3>
-                       <p>Bạn đã có tài khoản?<span><a href="{{route('customer.login')}}">Đăng nhập</a></span></p>
+                       <p>Bạn đã có tài khoản? <span><a href="{{route('customer.login')}}">Đăng nhập</a></span></p>
                     </div>
                     <div class="tp-login-option">
                        <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
