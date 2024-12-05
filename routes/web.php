@@ -280,7 +280,9 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('orders/filter', [TaiKhoanController::class, 'filterOrders'])->name('customer.orders.filter');
     // quên mk customer
     Route::get('/show-form-forgot',[CustomerForgotPassword::class,'ShowformForgotPasswword'])->name('forgotPassword');
+    Route::post('/forgot-password',[CustomerForgotPassword::class,'SendEmailForgot'])->name('password.email');
     Route::get('reset-password/{token}', [CustomerForgotPassword::class, ' formResetPassword'])->name('password.reset');
+    Route::post('reset-pass',[CustomerForgotPassword::class, ' resetPassword'])->name('password.change');
 });
 
 // Trang chủ

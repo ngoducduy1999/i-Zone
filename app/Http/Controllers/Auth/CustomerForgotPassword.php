@@ -30,13 +30,13 @@ class CustomerForgotPassword extends Controller
             $request->only('email'),
             function ($admin, $token) {
                 // Tùy chỉnh URL
-                $url = url(route('admin.password.reset', [
+                $path = url(route('customer.password.reset', [
                     'token' => $token,
                     'email' => $admin->getEmailForPasswordReset(),
                 ], false));
 
                 // Sử dụng Notification với URL custom
-                $admin->notify(new CustomerForgotPasswordNoti($url));
+                $admin->notify(new CustomerForgotPasswordNoti($path));
             }
         );
 
@@ -46,6 +46,26 @@ class CustomerForgotPassword extends Controller
 
     }
 
-    
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+            'token' => 'required'
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($customer, $password) {
+                $customer->forceFill([
+                    'mat_khau' => Hash::make($password), // Sử dụng cột 'mat_khau'
+                ])->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('customer.login.post')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
+    }
 
 }
