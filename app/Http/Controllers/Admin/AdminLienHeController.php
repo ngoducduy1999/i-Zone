@@ -19,7 +19,7 @@ class AdminLienHeController extends Controller
     public function index()
     {
         //
-        $lienhes = lien_hes::with('user')->get();
+        $lienhes = lien_hes::withTrashed('user',lien_hes::STATUS_PENDING)->get();
         return view('admins.lienhes.index', compact('lienhes'));
     }
 
@@ -81,6 +81,15 @@ class AdminLienHeController extends Controller
     
         return view('admins.lienhes.phanhoi', compact('lienhes'));
     }
+
+    public function capNhatTrangThai($id, $trang_thai_phan_hoi)
+{
+    $lienhes = lien_hes::findOrFail($id);
+    $lienhes->trang_thai_phan_hoi = $trang_thai_phan_hoi;
+    $lienhes->save();
+
+    return redirect()->back()->with('success', 'Cập nhật trạng thái thành công!');
+}
    
     
     /**
