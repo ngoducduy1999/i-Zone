@@ -172,4 +172,5 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Cập nhật mật khẩu thành công!');
     }
+
 }

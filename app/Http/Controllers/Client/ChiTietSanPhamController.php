@@ -31,7 +31,9 @@ class ChiTietSanPhamController extends Controller
     public function show(string $id)
 {
     $sanpham = SanPham::find($id);
-
+    if (!$sanpham) {
+        return abort(404, 'Sản phẩm không tồn tại');
+    }
     if ($sanpham) {
         $sanpham->increment('luot_xem');
 
@@ -118,9 +120,7 @@ class ChiTietSanPhamController extends Controller
         ));
     }
 
-    return redirect()->route('trangchu')->with('error', 'Không tìm thấy sản phẩm');
 }
-
 
     public function layGiaBienThe(Request $request)
     {

@@ -46,6 +46,7 @@ Route::prefix('admin/users')->name('admin.users.')->group(function () {
 
 // Admin đăng ký đăng nhập
 Route::prefix('admin')->name('admin.')->group(function () {
+    
     Route::get('/', [AdminLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminLoginController::class, 'login'])->name('login.post');
     Route::post('logout', [AdminLoginController::class, 'logout'])->name('logout');
@@ -192,7 +193,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banner
         Route::get('/form-phan-hoi/{id}', [AdminLienHeController::class, 'showReplyForm'])->name('form.reply');
 
 
-
     });
 
 });
@@ -223,7 +223,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
     });
   });
-  Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL danh gia')->group(function () {
+  Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')->group(function () {
 
     Route::prefix('Danhgias')->name('Danhgias.')->group(function () {
         // Route hiển thị danh sách đánh giá
@@ -247,6 +247,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return redirect('admin');
     });
 });
+
 /////////////////////////////////////NGUOI DUNG TRANG WEB //////////////////////////////////////////
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\TaiKhoanController;
@@ -261,9 +262,35 @@ use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Client\LienHeController;
 use App\Http\Controllers\Auth\CustomerForgotPassword;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 // use App\Http\Controllers\VNPayController;
   // Routes for unauthenticated users
+  // Xác thực email
+/* Route::prefix('customer')->name('customer.')->middleware('auth')->group(function () {
+    // Hiển thị thông báo xác thực email nếu chưa xác thực
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->name('verification.notice');
+
+    // Xử lý khi người dùng nhấn vào liên kết xác thực email
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/')->with('success', 'Email verified successfully!');
+    })->middleware(['signed'])->name('verification.verify');
+
+    // Gửi lại email xác thực
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('success', 'Verification email sent!');
+    })->middleware(['throttle:6,1'])->name('verification.send');
+}); */
+/* Route::middleware(['auth', 'verified'])->group(function () {
+    // Ví dụ: Route dành cho người dùng đã xác thực email
+
+}); */
+
 Route::prefix('customer')->name('customer.')->group(function () {
     Route::get('login', [CustomerLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [CustomerLoginController::class, 'login'])->name('login.post');
@@ -287,8 +314,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 // Trang chủ
 Route::get('/', [TrangChuController::class, 'index'])->name('/');
-Route::get('/trangchu', [TrangChuController::class, 'index'])->name('trangchu');
-Route::get('/trangchuold', [TrangChuController::class, 'indexOld'])->name('trangchuold');
+Route::get('/trangchu', [TrangChuController::class, 'indexOld'])->name('trangchuOld');
+Route::get('/trangchuold', [TrangChuController::class, 'index'])->name('trangchu');
 // Trang sản phẩm
 Route::get('/san-pham', [TrangSanPhamController::class, 'index'])->name('san-pham');
 Route::get('/danh-muc/{danh_muc_id}', [SanPhamDanhMucController::class, 'index'])->name('sanpham.danhmuc');
@@ -325,11 +352,7 @@ Route::get('/Delete-Item-List-Cart/{id}', [CartController::class, 'DeleteItemLis
 Route::get('/Update-Item-Cart/{id}', [CartController::class, 'UpdateItemCart'])->name('cart.update.item');
 Route::get('/Discount-Cart/{disscountCode}', [CartController::class, 'discount'])->name('cart.disscount');
 
-// yêu thích
-Route::get('/Add-To-Love/{id}', [YeuThichController::class, 'addToLove'])->name('love.add');
-Route::get('/yeuthich', [YeuThichController::class, 'showYeuThich'])->name('yeuthich');
-Route::get('/Delete-From-Love/{id}', [YeuThichController::class, 'deleteLove'])->name('love.delete');
-Route::get('/Loved-List', [YeuThichController::class, 'lovedList'])->name('love.list');
+
 
 //thanh toan
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
@@ -346,12 +369,12 @@ Route::get('/search', [TrangSanPhamController::class, 'search'])->name('search.s
 //danhgia
 Route::post('/reviews', [SanPhamController::class, 'storeReview'])->name('reviews.store');
 
-// chuyển hướng nếu người dùng nhập route không tồn tại trong clients
-Route::prefix('/')->name('/.')->group(function () {
-    Route::fallback(function () {
-        return redirect('/');
-    });
-});
+
 //vnpay
 Route::get('/vnpay/return', [VNPayController::class, 'handleReturn'])->name('vnpay.return');
 
+    // yêu thích
+Route::get('/Add-To-Love/{id}', [YeuThichController::class, 'addToLove'])->name('love.add');
+Route::get('/yeuthich', [YeuThichController::class, 'showYeuThich'])->name('yeuthich');
+Route::get('/Delete-From-Love/{id}', [YeuThichController::class, 'deleteLove'])->name('love.delete');
+Route::get('/Loved-List', [YeuThichController::class, 'lovedList'])->name('love.list');
