@@ -6,7 +6,7 @@
        <div class="row">
           <div class="col-xxl-12">
              <div class="breadcrumb__content p-relative z-index-1">
-                <h3 class="breadcrumb__title">Chào bạn !</h3>
+                <h3 class="breadcrumb__title">Xin chào bạn !</h3>
                 {{-- <div class="breadcrumb__list">
                    <span><a href="#">Ho</a></span>
                    <span>My account</span>
