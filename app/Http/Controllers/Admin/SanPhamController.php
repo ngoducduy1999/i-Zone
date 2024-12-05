@@ -610,4 +610,25 @@ return redirect()->route('chitietsanpham', ['id' => $validated['san_pham_id']])-
         }
         return redirect()->back()->with('success', 'Khôi phục sản phẩm thành công');
     }
+
+    public function isHot(string $id, Request $request)
+    {
+        $sanpham = SanPham::withTrashed()->find($id);
+        if (!$sanpham) {
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+        }
+        if ($sanpham->is_hot == false) {
+            $count = SanPham::where('is_hot', 1)->count();
+            if( $count >= 15){
+                return redirect()->back()->with('error', 'Chỉ có 15 sản phẩm có thể đánh dấu là HOT');
+            }
+            $sanpham->is_hot = true;
+            $sanpham->save();
+            return redirect()->back()->with('success', 'Sản phẩm đã được đánh dấu HOT');
+        }else{
+            $sanpham->is_hot = false;
+            $sanpham->save();
+            return redirect()->back()->with('success', 'Sản phẩm đã tắt đánh dấu HOT');
+        }
+    }
 }
