@@ -279,7 +279,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('/{id}/getOrder',[TaiKhoanController::class,'getOrder'])->name('getOrder');
     Route::get('orders/filter', [TaiKhoanController::class, 'filterOrders'])->name('customer.orders.filter');
     // quên mk customer
-    Route::get('/show-form-forgot',[CustomerForgotPassword::class,'ShowformForgotPasswword'])->name('customer.forgotPassword');
+    Route::get('/show-form-forgot',[CustomerForgotPassword::class,'ShowformForgotPasswword'])->name('forgotPassword');
 });
 
 // Trang chủ

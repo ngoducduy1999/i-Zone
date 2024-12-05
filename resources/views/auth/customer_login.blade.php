@@ -121,7 +121,7 @@
                              <label for="remeber">Nhớ tài khoản</label>
                           </div>
                           <div class="tp-login-forgot">
-                             <a href="">Quên mật khẩu</a>
+                             <a href="{{route('customer.forgotPassword')}}">Quên mật khẩu</a>
                           </div>
                        </div>
                        <div class="tp-login-bottom">

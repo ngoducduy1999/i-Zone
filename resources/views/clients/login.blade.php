@@ -99,7 +99,7 @@
                              <label for="remeber">Remember me</label>
                           </div> --}}
                           <div class="tp-login-forgot">
-                             <a href="{{ route('client.forgot') }}">Quên mật khẩu !</a>
+                             <a href="{{ route('customer.forgotPassword') }}">Quên mật khẩu !</a>
                           </div>
                        </div>
                        <div class="tp-login-bottom">

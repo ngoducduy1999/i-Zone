@@ -11,6 +11,6 @@ class CustomerForgotPassword extends Controller
     //
     public function ShowformForgotPasswword()
     {
-        return ;
+        return view('auth.passwords.customer-email');
     }
 }
