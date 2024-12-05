@@ -13,4 +13,8 @@ class CustomerForgotPassword extends Controller
     {
         return view('auth.passwords.customer-email');
     }
+
+    public function formResetPassword(Request $request, $token = null){
+
+    }
 }
