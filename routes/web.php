@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminLienHeController;
+use App\Http\Controllers\Auth\CustomerForgotPassword;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -62,7 +63,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 //nhan vien
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'permission:QL nhanviens'])->group(function () {
-    Route::get('/nhanviens', [StaffController::class, 'index'])->name('nhanviens'); 
+    Route::get('/nhanviens', [StaffController::class, 'index'])->name('nhanviens');
     Route::get('/nhanviens/create', [StaffController::class, 'create'])->name('nhanviens.create');
     Route::post('/nhanviens', [StaffController::class, 'store'])->name('nhanviens.store');
     Route::get('/nhanviens/{id}', [StaffController::class, 'show'])->name('nhanviens.show');
@@ -167,11 +168,11 @@ Route::post('/query', [VNPayController::class, 'queryTransaction'])->name('query
 Route::post('/refund', [VNPayController::class, 'queryTransaction'])->name('refund');
 Route::get('/tracuu', [VNPayController::class, 'tracuu'])->name('tracuu');
 Route::get('/hoantien', [VNPayController::class, 'hoantien'])->name('hoantien');
-    
+
     Route::delete('/{id}/destroy', [HoaDonController::class, 'destroy'])->name('destroy');
 });
 });
-// Banner 
+// Banner
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banners')->group(function () {
 
     Route::prefix('banners')->name('banners.')->group(function () {
@@ -191,7 +192,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banner
         Route::post('/phanhoi/reply/send/{id}', [AdminLienHeController::class, 'sendReply'])->name('phanhoi.reply.send');
         Route::get('/form-phan-hoi/{id}', [AdminLienHeController::class, 'showReplyForm'])->name('form.reply');
 
-     
+
 
     });
 
@@ -230,7 +231,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::get('/', [DanhGiaSanPhamController::class, 'index'])->name('index');
 
         // Route xem chi tiết đánh giá
-        Route::get('/danh-gia/{danhGiaId}', [DanhGiaSanPhamController::class, 'show'])->name('show');    
+        Route::get('/danh-gia/{danhGiaId}', [DanhGiaSanPhamController::class, 'show'])->name('show');
 
         // Route trả lời đánh giá (admin trả lời)
         Route::post('/danh-gia/{danhGiaId}/tra-loi', [DanhGiaSanPhamController::class, 'traLoi'])->name('traLoi');
@@ -277,6 +278,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('/{id}/cancel',[TaiKhoanController::class,'cancelOrder'])->name('cancelOrder');
     Route::post('/{id}/getOrder',[TaiKhoanController::class,'getOrder'])->name('getOrder');
     Route::get('orders/filter', [TaiKhoanController::class, 'filterOrders'])->name('customer.orders.filter');
+    // quên mk customer
+    Route::get('/show-form-forgot',[CustomerForgotPassword::class,'ShowformForgotPasswword'])->name('customer.forgotPassword');
 });
 
 // Trang chủ
@@ -325,7 +328,7 @@ Route::get('/yeuthich', [YeuThichController::class, 'showYeuThich'])->name('yeut
 Route::get('/Delete-From-Love/{id}', [YeuThichController::class, 'deleteLove'])->name('love.delete');
 Route::get('/Loved-List', [YeuThichController::class, 'lovedList'])->name('love.list');
 
-//thanh toan 
+//thanh toan
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::post('/apply-discount', [ThanhToanController::class, 'applyDiscount'])->name('applyDiscount');
 Route::post('/clear-discount', [ThanhToanController::class, 'clearDiscount'])->name('clear.discount');
