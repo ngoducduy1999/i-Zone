@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminLienHeController;
-use App\Http\Controllers\Auth\CustomerForgotPassword;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -261,6 +260,7 @@ use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Client\LienHeController;
+use App\Http\Controllers\Auth\CustomerForgotPassword;
 
 // use App\Http\Controllers\VNPayController;
   // Routes for unauthenticated users
@@ -281,7 +281,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
     // quên mk customer
     Route::get('/show-form-forgot',[CustomerForgotPassword::class,'ShowformForgotPasswword'])->name('forgotPassword');
     Route::post('/forgot-password',[CustomerForgotPassword::class,'SendEmailForgot'])->name('password.email');
-    Route::get('reset-password/{token}', [CustomerForgotPassword::class, ' formResetPassword'])->name('password.reset');
+    Route::get('reset-password/{token}', [CustomerForgotPassword::class, 'formResetPassword'])->name('password.reset');
     Route::post('reset-pass',[CustomerForgotPassword::class, ' resetPassword'])->name('password.change');
 });
 

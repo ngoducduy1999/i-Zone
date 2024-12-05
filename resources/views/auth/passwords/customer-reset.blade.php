@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.client')
 
 @section('content')
 <section class="breadcrumb__area include-bg text-center pt-95 pb-50">
