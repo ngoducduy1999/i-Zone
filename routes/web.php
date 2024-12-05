@@ -63,7 +63,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 //nhan vien
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'permission:QL nhanviens'])->group(function () {
-    Route::get('/nhanviens', [StaffController::class, 'index'])->name('nhanviens'); 
+    Route::get('/nhanviens', [StaffController::class, 'index'])->name('nhanviens');
     Route::get('/nhanviens/create', [StaffController::class, 'create'])->name('nhanviens.create');
     Route::post('/nhanviens', [StaffController::class, 'store'])->name('nhanviens.store');
     Route::get('/nhanviens/{id}', [StaffController::class, 'show'])->name('nhanviens.show');
@@ -168,11 +168,11 @@ Route::post('/query', [VNPayController::class, 'queryTransaction'])->name('query
 Route::post('/refund', [VNPayController::class, 'queryTransaction'])->name('refund');
 Route::get('/tracuu', [VNPayController::class, 'tracuu'])->name('tracuu');
 Route::get('/hoantien', [VNPayController::class, 'hoantien'])->name('hoantien');
-    
+
     Route::delete('/{id}/destroy', [HoaDonController::class, 'destroy'])->name('destroy');
 });
 });
-// Banner 
+// Banner
 Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banners')->group(function () {
 
     Route::prefix('banners')->name('banners.')->group(function () {
@@ -191,6 +191,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banner
         Route::post('store', [AdminLienHeController::class, 'store'])->name('store');
         Route::post('/phanhoi/reply/send/{id}', [AdminLienHeController::class, 'sendReply'])->name('phanhoi.reply.send');
         Route::get('/form-phan-hoi/{id}', [AdminLienHeController::class, 'showReplyForm'])->name('form.reply');
+
 
     });
 
@@ -229,7 +230,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::get('/', [DanhGiaSanPhamController::class, 'index'])->name('index');
 
         // Route xem chi tiết đánh giá
-        Route::get('/danh-gia/{danhGiaId}', [DanhGiaSanPhamController::class, 'show'])->name('show');    
+        Route::get('/danh-gia/{danhGiaId}', [DanhGiaSanPhamController::class, 'show'])->name('show');
 
         // Route trả lời đánh giá (admin trả lời)
         Route::post('/danh-gia/{danhGiaId}/tra-loi', [DanhGiaSanPhamController::class, 'traLoi'])->name('traLoi');
@@ -260,8 +261,10 @@ use App\Http\Controllers\Client\ChiTietSanPhamController;
 use App\Http\Controllers\Client\SanPhamDanhMucController;
 use App\Http\Controllers\Client\ThanhToanController;
 use App\Http\Controllers\Client\LienHeController;
+use App\Http\Controllers\Auth\CustomerForgotPassword;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+
 // use App\Http\Controllers\VNPayController;
   // Routes for unauthenticated users
   // Xác thực email
@@ -302,6 +305,11 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('/{id}/cancel',[TaiKhoanController::class,'cancelOrder'])->name('cancelOrder');
     Route::post('/{id}/getOrder',[TaiKhoanController::class,'getOrder'])->name('getOrder');
     Route::get('orders/filter', [TaiKhoanController::class, 'filterOrders'])->name('customer.orders.filter');
+    // quên mk customer
+    Route::get('/show-form-forgot',[CustomerForgotPassword::class,'ShowformForgotPasswword'])->name('forgotPassword');
+    Route::post('/forgot-password',[CustomerForgotPassword::class,'SendEmailForgot'])->name('password.email');
+    Route::get('reset-password/{token}', [CustomerForgotPassword::class, 'formResetPassword'])->name('password.reset');
+    Route::post('reset-pass',[CustomerForgotPassword::class, 'resetPassword'])->name('password.change');
 });
 
 // Trang chủ
@@ -346,7 +354,7 @@ Route::get('/Discount-Cart/{disscountCode}', [CartController::class, 'discount']
 
 
 
-//thanh toan 
+//thanh toan
 Route::get('/thanhtoan', [ThanhToanController::class, 'index'])->name('thanhtoan');
 Route::post('/apply-discount', [ThanhToanController::class, 'applyDiscount'])->name('applyDiscount');
 Route::post('/clear-discount', [ThanhToanController::class, 'clearDiscount'])->name('clear.discount');

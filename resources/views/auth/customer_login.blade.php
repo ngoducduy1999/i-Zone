@@ -33,7 +33,7 @@
                  <div class="tp-login-wrapper">
                     <div class="tp-login-top text-center mb-30">
                        <h3 class="tp-login-title">Đăng nhập Izone.</h3>
-                       <p>Bạn chưa có tài khoản?<span><a href="{{ route('customer.register.post') }}">Đăng ký tài khoản</a></span></p>
+                       <p>Bạn chưa có tài khoản? <span><a href="{{ route('customer.register.post') }}">Đăng ký tài khoản.</a></span></p>
                     </div>
                     <div class="tp-login-option">
                        <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
@@ -121,7 +121,7 @@
                              <label for="remeber">Nhớ tài khoản</label>
                           </div>
                           <div class="tp-login-forgot">
-                             <a href="">Quên mật khẩu</a>
+                             <a href="{{route('customer.forgotPassword')}}">Quên mật khẩu</a>
                           </div>
                        </div>
                        <div class="tp-login-bottom">
