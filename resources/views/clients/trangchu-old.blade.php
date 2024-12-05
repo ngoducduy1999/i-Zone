@@ -279,9 +279,11 @@
                                                     </a>
 
                                                     <!-- product badge -->
-                                                    <div class="tp-product-badge">
-                                                        <span class="product-hot">Hot</span>
-                                                    </div>
+                                                    @if ($product->is_hot == true)
+                                                        <div class="tp-product-badge">
+                                                            <span class="product-hot">Hot</span>
+                                                        </div> 
+                                                    @endif
 
                                                     <!-- product action -->
                                                     {{-- giỏ hàng mắt tim --}}
