@@ -48,6 +48,7 @@
                                     <th>Sản phẩm</th>
                                     <th>Danh mục</th>
                                     <th>Ngày tạo</th>
+                                    <th>Hot</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -83,6 +84,28 @@
                                                     {{ $sanpham->created_at ? $sanpham->created_at->format('d-m-Y') : '' }}
                                                 </li>
                                             </ul>
+                                        </td>
+                                        <td>
+                                            <div class="col-md-2">
+                                                <div class="form-check form-switch mb-2">
+                                                    <form action="{{ route('admin.sanphams.isHot',  $sanpham->id) }}" method="POST" id="form-toggle-hot_{{ $sanpham->id }}">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <div class="form-group">
+                                                            <input 
+                                                                type="checkbox" 
+                                                                name="is_hot" 
+                                                                value="1" 
+                                                                class="form-check-input" 
+                                                                id="is_hot_{{ $sanpham->id }}"
+                                                                @if ($sanpham->is_hot) checked @endif
+                                                                @if ($sanpham->deleted_at != null) disabled @endif
+                                                                role="switch"
+                                                                onchange="this.form.submit()">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td>
                                             @if ($sanpham->deleted_at == null)
