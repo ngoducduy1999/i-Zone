@@ -26,16 +26,25 @@ class TrangChuController extends Controller
             ->where('ngay_ket_thuc', '>=', now())
             ->orderBy('ngay_ket_thuc', 'asc')
             ->get();
-        $products = SanPham::limit(8)
+            $hot15 = SanPham::limit(15)
             ->with('bienTheSanPhams', 'hinhAnhSanPhams')
-            ->orderBy('luot_xem', 'desc')
+            ->where('is_hot', 1)
             ->get();
+        if (count($hot15) > 0) {
+            $products = $hot15->count() < 8 ? $hot15 : $hot15->random(8);
+        } else {
+            $products = SanPham::limit(8)
+                ->with('bienTheSanPhams', 'hinhAnhSanPhams')
+                ->orderBy('luot_xem', 'desc')
+                ->get();
+        }
         $allIdProducts = $products->pluck('id')->toArray();
-        $newProducts = SanPham::with('bienTheSanPhams', 'hinhAnhSanPhams')
+        $new20 = SanPham::with('bienTheSanPhams', 'hinhAnhSanPhams')
             ->whereNotIn('id', $allIdProducts)
             ->latest()
-            ->limit(6)
+            ->limit(20)
             ->get();
+        $newProducts = $new20->count() < 6 ? $new20 : $new20->random(6);
         $allIdNewProducts = $newProducts->pluck('id')->toArray();
         $randProducts = SanPham::with('bienTheSanPhams', 'hinhAnhSanPhams')
             ->whereNotIn('id', $allIdProducts)
