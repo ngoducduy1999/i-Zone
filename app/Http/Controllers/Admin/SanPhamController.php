@@ -592,6 +592,9 @@ return redirect()->route('chitietsanpham', ['id' => $validated['san_pham_id']])-
         if (!$sanpham) {
             return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
         }
+        // tắt is hot sản phẩm
+        $sanpham->is_hot = false;
+        $sanpham->save();
         $sanpham->delete();
         return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
     }
