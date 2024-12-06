@@ -18,6 +18,10 @@ class TrangSanPhamController extends Controller
         $mauSacs = MauSac::all();
         $query = SanPham::with(['bienTheSanPhams', 'danhGias']); // Tải trước các quan hệ
     
+        // Truyền giá trị đã chọn vào biến để sử dụng trong view
+        $selectedDungLuongs = $request->input('dung_luong', []); // Dung lượng đã chọn
+        $selectedColors = $request->input('mau_sac', []); // Màu sắc đã chọn
+    
         // Tìm kiếm theo tên sản phẩm
         if ($request->filled('search')) {
             $query->where('ten_san_pham', 'like', '%' . $request->search . '%');
@@ -67,8 +71,11 @@ class TrangSanPhamController extends Controller
                             case '10-den-20-trieu':
                                 $query->orWhereBetween('gia_moi', [10000000, 20000000]);
                                 break;
-                            case 'tren-20-trieu':
-                                $query->orWhere('gia_moi', '>', 20000000);
+                            case '20-den-30-trieu':  
+                                $query->orWhereBetween('gia_moi', [20000000, 30000000]);
+                                break;
+                            case 'tren-30-trieu':  
+                                $query->orWhere('gia_moi', '>', 30000000);
                                 break;
                         }
                     }
@@ -90,8 +97,10 @@ class TrangSanPhamController extends Controller
             ->take(4)
             ->get();
     
-        return view('clients.trangsanpham', compact('listSanPham', 'danhMucs', 'dungLuongs', 'mauSacs', 'products', 'hasProducts'));
-    }    
+        // Trả về view với các giá trị đã chọn
+        return view('clients.trangsanpham', compact('listSanPham', 'danhMucs', 'dungLuongs', 'mauSacs', 'products', 'hasProducts', 'selectedDungLuongs', 'selectedColors'));
+    }
+        
 
     public function search(Request $request){
        $searchTerm = $request->get('search');

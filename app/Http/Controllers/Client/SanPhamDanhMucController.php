@@ -40,13 +40,18 @@ class SanPhamDanhMucController extends Controller
                     $q->whereBetween('gia_moi', [10000000, 20000000]); // Từ 10 triệu - 20 triệu
                 });
                 break;
-            case 'tren-20-trieu':
+            case '20-den-30-trieu':
                 $query->whereHas('bienTheSanPhams', function ($q) {
-                    $q->where('gia_moi', '>', 20000000); // Trên 20 triệu
+                    $q->whereBetween('gia_moi', [20000000, 30000000]); // Từ 20 triệu - 30 triệu
+                });
+                break;
+            case 'tren-30-trieu':
+                $query->whereHas('bienTheSanPhams', function ($q) {
+                    $q->where('gia_moi', '>', 30000000); // Trên 30 triệu
                 });
                 break;
         }
-    }    
+    }        
 
     // Xử lý lọc theo màu sắc
     if ($request->filled('mau_sac_id')) {
