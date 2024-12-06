@@ -1,7 +1,11 @@
 @extends('layouts.client')
 
 @section('css')
-   
+    <style>
+        .btn-long {
+            width: 100px;  /* Bạn có thể điều chỉnh giá trị này tùy theo yêu cầu */       
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -29,7 +33,7 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-4">
                     <div class="tp-shop-sidebar mr-10">
-                        <form id="filterForm" action="{{ route('san-pham') }}" method="GET">
+                        <form action="{{ route('san-pham') }}" method="GET">
                             <!-- Lọc theo danh mục -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Danh Mục</h3>
@@ -38,94 +42,90 @@
                                         <ul>
                                             @foreach ($danhMucs as $danhMuc)
                                                 <li>
-                                                    <a href="#" onclick="selectCategory('{{ $danhMuc->id }}'); return false;">
-                                                        {{ $danhMuc->ten_danh_muc }} 
-                                                    </a>
+                                                    <label>
+                                                        <input type="checkbox" name="danh_muc[]" value="{{ $danhMuc->id }}" 
+                                                            {{ in_array($danhMuc->id, request()->get('danh_muc', [])) ? 'checked' : '' }}>
+                                                        {{ $danhMuc->ten_danh_muc }}
+                                                    </label>
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Lọc theo giá -->
-                            <div class="tp-shop-widget mb-50">
-                                <h3 class="tp-shop-widget-title">Lọc Theo Giá</h3>
-                                <div class="tp-shop-widget-content">
-                                    <div class="tp-shop-widget-checkbox">
-                                        <ul class="filter-items filter-checkbox">
-                                            <li class="filter-item checkbox">
-                                                <input id="price_duoi_5_trieu" type="radio" name="price[]" value="duoi-5-trieu" onchange="submitFilterForm()">
-                                                <label for="price_duoi_5_trieu">Dưới 5 triệu</label>
-                                            </li>
-                                            <li class="filter-item checkbox">
-                                                <input id="price_5_den_10_trieu" type="radio" name="price[]" value="5-den-10-trieu" onchange="submitFilterForm()">
-                                                <label for="price_5_den_10_trieu">5 triệu - 10 triệu</label>
-                                            </li>
-                                            <li class="filter-item checkbox">
-                                                <input id="price_10_den_20_trieu" type="radio" name="price[]" value="10-den-20-trieu" onchange="submitFilterForm()">
-                                                <label for="price_10_den_20_trieu">10 triệu - 20 triệu</label>
-                                            </li>
-                                            <li class="filter-item checkbox">
-                                                <input id="price_tren_20_trieu" type="radio" name="price[]" value="tren-20-trieu" onchange="submitFilterForm()">
-                                                <label for="price_tren_20_trieu">Trên 20 triệu</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                                                                          
-                            <!-- Lọc theo dung lượng -->
+                        
+<!-- Lọc theo giá -->
+<div class="tp-shop-widget mb-50">
+    <h3 class="tp-shop-widget-title">Lọc Theo Giá</h3>
+    <div class="tp-shop-widget-content">
+        <label>
+            <input type="checkbox" name="price[]" value="duoi-5-trieu" 
+                {{ in_array('duoi-5-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+            Dưới 5 triệu
+        </label><br>
+        <label>
+            <input type="checkbox" name="price[]" value="5-den-10-trieu" 
+                {{ in_array('5-den-10-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+            5 triệu - 10 triệu
+        </label><br>
+        <label>
+            <input type="checkbox" name="price[]" value="10-den-20-trieu" 
+                {{ in_array('10-den-20-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+            10 triệu - 20 triệu
+        </label><br>
+        <label>
+            <input type="checkbox" name="price[]" value="tren-20-trieu" 
+                {{ in_array('tren-20-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+            Trên 20 triệu
+        </label><br>
+    </div>
+</div>
+
+                        
+                            <!-- Dung Lượng -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Dung Lượng</h3>
                                 <div class="tp-shop-widget-content">
-                                    <div class="tp-shop-widget-checkbox">
-                                        <ul class="filter-items filter-checkbox">
-                                            @foreach ($dungLuongs as $dungLuong)
-                                                <li class="filter-item checkbox">
-                                                    <input 
-                                                        id="dung_luong_{{ $dungLuong->id }}" 
-                                                        type="checkbox" 
-                                                        value="{{ $dungLuong->id }}" 
-                                                        onchange="filterByDungLuong('{{ $dungLuong->id }}', this.checked);" 
-                                                        {{ request()->has('dung_luong') && in_array($dungLuong->id, explode(',', request()->dung_luong)) ? 'checked' : '' }}>
-                                                    <label for="dung_luong_{{ $dungLuong->id }}">{{ $dungLuong->ten_dung_luong }}</label>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                                    @foreach ($dungLuongs as $dungLuong)
+                                        <label>
+                                            <input type="checkbox" name="dung_luong[]" value="{{ $dungLuong->id }}" 
+                                                {{ in_array($dungLuong->id, request()->get('dung_luong', [])) ? 'checked' : '' }}>
+                                            {{ $dungLuong->ten_dung_luong }}
+                                        </label><br>
+                                    @endforeach
                                 </div>
-                            </div>                                      
+                            </div>
                         
-                            <!-- Lọc theo màu sắc -->
+                            <!-- Màu Sắc -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Màu Sắc</h3>
+
                                 <div class="tp-shop-widget-content">
                                     <div class="tp-shop-widget-checkbox-circle-list">
                                         <ul>
                                             @foreach ($mauSacs as $mauSac)
                                                 <li>
                                                     <div class="tp-shop-widget-checkbox-circle">
-                                                        <input 
-                                                            type="checkbox" 
-                                                            id="color_{{ $mauSac->id }}" 
-                                                            onchange="filterByColor('{{ $mauSac->id }}', this.checked);" 
-                                                            {{ request()->has('mau_sac') && in_array($mauSac->id, explode(',', request()->mau_sac)) ? 'checked' : '' }}>
+                                                        <input type="checkbox" id="color_{{ $mauSac->id }}" 
+                                                            name="mau_sac[]" value="{{ $mauSac->id }}"
+                                                            {{ in_array($mauSac->id, request()->get('mau_sac', [])) ? 'checked' : '' }}>
                                                         <label for="color_{{ $mauSac->id }}">{{ $mauSac->ten_mau_sac }}</label>
-                                                        <span data-bg-color="{{ $mauSac->ma_mau ?? '#FFFFFF' }}" 
-                                                              class="tp-shop-widget-checkbox-circle-self" 
-                                                              style="background-color: {{ $mauSac->ma_mau ?? '#FFFFFF' }};"></span>
+                                                        <span data-bg-color="{{ $mauSac->ma_mau ?? '#ccc' }}" class="tp-shop-widget-checkbox-circle-self"></span>
                                                     </div>
-                                                    <span class="tp-shop-widget-checkbox-circle-number">{{ $mauSac->so_luong }}</span>
+                                                    <span class="tp-shop-widget-checkbox-circle-number">
+                                                        {{ $mauSac->productCount }} <!-- Giả sử bạn có một thuộc tính này để đếm số sản phẩm tương ứng -->
+                                                    </span>
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 </div>
-                            </div>                              
-                        
+                            </div>
+         
+                            <button type="submit" class="btn btn-primary btn-long">Lọc</button>
+                          
                             <!-- Sản phẩm được đánh giá cao -->
-                            <div class="tp-shop-widget mb-50">
+                            <div class="tp-shop-widget mb-50 mt-30">
                                 <h3 class="tp-shop-widget-title">Sản phẩm đánh giá cao</h3>
                                 <div class="tp-shop-widget-content">
                                     <div class="tp-shop-widget-product">
@@ -136,7 +136,7 @@
                                                         <img src="{{ asset($product->anh_san_pham) }}" alt="{{ $product->ten_san_pham }}">
                                                     </a>
                                                 </div>
-
+                        
                                                 <div class="tp-shop-widget-product-content">
                                                     <div class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
                                                         <div class="tp-shop-widget-product-rating">
@@ -173,7 +173,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>                                                               
+                        </form>
+                        
+                        
+                                                                                                     
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-8">
@@ -457,90 +460,5 @@
 @endsection
 
 @section('js')
-<script>
-    function submitFilterForm() {
-    const form = document.getElementById('filterForm');
-    const currentParams = new URLSearchParams(window.location.search);
 
-    // Giữ lại các tham số hiện tại (dung lượng, màu sắc, danh mục, v.v.)
-    currentParams.forEach((value, key) => {
-        if (!form.querySelector(`[name="${key}"]`)) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = value;
-            form.appendChild(input);
-        }
-    });
-
-    form.submit();
-}
-
-    // Lọc dung lượng
-        function filterByDungLuong(dungLuongId, isChecked) {
-        const urlParams = new URLSearchParams(window.location.search);
-        let dungLuongs = urlParams.get('dung_luong') ? urlParams.get('dung_luong').split(',') : [];
-
-        if (isChecked) {
-            // Thêm dung lượng vào danh sách nếu được chọn
-            if (!dungLuongs.includes(dungLuongId)) {
-                dungLuongs.push(dungLuongId);
-            }
-        } else {
-            // Loại bỏ dung lượng khỏi danh sách nếu bỏ chọn
-            dungLuongs = dungLuongs.filter(id => id !== dungLuongId);
-        }
-
-        // Cập nhật URL với danh sách dung lượng mới
-        if (dungLuongs.length > 0) {
-            urlParams.set('dung_luong', dungLuongs.join(','));
-        } else {
-            urlParams.delete('dung_luong');
-        }
-
-        // Chuyển hướng với URL mới
-        window.location.search = urlParams.toString();
-    }
-
-    // Lọc màu sắc
-    function filterByColor(colorId, isChecked) {
-        // Lấy URL hiện tại
-        const url = new URL(window.location.href);
-        let colors = url.searchParams.get("mau_sac");
-
-        // Chuyển colors thành mảng
-        colors = colors ? colors.split(",") : [];
-
-        if (isChecked) {
-            // Thêm màu vào danh sách nếu chưa có
-            if (!colors.includes(colorId)) {
-                colors.push(colorId);
-            }
-        } else {
-            // Xóa màu khỏi danh sách nếu đã có
-            colors = colors.filter(id => id !== colorId);
-        }
-
-        // Cập nhật lại tham số URL
-        if (colors.length > 0) {
-            url.searchParams.set("mau_sac", colors.join(","));
-        } else {
-            url.searchParams.delete("mau_sac");
-        }
-
-        // Điều hướng đến URL mới
-        window.location.href = url.toString();
-    }
-
-    function selectCategory(categoryId) {
-        // Xử lý chọn danh mục
-        const filterForm = document.getElementById('filterForm');
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'danh_muc';
-        input.value = categoryId;
-        filterForm.appendChild(input);
-        filterForm.submit();
-    }
-</script>
 @endsection
