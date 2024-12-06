@@ -71,8 +71,11 @@ class TrangSanPhamController extends Controller
                             case '10-den-20-trieu':
                                 $query->orWhereBetween('gia_moi', [10000000, 20000000]);
                                 break;
-                            case 'tren-20-trieu':
-                                $query->orWhere('gia_moi', '>', 20000000);
+                            case '20-den-30-trieu':  
+                                $query->orWhereBetween('gia_moi', [20000000, 30000000]);
+                                break;
+                            case 'tren-30-trieu':  
+                                $query->orWhere('gia_moi', '>', 30000000);
                                 break;
                         }
                     }

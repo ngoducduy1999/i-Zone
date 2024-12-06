@@ -54,34 +54,38 @@
                                 </div>
                             </div>
                         
-<!-- Lọc theo giá -->
-<div class="tp-shop-widget mb-50">
-    <h3 class="tp-shop-widget-title">Lọc Theo Giá</h3>
-    <div class="tp-shop-widget-content">
-        <label>
-            <input type="checkbox" name="price[]" value="duoi-5-trieu" 
-                {{ in_array('duoi-5-trieu', request()->get('price', [])) ? 'checked' : '' }}>
-            Dưới 5 triệu
-        </label><br>
-        <label>
-            <input type="checkbox" name="price[]" value="5-den-10-trieu" 
-                {{ in_array('5-den-10-trieu', request()->get('price', [])) ? 'checked' : '' }}>
-            5 triệu - 10 triệu
-        </label><br>
-        <label>
-            <input type="checkbox" name="price[]" value="10-den-20-trieu" 
-                {{ in_array('10-den-20-trieu', request()->get('price', [])) ? 'checked' : '' }}>
-            10 triệu - 20 triệu
-        </label><br>
-        <label>
-            <input type="checkbox" name="price[]" value="tren-20-trieu" 
-                {{ in_array('tren-20-trieu', request()->get('price', [])) ? 'checked' : '' }}>
-            Trên 20 triệu
-        </label><br>
-    </div>
-</div>
-
-                        
+                            <!-- Lọc theo giá -->
+                            <div class="tp-shop-widget mb-50">
+                                <h3 class="tp-shop-widget-title">Lọc Theo Giá</h3>
+                                <div class="tp-shop-widget-content">
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="duoi-5-trieu" 
+                                            {{ in_array('duoi-5-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        Dưới 5 triệu
+                                    </label><br>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="5-den-10-trieu" 
+                                            {{ in_array('5-den-10-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        5 triệu - 10 triệu
+                                    </label><br>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="10-den-20-trieu" 
+                                            {{ in_array('10-den-20-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        10 triệu - 20 triệu
+                                    </label><br>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="20-den-30-trieu" 
+                                            {{ in_array('20-den-30-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        20 triệu - 30 triệu
+                                    </label><br>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="tren-30-trieu" 
+                                            {{ in_array('tren-30-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        Trên 30 triệu
+                                    </label><br>
+                                </div>
+                            </div>
+                                                 
                             <!-- Dung Lượng -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Dung Lượng</h3>
