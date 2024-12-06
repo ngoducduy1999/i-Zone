@@ -219,7 +219,22 @@
                                         </a>
                                    
                                     </div>
+                                        <!-- Conditionally display discount percentage -->
+                                        @php
+                                        $giaCu = $item->bienTheSanPhams->first()->gia_cu;
+                                        $giaMoi = $item->bienTheSanPhams->first()->gia_moi;
+                                        $discountPercentage = 0;
 
+                                        if ($giaCu > 0 && $giaMoi < $giaCu) {
+                                            $discountPercentage = round((($giaCu - $giaMoi) / $giaCu) * 100);
+                                        }
+                                        @endphp
+
+                                        @if ($discountPercentage > 0)
+                                        <div class="tp-product-badge">
+                                            <span class="product-discount">{{ $discountPercentage }}% OFF</span>
+                                        </div>
+                                        @endif
                                     <!-- product content -->
                                     <div class="tp-product-content">
                                         <div class="tp-product-category">
@@ -269,13 +284,10 @@
 
                                         <div class="tp-product-price-wrapper">
                                             @if ($item->bienTheSanPhams->first()->gia_cu > $item->bienTheSanPhams->first()->gia_moi)
-                                                <span
-                                                    class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                                <span class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                                <span class="tp-product-price old-price">{{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ</span>
                                             @else
-                                                <span
-                                                    class="tp-product-price old-price">{{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ</span>
-                                                <span
-                                                    class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                                <span class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
                                             @endif
                                         </div>
                                     </div>
