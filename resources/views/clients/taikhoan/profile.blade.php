@@ -75,19 +75,17 @@
                                                             @if ($profile->anh_dai_dien != '')
                                                                 <img src="{{ asset('storage/' . $profile->anh_dai_dien) }}"
                                                                     class="rounded-circle avatar-xxl img-thumbnail float-start"
-                                                                    alt="Ảnh đại diện">
+                                                                    alt="Avatar" style="object-fit: cover">
                                                             @else
-                                                                <img src="{{ asset('assets/admin/images/profiles/profile-11.jpg') }}"
-                                                                    class="rounded-circle avatar-xxl img-thumbnail float-start"
-                                                                    alt="Ảnh đại diện">
+                                                                <img src="{{ isset($user) && $user->anh_dai_dien ? Storage::url($user->anh_dai_dien) : asset('assets/client/img/about/anhchuadangnhap.jpg') }}" alt="">
                                                             @endif
-                                                            `
-                                                            <div class="profile__main-thumb-edit">
+                                                            
+                                                            {{-- <div class="profile__main-thumb-edit">
                                                                 <input id="profile-thumb-input" class="profile-img-popup"
                                                                     name="anh_dai_dien" type="file">
                                                                 <label for="profile-thumb-input"><i
                                                                         class="fa-light fa-camera"></i></label>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                         <div class="profile__main-content">
                                                             <h4 class="profile__main-title">Xin chào {{ $profile->ten }}
