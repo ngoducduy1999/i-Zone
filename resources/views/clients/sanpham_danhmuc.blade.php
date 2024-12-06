@@ -138,9 +138,10 @@
                                                 <option value="duoi-5-trieu" {{ request('price_range') == 'duoi-5-trieu' ? 'selected' : '' }}>Dưới 5 triệu</option>
                                                 <option value="5-den-10-trieu" {{ request('price_range') == '5-den-10-trieu' ? 'selected' : '' }}>5 triệu - 10 triệu</option>
                                                 <option value="10-den-20-trieu" {{ request('price_range') == '10-den-20-trieu' ? 'selected' : '' }}>10 triệu - 20 triệu</option>
-                                                <option value="tren-20-trieu" {{ request('price_range') == 'tren-20-trieu' ? 'selected' : '' }}>Trên 20 triệu</option>
+                                                <option value="20-den-30-trieu" {{ request('price_range') == '20-den-30-trieu' ? 'selected' : '' }}>20 triệu - 30 triệu</option>
+                                                <option value="tren-30-trieu" {{ request('price_range') == 'tren-30-trieu' ? 'selected' : '' }}>Trên 30 triệu</option>
                                             </select>
-                                        </div>                                        
+                                        </div>                                                                                
                         
                                         <!-- Lọc theo màu sắc -->
                                         <div class="filter-item pr-3">
