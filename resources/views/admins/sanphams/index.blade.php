@@ -21,12 +21,7 @@
             </div>
 
         </div>
-        @if (session('success'))
-            <div class="alert alert-success" role="alert">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
-        @endif
+      
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -84,6 +79,13 @@
                             </button>
                         </div>
                     </form>
+
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+                    @endif
 
                     <div class="card-body">
                         <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
