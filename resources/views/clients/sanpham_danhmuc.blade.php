@@ -138,9 +138,10 @@
                                                 <option value="duoi-5-trieu" {{ request('price_range') == 'duoi-5-trieu' ? 'selected' : '' }}>Dưới 5 triệu</option>
                                                 <option value="5-den-10-trieu" {{ request('price_range') == '5-den-10-trieu' ? 'selected' : '' }}>5 triệu - 10 triệu</option>
                                                 <option value="10-den-20-trieu" {{ request('price_range') == '10-den-20-trieu' ? 'selected' : '' }}>10 triệu - 20 triệu</option>
-                                                <option value="tren-20-trieu" {{ request('price_range') == 'tren-20-trieu' ? 'selected' : '' }}>Trên 20 triệu</option>
+                                                <option value="20-den-30-trieu" {{ request('price_range') == '20-den-30-trieu' ? 'selected' : '' }}>20 triệu - 30 triệu</option>
+                                                <option value="tren-30-trieu" {{ request('price_range') == 'tren-30-trieu' ? 'selected' : '' }}>Trên 30 triệu</option>
                                             </select>
-                                        </div>                                        
+                                        </div>                                                                                
                         
                                         <!-- Lọc theo màu sắc -->
                                         <div class="filter-item pr-3">
@@ -218,7 +219,22 @@
                                         </a>
                                    
                                     </div>
+                                        <!-- Conditionally display discount percentage -->
+                                        @php
+                                        $giaCu = $item->bienTheSanPhams->first()->gia_cu;
+                                        $giaMoi = $item->bienTheSanPhams->first()->gia_moi;
+                                        $discountPercentage = 0;
 
+                                        if ($giaCu > 0 && $giaMoi < $giaCu) {
+                                            $discountPercentage = round((($giaCu - $giaMoi) / $giaCu) * 100);
+                                        }
+                                        @endphp
+
+                                        @if ($discountPercentage > 0)
+                                        <div class="tp-product-badge">
+                                            <span class="product-discount">{{ $discountPercentage }}% OFF</span>
+                                        </div>
+                                        @endif
                                     <!-- product content -->
                                     <div class="tp-product-content">
                                         <div class="tp-product-category">
@@ -268,15 +284,13 @@
 
                                         <div class="tp-product-price-wrapper">
                                             @if ($item->bienTheSanPhams->first()->gia_cu > $item->bienTheSanPhams->first()->gia_moi)
-                                                <span
-                                                    class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                                <span class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                                <span class="tp-product-price old-price">{{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ</span>
                                             @else
-                                                <span
-                                                    class="tp-product-price old-price">{{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ</span>
-                                                <span
-                                                    class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                                <span class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
                                             @endif
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>

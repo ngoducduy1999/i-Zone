@@ -113,6 +113,7 @@ Route::prefix('sanphams')->name('sanphams.')->group(function () {
     Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
     Route::get('/sanpham/{id}/filterDanhGia/{star}', [SanPhamController::class, 'filterDanhGia'])->name('filterDanhGia');
     Route::post('/admin/sanpham/{sanpham}/danhgias', [SanPhamController::class, 'storeReview'])->name('admin.sanpham.danhgias');
+    Route::post('/{id}/isHot', [SanPhamController::class, 'isHot'])->name('isHot');
 });
 });
 //mau sac
@@ -353,6 +354,7 @@ Route::get('/Delete-Item-Cart/{id}', [CartController::class, 'DeleteItemCart'])-
 Route::get('/Delete-Item-List-Cart/{id}', [CartController::class, 'DeleteItemListCart'])->name('cart.delete.item.list');
 Route::get('/Update-Item-Cart/{id}', [CartController::class, 'UpdateItemCart'])->name('cart.update.item');
 Route::get('/Discount-Cart/{disscountCode}', [CartController::class, 'discount'])->name('cart.disscount');
+Route::get('/DeleteDiscount', [CartController::class, 'DeleteDiscount'])->name('cart.DeleteDiscount');
 
 
 

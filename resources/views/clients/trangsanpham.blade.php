@@ -1,7 +1,11 @@
 @extends('layouts.client')
 
 @section('css')
-   
+    <style>
+        .btn-long {
+            width: 100px;  /* Bạn có thể điều chỉnh giá trị này tùy theo yêu cầu */       
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -29,7 +33,7 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-4">
                     <div class="tp-shop-sidebar mr-10">
-                        <form id="filterForm" action="{{ route('san-pham') }}" method="GET">
+                        <form action="{{ route('san-pham') }}" method="GET">
                             <!-- Lọc theo danh mục -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Danh Mục</h3>
@@ -38,94 +42,94 @@
                                         <ul>
                                             @foreach ($danhMucs as $danhMuc)
                                                 <li>
-                                                    <a href="#" onclick="selectCategory('{{ $danhMuc->id }}'); return false;">
-                                                        {{ $danhMuc->ten_danh_muc }} 
-                                                    </a>
+                                                    <label>
+                                                        <input type="checkbox" name="danh_muc[]" value="{{ $danhMuc->id }}" 
+                                                            {{ in_array($danhMuc->id, request()->get('danh_muc', [])) ? 'checked' : '' }}>
+                                                        {{ $danhMuc->ten_danh_muc }}
+                                                    </label>
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            
+                        
                             <!-- Lọc theo giá -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Lọc Theo Giá</h3>
                                 <div class="tp-shop-widget-content">
-                                    <div class="tp-shop-widget-checkbox">
-                                        <ul class="filter-items filter-checkbox">
-                                            <li class="filter-item checkbox">
-                                                <input id="price_duoi_5_trieu" type="radio" name="price[]" value="duoi-5-trieu" onchange="submitFilterForm()">
-                                                <label for="price_duoi_5_trieu">Dưới 5 triệu</label>
-                                            </li>
-                                            <li class="filter-item checkbox">
-                                                <input id="price_5_den_10_trieu" type="radio" name="price[]" value="5-den-10-trieu" onchange="submitFilterForm()">
-                                                <label for="price_5_den_10_trieu">5 triệu - 10 triệu</label>
-                                            </li>
-                                            <li class="filter-item checkbox">
-                                                <input id="price_10_den_20_trieu" type="radio" name="price[]" value="10-den-20-trieu" onchange="submitFilterForm()">
-                                                <label for="price_10_den_20_trieu">10 triệu - 20 triệu</label>
-                                            </li>
-                                            <li class="filter-item checkbox">
-                                                <input id="price_tren_20_trieu" type="radio" name="price[]" value="tren-20-trieu" onchange="submitFilterForm()">
-                                                <label for="price_tren_20_trieu">Trên 20 triệu</label>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="duoi-5-trieu" 
+                                            {{ in_array('duoi-5-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        Dưới 5 triệu
+                                    </label><br>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="5-den-10-trieu" 
+                                            {{ in_array('5-den-10-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        5 triệu - 10 triệu
+                                    </label><br>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="10-den-20-trieu" 
+                                            {{ in_array('10-den-20-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        10 triệu - 20 triệu
+                                    </label><br>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="20-den-30-trieu" 
+                                            {{ in_array('20-den-30-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        20 triệu - 30 triệu
+                                    </label><br>
+                                    <label>
+                                        <input type="checkbox" name="price[]" value="tren-30-trieu" 
+                                            {{ in_array('tren-30-trieu', request()->get('price', [])) ? 'checked' : '' }}>
+                                        Trên 30 triệu
+                                    </label><br>
                                 </div>
                             </div>
-                                                                          
-                            <!-- Lọc theo dung lượng -->
+                                                 
+                            <!-- Dung Lượng -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Dung Lượng</h3>
                                 <div class="tp-shop-widget-content">
-                                    <div class="tp-shop-widget-checkbox">
-                                        <ul class="filter-items filter-checkbox">
-                                            @foreach ($dungLuongs as $dungLuong)
-                                                <li class="filter-item checkbox">
-                                                    <input 
-                                                        id="dung_luong_{{ $dungLuong->id }}" 
-                                                        type="checkbox" 
-                                                        value="{{ $dungLuong->id }}" 
-                                                        onchange="filterByDungLuong('{{ $dungLuong->id }}', this.checked);" 
-                                                        {{ request()->has('dung_luong') && in_array($dungLuong->id, explode(',', request()->dung_luong)) ? 'checked' : '' }}>
-                                                    <label for="dung_luong_{{ $dungLuong->id }}">{{ $dungLuong->ten_dung_luong }}</label>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                                    @foreach ($dungLuongs as $dungLuong)
+                                        <label>
+                                            <input type="checkbox" name="dung_luong[]" value="{{ $dungLuong->id }}" 
+                                                {{ in_array($dungLuong->id, request()->get('dung_luong', [])) ? 'checked' : '' }}>
+                                            {{ $dungLuong->ten_dung_luong }}
+                                        </label><br>
+                                    @endforeach
                                 </div>
-                            </div>                                      
+                            </div>
                         
-                            <!-- Lọc theo màu sắc -->
+                            <!-- Màu Sắc -->
                             <div class="tp-shop-widget mb-50">
                                 <h3 class="tp-shop-widget-title">Màu Sắc</h3>
+
                                 <div class="tp-shop-widget-content">
                                     <div class="tp-shop-widget-checkbox-circle-list">
                                         <ul>
                                             @foreach ($mauSacs as $mauSac)
                                                 <li>
                                                     <div class="tp-shop-widget-checkbox-circle">
-                                                        <input 
-                                                            type="checkbox" 
-                                                            id="color_{{ $mauSac->id }}" 
-                                                            onchange="filterByColor('{{ $mauSac->id }}', this.checked);" 
-                                                            {{ request()->has('mau_sac') && in_array($mauSac->id, explode(',', request()->mau_sac)) ? 'checked' : '' }}>
+                                                        <input type="checkbox" id="color_{{ $mauSac->id }}" 
+                                                            name="mau_sac[]" value="{{ $mauSac->id }}"
+                                                            {{ in_array($mauSac->id, request()->get('mau_sac', [])) ? 'checked' : '' }}>
                                                         <label for="color_{{ $mauSac->id }}">{{ $mauSac->ten_mau_sac }}</label>
-                                                        <span data-bg-color="{{ $mauSac->ma_mau ?? '#FFFFFF' }}" 
-                                                              class="tp-shop-widget-checkbox-circle-self" 
-                                                              style="background-color: {{ $mauSac->ma_mau ?? '#FFFFFF' }};"></span>
+                                                        <span data-bg-color="{{ $mauSac->ma_mau ?? '#ccc' }}" class="tp-shop-widget-checkbox-circle-self"></span>
                                                     </div>
-                                                    <span class="tp-shop-widget-checkbox-circle-number">{{ $mauSac->so_luong }}</span>
+                                                    <span class="tp-shop-widget-checkbox-circle-number">
+                                                        {{ $mauSac->productCount }} <!-- Giả sử bạn có một thuộc tính này để đếm số sản phẩm tương ứng -->
+                                                    </span>
                                                 </li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 </div>
-                            </div>                              
-                        
+                            </div>
+         
+                            <button type="submit" class="btn btn-primary btn-long">Lọc</button>
+                          
                             <!-- Sản phẩm được đánh giá cao -->
-                            <div class="tp-shop-widget mb-50">
+                            <div class="tp-shop-widget mb-50 mt-30">
                                 <h3 class="tp-shop-widget-title">Sản phẩm đánh giá cao</h3>
                                 <div class="tp-shop-widget-content">
                                     <div class="tp-shop-widget-product">
@@ -136,7 +140,7 @@
                                                         <img src="{{ asset($product->anh_san_pham) }}" alt="{{ $product->ten_san_pham }}">
                                                     </a>
                                                 </div>
-
+                        
                                                 <div class="tp-shop-widget-product-content">
                                                     <div class="tp-shop-widget-product-rating-wrapper d-flex align-items-center">
                                                         <div class="tp-shop-widget-product-rating">
@@ -173,7 +177,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>                                                               
+                        </form>
+                        
+                        
+                                                                                                     
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-8">
@@ -261,79 +268,88 @@
                                             <p>Không có sản phẩm nào.</p>
                                         @endif
                                         @foreach ($listSanPham as $item)
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                            <div class="tp-product-item p-relative transition-3 mb-25">
-                                                <div class="tp-product-thumb p-relative fix m-img">
-                                                    <a href="{{ route('chitietsanpham', $item->id) }}">
-                                                        <img width="254px" height="214px" style="object-fit: contain"
-                                                            src="{{ asset($item->anh_san_pham) }}"
-                                                            alt="product-electronic">
-                                                    </a>
-                                                                         
-                                                </div>
-                                    
-                                                <!-- product content -->
-                                                <div class="tp-product-content">
-                                                    <div class="tp-product-category">
-                                                        <a href="{{ isset($item->danhMuc->id) ? route('sanpham.danhmuc', $item->danhMuc->id) : '#' }}">
-                                                            {{ isset($item->danhMuc->ten_danh_muc) ? $item->danhMuc->ten_danh_muc : '...' }}
-                                                        </a>
-                                                    </div>
-                                                    <h3 class="tp-product-title"
-                                                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 199px;">
+                                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                                                <div class="tp-product-item p-relative transition-3 mb-25">
+                                                    <div class="tp-product-thumb p-relative fix m-img">
                                                         <a href="{{ route('chitietsanpham', $item->id) }}">
-                                                            {{ $item->ten_san_pham }}
+                                                            <img width="254px" height="214px" style="object-fit: contain"
+                                                                src="{{ asset($item->anh_san_pham) }}"
+                                                                alt="product-electronic">
                                                         </a>
-                                                    </h3>
-                                    
-                                                    <div class="tp-product-rating d-flex align-items-center">
-                                                        <div class="tp-product-rating-icon">
-                                                            @php
-                                                                // Get the average rating of the product (from reviews)
-                                                                $averageRating = $item->danhGias->avg('diem_so') ?: 0;
-                                    
-                                                                // Calculate the full stars, half stars, and empty stars
-                                                                $fullStars = floor($averageRating);
-                                                                $halfStar = $averageRating - $fullStars >= 0.5 ? 1 : 0;
-                                                                $emptyStars = 5 - ($fullStars + $halfStar);
-                                                            @endphp
-                                    
-                                                            <!-- Full stars -->
-                                                            @for ($i = 0; $i < $fullStars; $i++)
-                                                                <span><i class="fa-solid fa-star"></i></span>
-                                                            @endfor
-                                    
-                                                            <!-- Half star -->
-                                                            @for ($i = 0; $i < $halfStar; $i++)
-                                                                <span><i class="fa-solid fa-star-half-stroke"></i></span>
-                                                            @endfor
-                                    
-                                                            <!-- Empty stars -->
-                                                            @for ($i = 0; $i < $emptyStars; $i++)
-                                                                <span><i class="fa-solid fa-star" style="color: #dcdcdc;"></i></span>
-                                                            @endfor
-                                                        </div>
-                                    
-                                                        <div class="tp-product-rating-text">
-                                                            <span>({{ $item->danhGias->count() }} Reviews)</span>
-                                                        </div>
                                                     </div>
-                                    
-                                                    <div class="tp-product-price-wrapper">
-                                                        @if ($item->bienTheSanPhams->first()->gia_cu > $item->bienTheSanPhams->first()->gia_moi)
-                                                            <span
-                                                                class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
-                                                        @else
-                                                            <span
-                                                                class="tp-product-price old-price">{{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ</span>
-                                                            <span
-                                                                class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
-                                                        @endif
+
+                                                    <!-- Conditionally display discount percentage -->
+                                                    @php
+                                                        $giaCu = $item->bienTheSanPhams->first()->gia_cu;
+                                                        $giaMoi = $item->bienTheSanPhams->first()->gia_moi;
+                                                        $discountPercentage = 0;
+
+                                                        if ($giaCu > 0 && $giaMoi < $giaCu) {
+                                                            $discountPercentage = round((($giaCu - $giaMoi) / $giaCu) * 100);
+                                                        }
+                                                    @endphp
+
+                                                    @if ($discountPercentage > 0)
+                                                        <div class="tp-product-badge">
+                                                            <span class="product-discount">{{ $discountPercentage }}% OFF</span>
+                                                        </div>
+                                                    @endif
+
+                                                    <!-- product content -->
+                                                    <div class="tp-product-content">
+                                                        <div class="tp-product-category">
+                                                            <a href="{{ isset($item->danhMuc->id) ? route('sanpham.danhmuc', $item->danhMuc->id) : '#' }}">
+                                                                {{ isset($item->danhMuc->ten_danh_muc) ? $item->danhMuc->ten_danh_muc : '...' }}
+                                                            </a>
+                                                        </div>
+                                                        <h3 class="tp-product-title"
+                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 199px;">
+                                                            <a href="{{ route('chitietsanpham', $item->id) }}">
+                                                                {{ $item->ten_san_pham }}
+                                                            </a>
+                                                        </h3>
+
+                                                        <div class="tp-product-rating d-flex align-items-center">
+                                                            <div class="tp-product-rating-icon">
+                                                                @php
+                                                                    $averageRating = $item->danhGias->avg('diem_so') ?: 0;
+                                                                    $fullStars = floor($averageRating);
+                                                                    $halfStar = $averageRating - $fullStars >= 0.5 ? 1 : 0;
+                                                                    $emptyStars = 5 - ($fullStars + $halfStar);
+                                                                @endphp
+
+                                                                @for ($i = 0; $i < $fullStars; $i++)
+                                                                    <span><i class="fa-solid fa-star"></i></span>
+                                                                @endfor
+
+                                                                @for ($i = 0; $i < $halfStar; $i++)
+                                                                    <span><i class="fa-solid fa-star-half-stroke"></i></span>
+                                                                @endfor
+
+                                                                @for ($i = 0; $i < $emptyStars; $i++)
+                                                                    <span><i class="fa-solid fa-star" style="color: #dcdcdc;"></i></span>
+                                                                @endfor
+                                                            </div>
+
+                                                            <div class="tp-product-rating-text">
+                                                                <span>({{ $item->danhGias->count() }} Reviews)</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="tp-product-price-wrapper">
+                                                            @if ($item->bienTheSanPhams->first()->gia_cu > $item->bienTheSanPhams->first()->gia_moi)
+                                                                <span class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                                                <span class="tp-product-price old-price">{{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ</span>
+                                                            @else
+                                                                <span class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
+                                                            @endif
+                                                        </div>
+                                                      
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach                                    
+                                        @endforeach
+                                    
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
@@ -363,16 +379,18 @@
                                                                         </span>
                                                                     @endfor
                                                                 </div>
-                                                                @if ($item->bienTheSanPhams->isNotEmpty())
-                                                                    <span class="tp-product-price-2 new-price">
-                                                                        {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
-                                                                    </span>
-                                                                    @if (isset($item->bienTheSanPhams->first()->gia_cu))
-                                                                        <span class="tp-product-price-2 old-price">
-                                                                            {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                <div class="tp-product-price-wrapper-2">
+                                                                    @if ($item->bienTheSanPhams->isNotEmpty())
+                                                                        <span class="tp-item-price-2 new-price">
+                                                                            {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
                                                                         </span>
+                                                                        @if (isset($item->bienTheSanPhams->first()->gia_cu) && $item->bienTheSanPhams->first()->gia_cu > $item->bienTheSanPhams->first()->gia_moi)
+                                                                            <span class="tp-product-price-2 old-price">
+                                                                                {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                            </span>
+                                                                        @endif
                                                                     @endif
-                                                                @endif
+                                                                </div>
                                                                 <p>{{ Str::limit(strip_tags($item->mo_ta), 100) }}</p>
                                                                 <div class="tp-product-list-add-to-cart">
                                                                     <a href="{{ route('chitietsanpham', ['id'=>$item->id]) }}"><button class="tp-product-list-add-to-cart-btn">Chi tiết sản phẩm</button></a>
@@ -457,90 +475,5 @@
 @endsection
 
 @section('js')
-<script>
-    function submitFilterForm() {
-    const form = document.getElementById('filterForm');
-    const currentParams = new URLSearchParams(window.location.search);
 
-    // Giữ lại các tham số hiện tại (dung lượng, màu sắc, danh mục, v.v.)
-    currentParams.forEach((value, key) => {
-        if (!form.querySelector(`[name="${key}"]`)) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = value;
-            form.appendChild(input);
-        }
-    });
-
-    form.submit();
-}
-
-    // Lọc dung lượng
-        function filterByDungLuong(dungLuongId, isChecked) {
-        const urlParams = new URLSearchParams(window.location.search);
-        let dungLuongs = urlParams.get('dung_luong') ? urlParams.get('dung_luong').split(',') : [];
-
-        if (isChecked) {
-            // Thêm dung lượng vào danh sách nếu được chọn
-            if (!dungLuongs.includes(dungLuongId)) {
-                dungLuongs.push(dungLuongId);
-            }
-        } else {
-            // Loại bỏ dung lượng khỏi danh sách nếu bỏ chọn
-            dungLuongs = dungLuongs.filter(id => id !== dungLuongId);
-        }
-
-        // Cập nhật URL với danh sách dung lượng mới
-        if (dungLuongs.length > 0) {
-            urlParams.set('dung_luong', dungLuongs.join(','));
-        } else {
-            urlParams.delete('dung_luong');
-        }
-
-        // Chuyển hướng với URL mới
-        window.location.search = urlParams.toString();
-    }
-
-    // Lọc màu sắc
-    function filterByColor(colorId, isChecked) {
-        // Lấy URL hiện tại
-        const url = new URL(window.location.href);
-        let colors = url.searchParams.get("mau_sac");
-
-        // Chuyển colors thành mảng
-        colors = colors ? colors.split(",") : [];
-
-        if (isChecked) {
-            // Thêm màu vào danh sách nếu chưa có
-            if (!colors.includes(colorId)) {
-                colors.push(colorId);
-            }
-        } else {
-            // Xóa màu khỏi danh sách nếu đã có
-            colors = colors.filter(id => id !== colorId);
-        }
-
-        // Cập nhật lại tham số URL
-        if (colors.length > 0) {
-            url.searchParams.set("mau_sac", colors.join(","));
-        } else {
-            url.searchParams.delete("mau_sac");
-        }
-
-        // Điều hướng đến URL mới
-        window.location.href = url.toString();
-    }
-
-    function selectCategory(categoryId) {
-        // Xử lý chọn danh mục
-        const filterForm = document.getElementById('filterForm');
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'danh_muc';
-        input.value = categoryId;
-        filterForm.appendChild(input);
-        filterForm.submit();
-    }
-</script>
 @endsection

@@ -331,3 +331,16 @@ function PleaseLogin(){
     console.log('chưa đăng nhập');
     alertify.error('Vui lòng đăng nhập!');
 }
+
+function DeleteDiscount(){
+    $.ajax({
+        url: "/DeleteDiscount",
+        type: "GET",
+    })
+    .done((response) => {
+        alertify.success('Đã xóa giảm giá!');
+        RenderListCart(response)
+    }).fail(() => {
+        alertify.error('Có lỗi xảy ra, vui lòng thử lại sau!');
+    });
+}

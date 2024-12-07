@@ -21,12 +21,7 @@
             </div>
 
         </div>
-        @if (session('success'))
-            <div class="alert alert-success" role="alert">{{ session('success') }}</div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
-        @endif
+      
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -41,6 +36,57 @@
                             </div>
                         </div>
                     </div>
+                    <form action="{{ route('admin.sanphams.index') }}" method="GET"
+                        style="max-width: 1000px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; display: flex; align-items: center; gap: 15px;">
+
+                        <!-- Lọc theo danh mục -->
+                        <div style="flex: 1; min-width: 200px;">
+                            <label for="danh_muc_id" style="display: block; font-weight: bold; margin-bottom: 5px;">Danh mục:</label>
+                            <select name="danh_muc_id" id="danh_muc_id"
+                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="">Tất cả</option>
+                                @foreach($danhMucs as $danhMuc)
+                                    <option value="{{ $danhMuc->id }}" {{ request('danh_muc_id') == $danhMuc->id ? 'selected' : '' }}>
+                                        {{ $danhMuc->ten_danh_muc }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Lọc theo ngày tạo -->
+                        <div style="flex: 1; min-width: 200px;">
+                            <label for="ngay_tao" style="display: block; font-weight: bold; margin-bottom: 5px;">Ngày tạo:</label>
+                            <input type="date" name="ngay_tao" id="ngay_tao" value="{{ request('ngay_tao') }}"
+                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+
+                        <!-- Lọc theo trạng thái -->
+                        <div style="flex: 1; min-width: 200px;">
+                            <label for="trang_thai" style="display: block; font-weight: bold; margin-bottom: 5px;">Trạng thái:</label>
+                            <select name="trang_thai" id="trang_thai"
+                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="">Tất cả</option>
+                                <option value="1" {{ request('trang_thai') == '1' ? 'selected' : '' }}>Hoạt động</option>
+                                <option value="0" {{ request('trang_thai') == '0' ? 'selected' : '' }}>Ngừng hoạt động</option>
+                            </select>
+                        </div>
+
+                        <!-- Nút lọc -->
+                        <div class="mt-3">
+                            <button type="submit"
+                                style="padding: 10px; border: none; border-radius: 4px; background-color: #4CAF50; color: white; font-weight: bold; cursor: pointer;">
+                                Lọc
+                            </button>
+                        </div>
+                    </form>
+
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+                    @endif
+
                     <div class="card-body">
                         <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
                             <thead>
@@ -48,6 +94,7 @@
                                     <th>Sản phẩm</th>
                                     <th>Danh mục</th>
                                     <th>Ngày tạo</th>
+                                    <th>Hot</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -83,6 +130,28 @@
                                                     {{ $sanpham->created_at ? $sanpham->created_at->format('d-m-Y') : '' }}
                                                 </li>
                                             </ul>
+                                        </td>
+                                        <td>
+                                            <div class="col-md-2">
+                                                <div class="form-check form-switch mb-2">
+                                                    <form action="{{ route('admin.sanphams.isHot',  $sanpham->id) }}" method="POST" id="form-toggle-hot_{{ $sanpham->id }}">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <div class="form-group">
+                                                            <input 
+                                                                type="checkbox" 
+                                                                name="is_hot" 
+                                                                value="1" 
+                                                                class="form-check-input" 
+                                                                id="is_hot_{{ $sanpham->id }}"
+                                                                @if ($sanpham->is_hot) checked @endif
+                                                                @if ($sanpham->deleted_at != null) disabled @endif
+                                                                role="switch"
+                                                                onchange="this.form.submit()">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td>
                                             @if ($sanpham->deleted_at == null)

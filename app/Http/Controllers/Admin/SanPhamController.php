@@ -50,11 +50,36 @@ return redirect()->route('chitietsanpham', ['id' => $validated['san_pham_id']])-
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $sanphams = SanPham::withTrashed()->latest('id')->with('bienTheSanPhams', 'hinhAnhSanPhams', 'tagSanPhams')->get(); 
-        return view('admins.sanphams.index', compact('sanphams'));
+    public function index(Request $request)
+{
+    $query = SanPham::withTrashed()->with('bienTheSanPhams', 'hinhAnhSanPhams', 'tagSanPhams');
+
+    // Lọc theo danh mục
+    if ($request->filled('danh_muc_id')) {
+        $query->where('danh_muc_id', $request->danh_muc_id);
     }
+
+    // Lọc theo ngày tạo
+    if ($request->filled('ngay_tao')) {
+        $query->whereDate('created_at', $request->ngay_tao);
+    }
+
+    // Lọc theo trạng thái
+    if ($request->has('trang_thai') && $request->trang_thai !== '') {
+        if ($request->trang_thai == '1') {
+            $query->whereNull('deleted_at'); // Hoạt động
+        } elseif ($request->trang_thai == '0') {
+            $query->whereNotNull('deleted_at'); // Ngừng hoạt động
+        }
+    }
+
+    $sanphams = $query->latest('id')->get();
+
+    // Lấy danh sách danh mục để hiển thị trong form lọc
+    $danhMucs = DanhMuc::all();
+
+    return view('admins.sanphams.index', compact('sanphams', 'danhMucs'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -592,6 +617,9 @@ return redirect()->route('chitietsanpham', ['id' => $validated['san_pham_id']])-
         if (!$sanpham) {
             return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
         }
+        // tắt is hot sản phẩm
+        $sanpham->is_hot = false;
+        $sanpham->save();
         $sanpham->delete();
         return redirect()->back()->with('success', 'Xóa sản phẩm thành công');
     }
@@ -609,5 +637,26 @@ return redirect()->route('chitietsanpham', ['id' => $validated['san_pham_id']])-
             return redirect()->back()->with('error', 'Vui lòng khôi phục biến thể');
         }
         return redirect()->back()->with('success', 'Khôi phục sản phẩm thành công');
+    }
+
+    public function isHot(string $id, Request $request)
+    {
+        $sanpham = SanPham::withTrashed()->find($id);
+        if (!$sanpham) {
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+        }
+        if ($sanpham->is_hot == false) {
+            $count = SanPham::where('is_hot', 1)->count();
+            if( $count >= 15){
+                return redirect()->back()->with('error', 'Chỉ có 15 sản phẩm có thể đánh dấu là HOT');
+            }
+            $sanpham->is_hot = true;
+            $sanpham->save();
+            return redirect()->back()->with('success', 'Sản phẩm đã được đánh dấu HOT');
+        }else{
+            $sanpham->is_hot = false;
+            $sanpham->save();
+            return redirect()->back()->with('success', 'Sản phẩm đã tắt đánh dấu HOT');
+        }
     }
 }
