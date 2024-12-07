@@ -344,6 +344,7 @@
                                                                 <span class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
                                                             @endif
                                                         </div>
+                                                      
                                                     </div>
                                                 </div>
                                             </div>
@@ -378,16 +379,18 @@
                                                                         </span>
                                                                     @endfor
                                                                 </div>
-                                                                @if ($item->bienTheSanPhams->isNotEmpty())
-                                                                    <span class="tp-product-price-2 new-price">
-                                                                        {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
-                                                                    </span>
-                                                                    @if (isset($item->bienTheSanPhams->first()->gia_cu))
-                                                                        <span class="tp-product-price-2 old-price">
-                                                                            {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                <div class="tp-product-price-wrapper-2">
+                                                                    @if ($item->bienTheSanPhams->isNotEmpty())
+                                                                        <span class="tp-item-price-2 new-price">
+                                                                            {{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ
                                                                         </span>
+                                                                        @if (isset($item->bienTheSanPhams->first()->gia_cu) && $item->bienTheSanPhams->first()->gia_cu > $item->bienTheSanPhams->first()->gia_moi)
+                                                                            <span class="tp-product-price-2 old-price">
+                                                                                {{ number_format($item->bienTheSanPhams->first()->gia_cu, 0, ',', '.') }}đ
+                                                                            </span>
+                                                                        @endif
                                                                     @endif
-                                                                @endif
+                                                                </div>
                                                                 <p>{{ Str::limit(strip_tags($item->mo_ta), 100) }}</p>
                                                                 <div class="tp-product-list-add-to-cart">
                                                                     <a href="{{ route('chitietsanpham', ['id'=>$item->id]) }}"><button class="tp-product-list-add-to-cart-btn">Chi tiết sản phẩm</button></a>
