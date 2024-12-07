@@ -290,6 +290,7 @@
                                                 <span class="tp-product-price new-price">{{ number_format($item->bienTheSanPhams->first()->gia_moi, 0, ',', '.') }}đ</span>
                                             @endif
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
