@@ -7,7 +7,7 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
-    public function render($request, Throwable $exception)
+    /* public function render($request, Throwable $exception)
 {
     // Kiểm tra nếu là trang admin
     if ($request->is('admin/*')) {
@@ -17,7 +17,7 @@ class Handler extends ExceptionHandler
     // Mặc định trả về giao diện cho khách hàng
     return response()->view('errors.client_error', [], 404);
 }
-
+ */
     /**
      * A list of exception types with their corresponding custom log levels.
      *
