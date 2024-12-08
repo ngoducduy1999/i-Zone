@@ -84,11 +84,17 @@ public function edit($id)
     public function destroy($id)
     {
         // Tìm kiếm bản ghi Tên tag theo ID
-        $tag = tag::find($id);
-    
-        if (!$tag) {
-            return redirect()->route('admin.tag.index')->with('error', 'Tag không tồn tại.');
+        $tag = Tag::findOrFail($id);
+
+        // Kiểm tra xem có sản phẩm nào gắn tag này không
+        if ($tag->sanPhams()->exists()) {
+            return redirect()->route('admin.tag.index')->with('error', 'Không thể xóa thẻ tag này vì có sản phẩm đang sử dụng.');
         }
+        // $tag = tag::find($id);
+    
+        // if (!$tag) {
+        //     return redirect()->route('admin.tag.index')->with('error', 'Tag không tồn tại.');
+        // }
     
         // Xóa bản ghi
         $tag->delete();
