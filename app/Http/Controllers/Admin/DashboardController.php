@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\SanPham;
@@ -9,6 +10,9 @@ use App\Models\HoaDon;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\KhuyenMai;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RevenueExport;
+
 
 class DashboardController extends Controller
 {
@@ -196,4 +200,64 @@ class DashboardController extends Controller
             'dataOutOfStock'
         ));
     }
+    public function doanhthu(Request $request)
+    {
+        // Lấy thông tin từ form
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $groupBy = $request->input('group_by', 'day'); // Mặc định thống kê theo ngày
+        $paymentStatus = $request->input('payment_status'); // Lọc theo trạng thái thanh toán
+    
+        // Xây dựng truy vấn
+        $query = DB::table('hoa_dons')
+            ->selectRaw("
+                CASE 
+                    WHEN '$groupBy' = 'day' THEN DATE(ngay_dat_hang)
+                    WHEN '$groupBy' = 'month' THEN DATE_FORMAT(ngay_dat_hang, '%Y-%m')
+                    WHEN '$groupBy' = 'year' THEN YEAR(ngay_dat_hang)
+                END as period,
+                SUM(tong_tien) as revenue
+            ")
+            ->where('trang_thai_thanh_toan', 'Đã thanh toán'); // Lọc theo trạng thái thanh toán mặc định là "Đã thanh toán"
+        
+        // Nếu có trạng thái thanh toán được chọn
+        // if ($paymentStatus) {
+        //     $query->where('trang_thai_thanh_toan', $paymentStatus);
+        // }
+    
+        // Lọc theo ngày bắt đầu và kết thúc
+        if ($startDate && $endDate) {
+            $query->whereBetween('ngay_dat_hang', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay(),
+            ]);
+        }
+    
+        // Nhóm và sắp xếp theo khoảng thời gian (day, month, year)
+        $data = $query->groupBy('period')
+            ->orderBy('period', 'asc')
+            ->get();
+    
+        // Lấy labels và revenues để hiển thị biểu đồ
+        $labels = $data->pluck('period')->toArray();
+        $revenues = $data->pluck('revenue')->toArray();
+    
+        // Tính tổng doanh thu
+        $doanhThu = array_sum($revenues);
+    
+        // Trả về view với dữ liệu
+        return view('admins.dashboard.doanhthu', [
+            'doanhThu' => $doanhThu,
+            'labels' => $labels,
+            'revenues' => $revenues,
+        ]);
+    }
+    
+    // public function exportRevenue(Request $request)
+    // {
+    //     // Chuyển thông tin từ request vào export
+    //     return Excel::download(new RevenueExport($request->all()), 'doanh_thu.xlsx');
+    // }
+    
+
 }
