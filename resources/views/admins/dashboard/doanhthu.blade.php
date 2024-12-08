@@ -100,6 +100,16 @@
         }
     });
 </script>
+<style>
+    .container-xxl h1 {
+        color: #007BFF;
+        font-weight: bold;
+    }
 
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+</style>
 
 @endsection
