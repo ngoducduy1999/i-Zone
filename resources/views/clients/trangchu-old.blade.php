@@ -84,7 +84,7 @@
                                         <div class="tp-product-category-item text-center">
                                             <div class="tp-product-category-thumb"
                                                 style="position: relative; width: 100%; overflow: hidden; border-radius: 50%;">
-                                                <a href="#">
+                                                <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
                                                     <img src="{{ asset($danhMuc->anh_danh_muc) }}"
                                                         alt="{{ $danhMuc->ten_danh_muc }}"
                                                         style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px; transition: transform 0.3s; mix-blend-mode: darken; border-radius: 50%">
@@ -92,7 +92,7 @@
                                             </div>
                                             <div class="tp-product-category-content">
                                                 <h3 class="tp-product-category-title">
-                                                    <a href="#">
+                                                    <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">
                                                         {{ $danhMuc->ten_danh_muc }}
                                                     </a>
                                                 </h3>
@@ -760,7 +760,7 @@
                                 <div class="tp-product-gadget-categories-list">
                                     <ul>
                                         <li><a
-                                                href="{{ route('san-pham') }}?danh_muc={{ $danhMuc->id }}">{{ $danhMuc->ten_danh_muc }}</a>
+                                                href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $danhMuc->id]) }}">{{ $danhMuc->ten_danh_muc }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -898,7 +898,7 @@
                                         <div class="tp-product-content">
                                             <div class="tp-product-category">
                                                 <a
-                                                    href="#">{{ isset($product->danhMuc->ten_danh_muc) ? $product->danhMuc->ten_danh_muc : '...' }}</a>
+                                                    href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $newProduct->danhMuc->id]) }}">{{ isset($newProduct->danhMuc->ten_danh_muc) ? $newProduct->danhMuc->ten_danh_muc : '...' }}</a>
                                             </div>
                                             <h3 class="tp-product-title"
                                                 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 199px;">
@@ -1273,7 +1273,7 @@
                                                 <!-- product content -->
                                                 <div class="tp-product-content">
                                                     <div class="tp-product-category">
-                                                        <a href="#">
+                                                        <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $randProduct->danhMuc->id]) }}">
                                                             {{ isset($randProduct->danhMuc->ten_danh_muc) ? $randProduct->danhMuc->ten_danh_muc : '...' }}</a>
                                                     </div>
                                                     <h3 class="tp-product-title"
