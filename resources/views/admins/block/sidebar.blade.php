@@ -42,7 +42,7 @@
                 @can('QL dashboard')
                 <li>
                     <a href='#danhmucs' data-bs-toggle="collapse">
-                        <i data-feather="list"></i>
+                        <i data-feather="home"></i>
                         <span> Thống kê </span>
                         <span class="menu-arrow"></span>
                     </a>
