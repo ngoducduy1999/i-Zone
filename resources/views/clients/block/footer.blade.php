@@ -25,11 +25,10 @@
                    <h4 class="tp-footer-widget-title">Tài khoản của tôi</h4>
                    <div class="tp-footer-widget-content">
                       <ul>
-                         <li><a href="#">Theo dõi đơn hàng</a></li>
-                         <li><a href="#">Vận chuyển</a></li>
-                         <li><a href="#">Danh sách yêu thích</a></li>
-                         <li><a href="#">Tài khoản của tôi</a></li>
-                         <li><a href="#">Lịch sử đơn hàng</a></li>
+                         <li><a href="{{ route('customer.donhang') }}">Theo dõi đơn hàng</a></li>                       
+                         <li><a href="{{ route('yeuthich') }}">Danh sách yêu thích</a></li>
+                         <li><a href="{{ route('customer.profileUser') }}">Tài khoản của tôi</a></li>
+                         <li><a href="{{ route('customer.donhang') }}">Lịch sử đơn hàng</a></li>
                       </ul>
                    </div>
                 </div>
@@ -42,8 +41,8 @@
                          
                          <li><a href="#">Chính sách bảo mật</a></li>
                          <li><a href="#">Điều khoản & Điều kiện</a></li>
-                         <li><a href="#">Tin tức mới nhất</a></li>
-                         <li><a href="#">Liên hệ với chúng tôi</a></li>
+                         <li><a href="{{ route('bai-viet') }}">Tin tức mới nhất</a></li>
+                         <li><a href="{{ route('lienhe') }}">Liên hệ với chúng tôi</a></li>
                          <li><a href="#">Hướng dẫn mua online</a></li>
                       </ul>
                    </div>
@@ -55,7 +54,7 @@
                    <div class="tp-footer-widget-content">
                       <div class="tp-footer-talk mb-20">
                          <span>Có thắc mắc? Gọi cho chúng tôi</span>
-                         <h4><a href="tel:670-413-90-762">+84987654321</a></h4>
+                         <h4><a href="tel:987-654-321">+84987654321</a></h4>
                       </div>
                       <div class="tp-footer-contact">
                          <div class="tp-footer-contact-item d-flex align-items-start">
