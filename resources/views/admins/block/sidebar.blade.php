@@ -43,7 +43,7 @@
                 <li>
 
                     <a href='{{ route('admin.doanhthu') }}'>
-                        <i data-feather="doanhthu"></i>
+                        <i ></i>
                         <span> Thống kê doanh thu </span>
                     </a>
                 </li>
