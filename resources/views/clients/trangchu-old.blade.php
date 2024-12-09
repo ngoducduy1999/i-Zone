@@ -1463,7 +1463,7 @@
                 <div class="col-xl-8 col-md-6">
                     <div class="tp-blog-more-wrapper d-flex justify-content-md-end">
                         <div class="tp-blog-more mb-50 text-md-end">
-                            <a href="blog-grid.html" class="tp-btn tp-btn-2 tp-btn-blue">Xem tất cả tin tức
+                            <a href="{{ route('bai-viet') }}" class="tp-btn tp-btn-2 tp-btn-blue">Xem tất cả tin tức
                                 <svg width="17" height="14" viewBox="0 0 17 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5"
