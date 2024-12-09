@@ -27,26 +27,26 @@
             <ul id="side-menu">
 
                 <li class="menu-title">Quản trị</li>
-                @can('QL dashboard')
+                {{-- @can('QL dashboard')
                 <li>
                     <a href='{{ route('admin.dashboard') }}'>
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
-                    {{-- <a href='{{ route('admin.doanhthu') }}'>
+                    <a href='{{ route('admin.doanhthu') }}'>
                         <i data-feather="doanhthu"></i>
                         <span> Thống kê doanh thu </span>
-                    </a> --}}
+                    </a>
                 </li>
-                @endcan
+                @endcan --}}
                 @can('QL dashboard')
                 <li>
-                    <a href='#danhmucs' data-bs-toggle="collapse">
+                    <a href='#dbs' data-bs-toggle="collapse">
                         <i data-feather="home"></i>
                         <span> Thống kê </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="danhmucs">
+                    <div class="collapse" id="dbs">
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{route('admin.dashboard')}}" class="tp-link">dashboard</a>
