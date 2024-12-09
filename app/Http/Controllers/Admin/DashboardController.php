@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\DanhMuc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -261,21 +262,23 @@ class DashboardController extends Controller
 
     public function sanPhamBanChay(Request $request)
     {
-        $thoiGian = $request->input('thoi_gian', 'day'); // Mặc định theo ngày
-        $loaiSanPham = $request->input('loai_san_pham', null);
-
+        $thoiGian = $request->input('thoi_gian', 'day'); // Mặc định lọc theo ngày
+        $danhMucId = $request->input('danh_muc_id', null); // Lọc theo danh mục nếu có
+        $danhmucs = DanhMuc::all();
         $query = DB::table('chi_tiet_hoa_dons')
             ->join('hoa_dons', 'hoa_dons.id', '=', 'chi_tiet_hoa_dons.hoa_don_id')
-            ->join('san_phams', 'san_phams.id', '=', 'chi_tiet_hoa_dons.san_pham_id')
+            ->join('san_phams', 'san_phams.id', '=', 'chi_tiet_hoa_dons.bien_the_san_pham_id')
+            ->join('danh_mucs', 'danh_mucs.id', '=', 'san_phams.danh_muc_id') // Nối bảng danh_mucs
             ->select(
                 'san_phams.id',
                 'san_phams.ten_san_pham',
-                'san_phams.loai',
+                'danh_mucs.ten_danh_muc as danh_muc', // Lấy tên danh mục
                 DB::raw('SUM(chi_tiet_hoa_dons.so_luong) as so_luong_ban'),
-                DB::raw('SUM(chi_tiet_hoa_dons.so_luong * chi_tiet_hoa_dons.gia_ban) as tong_tien')
+                DB::raw('SUM(chi_tiet_hoa_dons.so_luong * chi_tiet_hoa_dons.don_gia) as tong_tien')
             )
-            ->where('hoa_dons.trang_thai', 5) // Đã giao hàng
-            ->groupBy('san_phams.id', 'san_phams.ten_san_pham', 'san_phams.loai');
+            ->where('hoa_dons.trang_thai', 7) // Chỉ lấy đơn hàng đã giao
+            ->groupBy('san_phams.id', 'san_phams.ten_san_pham', 'danh_mucs.ten_danh_muc') // Nhóm theo danh mục và sản phẩm
+            ->orderBy('so_luong_ban', 'desc');
 
         // Lọc theo thời gian
         if ($thoiGian === 'day') {
@@ -286,14 +289,16 @@ class DashboardController extends Controller
             $query->whereMonth('hoa_dons.ngay_dat_hang', Carbon::now()->month);
         }
 
-        // Lọc theo loại sản phẩm
-        if ($loaiSanPham) {
-            $query->where('san_phams.loai', $loaiSanPham);
+        // Lọc theo danh mục sản phẩm nếu có
+        if ($danhMucId) {
+            $query->where('danh_mucs.id', $danhMucId);
         }
 
-        $sanPhamBanChay = $query->orderBy('so_luong_ban', 'desc')->get();
+        $sanPhamBanChay = $query->get();
+        // dd($sanPhamBanChay);
 
-        return view('thongke.san_pham_ban_chay', compact('sanPhamBanChay', 'thoiGian', 'loaiSanPham'));
+        return view('admins.dashboard.tk-spbc', compact('sanPhamBanChay', 'thoiGian', 'danhMucId','danhmucs'));
     }
+
 
 }

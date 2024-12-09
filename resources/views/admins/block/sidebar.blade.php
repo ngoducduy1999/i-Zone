@@ -41,13 +41,36 @@
                 @endcan
                 @can('QL dashboard')
                 <li>
+                    <a href='#danhmucs' data-bs-toggle="collapse">
+                        <i data-feather="list"></i>
+                        <span> Thống kê </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="danhmucs">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{route('admin.dashboard')}}" class="tp-link">dashboard</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.doanhthu') }}">Doanh thu</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.thongke.sanpham.banchay') }}">Sản phẩm bán chạy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-                    <a href='{{ route('admin.doanhthu') }}'>
+                @endcan
+                {{-- @can('QL dashboard')
+                <li>
+
+                    <a href='{{ route('admin.thongke.sanpham.banchay')}}'>
                         <i ></i>
-                        <span> Thống kê doanh thu </span>
+                        <span>Sản phẩm bán chạy </span>
                     </a>
                 </li>
-                @endcan
+                @endcan --}}
                 @can('QL phan quyen')
 
                 <li>
