@@ -27,27 +27,50 @@
             <ul id="side-menu">
 
                 <li class="menu-title">Quản trị</li>
-                @can('QL dashboard')
+                {{-- @can('QL dashboard')
                 <li>
                     <a href='{{ route('admin.dashboard') }}'>
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
-                    {{-- <a href='{{ route('admin.doanhthu') }}'>
-                        <i data-feather="doanhthu"></i>
-                        <span> Thống kê doanh thu </span>
-                    </a> --}}
-                </li>
-                @endcan
-                @can('QL dashboard')
-                <li>
-
                     <a href='{{ route('admin.doanhthu') }}'>
-                        <i ></i>
+                        <i data-feather="doanhthu"></i>
                         <span> Thống kê doanh thu </span>
                     </a>
                 </li>
+                @endcan --}}
+                @can('QL dashboard')
+                <li>
+                    <a href='#dbs' data-bs-toggle="collapse">
+                        <i data-feather="home"></i>
+                        <span> Thống kê </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="dbs">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{route('admin.dashboard')}}" class="tp-link">dashboard</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.doanhthu') }}">Doanh thu</a>
+                            </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.thongke.sanpham.banchay') }}">Sản phẩm bán chạy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                 @endcan
+                {{-- @can('QL dashboard')
+                <li>
+
+                    <a href='{{ route('admin.thongke.sanpham.banchay')}}'>
+                        <i ></i>
+                        <span>Sản phẩm bán chạy </span>
+                    </a>
+                </li>
+                @endcan --}}
                 @can('QL phan quyen')
 
                 <li>
