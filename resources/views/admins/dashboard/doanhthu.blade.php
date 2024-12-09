@@ -40,15 +40,15 @@
     </form>
 
     <div class="card shadow p-4">
-        <h3 class="card-title">Doanh thu: 
+        <h3 class="card-title">Doanh thu:
             <span class="text-success">{{ number_format($doanhThu ?? 0, 0, ',', '.') }} VND</span>
         </h3>
     </div>
 
-    <!-- Nút xuất dữ liệu -->
+    {{-- <!-- Nút xuất dữ liệu -->
     <!-- <div class="text-end mt-4">
         <a href="{{ route('admin.export_revenue', request()->all()) }}" class="btn btn-success">Xuất File Excel</a>
-    </div> -->
+    </div> --> --}}
 
     <div class="card shadow p-4 mt-5">
         <h3 class="card-title">Biểu đồ Doanh Thu</h3>

@@ -23,7 +23,7 @@ class TaiKhoanController extends Controller
     {
         //lấy thông tin ng dùng đang đăng nhập
         $user = Auth::user();
-       
+
         $danhMucs = DanhMuc::all();
         // lấy thông tin đơn hàng người dùng đã mua
         $donHangs = $user->hoaDons()->get();
@@ -142,7 +142,7 @@ class TaiKhoanController extends Controller
     }
 
 
-    
+
 
     public function changePassword(Request $request){
         $user = Auth::user();
@@ -156,6 +156,7 @@ class TaiKhoanController extends Controller
         // Kiểm tra mật khẩu cũ
         if (!Hash::check($request->input('mat_khau_cu'), $user->mat_khau)) {
             return redirect()->back()->with('error', 'Mật khẩu cũ không đúng.');
+            
         }
 
 
@@ -246,7 +247,7 @@ class TaiKhoanController extends Controller
     }elseif ($status == 6) {
         $donHangs = $donHangs->where('trang_thai', 6); // Đã hủy
     }
-    
+
 
     $donHangs = $donHangs->get();
 
@@ -268,5 +269,5 @@ class TaiKhoanController extends Controller
 
 
 
-    
+
 }

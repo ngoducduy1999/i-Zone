@@ -33,8 +33,17 @@
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
-                    <a href='{{ route('admin.doanhthu') }}'>
+                    {{-- <a href='{{ route('admin.doanhthu') }}'>
                         <i data-feather="doanhthu"></i>
+                        <span> Thống kê doanh thu </span>
+                    </a> --}}
+                </li>
+                @endcan
+                @can('QL dashboard')
+                <li>
+
+                    <a href='{{ route('admin.doanhthu') }}'>
+                        <i ></i>
                         <span> Thống kê doanh thu </span>
                     </a>
                 </li>
