@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\SanPhamController;
-
+use App\Http\Controllers\Client\DanhgiaController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,8 +14,13 @@ use App\Http\Controllers\admin\SanPhamController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('/reviews/{sanPhamId}', [SanPhamController::class, 'fetchReviews']);
-Route::post('/reviews', [SanPhamController::class, 'storeReview']);
+
+    Route::get('/reviews/{san_pham_id}', [DanhGiaController::class, 'getReviews']);
+    Route::get('/reviews/check-eligibility/{san_pham_id}', [DanhGiaController::class, 'checkReviewEligibility']);
+    Route::post('/reviews', [DanhGiaController::class, 'storeReview']);
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
