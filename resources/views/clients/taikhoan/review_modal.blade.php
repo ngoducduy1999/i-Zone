@@ -1,5 +1,5 @@
-   <!-- Modal Đánh Giá -->
-   <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+<!-- Modal Đánh Giá -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -20,13 +20,17 @@
                     <div id="reviewsList">
                         <!-- Hiển thị tối đa 2-3 đánh giá qua JavaScript -->
                     </div>
+                    <div id="reviewsCheck">
+                        <!-- Hiển thị check -->
+                    </div>
                 </div>
-                
 
                 <!-- Form đánh giá -->
-                <form id="reviewForm" method="POST"action="{{ route('reviews.store') }}">
+                <form id="reviewForm" method="POST">
                     @csrf
-                    <input type="hidden" name="san_pham_id" id="sanPhamId" value="{{$chiTiet->bienTheSanPham->sanPham->id}}">
+                    <input type="hidden" name="san_pham_id" id="sanPhamId" value="">
+                    <input type="hidden" name="user_id" id="userId" value="{{ auth()->user()->id ?? '' }}"> <!-- Thêm user_id -->
+                    
                     <div class="mb-3">
                         <label for="diemSo" class="form-label">Đánh giá:</label>
                         <div class="star-rating">
@@ -46,108 +50,170 @@
         </div>
     </div>
 </div>
-<style>
-    
-</style>
+
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const reviewForm = document.getElementById('reviewForm');
+ document.addEventListener('DOMContentLoaded', () => {
+    const reviewModal = document.getElementById('reviewModal');
+    reviewModal.addEventListener('show.bs.modal', async (event) => {
+        const button = event.relatedTarget;
+        const sanPhamId = button.getAttribute('data-san-pham-id');
+        const reviewsList = document.getElementById('reviewsList');
+        const reviewsCheck = document.getElementById('reviewsCheck');
+        const avgRatingStars = document.getElementById('avgRatingStars');
+        const avgRatingText = document.getElementById('avgRatingText');
 
-    reviewForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
+        // Đặt san_pham_id vào input ẩn
+        document.getElementById('sanPhamId').value = sanPhamId;
 
-        fetch(this.action, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Cập nhật giao diện sản phẩm đã đánh giá
-                const sanPhamId = formData.get('san_pham_id');
-                const reviewButton = document.querySelector(`[data-san-pham-id="${sanPhamId}"]`);
-                reviewButton.outerHTML = '<span class="text-success">Đã đánh giá</span>';
-                
-                // Ẩn modal
-                const reviewModal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
-                reviewModal.hide();
+        // Lấy user_id từ session (bằng cách gọi auth())
+        const userId = {{ auth()->user()->id ?? 'null' }};
+        document.getElementById('userId').value = userId;
+
+       
+
+        try {
+            const reviewsResponse = await fetch(`/api/reviews/${sanPhamId}`);
+            const reviewsData = await reviewsResponse.json();
+
+            if (reviewsData.length) {
+                const avgRating = (reviewsData.reduce((sum, r) => sum + r.diem_so, 0) / reviewsData.length).toFixed(1);
+                avgRatingStars.innerHTML = `${'★'.repeat(Math.round(avgRating))}${'☆'.repeat(5 - Math.round(avgRating))}`;
+                avgRatingText.textContent = `Trung bình: ${avgRating} / 5 (${reviewsData.length} đánh giá)`;
+
+                reviewsList.innerHTML = reviewsData.slice(0, 3).map(review => `
+                    <div class="review-item p-3 mb-3 border rounded shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center">
+                    <strong class="text-primary">${review.user.ten}</strong>
+                    <span class="badge bg-warning text-dark">${review.diem_so} ★</span>
+                    </div>
+                    <p class="text-muted mt-2">${review.nhan_xet || '<em>Không có nhận xét</em>'}</p>
+                    </div>
+
+                `).join('');
             } else {
-                alert('Đánh giá thất bại, vui lòng thử lại.');
+                reviewsList.innerHTML = '<p>Chưa có đánh giá nào.</p>';
             }
-        })
-        .catch(error => console.error('Lỗi:', error));
+        } catch {
+            reviewsList.innerHTML = '<p class="text-danger">Không thể tải đánh giá.</p>';
+        }
+        
+        try {
+            const eligibilityResponse = await fetch(`/api/reviews/check-eligibility/${sanPhamId}?user_id=${userId}`);
+
+            const eligibilityData = await eligibilityResponse.json();
+
+            if (eligibilityData.eligible) {
+                document.getElementById('reviewForm').style.display = 'block';
+                reviewsCheck.innerHTML = '';
+            } else {
+                document.getElementById('reviewForm').style.display = 'none';
+                reviewsCheck.innerHTML = `<div class="alert alert-warning">Bạn không đủ điều kiện để đánh giá (${eligibilityData.remainingReviews} lượt còn lại).</div>`;
+                return;
+            }
+        } catch {
+            reviewsCheck.innerHTML = '<p class="text-danger">Không thể kiểm tra điều kiện đánh giá.</p>';
+            return;
+        }
+    });
+
+    document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        try {
+            const response = await fetch('/api/reviews', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert('Đánh giá đã được gửi!');
+                reviewModal.dispatchEvent(new Event('hide.bs.modal'));
+            } else {
+                const errorData = await response.json();
+                alert(errorData.error || 'Lỗi khi gửi đánh giá.'); // Hiển thị lỗi từ server nếu có
+            }
+        } catch {
+            alert('Lỗi khi gửi đánh giá.');
+        }
     });
 });
 
 
-   
 </script>
+
 <style>
-    /* Tổng thể đánh giá */
-.review-item {
-    padding: 10px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ddd;
+    .review-item {
     background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: all 0.3s ease-in-out;
 }
 
-/* Tiêu đề đánh giá */
-.review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.review-user {
-    font-size: 14px;
-    font-weight: bold;
+.review-item strong {
+    font-size: 1.1rem;
     color: #333;
 }
 
-.review-date {
-    font-size: 12px;
-    color: #999;
+.review-item .badge {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 12px;
 }
 
-/* Nhận xét */
-.review-comment {
-    margin: 5px 0;
-    font-size: 14px;
+.review-item p {
+    margin: 0;
     color: #555;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
-/* Ngôi sao */
-.review-stars {
-    color: #fbc02d; /* Màu vàng cho sao */
-    font-size: 16px;
-}
-.review-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+.review-item:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
 }
 
-.review-user-info {
-    display: flex;
-    align-items: center;
-}
-/* Tổng đánh giá trung bình */
-.average-rating {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 10px;
-}
+    .review-item {
+        padding: 10px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
 
-#avgRatingStars {
-    color: #fbc02d; /* Màu vàng cho sao */
-    margin-right: 10px;
-}
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+
+    .review-user {
+        font-weight: bold;
+    }
+
+    .review-date {
+        font-size: 12px;
+        color: #999;
+    }
+
+    .review-comment {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .review-stars {
+        color: #fbc02d;
+        font-size: 16px;
+    }
+
+    .average-rating {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    #avgRatingStars {
+        color: #fbc02d;
+        margin-right: 10px;
+    }
 </style>
