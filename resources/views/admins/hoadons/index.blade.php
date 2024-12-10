@@ -166,7 +166,7 @@
                                                         @csrf
                                                         @method('PUT')
                                                 
-                                                        <select name="trang_thai" class="form-select w-75" onchange="this.form.submit()" required>
+                                                        <select name="trang_thai" class="form-select w-100" onchange="this.form.submit()" required>
                                                             @foreach ($trangThaiHoaDon as $key => $value)
                                                                 <!-- Nếu trạng thái là "6" hoặc "7", sẽ vô hiệu hóa tùy chọn này -->
                                                                 <option value="{{ $key }}" 
@@ -228,21 +228,23 @@
                                                                     class="mdi mdi-chevron-down"></i></button>
                                                             <div class="dropdown-menu">
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('admin.hoadons.show', $item->id) }}">Xem
-                                                                    chi tiết
+                                                                    href="{{ route('admin.hoadons.show', $item->id) }}">Xem chi tiết
                                                                 </a>
-                                                                <form action="{{ route('admin.hoadons.destroy', $item->id) }}"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');"
-                                                                    class="m-0">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="dropdown-item">Hủy đơn hàng</button>
-                                                                </form>
+                                                                @if ($item->trang_thai != 6) {{-- Kiểm tra nếu trạng thái khác "Đơn hàng đã hủy" --}}
+                                                                    <form action="{{ route('admin.hoadons.destroy', $item->id) }}"
+                                                                        method="POST"
+                                                                        onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');"
+                                                                        class="m-0">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="dropdown-item">Hủy đơn hàng</button>
+                                                                    </form>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </td>                   
+                                                </td>
+                                                               
                                             </tr>  
                                         @endforeach   
                                 </tbody>
