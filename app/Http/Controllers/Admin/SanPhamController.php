@@ -19,33 +19,7 @@ use Illuminate\Validation\Rule;
 
 class SanPhamController extends Controller
 {
-    public function fetchReviews($sanPhamId)
-{
-    $danhGias = DanhGiaSanPham::with('user') // Tải thông tin người dùng liên quan
-        ->where('san_pham_id', $sanPhamId)
-        ->orderBy('created_at', 'desc')
-        ->get();
 
-    return response()->json($danhGias);
-}
-public function storeReview(Request $request)
-{
-    $validated = $request->validate([
-        'san_pham_id' => 'required|exists:san_phams,id',
-        'diem_so' => 'required|integer|between:1,5',
-        'nhan_xet' => 'nullable|string|max:1000',
-    ]);
-
-    $danhGia = DanhGiaSanPham::create([
-        'san_pham_id' => $validated['san_pham_id'],
-        'user_id' => auth()->id(),
-        'diem_so' => $validated['diem_so'],
-        'nhan_xet' => $validated['nhan_xet'],
-    ]);
-// Redirect to the product detail page with a success message
-return redirect()->route('chitietsanpham', ['id' => $validated['san_pham_id']])->with('success', 'Đánh giá đã được gửi thành công.');
-/*     return response()->json(['success' => true, 'message' => 'Đánh giá đã được gửi.', 'data' => $danhGia]);
- */}
 
     /**
      * Display a listing of the resource.
