@@ -189,6 +189,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL banner
         Route::delete('/{id}', [BannerController::class, 'destroy'])->name('destroy');
     });
 
+    
+});
+Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL lienhe')->group(function () {
+
     Route::prefix('lienhes')->name('lienhes.')->group(function () {
         Route::get('/', [AdminLienHeController::class, 'index'])->name('index');
         Route::post('store', [AdminLienHeController::class, 'store'])->name('store');
