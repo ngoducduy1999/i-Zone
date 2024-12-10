@@ -130,7 +130,8 @@ return view('clients.thanhtoan', [
                 'discount_percentage' => $discountPercentage,
                 'discount_code' => $discountCode,
                 'discount_amount' => $discountAmount,
-                'new_total' => $discountedTotal // Trả về tổng tiền mới
+                'new_total' => $discountedTotal, // Trả về tổng tiền mới
+                'new_giamgia' =>$discountAmount
             ]);
         } else {
             // Trả về phản hồi JSON cho mã hết hạn
@@ -168,11 +169,13 @@ return view('clients.thanhtoan', [
     
     // Tính lại tổng tiền sau khi xóa mã giảm giá
     $discountedTotal = ($cart->totalPrice + 50000)* (1 - $discountPercentage / 100);
-
+    $giamgia=0;
     return response()->json([
         'success' => true,
         'message' => 'Mã giảm giá đã được xóa.',
-        'new_total' => $discountedTotal // Trả về tổng tiền sau khi xóa mã giảm giá
+        'new_total' => $discountedTotal ,// Trả về tổng tiền sau khi xóa mã giảm giá
+        'new_giamgia' => $giamgia // Trả về tổng tiền sau khi xóa mã giảm giá
+
     ]);
 }
 
