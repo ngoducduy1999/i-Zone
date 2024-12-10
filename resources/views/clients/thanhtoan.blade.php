@@ -153,7 +153,15 @@
                              <span>Tổng phụ</span>
                              <span>{{ number_format($cart->totalPrice) }} VND</span>
                           </li>
-                         
+                          <li class="tp-order-info-list-subtotal">
+                            <span>Giảm giá</span>
+                          
+                                <span class="text-danger" id="giamgia">
+                                    -{{ number_format($discountAmount, 0, ',', '.') }} VNĐ
+                                </span>
+                            
+                        
+                         </li>
                           <li >
                              <span>Vận chuyển</span>
                              <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
@@ -185,10 +193,14 @@
                        </li>
                        
                        <li id="discountAppliedMessage" style="display: none;">
-                           Mã giảm giá: <span id="appliedDiscountCode">{{$discountCode}}</span> 
-                           <button type="button" id="removeDiscountButton">x</button>
-                       </li>
-                       
+                        Mã giảm giá: <span id="appliedDiscountCode">{{$discountCode}}</span>
+                        <button type="button" id="removeDiscountButton"style="width: 50px;" class="btn-remove-discount" aria-label="Hủy giảm giá" title="Hủy mã giảm giá">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+                                <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                      </li>                      
                           <li class="tp-order-info-list-total">
                              <span>Tổng đơn hàng</span>
                              <span id="totalPrice">{{ number_format($discountedTotal, 0, ',', '.') }} VND</span>
@@ -215,9 +227,49 @@
               </div>
            </div>
         </div>
+        
+        <div class="modal fade" id="stockWarningModal" tabindex="-1" aria-labelledby="stockWarningModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="stockWarningModalLabel">Cảnh báo tồn kho</h5>
+                    </div>
+                    <div class="modal-body" id="stockWarningModalBody">
+                        <!-- Nội dung cảnh báo sẽ được cập nhật động -->
+                    </div>
+                    <div class="modal-footer">
+                        <button id="cancelOrderButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button id="confirmOrderButton" type="button" class="btn btn-primary">Đặt hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="toastMessage" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body" id="toastBody">
+                        <!-- Nội dung thông báo sẽ được cập nhật động -->
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        
      </section>
      <!-- khu vực thanh toán kết thúc -->
-
+     <style>.btn-remove-discount {
+        background-color: transparent;
+        border: none;
+        color: #d9534f;
+        cursor: pointer;
+        padding: 5px;
+        transition: color 0.2s ease;
+    }
+    
+    .btn-remove-discount:hover {
+        color: #ff4d4d;
+    }
+    </style>
      <script>
         function updateAddressField() {
         const addressSelect = document.getElementById('addressSelect');
@@ -263,29 +315,52 @@
 .then(response => response.json())
 .then(data => {
     if (data.success) {
-        if (data.url) {
-            window.location.href = data.url; // Chuyển hướng đến ZaloPay
-        } else {
-            window.location.href = '/customer/donhang';
-            alert('Đặt hàng thành công!');
-        }
+    if (data.url) {
+        window.location.href = data.url; // Chuyển hướng đến ZaloPay
     } else {
-        if (data.insufficient_stock) {
-            let message = 'Một số sản phẩm không đủ tồn kho:\n';
-            data.insufficient_stock.forEach(item => {
-                message += `- ${item.product_name}: Còn lại ${item.available_quantity} sản phẩm.\n`;
-            });
-            if (confirm(message + '\nBạn có muốn đặt hàng với số lượng khả dụng không?')) {
-                // Người dùng xác nhận, thực hiện đặt hàng lại
-                document.getElementById('submitOrder').click();
-            } else {
-                // Người dùng không đồng ý, chuyển hướng về trang giỏ hàng
-                window.location.href = '/Cart-Index';
-            }
-        } else {
-            alert('Có lỗi xảy ra: ' + data.message);
-        }
+        // Thêm thông báo đặt hàng thành công
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent = 'Đặt hàng thành công! Bạn sẽ được chuyển hướng đến đơn hàng.';
+        toast.show();
+
+        // Sau một khoảng thời gian, chuyển hướng
+        setTimeout(() => {
+            window.location.href = '/customer/donhang';
+        }, 3000);
     }
+} else {
+    if (data.insufficient_stock) {
+        // Tạo danh sách thông báo sản phẩm tồn kho không đủ
+        let message = '<strong>Một số sản phẩm không đủ tồn kho:</strong><ul>';
+        data.insufficient_stock.forEach(item => {
+            message += `<li>${item.product_name}: Còn lại ${item.available_quantity} sản phẩm.</li>`;
+        });
+        message += '</ul>';
+        message += '<p>Bạn có muốn đặt hàng với số lượng khả dụng không?</p>';
+
+        // Hiển thị modal cảnh báo tồn kho
+        const stockModal = new bootstrap.Modal(document.getElementById('stockWarningModal'));
+        document.getElementById('stockWarningModalBody').innerHTML = message;
+        stockModal.show();
+
+        // Xử lý sự kiện của các nút trong modal
+        document.getElementById('confirmOrderButton').onclick = function () {
+            stockModal.hide();
+            document.getElementById('submitOrder').click(); // Thực hiện đặt hàng lại
+        };
+
+        document.getElementById('cancelOrderButton').onclick = function () {
+            stockModal.hide();
+            window.location.href = '/Cart-Index'; // Người dùng từ chối, quay lại giỏ hàng
+        };
+    } else {
+        // Thêm thông báo lỗi
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent = 'Có lỗi xảy ra: ' + data.message;
+        toast.show();
+    }
+}
+
 })
 .catch(error => {
     console.error('Error:', error);
@@ -326,6 +401,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     document.getElementById('totalPrice').innerText = new Intl.NumberFormat('vi-VN').format(data.new_total) + ' VND';
+                    document.getElementById('giamgia').innerText = new Intl.NumberFormat('vi-VN').format(-data.new_giamgia) + ' VND';
                     document.getElementById('discountApplySection').style.display = 'none';
                     document.getElementById('tpCheckoutCouponForm').style.display = 'none';
                     document.getElementById('discountAppliedMessage').style.display = 'block';
@@ -355,6 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     document.getElementById('totalPrice').innerText = new Intl.NumberFormat('vi-VN').format(data.new_total) + ' VND';
+                    document.getElementById('giamgia').innerText = new Intl.NumberFormat('vi-VN').format(-data.new_giamgia) + ' VND'; 
                     document.getElementById('discountAppliedMessage').style.display = 'none';
                     document.getElementById('discountApplySection').style.display = 'block';
                     alert(data.message);
