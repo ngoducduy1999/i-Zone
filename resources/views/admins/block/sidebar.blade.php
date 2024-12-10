@@ -49,7 +49,7 @@
                     <div class="collapse" id="dbs">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{route('admin.dashboard')}}" class="tp-link">dashboard</a>
+                                <a href="{{route('admin.dashboard')}}" class="tp-link">Dashboard</a>
                             </li>
                             <li>
                                 <a class='tp-link' href="{{ route('admin.doanhthu') }}">Doanh thu</a>
@@ -311,7 +311,7 @@
         </div>
     </li>
     @endcan
-
+    @can('QL lienhe')
     <li>
 
         <a href="#lienhes" data-bs-toggle="collapse">
@@ -328,6 +328,9 @@
             </ul>
         </div>
     </li>
+    @endcan
+
+    
     @can(abilities: 'QL baiviets')
 
     <li>
@@ -340,9 +343,6 @@
             <ul class="nav-second-level">
                 <li>
                     <a class='tp-link' href="{{ route('admin.Danhgias.index') }}">Danh sách</a>
-                </li>
-                <li>
-                    <a class='tp-link' href="{{ route('admin.baiviets.create') }}">Thêm mới</a>
                 </li>
             </ul>
         </div>
