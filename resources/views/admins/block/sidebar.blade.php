@@ -331,7 +331,7 @@
     @endcan
 
     
-    @can(abilities: 'QL baiviets')
+    @can(abilities: 'QL danhgia')
 
     <li>
         <a href="#Danhgias" data-bs-toggle="collapse">

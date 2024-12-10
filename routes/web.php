@@ -231,7 +231,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')-
         Route::delete('/{id}', [TagController::class, 'destroy'])->name('destroy');
     });
   });
-  Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL tag')->group(function () {
+  Route::prefix('admin')->name('admin.')->middleware('auth', 'permission:QL danhgia')->group(function () {
 
     Route::prefix('Danhgias')->name('Danhgias.')->group(function () {
         // Route hiển thị danh sách đánh giá
