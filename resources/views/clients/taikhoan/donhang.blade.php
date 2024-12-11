@@ -1,6 +1,7 @@
 @extends('layouts.client')
 
 @section('content')
+
     <div class="container p-5 ">
             <h3 class="profile__info-title">Lịch sử đơn hàng</h3>
         
@@ -30,7 +31,7 @@
                 @include('clients.taikhoan.list', ['donHangs' => $donHangs])
             </div>
         </div>
-           <!-- khu vực breadcrumb bắt đầu -->
+          <!-- khu vực breadcrumb bắt đầu -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="toastMessage" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -42,7 +43,9 @@
         </div>
     </div>
 @endsection
-
+@if(session('js'))
+    {!! session('js') !!}
+@endif
 @section('js')
     <script>
         function goBack() {
@@ -107,9 +110,11 @@ if (message) {
         const toast = new bootstrap.Toast(toastElement);
         toast.show();
     } else {
-        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
-        document.getElementById('toastBody').textContent = 'Đặt hàng thành công! Vui lòng kiểm tra đơn hàng.';
+       // Thêm thông báo đặt hàng thành công
+       const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent = 'Đặt hàng thành công! Bạn sẽ được chuyển hướng đến đơn hàng.';
         toast.show();
+        
     }
 
     // Xóa message khỏi sessionStorage sau khi hiển thị

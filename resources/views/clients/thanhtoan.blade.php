@@ -450,14 +450,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('discountAppliedMessage').style.display = 'block';
                     document.getElementById('appliedDiscountCode').innerText = discountCodeInput;
 
-                    alert(data.message);
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent =  data.message;
+        toast.show();
                 } else {
-                    alert(data.message);
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent =  data.message;
+        toast.show();
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                // Thêm thông báo lỗi
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent = 'Có lỗi xảy ra. Vui lòng thử lại';
+        toast.show();
+
             });
         });
 
@@ -477,15 +485,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('giamgia').innerText = new Intl.NumberFormat('vi-VN').format(-data.new_giamgia) + ' VND'; 
                     document.getElementById('discountAppliedMessage').style.display = 'none';
                     document.getElementById('discountApplySection').style.display = 'block';
-                    alert(data.message);
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent =  data.message;
+        toast.show();
                 } else {
-                    alert("Có lỗi khi xóa mã giảm giá.");
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent =  'Có lỗi khi xóa mã giảm giá.';
+        toast.show();
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert("Có lỗi xảy ra. Vui lòng thử lại.");
-            });
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent = 'Có lỗi xảy ra. Vui lòng thử lại';
+        toast.show();            });
         });
     });
 
