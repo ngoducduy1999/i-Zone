@@ -31,13 +31,15 @@ class MauSacController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ten_mau_sac' => 'required|string|max:255',
-            'ma_mau' => 'required|string|max:7' // Validation cho ma_mau
+            'ten_mau_sac' => 'required|string|max:255|unique:mau_sacs,ten_mau_sac',
+            'ma_mau' => 'required|string|max:7|unique:mau_sacs,ma_mau' // Validation cho ma_mau
         ], [
             'ten_mau_sac.required' => 'Tên màu sắc không được để trống!',
             'ten_mau_sac.string' => 'Tên màu sắc phải là một chuỗi!',
+            'ten_mau_sac.unique' => 'Tên màu sắc đã tồn tại!',
             'ma_mau.required' => 'Mã màu không được để trống!',
             'ma_mau.string' => 'Mã màu phải là một chuỗi ký tự!',
+            'ma_mau.unique' => 'Mã màu đã tồn tại!',
         ]);
 
         $params = $request->except('_token');
@@ -61,13 +63,15 @@ class MauSacController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'ten_mau_sac' => 'required|string|max:255',
-            'ma_mau' => 'required|string|max:7'
+            'ten_mau_sac' => 'required|string|max:255|unique:mau_sacs,ten_mau_sac,'. $id,
+            'ma_mau' => 'required|string|max:7|unique:mau_sacs,ma_mau,'. $id,
         ], [
             'ten_mau_sac.required' => 'Tên màu sắc không được để trống!',
             'ten_mau_sac.string' => 'Tên màu sắc phải là một chuỗi!',
+            'ten_mau_sac.unique' => 'Tên màu sắc đã tồn tại!',
             'ma_mau.required' => 'Mã màu không được để trống!',
-            'ma_mau.string' => 'Mã màu phải là một chuỗi ký tự!'
+            'ma_mau.string' => 'Mã màu phải là một chuỗi ký tự!',
+            'ma_mau.unique' => 'Mã màu đã tồn tại!',
         ]);
 
         $params = $request->except('_token', '_method');
@@ -103,10 +107,13 @@ class MauSacController extends Controller
     $mausac = MauSac::findOrFail($id);
 
     // Kiểm tra xem có biến thể sản phẩm nào liên quan còn số lượng không
-    $hasActiveVariants = $mausac->bienthesanphams()->where('so_luong', '>', 0)->exists();
-
-    if ($hasActiveVariants) {
-        return redirect()->route('admin.mausacs.index')->with('error', 'Không thể xóa màu này vì có sản phẩm liên quan còn số lượng.');
+    // $hasActiveVariants = $mausac->bienthesanphams()->where('so_luong', '>', 0)->exists();
+    if(!$mausac){
+        return redirect()->back()->with('error', 'Không tìm thấy màu sắc!');
+    }
+    $counmausac = $mausac->bienTheSanPhams()->withTrashed()->get();
+    if (count($counmausac) > 0) {
+        return redirect()->back()->with('error', 'Màu sắc đã có sản phẩm, không thể xóa!');
     }
 
     // Nếu không có biến thể nào còn số lượng, thực hiện xóa mềm
