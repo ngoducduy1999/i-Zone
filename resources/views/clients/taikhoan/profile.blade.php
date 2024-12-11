@@ -54,7 +54,7 @@
                                                 <button class="nav-link" id="nav-lienhe-tab" data-bs-toggle="tab"
                                                 data-bs-target="#nav-lienhe" type="button" role="tab"
                                                 aria-controls="nav-lienhe" aria-selected="false"><span><i
-                                                        class="fas fa-envelope"></i></span>Hòm thư phản hồi</button>    
+                                                        class="fas fa-envelope"></i></span>Hòm thư phản hồi</button>
                                     <span id="marker-vertical" class="tp-tab-line d-none d-sm-inline-block"></span>
                                 </div>
                             </nav>
@@ -79,7 +79,7 @@
                                                             @else
                                                                 <img src="{{ isset($user) && $user->anh_dai_dien ? Storage::url($user->anh_dai_dien) : asset('assets/client/img/about/anhchuadangnhap.jpg') }}" alt="">
                                                             @endif
-                                                            
+
                                                             {{-- <div class="profile__main-thumb-edit">
                                                                 <input id="profile-thumb-input" class="profile-img-popup"
                                                                     name="anh_dai_dien" type="file">
@@ -363,7 +363,7 @@
                                                         <div class="profile__input-box">
                                                             <div class="profile__input">
                                                                 <input type="file" name="anh_dai_dien"
-                                                                    id="anh_dai_dien"">
+                                                                    id="anh_dai_dien">
                                                                 <span>
                                                                     <i class="fa-regular fa-image"></i>
                                                                 </span>
@@ -423,21 +423,31 @@
                                                 <div class="col-xxl-12">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-contact-input">
-                                                            <input name="mat_khau_cu" id="old_pass" type="password">
+                                                            <input name="mat_khau_cu" class="@error('mat_khau_cu') is-invalid
+
+                                                            @enderror" id="old_pass" type="password">
                                                         </div>
                                                         <div class="tp-profile-input-title">
                                                             <label for="mat_khau_moi">Mật khẩu cũ</label>
                                                         </div>
+                                                          @error('mat_khau_cu')
+                                                        <p class="alert alert-danger">{{$message}}</p>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-xxl-6 col-md-6">
                                                     <div class="tp-profile-input-box">
                                                         <div class="tp-profile-input">
-                                                            <input name="mat_khau_moi" id="new_pass" type="password">
+                                                            <input name="mat_khau_moi" id="new_pass" type="password" class="@error('mat_khau_moi')
+                                                            is-invalid
+                                                            @enderror">
                                                         </div>
                                                         <div class="tp-profile-input-title">
                                                             <label for="mat_khau_moi">Mật khẩu mới</label>
                                                         </div>
+                                                         @error('mat_khau_moi')
+                                                        <p class="alert alert-danger">{{$message}}</p>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-xxl-6 col-md-6">
@@ -466,32 +476,32 @@
                                 aria-labelledby="nav-lienhe-tab">
                                 <table class="table table-striped table-hover text-center">
                                     <thead>
-                                        
+
                                         <th>Nội dung phản hồi</th>
                                         <th>Ngày gửi</th>
                                         <th>Trạng thái phản hồi</th>
                                     </thead>
-                               
-                                        
-                                 
+
+
+
                                         <tbody>
                                             <tr>
                                         <td>Không ngon</td>
                                         <td>15/4/2024</td>
                                         <td >
                                              <span style="background-color: #ffecec; color: #d9534f; text-align: center; padding: 10px; font-weight: bold;"> Chưa phản hồi</span>
-                                        </td> 
+                                        </td>
                                             </tr>
-                                            
+
                                     </tbody>
 
-                               
-                                   
-                                 
+
+
+
                                   </table>
-                              
-                                
-                                  
+
+
+
                             </div>
                                 <div class="tab-pane fade" id="nav-address" role="tabpanel"
                                     aria-labelledby="nav-address-tab">

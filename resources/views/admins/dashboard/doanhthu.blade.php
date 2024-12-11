@@ -40,14 +40,18 @@
     </form>
 
     <div class="card shadow p-4">
-        <h3 class="card-title">Doanh thu: 
+        <h3 class="card-title">Doanh thu:
             <span class="text-success">{{ number_format($doanhThu ?? 0, 0, ',', '.') }} VND</span>
         </h3>
     </div>
 
-    <!-- Xuất File Excel -->
-     
-    <div class="card shadow p-4 mt-5">
+
+    {{-- <!-- Nút xuất dữ liệu -->
+    <!-- <div class="text-end mt-4">
+        <a href="{{ route('admin.export_revenue', request()->all()) }}" class="btn btn-success">Xuất File Excel</a>
+    </div> --> --}}
+
+<div class="card shadow p-4 mt-5">
         <h3 class="card-title">Biểu đồ Doanh Thu</h3>
         <canvas id="revenueChart" class="mt-3"></canvas>
     </div>
