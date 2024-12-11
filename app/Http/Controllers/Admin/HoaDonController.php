@@ -141,14 +141,7 @@ class HoaDonController extends Controller
     // Kiểm tra nếu trạng thái hiện tại là "Đơn hàng đã hủy" hoặc "Đã nhận được hàng"
     if (in_array($hoadon->trang_thai, [6, 7])) {
         return redirect()->back()->with('error', 'Không thể cập nhật trạng thái vì đơn hàng đã hủy hoặc đã nhận.');
-    }
-
-    // Kiểm tra nếu phương thức thanh toán là "Chuyển khoản ngân hàng" và đơn hàng chưa thanh toán
-    if ($hoadon->phuong_thuc_thanh_toan === 'Thanh toán qua chuyển khoản ngân hàng' && !$hoadon->da_thanh_toan && $hoadon->thoi_gian_het_han < now()) {
-        $hoadon->trang_thai = 6; // Đơn hàng đã hủy
-        $hoadon->save();
-        return redirect()->route('admin.hoadons.index')->with('success', 'Đơn hàng đã tự động chuyển thành trạng thái hủy do hết thời gian và chưa thanh toán qua chuyển khoản.');
-    }    
+    }  
 
     // Kiểm tra trạng thái đơn hàng hiện tại để không cho phép cập nhật ngược lại
     if ($hoadon->trang_thai == '6' || $hoadon->trang_thai == '7') {
