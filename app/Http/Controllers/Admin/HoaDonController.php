@@ -143,6 +143,13 @@ class HoaDonController extends Controller
         return redirect()->back()->with('error', 'Không thể cập nhật trạng thái vì đơn hàng đã hủy hoặc đã nhận.');
     }
 
+    // Kiểm tra nếu phương thức thanh toán là "Chuyển khoản ngân hàng" và đơn hàng chưa thanh toán
+    if ($hoadon->phuong_thuc_thanh_toan === 'Thanh toán qua chuyển khoản ngân hàng' && !$hoadon->da_thanh_toan && $hoadon->thoi_gian_het_han < now()) {
+        $hoadon->trang_thai = 6; // Đơn hàng đã hủy
+        $hoadon->save();
+        return redirect()->route('admin.hoadons.index')->with('success', 'Đơn hàng đã tự động chuyển thành trạng thái hủy do hết thời gian và chưa thanh toán qua chuyển khoản.');
+    }    
+
     // Kiểm tra trạng thái đơn hàng hiện tại để không cho phép cập nhật ngược lại
     if ($hoadon->trang_thai == '6' || $hoadon->trang_thai == '7') {
         // Nếu trạng thái là "Đơn hàng đã hủy" hoặc "Đã nhận được hàng", chỉ cho phép thay đổi trạng thái thanh toán
@@ -153,6 +160,16 @@ class HoaDonController extends Controller
         }
         // Nếu không thay đổi gì cả
         return redirect()->route('admin.hoadons.index')->with('info', 'Không thể thay đổi trạng thái đơn hàng nữa!');
+    }
+
+    // Kiểm tra nếu phương thức thanh toán là "Trả tiền mặt"
+    if ($hoadon->phuong_thuc_thanh_toan === 'Thanh toán khi nhận hàng') {
+        if ($request->has('trang_thai_thanh_toan') && $request->input('trang_thai_thanh_toan') === 'Đã thanh toán') {
+            // Chỉ cho phép nếu trạng thái đơn hàng là "Đã giao"
+            if ($hoadon->trang_thai !== 5) { // 5: Đã giao
+                return redirect()->route('admin.hoadons.index')->with('error', 'Chỉ có thể chuyển trạng thái thanh toán thành "Đã thanh toán" khi đơn hàng đã được giao.');
+            }
+        }
     }
 
     // Kiểm tra phương thức thanh toán là chuyển khoản và trạng thái thanh toán là "chưa thanh toán"
@@ -193,9 +210,9 @@ class HoaDonController extends Controller
 {
     $hoaDon = HoaDon::findOrFail($id);
 
-    // Kiểm tra điều kiện hủy đơn hàng
-    if (now()->lessThan($hoaDon->thoi_gian_het_han) || $hoaDon->trang_thai_thanh_toan !== 'Chưa thanh toán') {
-        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể hủy đơn hàng. Thời gian thanh toán chưa hết hoặc đơn hàng đã được thanh toán.');
+    // Kiểm tra nếu đơn hàng chưa thanh toán
+    if ($hoaDon->trang_thai_thanh_toan !== 'Chưa thanh toán') {
+        return redirect()->route('admin.hoadons.index')->with('error', 'Không thể hủy đơn hàng vì đơn hàng đã được thanh toán.');
     }
 
     // Cập nhật trạng thái "Đã hủy"
