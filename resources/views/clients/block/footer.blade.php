@@ -25,11 +25,10 @@
                    <h4 class="tp-footer-widget-title">Tài khoản của tôi</h4>
                    <div class="tp-footer-widget-content">
                       <ul>
-                         <li><a href="#">Theo dõi đơn hàng</a></li>
-                         <li><a href="#">Vận chuyển</a></li>
-                         <li><a href="#">Danh sách yêu thích</a></li>
-                         <li><a href="#">Tài khoản của tôi</a></li>
-                         <li><a href="#">Lịch sử đơn hàng</a></li>
+                         <li><a href="{{ route('customer.donhang') }}">Theo dõi đơn hàng</a></li>                       
+                         <li><a href="{{ route('yeuthich') }}">Danh sách yêu thích</a></li>
+                         <li><a href="{{ route('customer.profileUser') }}">Tài khoản của tôi</a></li>
+                         <li><a href="{{ route('customer.donhang') }}">Lịch sử đơn hàng</a></li>
                       </ul>
                    </div>
                 </div>
@@ -42,8 +41,8 @@
                          
                          <li><a href="#">Chính sách bảo mật</a></li>
                          <li><a href="#">Điều khoản & Điều kiện</a></li>
-                         <li><a href="#">Tin tức mới nhất</a></li>
-                         <li><a href="#">Liên hệ với chúng tôi</a></li>
+                         <li><a href="{{ route('bai-viet') }}">Tin tức mới nhất</a></li>
+                         <li><a href="{{ route('lienhe') }}">Liên hệ với chúng tôi</a></li>
                          <li><a href="#">Hướng dẫn mua online</a></li>
                       </ul>
                    </div>
@@ -55,7 +54,7 @@
                    <div class="tp-footer-widget-content">
                       <div class="tp-footer-talk mb-20">
                          <span>Có thắc mắc? Gọi cho chúng tôi</span>
-                         <h4><a href="tel:670-413-90-762">+84987654321</a></h4>
+                         <h4><a href="tel:987-654-321">+84987654321</a></h4>
                       </div>
                       <div class="tp-footer-contact">
                          <div class="tp-footer-contact-item d-flex align-items-start">
@@ -83,7 +82,7 @@
                                </span>
                             </div>
                             <div class="tp-footer-contact-content">
-                               <p><a href="https://www.google.com/maps/place/Sleepy+Hollow+Rd,+Gouverneur,+NY+13642,+USA/@44.3304966,-75.4552367,17z/data=!3m1!4b1!4m6!3m5!1s0x4cccddac8972c5eb:0x56286024afff537a!8m2!3d44.3304928!4d-75.453048!16s%2Fg%2F1tdsjdj4" target="_blank">Số 1 Trịnh Văn Bô <br> Hà Nội, Việt Nam</a></p>
+                               <p><a href="https://www.google.com/maps/place/P.+Tr%E1%BB%8Bnh+V%C4%83n+B%C3%B4,+H%C3%A0+N%E1%BB%99i,+Vietnam/@21.038,105.7432889,17z/data=!3m1!4b1!4m6!3m5!1s0x313454962c0b6523:0x5c76c67564d9d1b9!8m2!3d21.038!4d105.7458638!16s%2Fg%2F11fmf3pzd0?entry=ttu&g_ep=EgoyMDI0MTIwNC4wIKXMDSoASAFQAw%3D%3D" target="_blank">Phố Trịnh Văn Bô <br> Hà Nội, Việt Nam</a></p>
                             </div>
                          </div>
                       </div>
