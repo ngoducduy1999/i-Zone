@@ -159,8 +159,13 @@
                                             <tr>
                                                 <td>{{ $item->ma_hoa_don }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($item->ngay_dat_hang)->format('d-m-Y') }}</td>
-                                                <td class="text-danger">{{ number_format($item->tong_tien, 0, '', '.') }}</td>
-                                                <td>{{ $item->phuong_thuc_thanh_toan }}</td>
+                                                <td style="color: red; font-weight: bold;">
+                                                    {{ number_format($item->tong_tien, 0, '', '.') }}
+                                                </td>                                                
+                                                <td style="color: 
+                                                    {{ $item->phuong_thuc_thanh_toan == 'Thanh toán qua chuyển khoản ngân hàng' ? 'blue' : ($item->phuong_thuc_thanh_toan == 'Thanh toán khi nhận hàng' ? 'red' : 'black') }}">
+                                                    {{ $item->phuong_thuc_thanh_toan }}
+                                                </td>
                                                 <td class="equal-td">
                                                     <form action="{{ route('admin.hoadons.update', $item->id) }}" method="POST">
                                                         @csrf
