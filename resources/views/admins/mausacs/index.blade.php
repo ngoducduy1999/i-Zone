@@ -1,8 +1,7 @@
 @extends('layouts.admin')
 
-@section('title')
-Danh sách màu sắc
-@endsection
+@section('title', 'Danh sách màu sắc')
+
 
 @section('css')
     <link href="{{ asset('assets/admin/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
