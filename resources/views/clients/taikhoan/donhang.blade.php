@@ -30,6 +30,17 @@
                 @include('clients.taikhoan.list', ['donHangs' => $donHangs])
             </div>
         </div>
+           <!-- khu vực breadcrumb bắt đầu -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastMessage" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastBody">
+                    <!-- Nội dung thông báo sẽ được cập nhật động -->
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -83,6 +94,28 @@
                 });
             }
         });
+        // Lấy message từ sessionStorage
+const message = sessionStorage.getItem('orderMessage');
+
+if (message) {
+    // Tạo thông báo bằng Bootstrap Toast hoặc Alert
+    const toastElement = document.getElementById('toastMessage');
+    const toastBody = document.getElementById('toastBody');
+
+    if (toastElement && toastBody) {
+        toastBody.textContent = message;
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    } else {
+        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+        document.getElementById('toastBody').textContent = 'Đặt hàng thành công! Vui lòng kiểm tra đơn hàng.';
+        toast.show();
+    }
+
+    // Xóa message khỏi sessionStorage sau khi hiển thị
+    sessionStorage.removeItem('orderMessage');
+}
+
     </script>
     
 @endsection
