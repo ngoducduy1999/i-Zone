@@ -341,9 +341,6 @@
                 <li>
                     <a class='tp-link' href="{{ route('admin.Danhgias.index') }}">Danh sách</a>
                 </li>
-                <li>
-                    <a class='tp-link' href="{{ route('admin.baiviets.create') }}">Thêm mới</a>
-                </li>
             </ul>
         </div>
     </li>
