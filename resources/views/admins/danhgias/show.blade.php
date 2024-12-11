@@ -1,8 +1,7 @@
 @extends('layouts.admin')
 
-@section('title')
-    {{ $title }}
-@endsection
+@section('title', 'Xem sách đánh giá')
+
 
 @section('css')
     <style>
