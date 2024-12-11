@@ -3,6 +3,7 @@
 // app/Http/Controllers/VnpayController.php
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Client\TaiKhoanController;
 use Illuminate\Http\Request;
 use App\Models\HoaDon;
 use Illuminate\Support\Facades\Log;
@@ -230,14 +231,19 @@ if ($secureHash === $vnp_SecureHash) {
 
                 // Gửi email xác nhận
                 Mail::to($hoaDon->email)->send(new InvoiceCreated($hoaDon));
-                return view('clients.taikhoan.donhang', ['message' => 'Thanh toán thành công!']);
+                session()->flash('js', '<script>sessionStorage.setItem("orderMessage", "Thanh toán thành công!");</script>');
+                return redirect()->route('customer.donhang');
+
             } else {
                 // Số tiền không khớp
-                return view('payment.error', ['message' => 'Số tiền thanh toán không khớp. Giao dịch bị từ chối.']);
+                session()->flash('js', '<script>sessionStorage.setItem("orderMessage", "Số tiền thanh toán không khớp. Giao dịch bị từ chối.");</script>');
+                return redirect()->route('customer.donhang');
             }
         }
     }
-    return view('payment.error', ['message' => 'Giao dịch thất bại']);
+    session()->flash('js', '<script>sessionStorage.setItem("orderMessage", "Thanh toán Thất bại!");</script>');
+    return redirect()->route('customer.donhang');
+    
 }
 
 
