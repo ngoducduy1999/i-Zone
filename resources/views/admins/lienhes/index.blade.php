@@ -1,8 +1,7 @@
 @extends('layouts.admin')
 
-@section('title')
+@section('title', 'Danh sách đánh giá')
 
-@endsection
 
 @section('css')
 
