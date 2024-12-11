@@ -48,7 +48,7 @@
 
 
     <!-- pre loader area start -->
-    <div id="loading">
+    <div id="loading" class="d-none">
         <div id="loading-center">
             <div id="loading-center-absolute">
                 <!-- loading content here -->

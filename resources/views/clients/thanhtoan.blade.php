@@ -1,7 +1,42 @@
 @extends('layouts.client')
 
 @section('content')
+
+<!-- Preloader Area Start -->
+<div id="loadingSpinner" class="d-none text-center">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="tp-preloader-content">
+                <div class="tp-preloader-logo">
+                    <div class="tp-preloader-circle">
+                        <svg width="190" height="190" viewBox="0 0 380 380" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <circle stroke="#D9D9D9" cx="190" cy="190" r="180" stroke-width="6"
+                                stroke-linecap="round"></circle>
+                            <circle stroke="red" cx="190" cy="190" r="180" stroke-width="6"
+                                stroke-linecap="round"></circle>
+                        </svg>
+                    </div>
+                    <img src="{{ asset('assets/client/img/logo/preloader/preloader-icon.png') }}" alt=""
+                        style="width: 50px;">
+                </div>
+                <p class="tp-preloader-subtitle">Đang xử lý...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
     <!-- khu vực breadcrumb bắt đầu -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastMessage" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastBody">
+                    <!-- Nội dung thông báo sẽ được cập nhật động -->
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
     <section class="breadcrumb__area include-bg pt-95 pb-50" data-bg-color="#EFF1F5">
         <div class="container">
            <div class="row">
@@ -244,16 +279,7 @@
                 </div>
             </div>
         </div>
-        <div class="toast-container position-fixed bottom-0 end-0 p-3">
-            <div id="toastMessage" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body" id="toastBody">
-                        <!-- Nội dung thông báo sẽ được cập nhật động -->
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-            </div>
-        </div>
+       
         
      </section>
      <!-- khu vực thanh toán kết thúc -->
@@ -269,6 +295,20 @@
     .btn-remove-discount:hover {
         color: #ff4d4d;
     }
+    <style>
+    #loadingSpinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1050; /* Đảm bảo nó nằm trên các phần tử khác */
+    }
+
+    .d-none {
+        display: none;
+    }
+</style>
+
     </style>
      <script>
         function updateAddressField() {
@@ -289,7 +329,8 @@
     }
       document.getElementById('submitOrder').addEventListener('click', function(event) {
           event.preventDefault();
-  
+          loading.classList.remove('d-none');
+
           const name = document.getElementById('name').value;
           const phone = document.getElementById('phone').value;
           const address = document.getElementById('address').value;
@@ -325,8 +366,10 @@
 
         // Sau một khoảng thời gian, chuyển hướng
         setTimeout(() => {
-            window.location.href = '/customer/donhang';
-        }, 3000);
+    sessionStorage.setItem('orderMessage', 'Đặt hàng thành công!');
+    window.location.href = '/customer/donhang';
+}, 3000);
+
     }
 } else {
     if (data.insufficient_stock) {
