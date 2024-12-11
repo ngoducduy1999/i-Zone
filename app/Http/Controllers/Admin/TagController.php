@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 class TagController extends Controller
 {
@@ -124,5 +125,19 @@ public function edit($id)
             return redirect()->back()->with('success', 'Tên tag đã được kích hoạt.');
         }
     }
-    
+    public function sanphamtag($id)
+    {
+        $tag = Tag::find($id);
+        $products = $tag->sanPhams()->latest('id')->get();
+        if (Auth::user()) {
+            $isLoved = [];
+            $yeuThichs = Auth::user()->sanPhamYeuThichs()->pluck('san_pham_id')->toArray();
+            foreach ($products as $product) {
+                $isLoved[$product->id] = in_array($product->id, $yeuThichs);
+            }
+        } else {
+            $isLoved = [];
+        }
+        return view('clients.sanphamtag', compact('products', 'isLoved', 'tag'));
+    }
 }

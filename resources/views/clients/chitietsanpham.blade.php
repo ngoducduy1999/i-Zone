@@ -573,15 +573,26 @@
                             </div>
                             <div class="tp-product-details-query-item d-flex align-items-center">
                                 <span>Danh mục: </span>
-                                <p>{{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}</p>
+                                <p> 
+                                    <a href="{{ route('sanpham.danhmuc', ['danh_muc_id' => $sanpham->danhMuc->id]) }}">
+                                        {{ $sanpham->danhMuc ? $sanpham->danhMuc->ten_danh_muc : '' }}
+                                    </a>
+                                </p>
                             </div>
                             <div class="tp-product-details-query-item d-flex align-items-center">
                                 <span>Tag: </span>
                                 <p>
-                                <p>@foreach ($tagsanphams as $tag)
+                                {{-- <p>@foreach ($tagsanphams as $tag)
                                     @if ($tag->tag->trang_thai==1)
                                         <span class="badge bg-primary">#{{ $tag->tag->ten_tag }}</span>
                                     @endif
+                                    @endforeach
+                                </p> --}}
+                                <p>
+                                    @foreach ($tagsanphams as $tag)
+                                        @if ($tag->tag->trang_thai==1)
+                                            <span class="badge bg-primary"><a href="{{ route('sanphamtag', $tag->tag->id) }}">#{{ $tag->tag->ten_tag }}</a></span>
+                                        @endif
                                     @endforeach
                                 </p>
                             </div>
