@@ -474,8 +474,13 @@
                                         onclick="addToCart({{$sanpham->id}})">Thêm vào giỏ hàng</button>
                                 </div>
                             </div>
-                            <button class="tp-product-details-buy-now-btn w-100">Mua ngay</button>
+
+                            <button class="tp-product-details-buy-now-btn w-100"onclick="addToCartAndRedirect({{ $sanpham->id }}, '{{ route('cart.index') }}')">Mua ngay</button>
                         </div>
+                        <script>
+
+
+                        </script>
                         <div class="tp-product-details-action-sm">
                             <!-- <button type="button" class="tp-product-details-action-sm-btn">
                                 <svg width="14" height="16" viewBox="0 0 14 16" fill="none"
