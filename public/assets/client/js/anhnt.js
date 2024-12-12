@@ -21,38 +21,46 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // thêm sản phẩm vào giỏ hàng
 function addToCart(id) {
-    var quantityInput = document.querySelector('.tp-cart-input');
-    var quantity = parseInt(quantityInput.value);
-    if (quantity < 1) {
-        alert("Số lượng sản phẩm không được nhỏ hơn 1");
-        return;
-    }
-    if (mauSacId === undefined) {
-        alert("Vui lòng chọn màu sắc sản phẩm!");
-        return;
-    }
-    if (dungLuongId === undefined) {
-        alert("Vui lòng chọn dung lượng sản phẩm!");
-        return;
-    }
-    $.ajax({
-        url: "/Add-Cart/" + id,
-        type: "GET",
-        data: {
-            quantity: quantity,
-            mauSacId: mauSacId,
-            dungLuongId: dungLuongId,
+    return new Promise((resolve, reject) => {
+        var quantityInput = document.querySelector('.tp-cart-input');
+        var quantity = parseInt(quantityInput.value);
+        if (quantity < 1) {
+            alert("Số lượng sản phẩm không được nhỏ hơn 1");
+            reject("Invalid quantity");
+            return;
         }
-    })
-        .done((response) => {
-            RenderCartDrop(response);
-            alertify.success('Đã thêm vào giỏ hàng!');
+        if (mauSacId === undefined) {
+            alert("Vui lòng chọn màu sắc sản phẩm!");
+            reject("Color not selected");
+            return;
+        }
+        if (dungLuongId === undefined) {
+            alert("Vui lòng chọn dung lượng sản phẩm!");
+            reject("Capacity not selected");
+            return;
+        }
+        $.ajax({
+            url: "/Add-Cart/" + id,
+            type: "GET",
+            data: {
+                quantity: quantity,
+                mauSacId: mauSacId,
+                dungLuongId: dungLuongId,
+            }
         })
-        .fail((jqXHR, textStatus, errorThrown) => {
-            alertify.error('Thêm vào giỏ hàng thất bại!');
-            console.error("Error adding to cart:", textStatus, errorThrown);
-        });
+            .done((response) => {
+                RenderCartDrop(response);
+                alertify.success('Đã thêm vào giỏ hàng!');
+                resolve(response); // Trả về kết quả nếu thành công
+            })
+            .fail((jqXHR, textStatus, errorThrown) => {
+                alertify.error('Thêm vào giỏ hàng thất bại!');
+                console.error("Error adding to cart:", textStatus, errorThrown);
+                reject(errorThrown); // Trả về lỗi nếu thất bại
+            });
+    });
 }
+
 // xóa sản phẩm khỏi giỏ hàng, giỏ hàng drop
 $('#change-item-cart').off("click", ".cartmini__del i").on("click", ".cartmini__del i", function () {
     console.log("clicked");
