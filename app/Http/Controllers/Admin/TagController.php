@@ -88,15 +88,12 @@ public function edit($id)
         $tag = Tag::findOrFail($id);
 
         // Kiểm tra xem có sản phẩm nào gắn tag này không
-        if ($tag->sanPhams()->exists()) {
-            return redirect()->route('admin.tag.index')->with('error', 'Không thể xóa thẻ tag này vì có sản phẩm đang sử dụng.');
-        }
-        // $tag = tag::find($id);
-    
-        // if (!$tag) {
-        //     return redirect()->route('admin.tag.index')->with('error', 'Tag không tồn tại.');
+        // if ($tag->sanPhams()->exists()) {
+        //     return redirect()->route('admin.tag.index')->with('error', 'Không thể xóa thẻ tag này vì có sản phẩm đang sử dụng.');
         // }
-    
+        if ($tag->trang_thai == 1) {
+            return redirect()->route('admin.tag.index')->with('error', 'Không thể xóa thẻ tag này vì đang ở trạng thái hoạt động.');
+        }
         // Xóa bản ghi
         $tag->delete();
     
