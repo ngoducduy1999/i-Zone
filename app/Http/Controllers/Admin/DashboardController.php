@@ -219,7 +219,7 @@ class DashboardController extends Controller
                 END as period,
                 SUM(tong_tien) as revenue
             ")
-            ->where('trang_thai_thanh_toan', 'Đã thanh toán'); // Lọc theo trạng thái thanh toán mặc định là "Đã thanh toán"
+            ->where('trang_thai', 7); 
 
         // Nếu có trạng thái thanh toán được chọn
         // if ($paymentStatus) {
