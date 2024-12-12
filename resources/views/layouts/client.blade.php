@@ -494,8 +494,9 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css" />
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
-
+    <script src="{{ asset('assets/client/js/chitietsp.js') }}"></script>
     <script src="{{ asset('assets/client/js/anhnt.js') }}"></script>
+
     
 </body>
 
