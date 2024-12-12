@@ -90,7 +90,7 @@ class DungLuongController extends Controller
                     'required',
                     'string',
                     'max:255',
-                    Rule::unique('dung_luongs', 'ten_dung_luong')->ignore($id)
+                    'unique:dung_luongs,ten_dung_luong,'. $id,
                 ]
             ], [
                 'ten_dung_luong.required' => 'Tên dung lượng không được để trống!',
@@ -138,6 +138,9 @@ class DungLuongController extends Controller
     {
         //
         $dungluongs = DungLuong::findOrFail($id);
+        if(!$dungluongs){
+            return redirect()->back()->with('error', 'Không tìm thấy dung lượng!');
+        }
         $countDungLuong = $dungluongs->bienTheSanPhams()->withTrashed()->get();
         if (count($countDungLuong) > 0) {
             return redirect()->back()->with('error', 'Dung lượng đã có sản phẩm, không thể xóa!');

@@ -1,8 +1,7 @@
 @extends('layouts.admin')
 
-@section('title')
+@section('title', 'Cập nhập màu sắc')
 
-@endsection
 
 @section('css')
 
