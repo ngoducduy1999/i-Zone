@@ -127,7 +127,7 @@
                     Mã giảm giá:
                     @if (Session::get('discount_code'))
                         <span class="text-dark">
-                            {{Session::get('discount_code')}} 
+                            {{ Session::get('discount_code') }}
                         </span>
                         <button onclick="DeleteDiscount()">x</button>
                     @endif
@@ -170,13 +170,8 @@
                 </span>
             @else
                 <span>
-                    @if (fmod(Session::get('cart')->totalPrice, 1) == 0)
-                        {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 0, ',', '.') : 0 }}
-                        VNĐ
-                    @else
-                        {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 2, ',', '.') : 0 }}
-                        VNĐ
-                    @endif
+                    {{ isset(Session::get('cart')->totalPrice) ? number_format(Session::get('cart')->totalPrice, 2, ',', '.') : 0 }}
+                    VNĐ
                 </span>
             @endif
 
