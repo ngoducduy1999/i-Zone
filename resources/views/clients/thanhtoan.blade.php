@@ -192,7 +192,7 @@
                             <span>Giảm giá</span>
                           
                                 <span class="text-danger" id="giamgia">
-                                    -{{ number_format($discountAmount, 0, ',', '.') }} VNĐ
+                                    -{{ number_format($discountAmount, 2, ',', '.') }} VNĐ
                                 </span>
                             
                         
@@ -238,7 +238,7 @@
                       </li>                      
                           <li class="tp-order-info-list-total">
                              <span>Tổng đơn hàng</span>
-                             <span id="totalPrice">{{ number_format($discountedTotal, 0, ',', '.') }} VND</span>
+                             <span id="totalPrice">{{ number_format($discountedTotal, 2, ',', '.') }} VND</span>
                            </li>
                        </ul>
                     </div>
