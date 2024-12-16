@@ -70,13 +70,7 @@
                                     
                                 @endif
                             </td>
-                            <td>
-                                <a href="{{ route('admin.lienhes.phan_hoi.cap_nhat', ['id' => $lienhe->id, 'trang_thai_phan_hoi' => 'resolved']) }}"  role="button"
-                                    >
-                                    <i class="fas fa-check-circle"></i>Đánh dấu đã xử lý
-                                </a>
-                                
-                            </td>
+                            
                             <td>
                             <a href="{{ route('admin.lienhes.form.reply', ['id' => $lienhe->id]) }}" class="btn btn-success">Gửi phản hồi</a>
                             </td>
