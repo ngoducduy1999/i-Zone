@@ -253,7 +253,7 @@
             </div>
 
             <div class="card-body">
-                <div id="#" class="total_contact_chart"></div> 
+                <div id="total_contact_chart" ></div> 
             </div>
         </div>  
     </div>
@@ -305,9 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             xaxis: {
                 categories: ['Đã phản hồi', 'Chưa phản hồi'], // Nhãn cột
-                title: {
-                    text: 'Trạng thái'
-                }
+               
             },
             yaxis: {
                 title: {
