@@ -244,6 +244,19 @@
             </div>
         </div>  
     </div>
+
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Thống kê liên hệ</h5>
+            </div>
+
+            <div class="card-body">
+                <div id="#" class="apex-charts"></div> 
+            </div>
+        </div>  
+    </div>
 </div>
 </div>
 
@@ -260,7 +273,7 @@
      <!-- Apexcharts Init Js -->
      <script src="{{ asset('assets/admin/js/pages/apexcharts-column.init.js') }}"></script>
       
-   <script>
+   <script>    
     window.doanhThuData = @json($doanh_thu_data); // Gán dữ liệu doanh thu theo tháng
     window.thangLabels = @json($thang_labels); // Gán nhãn tháng
     window.doanhThuNgayData = @json($doanhThuNgayData); // Gán dữ liệu doanh thu theo ngày
