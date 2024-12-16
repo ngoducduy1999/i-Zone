@@ -40,7 +40,7 @@ class KhuyenMaiController extends Controller
     $request->validate([
         'ma_khuyen_mai' => 'required|string|unique:khuyen_mais,ma_khuyen_mai', // Mã khuyến mãi là bắt buộc, phải là chuỗi, và duy nhất trong bảng khuyen_mais
         'phan_tram_khuyen_mai' => 'required|integer|min:1|max:99', // Phần trăm khuyến mãi từ 1 đến 99
-        'giam_toi_da'=>'required',
+        'giam_toi_da'=>'required|integer|min:0|max:1000000000',
         'ngay_bat_dau' => 'required|date', // Ngày bắt đầu là bắt buộc và phải là kiểu ngày
         'ngay_ket_thuc' => 'required|date|after_or_equal:ngay_bat_dau', // Ngày kết thúc phải sau hoặc bằng ngày bắt đầu
     ], [
@@ -52,6 +52,9 @@ class KhuyenMaiController extends Controller
         'phan_tram_khuyen_mai.max' => 'Phần trăm khuyến mãi phải nhỏ hơn 100.',
         'ngay_bat_dau.required' => 'Ngày bắt đầu không được để trống.',
         'giam_toi_da.required' => 'Giảm tối đa không được để trống.',
+        'giam_toi_da.min' => 'Giảm tối đa phải là lớn hơn 0.',
+        'giam_toi_da.max' => 'Giảm tối đa phải là nhỏ hơn 1 tỷ.',
+        'giam_toi_da.integer' => 'Giảm tối đa phải là một số nguyên.',
         'ngay_ket_thuc.required' => 'Ngày kết thúc không được để trống.',
         'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
     ]);
@@ -89,7 +92,7 @@ public function edit($id)
         $request->validate([
             'ma_khuyen_mai' => 'required|string|unique:khuyen_mais,ma_khuyen_mai,' . $id, // Ensure unique code, excluding current record
             'phan_tram_khuyen_mai' => 'required|integer|min:1|max:99',
-            'giam_toi_da' => 'required|nullable|numeric|min:0',
+            'giam_toi_da' => 'required|nullable|integer|numeric|min:0|max:1000000000',
             'ngay_bat_dau' => 'required|date',
             'ngay_ket_thuc' => 'required|date|after_or_equal:ngay_bat_dau',
         ], [
@@ -99,8 +102,11 @@ public function edit($id)
             'phan_tram_khuyen_mai.integer' => 'Phần trăm khuyến mãi phải là một số nguyên.',
             'phan_tram_khuyen_mai.min' => 'Phần trăm khuyến mãi phải lớn hơn 0.',
             'phan_tram_khuyen_mai.max' => 'Phần trăm khuyến mãi phải nhỏ hơn 100.',
-            'giam_toi_da.numeric' => 'Giảm tối đa phải là một số.',
             'giam_toi_da.required' => 'Mã khuyến mãi không được để trống.',
+            'giam_toi_da.integer' => 'Giảm tối đa phải là một số nguyên.',
+            'giam_toi_da.numeric' => 'Giảm tối đa phải là một số.',
+            'giam_toi_da.min' => 'Giảm tối đa phải là lớn hơn 0.',
+            'giam_toi_da.max' => 'Giảm tối đa phải là nhỏ hơn 1 tỷ.',
             'ngay_bat_dau.required' => 'Ngày bắt đầu không được để trống.',
             'ngay_ket_thuc.required' => 'Ngày kết thúc không được để trống.',
             'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',

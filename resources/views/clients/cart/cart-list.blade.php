@@ -147,7 +147,7 @@
                             }
                         @endphp
                         <span class="text-danger">
-                            {{ number_format($discountAmount, 0, ',', '.') }} VNĐ
+                            {{ number_format($discountAmount, 2, ',', '.') }} VNĐ
                         </span>
                     @else
                         <span class="text-danger">
