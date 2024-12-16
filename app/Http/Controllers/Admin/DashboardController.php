@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use App\Models\KhuyenMai;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RevenueExport;
-
+use App\Models\lien_hes;
 
 class DashboardController extends Controller
 {
@@ -168,6 +168,14 @@ class DashboardController extends Controller
 
 
 
+        //Thống kê liên hệ
+
+         // Lấy tổng số lượng liên hệ theo trạng thái
+    $totalResolved = lien_hes::where('trang_thai_phan_hoi', 'resolved')->count(); // Đã phản hồi
+    $totalPending = lien_hes::where('trang_thai_phan_hoi', 'pending')->count(); // Chưa phản hồi
+
+
+
 
 
 
@@ -198,7 +206,10 @@ class DashboardController extends Controller
             'labelsSanPham' ,
             'dataInStock' ,
             'dataLowStock' ,
-            'dataOutOfStock'
+            'dataOutOfStock',
+'totalPending',
+'totalResolved',
+
         ));
     }
     public function doanhthu(Request $request)
