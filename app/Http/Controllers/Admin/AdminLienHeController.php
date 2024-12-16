@@ -53,8 +53,11 @@ class AdminLienHeController extends Controller
         return redirect()->back()->with('success', 'Tin nhắn đã được gửi!');
     }
 
+  
+
     public function sendReply(Request $request, $id)
     {
+        // Kiểm tra dữ liệu nhập vào
         $request->validate([
             'reply' => 'required|string',
         ]);
@@ -69,10 +72,28 @@ class AdminLienHeController extends Controller
         $lienhes = lien_hes::findOrFail($id);
     
         // Gửi email
-        Mail::to($lienhes->user->email)->send(new CustomerReplyMail($reply->reply));
+        try {
+            Mail::to($lienhes->user->email)->send(new CustomerReplyMail($reply->reply));
     
-        return redirect()->route('admin.lienhes.index')->with('success', 'Phản hồi đã được gửi thành công!');
+            // Cập nhật trạng thái phản hồi thành "đã xử lý" nếu gửi email thành công
+            $this->capNhatTrangThai($id, 'resolved');
+    
+            return redirect()->route('admin.lienhes.index')->with('success', 'Phản hồi đã được gửi thành công!');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.lienhes.index')->with('error', 'Gửi email thất bại. Vui lòng thử lại!');
+        }
     }
+    
+    public function capNhatTrangThai($id, $trang_thai_phan_hoi)
+    {
+        // Cập nhật trạng thái phản hồi trong bảng lien_hes
+        $lienhes = lien_hes::findOrFail($id);
+        $lienhes->trang_thai_phan_hoi = $trang_thai_phan_hoi;
+        $lienhes->save();
+    
+        return redirect()->back()->with('success', 'Cập nhật trạng thái thành công!');
+    }
+    
 
 
     public function showReplyForm($id)
@@ -82,14 +103,7 @@ class AdminLienHeController extends Controller
         return view('admins.lienhes.phanhoi', compact('lienhes'));
     }
 
-    public function capNhatTrangThai($id, $trang_thai_phan_hoi)
-{
-    $lienhes = lien_hes::findOrFail($id);
-    $lienhes->trang_thai_phan_hoi = $trang_thai_phan_hoi;
-    $lienhes->save();
 
-    return redirect()->back()->with('success', 'Cập nhật trạng thái thành công!');
-}
    
     
     /**
