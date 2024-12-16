@@ -253,7 +253,7 @@
             </div>
 
             <div class="card-body">
-                <div id="#" class="apex-charts"></div> 
+                <div id="#" class="total_contact_chart"></div> 
             </div>
         </div>  
     </div>
@@ -274,6 +274,52 @@
      <script src="{{ asset('assets/admin/js/pages/apexcharts-column.init.js') }}"></script>
       
    <script>    
+
+document.addEventListener("DOMContentLoaded", function () {
+        // Dữ liệu tổng từ server
+        var totalResolved = {{ $totalResolved }};
+        var totalPending = {{ $totalPending }};
+
+        // Định nghĩa biểu đồ
+        var options = {
+            series: [{
+                name: 'Tổng số',
+                data: [totalResolved, totalPending] // Số liệu tổng
+            }],
+            chart: {
+                height: 400,
+                type: 'bar'
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 10,
+                    columnWidth: '50%'
+                }
+            },
+            colors: ['#00E396', '#FF4560'], // Đặt màu sắc riêng cho từng cột
+            dataLabels: {
+                enabled: true,
+                formatter: function (val) {
+                    return val + " liên hệ"; // Hiển thị số lượng trên cột
+                }
+            },
+            xaxis: {
+                categories: ['Đã phản hồi', 'Chưa phản hồi'], // Nhãn cột
+                title: {
+                    text: 'Trạng thái'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Số lượng'
+                }
+            }
+        };
+
+        // Tạo và hiển thị biểu đồ
+        var chart = new ApexCharts(document.querySelector("#total_contact_chart"), options);
+        chart.render();
+    });
     window.doanhThuData = @json($doanh_thu_data); // Gán dữ liệu doanh thu theo tháng
     window.thangLabels = @json($thang_labels); // Gán nhãn tháng
     window.doanhThuNgayData = @json($doanhThuNgayData); // Gán dữ liệu doanh thu theo ngày
