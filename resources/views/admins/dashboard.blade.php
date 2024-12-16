@@ -244,6 +244,19 @@
             </div>
         </div>  
     </div>
+
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Thống kê liên hệ</h5>
+            </div>
+
+            <div class="card-body">
+                <div id="total_contact_chart" ></div> 
+            </div>
+        </div>  
+    </div>
 </div>
 </div>
 
@@ -259,8 +272,11 @@
      <script src="{{ asset('assets/admin/js/pages/apexcharts-pie.init.js') }}"></script>
      <!-- Apexcharts Init Js -->
      <script src="{{ asset('assets/admin/js/pages/apexcharts-column.init.js') }}"></script>
-      
-   <script>
+     <script src="{{ asset('assets/admin/js/pages/thongke-lienhe.init.js') }}"></script>
+    
+   <script>    
+
+
     window.doanhThuData = @json($doanh_thu_data); // Gán dữ liệu doanh thu theo tháng
     window.thangLabels = @json($thang_labels); // Gán nhãn tháng
     window.doanhThuNgayData = @json($doanhThuNgayData); // Gán dữ liệu doanh thu theo ngày
@@ -277,6 +293,11 @@
     window.dataLowStock = @json($dataLowStock); // Sản phẩm sắp hết hàng
     window.dataOutOfStock = @json($dataOutOfStock); // Sản phẩm hết hàng
     window.labelsSanPham = @json($labelsSanPham); // Gán
+    window.contactData = {
+                           totalResolved: {{ $totalResolved }},
+                           totalPending: {{ $totalPending }}
+                         };
+
 </script>
 
 @endsection
