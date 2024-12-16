@@ -372,6 +372,39 @@
 
     }
 } else {
+    loading.classList.add('d-none');
+
+    // Kiểm tra và xử lý các trường hợp lỗi
+    if (data.not_found) {
+        let message = '<strong>Một số sản phẩm không tồn tại:</strong><ul>';
+        data.not_found.forEach(item => {
+            message += `<li>${item.product_name}: ${item.message}</li>`;
+        });
+        message += '</ul>';
+
+        // Hiển thị modal thông báo lỗi
+        const notFoundModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        document.getElementById('errorModalBody').innerHTML = message;
+        notFoundModal.show();
+
+        return; // Không tiếp tục xử lý các lỗi khác
+    }
+
+    if (data.out_of_stock) {
+        let message = '<strong>Một số sản phẩm đã hết hàng:</strong><ul>';
+        data.out_of_stock.forEach(item => {
+            message += `<li>${item.product_name}: ${item.message}</li>`;
+        });
+        message += '</ul>';
+
+        // Hiển thị modal thông báo hết hàng
+        const outOfStockModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        document.getElementById('errorModalBody').innerHTML = message;
+        outOfStockModal.show();
+
+        return; // Không tiếp tục xử lý các lỗi khác
+    }
+
     if (data.insufficient_stock) {
         // Tạo danh sách thông báo sản phẩm tồn kho không đủ
         let message = '<strong>Một số sản phẩm không đủ tồn kho:</strong><ul>';
@@ -396,12 +429,14 @@
             stockModal.hide();
             window.location.href = '/Cart-Index'; // Người dùng từ chối, quay lại giỏ hàng
         };
-    } else {
-        // Thêm thông báo lỗi
-        const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
-        document.getElementById('toastBody').textContent = 'Có lỗi xảy ra: ' + data.message;
-        toast.show();
+
+        return; // Không tiếp tục xử lý thêm
     }
+
+    // Thêm thông báo lỗi khác (nếu không có lỗi nào phù hợp ở trên)
+    const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
+    document.getElementById('toastBody').textContent = 'Có lỗi xảy ra: ' + data.message;
+    toast.show();
 }
 
 })

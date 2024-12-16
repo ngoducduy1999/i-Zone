@@ -35,7 +35,7 @@
                     <!-- Thao tác tương ứng với từng trạng thái -->
                     @if ($ord->trang_thai == 1)
                         <!-- Chờ xác nhận -->
-                        <form action="{{ route('customer.cancelOrder', $ord->id) }}" method="POST" class="d-inline">
+                        <form action="{{ route('customer.cancelOrder', $ord->id) }}" method="POST" class="d-inline" onsubmit="return confirmCancel();">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
                         </form>
@@ -70,6 +70,9 @@
   
 @endif
 <script>
+     function confirmCancel() {
+        return confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
+    }
     document.addEventListener('DOMContentLoaded', function () {
         // Tìm tất cả các form hủy đơn tự động
         const autoCancelForms = document.querySelectorAll('.auto-cancel-form');

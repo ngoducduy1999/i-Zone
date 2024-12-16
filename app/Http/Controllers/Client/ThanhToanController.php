@@ -59,7 +59,7 @@ if ($discountCode) {
     }
 }
  // Tính toán số tiền giảm giá và tổng tiền
- $originalTotal = $cart->totalPrice + 50000; // Tổng giá trước giảm giá
+ $originalTotal = $cart->totalPrice ; // Tổng giá trước giảm giá
  $discountAmount = $originalTotal * ($discountPercentage / 100);
 
  // Áp dụng giới hạn giảm giá tối đa
@@ -67,7 +67,7 @@ if ($discountCode) {
      $discountAmount = $maxDiscount;
  }
  // Tổng tiền sau khi giảm giá
- $discountedTotal = $originalTotal - $discountAmount;
+ $discountedTotal = $originalTotal - $discountAmount+ 50000;
 return view('clients.thanhtoan', [
     'cart' => $cart,
     'discountedTotal' => $discountedTotal,
@@ -103,7 +103,7 @@ return view('clients.thanhtoan', [
             $maxDiscount = $discount->giam_toi_da; // Lấy mức giảm giá tối đa từ cơ sở dữ liệu
             
             // Tính tổng tiền trước giảm giá
-            $originalTotal = $cart->totalPrice + 50000; // Tổng giá trước giảm giá (bao gồm phí vận chuyển)
+            $originalTotal = $cart->totalPrice ; // Tổng giá trước giảm giá (bao gồm phí vận chuyển)
             
             // Tính số tiền giảm giá
             $discountAmount = $originalTotal * ($discountPercentage / 100);
@@ -114,7 +114,7 @@ return view('clients.thanhtoan', [
             }
             
             // Tổng tiền sau giảm giá
-            $discountedTotal = $originalTotal - $discountAmount;
+            $discountedTotal = $originalTotal - $discountAmount+ 50000;
             
             // Lưu mã giảm giá và phần trăm giảm giá vào session
             $request->session()->put('discount_code', $discountCode);
@@ -192,41 +192,76 @@ public function placeOrder(Request $request)
         }
 
         Log::info("Cart data: ", (array) $cart);
+        $outOfStock = [];        // Danh sách sản phẩm hết hàng
+        $notFound = [];          // Danh sách sản phẩm không tồn tại
         $insufficientStock = []; // Danh sách sản phẩm không đủ tồn kho
-
+        $updatedTotalPrice = 0;  // Tổng tiền sau khi cập nhật giỏ hàng
         
-        $insufficientStock = []; // Danh sách sản phẩm không đủ tồn kho
-$updatedTotalPrice = 0;  // Tổng tiền sau khi cập nhật giỏ hàng
-
-foreach ($cart->products as &$item) {
-    $bienThe = BienTheSanPham::find($item['bienthe']->id);
-    
-    // Kiểm tra nếu tồn kho không đủ
-    if ($item['quantity'] > $bienThe->so_luong) {
-        $insufficientStock[] = [
-            'product_name' => $bienThe->sanPham->ten_san_pham,
-            'available_quantity' => $bienThe->so_luong,
+        foreach ($cart->products as &$item) {
+            // Tìm biến thể sản phẩm
+            $bienThe = BienTheSanPham::find($item['bienthe']->id);
+        
+            // Kiểm tra nếu biến thể không tồn tại
+            if (is_null($bienThe)) {
+                $notFound[] = [
+                    'product_name' => $item['bienthe']->ten_san_pham ?? 'Sản phẩm không xác định',
+                    'message' => 'Sản phẩm hoặc biến thể không tồn tại trong hệ thống.',
+                ];
+                continue; // Bỏ qua sản phẩm này
+            }
+        
+            // Kiểm tra nếu số lượng tồn kho bằng 0
+            if ($bienThe->so_luong === 0) {
+                $outOfStock[] = [
+                    'product_name' => $bienThe->sanPham->ten_san_pham,
+                    'message' => 'Sản phẩm đã hết hàng.',
+                ];
+                continue; // Bỏ qua sản phẩm này
+            }
+        
+            // Kiểm tra nếu tồn kho không đủ
+            if ($item['quantity'] > $bienThe->so_luong) {
+                $insufficientStock[] = [
+                    'product_name' => $bienThe->sanPham->ten_san_pham,
+                    'available_quantity' => $bienThe->so_luong,
+                    'message' => 'Số lượng không đủ tồn kho.',
+                ];
+                // Cập nhật lại số lượng khả dụng trong giỏ hàng
+                $item['quantity'] = $bienThe->so_luong; 
+            }
+        
+            // Cập nhật tổng tiền sau khi kiểm tra số lượng
+            $updatedTotalPrice += $item['quantity'] * $item['bienthe']->gia_moi;
+        }
+        
+        // Cập nhật lại giỏ hàng nếu cần
+        $cart->totalPrice = $updatedTotalPrice;
+        Session::put('cart', $cart);
+        
+        // Chuẩn bị thông báo chi tiết
+        $response = [
+            'success' => false,
+            'message' => 'Một số vấn đề xảy ra khi cập nhật giỏ hàng.',
         ];
-        // Cập nhật lại số lượng khả dụng trong giỏ hàng
-        $item['quantity'] = $bienThe->so_luong; 
-    }
-
-    // Cập nhật tổng tiền sau khi kiểm tra số lượng
-    $updatedTotalPrice += $item['quantity'] * $item['bienthe']->gia_moi;
-}
-
-// Cập nhật lại giỏ hàng nếu cần
-$cart->totalPrice = $updatedTotalPrice;
-Session::put('cart', $cart);
-
-// Thông báo lỗi nếu có sản phẩm không đủ tồn kho
-if (!empty($insufficientStock)) {
-    return response()->json([
-        'success' => false,
-        'message' => 'Một số sản phẩm không đủ tồn kho.',
-        'insufficient_stock' => $insufficientStock,
-    ]);
-}
+        
+        if (!empty($notFound)) {
+            $response['not_found'] = $notFound;
+        }
+        
+        if (!empty($outOfStock)) {
+            $response['out_of_stock'] = $outOfStock;
+        }
+        
+        if (!empty($insufficientStock)) {
+            return response()->json([
+                'success' => false,
+                'message' => $insufficientStock
+            ]);        }
+        
+        // Nếu có lỗi, trả về phản hồi lỗi
+        if (!empty($notFound) || !empty($outOfStock) || !empty($insufficientStock)) {
+            return response()->json($response);
+        }
 
 
         // Kiểm tra mã giảm giá
@@ -246,7 +281,7 @@ if (!empty($insufficientStock)) {
         }
 
         // Tính toán tổng tiền và giảm giá
-        $originalTotal = $cart->totalPrice + 50000; // Thêm phí giao hàng
+        $originalTotal = $cart->totalPrice; // Thêm phí giao hàng
         $discountAmount = $originalTotal * ($discountPercentage / 100);
 
         // Áp dụng giới hạn giảm giá tối đa
@@ -254,7 +289,7 @@ if (!empty($insufficientStock)) {
             $discountAmount = $maxDiscount;
         }
 
-        $tongTienSauGiam = $originalTotal - $discountAmount;
+        $tongTienSauGiam = $originalTotal - $discountAmount+ 50000;
 
         // Kiểm tra user_id
         $userId = auth()->id();
