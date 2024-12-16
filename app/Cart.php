@@ -62,7 +62,8 @@ class Cart
     }
     public function DeleteItemCart($idbt)
     {
-        if (array_key_exists($idbt, $this->products)) {
+        // if (array_key_exists($idbt, $this->products)) {
+        if (is_array($this->products) && array_key_exists($idbt, $this->products)){
             $this->totalPrice -= $this->products[$idbt]['price'];
             unset($this->products[$idbt]);
             $this->totalProduct = count($this->products);

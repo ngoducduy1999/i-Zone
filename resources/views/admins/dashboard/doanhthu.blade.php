@@ -83,7 +83,8 @@
                     callbacks: {
                         label: function(context) {
                             let value = context.raw || 0;
-                            return `Doanh thu: ${value.toLocaleString()} VND`;
+                            // Định dạng số theo chuẩn Việt Nam
+                            return `Doanh thu: ${new Intl.NumberFormat('vi-VN').format(value)} VND`;
                         }
                     }
                 }

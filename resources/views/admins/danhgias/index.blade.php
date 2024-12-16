@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-
+@section('title', 'Danh sách đánh giá')
 
 @section('css')
 <link href="{{ asset('assets/admin/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet"
@@ -104,10 +104,9 @@
                             <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
                                 <thead>
                                     <tr>
-                                        <th>STT</th>
                                         <th>Tên người đánh giá</th>
                                         <th>Tên sản phẩm</th>
-                                        <th>Điểm đánh giá</th>
+                                        <th>Điểm số</th>
                                         <th>Nhận xét</th>
                                         <th>Ngày đánh giá</th>
                                         <th>Trạng thái</th>
@@ -117,11 +116,10 @@
                                 <tbody>
                                     @foreach ($danhGias as $index => $danhGia)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
                                         <td>{{ $danhGia->user->ten ?? 'N/A' }}</td>
                                         <td>{{ $danhGia->sanPham->ten_san_pham ?? 'N/A' }}</td>
                                         <td>{{ $danhGia->diem_so }}</td>
-                                        <td>{{ $danhGia->nhan_xet }}</td>
+                                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">{{ $danhGia->nhan_xet }}</td>
                                         <td>{{ $danhGia->created_at->format('d-m-Y H:i') }}</td>
                                         <td>
                                             @if ($danhGia->replies->isEmpty())

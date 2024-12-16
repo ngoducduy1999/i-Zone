@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MauSac extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    // use SoftDeletes;
 
     protected $dates = ['deleted_at'];
     protected $fillable = [

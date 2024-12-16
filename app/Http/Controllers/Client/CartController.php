@@ -56,6 +56,9 @@ class CartController extends Controller
             $request->session()->put('cart', $newCart);
         } else {
             $request->session()->forget('cart');
+            Session::forget('discount_code');
+            Session::forget('discount_percentage');
+            Session::forget('maxDiscount');
         }
         return view('clients.cart.cart-drop');
     }
@@ -70,6 +73,9 @@ class CartController extends Controller
             $request->session()->put('cart', $newCart);
         } else {
             $request->session()->forget('cart');
+            Session::forget('discount_code');
+            Session::forget('discount_percentage');
+            Session::forget('maxDiscount');
         }
         return view('clients.cart.cart-list');
     }

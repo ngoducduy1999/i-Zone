@@ -1,8 +1,7 @@
 @extends('layouts.admin')
 
-@section('title')
-Thêm Mới Màu Sắc
-@endsection
+@section('title', 'Thêm Mới Màu Sắc')
+
 
 @section('css')
 @endsection
