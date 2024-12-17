@@ -114,6 +114,7 @@ class TrangSanPhamController extends Controller
        $sanPhams = SanPham::where('ten_san_pham', 'like', '%' . $searchTerm . '%')
            ->orWhere('ma_san_pham', 'like', '%' . $searchTerm . '%')
            ->whereNull('deleted_at') // Lọc sản phẩm đã xóa
+           ->orderBy('created_at', 'desc') // Sắp xếp theo cột luot_xem giảm dần
            ->limit(5) // Giới hạn kết quả tìm kiếm tối đa 5 sản phẩm
            ->get();
         return response()->json($sanPhams);

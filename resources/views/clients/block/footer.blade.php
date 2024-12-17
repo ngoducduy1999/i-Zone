@@ -54,7 +54,7 @@
                    <div class="tp-footer-widget-content">
                       <div class="tp-footer-talk mb-20">
                          <span>Có thắc mắc? Gọi cho chúng tôi</span>
-                         <h4><a href="tel:987-654-321">+84987654321</a></h4>
+                         <h4><a href="tel:849-876-543-21">+(84)987654321</a></h4>
                       </div>
                       <div class="tp-footer-contact">
                          <div class="tp-footer-contact-item d-flex align-items-start">
@@ -69,8 +69,9 @@
                                </span>
                             </div>
                             <div class="tp-footer-contact-content">
-                               <p><a href="https://template.wphix.com/cdn-cgi/l/email-protection#d7a4bfb8b1ae97a4a2a7a7b8a5a3f9b4b8ba"><span class="__cf_email__" data-cfemail="3b4853545d427b484e4b4b54494f15585456">[email&#160;protected]</span></a></p>
+                               <p><a href="mailto:loviongs.@gmail.com">loviongs.@gmail.com</a></p>
                             </div>
+
                          </div>
                          <div class="tp-footer-contact-item d-flex align-items-start">
                             <div class="tp-footer-contact-icon">
