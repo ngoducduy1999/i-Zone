@@ -22,8 +22,9 @@ class TaiKhoanController extends Controller
     public function index()
     {
         //lấy thông tin ng dùng đang đăng nhập
-        $user = Auth::user();
-
+        $user = Auth::user();  // Lấy người dùng hiện tại
+      
+        
         $danhMucs = DanhMuc::all();
         // lấy thông tin đơn hàng người dùng đã mua
         $donHangs = $user->hoaDons()->get();
@@ -131,14 +132,14 @@ class TaiKhoanController extends Controller
     public function profileUser(){
         // lấy thông tin người dùng đăng đăng nhập
         $profile = Auth::user();
-
+        $lienhes = lien_hes::where('user_id', $profile->id)->get();  // Lấy tất cả các bản ghi lien_hes cho người dùng này
         $danhMucs = DanhMuc::all();
         // lấy danh sách đơn hàng
         $donHangs = $profile->hoaDons()->orderByDesc('id')->paginate(10);
 
 
         // đếm
-        return view('clients.taikhoan.profile',compact('donHangs','danhMucs','profile'));
+        return view('clients.taikhoan.profile',compact('donHangs','danhMucs','profile','lienhes'));
     }
 
 
