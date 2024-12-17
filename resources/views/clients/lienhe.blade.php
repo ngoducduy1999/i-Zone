@@ -30,41 +30,41 @@
                <div class="col-xl-9 col-lg-8">
                   <div class="tp-contact-wrapper">
                      <h3 class="tp-contact-title">Thông tin và tin nhắn liên hệ</h3>
-   
+                   
                      <div class="tp-contact-form">
                         @if(auth()->check())
+                       
                         <form id="contact-form" action="{{ route('lienhe.store') }}" method="POST">
                            @csrf
                            <div class="tp-contact-input-wrapper">
-                              <div class="tp-contact-input-box">
-                                 <div class="tp-contact-input">
-                                    <input name="ten_nguoi_gui" id="ten_nguoi_gui" type="text" placeholder="Tên của bạn" required>
-                                 </div>
-                                 <div class="tp-contact-input-title">
-                                    <label for="ten_nguoi_gui">Tên của bạn</label>
-                                 </div>
-                              </div>
-                              {{-- <div class="tp-contact-input-box">
-                                 <div class="tp-contact-input">
-                                    <input name="email" id="email" type="email" placeholder="Email của bạn" required>
-                                 </div>
-                                 <div class="tp-contact-input-title">
-                                    <label for="email">Email</label>
-                                 </div>
-                              </div> --}}
-                              <div class="tp-contact-input-box">
-                                 <div class="tp-contact-input">
-                                    <textarea id="tin_nhan" name="tin_nhan" placeholder="Viết tin nhắn của bạn..." required></textarea>
-                                 </div>
-                                 <div class="tp-contact-input-title">
-                                    <label for="tin_nhan">Tin nhắn của bạn</label>
-                                 </div>
-                              </div>
+                               <div class="tp-contact-input-box">
+                                   <div class="tp-contact-input">
+                                       <input name="ten_nguoi_gui" id="ten_nguoi_gui" type="text" placeholder="Tên của bạn"  required>
+                                   </div>
+                                   <div class="tp-contact-input-title">
+                                       <label for="ten_nguoi_gui">Tên của bạn</label>
+                                   </div>
+                                 
+                               </div>
+                       
+                               <div class="tp-contact-input-box">
+                                   <div class="tp-contact-input">
+                                       <textarea id="tin_nhan" name="tin_nhan" placeholder="Viết tin nhắn của bạn..." required></textarea>
+                                   </div>
+                                   <div class="tp-contact-input-title">
+                                       <label for="tin_nhan">Tin nhắn của bạn</label>
+                                   </div>
+                                 
+                               </div>
                            </div>
                            <div class="tp-contact-btn">
-                              <button type="submit">Gửi tin nhắn</button>
+                               <button type="submit">Gửi tin nhắn</button>
                            </div>
-                        </form>
+                       </form>
+                       
+                     
+                       
+
                         @else
                         <p class="fs-5">Bạn cần <a class="text-decoration-underline text-danger" href="{{ route('customer.login') }}">đăng nhập</a> để gửi form!</p>
                         @endif
@@ -154,4 +154,33 @@
         </div>
      </section>
      <!-- map area end -->
+@endsection
+
+@section('js')
+    <script>
+         document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();  // Ngăn chặn form gửi đi bình thường
+
+        var formData = new FormData(this);  // Lấy dữ liệu từ form
+
+        // Gửi yêu cầu Ajax tới server
+        fetch('{{ route('lienhe.store') }}', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Hiển thị thông báo thành công
+                alert(data.success);  // Thay alert bằng thư viện thông báo bạn muốn dùng
+            } else if (data.error) {
+                // Hiển thị thông báo lỗi
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+        });
+    });
+    </script>
 @endsection

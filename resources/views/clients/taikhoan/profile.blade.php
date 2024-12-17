@@ -474,31 +474,39 @@
 
                                 <div class="tab-pane fade" id="nav-lienhe" role="tabpanel"
                                 aria-labelledby="nav-lienhe-tab">
-                                <table class="table table-striped table-hover text-center">
-                                    <thead>
-
-                                        <th>Nội dung phản hồi</th>
-                                        <th>Ngày gửi</th>
-                                        <th>Trạng thái phản hồi</th>
-                                    </thead>
-
-
-
-                                        <tbody>
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table class="table table-striped table-hover text-center">
+                                        <thead>
                                             <tr>
-                                        <td>Không ngon</td>
-                                        <td>15/4/2024</td>
-                                        <td >
-                                             <span style="background-color: #ffecec; color: #d9534f; text-align: center; padding: 10px; font-weight: bold;"> Chưa phản hồi</span>
-                                        </td>
+                                                <th>Nội dung phản hồi</th>
+                                                <th>Ngày gửi</th>
+                                                <th>Trạng thái phản hồi</th>
+                                                <th>Thao tác</th>
                                             </tr>
-
-                                    </tbody>
-
-
-
-
-                                  </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($lienhes as $lienhe)
+                                            <tr>
+                                                <td>{{$lienhe->tin_nhan}}</td>
+                                                <td>{{$lienhe->created_at}}</td>
+                                                <td>
+                                                    @if ($lienhe->trang_thai_phan_hoi == 'pending')
+                                                        <p class="text-center text-warning">Đang chờ xử lý</p> 
+                                                    @elseif ($lienhe->trang_thai_phan_hoi == 'resolved')
+                                                        <p class="text-center text-success">Đã xử lý</p>
+                                                    @else
+                                                        <p class="text-center text-muted">Chưa xử lý</p>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="https://mail.google.com/mail/u/0/#search/Ph%E1%BA%A3n+h%E1%BB%93i+i-zone" target="_blank" class="btn btn-info">Kiểm tra phản hồi</a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
 
 
 
