@@ -16,13 +16,34 @@ class AdminLienHeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $lienhes = lien_hes::withTrashed('user',lien_hes::STATUS_PENDING)->get();
-        return view('admins.lienhes.index', compact('lienhes'));
-    }
+        // Lấy trạng thái phản hồi từ request
+        $trangThai = $request->input('trang_thai_phan_hoi');
+        
+        // // Khởi tạo query
+        $query = lien_hes::query();
 
+         // Lọc theo trạng thái (có câu trả lời hay không)
+         if ($request->has('trang_thai_phan_hoi') && $request->trang_thai_phan_hoi != '') {
+            if ($request->trang_thai_phan_hoi == 'pending') {
+                // Lọc các phản hồi có trạng thái "pending" (chưa xử lý)
+                $query->where('trang_thai_phan_hoi', 'pending');
+            } elseif ($request->trang_thai_phan_hoi == 'resolved') {
+                // Lọc các phản hồi có trạng thái khác "pending" (đã xử lý)
+                $query->where('trang_thai_phan_hoi', '<>', 'pending');
+            }
+        }
+        
+
+    
+        // Lấy kết quả lọc
+        $lienhes = $query->get();
+    
+        // Trả kết quả về view
+        return view('admins.lienhes.index', compact('lienhes', 'trangThai'));
+    }
+    
     /**
      * Show the form for creating a new resource.
      */
