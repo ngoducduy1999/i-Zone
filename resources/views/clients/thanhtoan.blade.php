@@ -106,9 +106,13 @@
                                     <div class="tp-checkout-input">
                                         <label>Liên hệ <span>*</span></label>
                                         <input type="text" id="name" placeholder="Họ và tên" value="{{ Auth::user()->ten ?? '' }}" required>
+                                        <div class="invalid-feedback">Vui lòng nhập họ và tên.</div>
+
                                     </div>
                                     <div class="tp-checkout-input">
                                         <input type="text" id="phone" placeholder="Số điện thoại" value="{{ Auth::user()->so_dien_thoai ?? '' }}" required>
+                                        <div class="invalid-feedback">Vui lòng nhập số điện thoại hợp lệ.</div>
+
                                     </div>
                                 </div>
                     
@@ -116,45 +120,39 @@
                                 <div class="col-md-12">
                                     <div class="tp-checkout-input">
                                         <input type="text" id="email" placeholder="Email" value="{{ Auth::user()->email ?? '' }}" required>
+                                        <div class="invalid-feedback">Vui lòng nhập địa chỉ email hợp lệ.</div>
+
                                     </div>
                                 </div>
                     
-                                <!-- Địa chỉ -->
-                                <div class="tp-checkout-input">
-                                 <label>Địa chỉ</label>
-                                 <select id="addressSelect" onchange="updateAddressField()" required>
-                                     <option value="">-- Chọn địa chỉ --</option>
-                        <!-- Loại 2: Địa chỉ đã đăng ký -->
-@if(Auth::check() && Auth::user()->dia_chi)
-<optgroup label="Địa chỉ đã đăng ký">
-    <option disabled>--- Địa chỉ đã đăng ký ---</option>
-    <option value="{{ Auth::user()->dia_chi }}">{{ Auth::user()->dia_chi }}</option>
-</optgroup>
-@endif
+                                 <!-- Địa chỉ -->
+                                 <div class="tp-checkout-input">
+                                    <label>Địa chỉ</label>
+                                    <select id="addressSelect" onchange="updateAddressField()" required>
+                                        <option value="">-- Chọn địa chỉ --</option>
+                                        @if(Auth::check() && Auth::user()->dia_chi)
+                                        <optgroup label="Địa chỉ đã đăng ký">
+                                            <option value="{{ Auth::user()->dia_chi }}">{{ Auth::user()->dia_chi }}</option>
+                                        </optgroup>
+                                        @endif
+                                        @if($diaChiDaSuDung->isNotEmpty())
+                                        <optgroup label="Địa chỉ đã sử dụng">
+                                            @foreach($diaChiDaSuDung as $diaChi)
+                                            <option value="{{ $diaChi }}">{{ $diaChi }}</option>
+                                            @endforeach
+                                        </optgroup>
+                                        @endif
+                                        <optgroup label="Địa chỉ mới">
+                                            <option value="new">Nhập địa chỉ mới</option>
+                                        </optgroup>
+                                    </select>
+                                    <div class="invalid-feedback">Vui lòng chọn địa chỉ hoặc nhập địa chỉ mới.</div>
+                                
+                                    <input type="text" id="address" placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã" style="display: none;">
+                                    <div id="addressError" class="invalid-feedback">Vui lòng nhập địa chỉ.</div>
+                                </div>
+                                
 
-                                     <!-- Loại 1: Địa chỉ đã sử dụng trước đó -->
-                                     @if($diaChiDaSuDung->isNotEmpty())
-                                     <option disabled>--- Địa chỉ đã sử dụng ---</option>
-                                     @foreach($diaChiDaSuDung as $diaChi)
-                                                 <option value="{{ $diaChi }}">{{ $diaChi }}</option>
-                                             @endforeach
-                                         </optgroup>
-                                     @endif
-                         
-                                     
-                         
-                                     <!-- Loại 3: Nhập địa chỉ mới -->
-                                     <optgroup label="Địa chỉ mới">
-                                       <option disabled>--- Địa chỉ mới ---</option>
-
-                                         <option value="new">Nhập địa chỉ mới</option>
-                                     </optgroup>
-                                 </select>
-                         
-                                 <!-- Trường nhập địa chỉ mới -->
-                                 <input type="text" id="address" placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã" 
-                                        style="display: none;" required>
-                             </div>
                                 <!-- Ghi chú đơn hàng -->
                                 <div class="col-md-12">
                                     <div class="tp-checkout-input">
@@ -244,19 +242,22 @@
                     </div>
 
                     <div class="tp-checkout-payment">
-                       <h3 class="tp-checkout-payment-title">Phương thức thanh toán</h3>
-
-                       <div class="tp-checkout-payment-item">
-                        <input id="direct-bank-transfer" type="radio" name="payment" value="Thanh toán qua chuyển khoản ngân hàng" required>
-                        <label for="direct-bank-transfer">Chuyển khoản ngân hàng</label>
-                        <p>Thực hiện thanh toán của bạn trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng ID đơn hàng của bạn như một mã tham chiếu thanh toán.</p>
-                     </div>
-
-                     <div class="tp-checkout-payment-item">
-                        <input id="cash-on-delivery" type="radio" name="payment" value="Thanh toán khi nhận hàng" required>
-                        <label for="cash-on-delivery">Thanh toán khi nhận hàng</label>
-                     </div>
+                        <h3 class="tp-checkout-payment-title">Phương thức thanh toán</h3>
+                    
+                        <div class="tp-checkout-payment-item">
+                            <input id="direct-bank-transfer" type="radio" name="payment" value="Thanh toán qua chuyển khoản ngân hàng" required>
+                            <label for="direct-bank-transfer">Chuyển khoản ngân hàng</label>
+                            <p>Thực hiện thanh toán của bạn trực tiếp vào tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng ID đơn hàng của bạn như một mã tham chiếu thanh toán.</p>
+                        </div>
+                    
+                        <div class="tp-checkout-payment-item">
+                            <input id="cash-on-delivery" type="radio" name="payment" value="Thanh toán khi nhận hàng" required>
+                            <label for="cash-on-delivery">Thanh toán khi nhận hàng</label>
+                        </div>
+                    
+                        <div class="invalid-feedback" id="paymentError" style="display: none;">Vui lòng chọn phương thức thanh toán.</div>
                     </div>
+                    
                     <button type="button" class="tp-checkout-btn" id="submitOrder">Đặt hàng</button>
                  </div>
               </div>
@@ -343,30 +344,93 @@
     }
       document.getElementById('submitOrder').addEventListener('click', function(event) {
           event.preventDefault();
-          loading.classList.remove('d-none');
+          let isValid = true;
 
-          const name = document.getElementById('name').value;
-          const phone = document.getElementById('phone').value;
-          const address = document.getElementById('address').value;
-          const note = document.getElementById('note').value;
-          const email = document.getElementById('email').value;
-          const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-  
-          fetch('{{ route("placeOrder") }}', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    },
-    body: JSON.stringify({
-        name,
-        phone,
-        address,
-        email,
-        payment_method: paymentMethod,
-        note
-    })
-})
+const name = document.getElementById('name');
+const phone = document.getElementById('phone');
+const email = document.getElementById('email');
+const addressSelect = document.getElementById('addressSelect');
+const address = document.getElementById('address');
+ // Kiểm tra phương thức thanh toán
+ const paymentInputs = document.getElementsByName('payment');
+    const paymentError = document.getElementById('paymentError');
+    let isPaymentSelected = false;
+
+    for (let input of paymentInputs) {
+        if (input.checked) {
+            isPaymentSelected = true;
+            break;
+        }
+    }
+
+    if (!isPaymentSelected) {
+        paymentError.style.display = 'block';
+        isValid = false;
+    } else {
+        paymentError.style.display = 'none';
+    }
+// Kiểm tra họ và tên
+if (!name.value.trim()) {
+    name.classList.add('is-invalid');
+    isValid = false;
+} else {
+    name.classList.remove('is-invalid');
+}
+
+// Kiểm tra số điện thoại
+const phoneRegex = /^[0-9]{10,12}$/;
+if (!phoneRegex.test(phone.value.trim())) {
+    phone.classList.add('is-invalid');
+    isValid = false;
+} else {
+    phone.classList.remove('is-invalid');
+}
+
+// Kiểm tra email
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!emailRegex.test(email.value.trim())) {
+    email.classList.add('is-invalid');
+    isValid = false;
+} else {
+    email.classList.remove('is-invalid');
+}
+
+// Kiểm tra nếu không chọn địa chỉ
+if (addressSelect.value === '') {
+        addressSelect.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        addressSelect.classList.remove('is-invalid');
+    }
+
+    // Kiểm tra địa chỉ mới nếu được yêu cầu
+    if (addressSelect.value === 'new' && !address.value.trim()) {
+        address.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        address.classList.remove('is-invalid');
+    }
+
+    if (isValid) {
+        const paymentMethod = Array.from(paymentInputs).find(input => input.checked)?.value;
+        const note = document.getElementById('note')?.value || ''; // Nếu có trường ghi chú
+        loading.classList.remove('d-none');
+
+        fetch('{{ route("placeOrder") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                name: name.value,
+                phone: phone.value,
+                email: email.value,
+                address: address.value,
+                payment_method: paymentMethod,
+                note: note
+            })
+        })
 .then(response => response.json())
 .then(data => {
     if (data.success) {
@@ -458,6 +522,7 @@ if (data.insufficient_stock) {
 .catch(error => {
     console.error('Error:', error);
 });
+    }
       });
 //them mã
 document.addEventListener('DOMContentLoaded', function() {

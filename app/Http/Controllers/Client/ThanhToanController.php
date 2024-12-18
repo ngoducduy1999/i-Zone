@@ -292,6 +292,7 @@ public function placeOrder(Request $request)
             'trang_thai' => HoaDon::CHO_XAC_NHAN,
             'trang_thai_thanh_toan' => HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán'],
             'thoi_gian_het_han' => now()->addDays(1),
+               /* 'thoi_gian_het_han' => now()->addMinutes(15), // Thời gian hết hạn 15 phút */
         ]);
 
         Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
