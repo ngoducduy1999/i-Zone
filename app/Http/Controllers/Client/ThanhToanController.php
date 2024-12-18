@@ -253,15 +253,13 @@ public function placeOrder(Request $request)
         }
         
         if (!empty($insufficientStock)) {
-            return response()->json([
-                'success' => false,
-                'message' => $insufficientStock
-            ]);        }
+            $response['insufficient_stock'] = $insufficientStock;
+        }
         
         // Nếu có lỗi, trả về phản hồi lỗi
         if (!empty($notFound) || !empty($outOfStock) || !empty($insufficientStock)) {
             return response()->json($response);
-        }
+        } 
 
 
         // Kiểm tra mã giảm giá
@@ -315,7 +313,8 @@ public function placeOrder(Request $request)
             'phuong_thuc_thanh_toan' => $request->payment_method,
             'trang_thai' => HoaDon::CHO_XAC_NHAN,
             'trang_thai_thanh_toan' => HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán'],
-            'thoi_gian_het_han' => now()->addMinutes(15), // Thời gian hết hạn 15 phút
+            /* 'thoi_gian_het_han' => now()->addMinutes(15), // Thời gian hết hạn 15 phút */
+            'thoi_gian_het_han' => now()->addDays(1), // Thời gian hết hạn 1 ngày
         ]);
 
         Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
