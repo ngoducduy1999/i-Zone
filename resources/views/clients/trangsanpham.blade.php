@@ -43,7 +43,7 @@
                                             @foreach ($danhMucs as $danhMuc)
                                                 <li>
                                                     <label>
-                                                        <input type="checkbox" name="danh_muc[]" value="{{ $danhMuc->id }}" 
+                                                        <input type="radio" name="danh_muc[]" value="{{ $danhMuc->id }}" 
                                                             {{ in_array($danhMuc->id, request()->get('danh_muc', [])) ? 'checked' : '' }}>
                                                         {{ $danhMuc->ten_danh_muc }}
                                                     </label>
