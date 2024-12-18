@@ -4,7 +4,12 @@
 
     <div class="container p-5 ">
             <h3 class="profile__info-title">Lịch sử đơn hàng</h3>
-        
+            @if (session('success'))
+            <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+            <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+            @endif
             <!-- Thanh trạng thái -->
             <nav class="nav nav-pills nav-fill mb-4">
                 <a class="nav-link filter-link active" data-status="1" href="javascript:void(0)">

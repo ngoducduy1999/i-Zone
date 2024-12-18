@@ -35,7 +35,8 @@
                     <!-- Thao tác tương ứng với từng trạng thái -->
                     @if ($ord->trang_thai == 1)
                         <!-- Chờ xác nhận -->
-                        <form action="{{ route('customer.cancelOrder', $ord->id) }}" method="POST" class="d-inline" onsubmit="return confirmCancel();">
+                        <form action="{{ route('customer.cancelOrder', $ord->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');"
+                            class="m-0">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
                         </form>
@@ -70,9 +71,7 @@
   
 @endif
 <script>
-     function confirmCancel() {
-        return confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
-    }
+   
     document.addEventListener('DOMContentLoaded', function () {
         // Tìm tất cả các form hủy đơn tự động
         const autoCancelForms = document.querySelectorAll('.auto-cancel-form');
@@ -134,9 +133,12 @@
             const deliveryDate = new Date(deliveryTime);
             const currentDate = new Date();
 
-            // Thời gian 15 phút sau khi giao
+          /*   // Thời gian 15 phút sau khi giao
             const fifteenMinutesAfterDelivery = new Date(deliveryDate);
-            fifteenMinutesAfterDelivery.setMinutes(deliveryDate.getMinutes() + 15);
+            fifteenMinutesAfterDelivery.setMinutes(deliveryDate.getMinutes() + 15); */
+             // Thời gian 3 ngày sau khi giao
+             const threeDaysAfterDelivery = new Date(deliveryDate);
+            threeDaysAfterDelivery.setDate(deliveryDate.getDate() + 3);
 
             // Kiểm tra nếu thời gian hiện tại >= thời gian 15 phút sau giao
             if (currentDate >= fifteenMinutesAfterDelivery) {
