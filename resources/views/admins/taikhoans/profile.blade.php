@@ -26,6 +26,7 @@
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
+            @endif
         </div>
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -93,7 +94,7 @@
                                             </p>
                                         </div>
 
-                                        <div class="skills-details mt-3">
+                                        {{-- <div class="skills-details mt-3">
                                             <h6 class="text-uppercase fs-13">Các chức năng:</h6>
 
                                             <div class="d-flex flex-wrap gap-2">
@@ -103,7 +104,7 @@
                                                 <span class="badge bg-light px-3 text-dark py-2 fw-semibold">Quản lý đơn hàng</span>
                                                 <span class="badge bg-light px-3 text-dark py-2 fw-semibold">Quản lý khuyến mãi</span>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <div class="col-md-6 col-sm-6 col-md-6 mb-4">
