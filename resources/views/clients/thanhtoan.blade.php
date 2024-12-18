@@ -263,22 +263,36 @@
            </div>
         </div>
         
-        <div class="modal fade" id="stockWarningModal" tabindex="-1" aria-labelledby="stockWarningModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="stockWarningModalLabel">Cảnh báo tồn kho</h5>
-                    </div>
-                    <div class="modal-body" id="stockWarningModalBody">
-                        <!-- Nội dung cảnh báo sẽ được cập nhật động -->
-                    </div>
-                    <div class="modal-footer">
-                        <button id="cancelOrderButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button id="confirmOrderButton" type="button" class="btn btn-primary">Đặt hàng</button>
-                    </div>
-                </div>
+       <!-- Modal Lỗi -->
+<div class="modal fade" id="errorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông báo lỗi</h5>
+            </div>
+            <div class="modal-body" id="errorModalBody"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cảnh báo Tồn Kho -->
+<div class="modal fade" id="stockWarningModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cảnh báo Tồn Kho</h5>
+            </div>
+            <div class="modal-body" id="stockWarningModalBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="confirmOrderButton">Đặt Hàng</button>
+                <button class="btn btn-secondary" id="cancelOrderButton">Hủy</button>
             </div>
         </div>
+    </div>
+</div>
+
+
+
        
         
      </section>
@@ -374,64 +388,65 @@
 } else {
     loading.classList.add('d-none');
 
-    // Kiểm tra và xử lý các trường hợp lỗi
-    if (data.not_found) {
-        let message = '<strong>Một số sản phẩm không tồn tại:</strong><ul>';
-        data.not_found.forEach(item => {
-            message += `<li>${item.product_name}: ${item.message}</li>`;
-        });
-        message += '</ul>';
+// Kiểm tra và xử lý các trường hợp lỗi
+if (data.not_found) {
+    let message = '<strong>Một số sản phẩm không tồn tại:</strong><ul>';
+    data.not_found.forEach(item => {
+        message += `<li>${item.product_name}: ${item.message}</li>`;
+    });
+    message += '</ul>';
 
-        // Hiển thị modal thông báo lỗi
-        const notFoundModal = new bootstrap.Modal(document.getElementById('errorModal'));
-        document.getElementById('errorModalBody').innerHTML = message;
-        notFoundModal.show();
+    // Hiển thị modal thông báo lỗi
+    const notFoundModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    document.getElementById('errorModalBody').innerHTML = message;
+    notFoundModal.show();
 
-        return; // Không tiếp tục xử lý các lỗi khác
-    }
+    return; // Không tiếp tục xử lý các lỗi khác
+}
 
-    if (data.out_of_stock) {
-        let message = '<strong>Một số sản phẩm đã hết hàng:</strong><ul>';
-        data.out_of_stock.forEach(item => {
-            message += `<li>${item.product_name}: ${item.message}</li>`;
-        });
-        message += '</ul>';
+if (data.out_of_stock) {
+    let message = '<strong>Một số sản phẩm đã hết hàng:</strong><ul>';
+    data.out_of_stock.forEach(item => {
+        message += `<li>${item.product_name}: ${item.message}</li>`;
+    });
+    message += '</ul>';
 
-        // Hiển thị modal thông báo hết hàng
-        const outOfStockModal = new bootstrap.Modal(document.getElementById('errorModal'));
-        document.getElementById('errorModalBody').innerHTML = message;
-        outOfStockModal.show();
+    // Hiển thị modal thông báo hết hàng
+    const outOfStockModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    document.getElementById('errorModalBody').innerHTML = message;
+    outOfStockModal.show();
 
-        return; // Không tiếp tục xử lý các lỗi khác
-    }
+    return; // Không tiếp tục xử lý các lỗi khác
+}
 
-    if (data.insufficient_stock) {
-        // Tạo danh sách thông báo sản phẩm tồn kho không đủ
-        let message = '<strong>Một số sản phẩm không đủ tồn kho:</strong><ul>';
-        data.insufficient_stock.forEach(item => {
-            message += `<li>${item.product_name}: Còn lại ${item.available_quantity} sản phẩm.</li>`;
-        });
-        message += '</ul>';
-        message += '<p>Bạn có muốn đặt hàng với số lượng khả dụng không?</p>';
+if (data.insufficient_stock) {
+    // Tạo danh sách thông báo sản phẩm tồn kho không đủ
+    let message = '<strong>Một số sản phẩm không đủ tồn kho:</strong><ul>';
+    data.insufficient_stock.forEach(item => {
+        message += `<li>${item.product_name}: Còn lại ${item.available_quantity} sản phẩm.</li>`;
+    });
+    message += '</ul>';
+    message += '<p>Bạn có muốn đặt hàng với số lượng khả dụng không?</p>';
 
-        // Hiển thị modal cảnh báo tồn kho
-        const stockModal = new bootstrap.Modal(document.getElementById('stockWarningModal'));
-        document.getElementById('stockWarningModalBody').innerHTML = message;
-        stockModal.show();
+    // Hiển thị modal cảnh báo tồn kho
+    const stockModal = new bootstrap.Modal(document.getElementById('stockWarningModal'));
+    document.getElementById('stockWarningModalBody').innerHTML = message;
+    stockModal.show();
 
-        // Xử lý sự kiện của các nút trong modal
-        document.getElementById('confirmOrderButton').onclick = function () {
-            stockModal.hide();
-            document.getElementById('submitOrder').click(); // Thực hiện đặt hàng lại
-        };
+    // Xử lý sự kiện của các nút trong modal
+    document.getElementById('confirmOrderButton').onclick = function () {
+        stockModal.hide();
+        document.getElementById('submitOrder').click(); // Thực hiện đặt hàng lại
+    };
 
-        document.getElementById('cancelOrderButton').onclick = function () {
-            stockModal.hide();
-            window.location.href = '/Cart-Index'; // Người dùng từ chối, quay lại giỏ hàng
-        };
+    document.getElementById('cancelOrderButton').onclick = function () {
+        stockModal.hide();
+        window.location.href = '/Cart-Index'; // Người dùng từ chối, quay lại giỏ hàng
+    };
 
-        return; // Không tiếp tục xử lý thêm
-    }
+    return; // Không tiếp tục xử lý thêm
+}
+
 
     // Thêm thông báo lỗi khác (nếu không có lỗi nào phù hợp ở trên)
     const toast = new bootstrap.Toast(document.getElementById('toastMessage'));
