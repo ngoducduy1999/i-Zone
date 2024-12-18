@@ -8,19 +8,19 @@ use Illuminate\Http\Request;
 use App\Models\ChiTietHoaDon;
 
 class DanhgiaController extends Controller
-{   public function checkReviewEligibility(Request $request,$san_pham_id)
+{ public function checkReviewEligibility(Request $request, $san_pham_id)
     {
         // Xác thực nếu cần (nếu $san_pham_id luôn được truyền từ route thì không cần validate lại)
         $sanPhamId = $san_pham_id;
         $userId = $request->query('user_id') ?? auth()->id();
-        // Thay giá trị 23 bằng logic lấy ID người dùng thực sự nếu cần
     
-        // Tính toán số lần mua sản phẩm
+        // Tính toán số lần mua sản phẩm với điều kiện hóa đơn có trạng thái 7
         $soLanMua = ChiTietHoaDon::whereHas('bienTheSanPham', function ($query) use ($sanPhamId) {
                 $query->where('san_pham_id', $sanPhamId);
             })
             ->whereHas('hoaDon', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
+                $query->where('user_id', $userId)
+                      ->where('trang_thai', 7); // Chỉ xét hóa đơn có trạng thái 7
             })
             ->sum('so_luong');
     
@@ -66,19 +66,20 @@ class DanhgiaController extends Controller
     $userId = $validated['user_id'];
     $sanPhamId = $validated['san_pham_id'];
 
-    // Check if the user has purchased the product before
+    // Tính toán số lần mua sản phẩm với điều kiện hóa đơn có trạng thái 7
     $soLanMua = ChiTietHoaDon::whereHas('bienTheSanPham', function ($query) use ($sanPhamId) {
-            $query->where('san_pham_id', $sanPhamId);
-        })
-        ->whereHas('hoaDon', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })
-        ->sum('so_luong');
+        $query->where('san_pham_id', $sanPhamId);
+    })
+    ->whereHas('hoaDon', function ($query) use ($userId) {
+        $query->where('user_id', $userId)
+              ->where('trang_thai', 7); // Chỉ xét hóa đơn có trạng thái 7
+    })
+    ->sum('so_luong');
 
-    // Check if the user has already reviewed the product
+    // Tính toán số lần đã đánh giá
     $soLanDanhGia = DanhGiaSanPham::where('san_pham_id', $sanPhamId)
-        ->where('user_id', $userId)
-        ->count();
+    ->where('user_id', $userId)
+    ->count();
 
     // If the user has already reviewed the product as many times as they have purchased it, return an error
     if ($soLanDanhGia >= $soLanMua) {

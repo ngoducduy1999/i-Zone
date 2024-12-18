@@ -191,114 +191,92 @@ public function placeOrder(Request $request)
             return response()->json(['success' => false, 'message' => 'Giỏ hàng trống'], 400);
         }
 
-        Log::info("Cart data: ", (array) $cart);
-        $outOfStock = [];        // Danh sách sản phẩm hết hàng
-        $notFound = [];          // Danh sách sản phẩm không tồn tại
-        $insufficientStock = []; // Danh sách sản phẩm không đủ tồn kho
-        $updatedTotalPrice = 0;  // Tổng tiền sau khi cập nhật giỏ hàng
-        
-        foreach ($cart->products as &$item) {
-            // Tìm biến thể sản phẩm
+        Log::info("Cart data before processing: ", (array) $cart);
+        $outOfStock = [];
+        $notFound = [];
+        $insufficientStock = [];
+        $updatedTotalPrice = 0;
+
+        foreach ($cart->products as $key => $item) {
+            if (!isset($item['bienthe']->id)) {
+                Log::error("Sản phẩm không có ID biến thể: ", (array)$item);
+                $notFound[] = [
+                    'product_name' => $item['bienthe']->ten_san_pham ?? 'Sản phẩm không xác định',
+                    'message' => 'Thiếu thông tin ID biến thể sản phẩm.',
+                ];
+                continue;
+            }
+
             $bienThe = BienTheSanPham::find($item['bienthe']->id);
-        
-            // Kiểm tra nếu biến thể không tồn tại
             if (is_null($bienThe)) {
                 $notFound[] = [
                     'product_name' => $item['bienthe']->ten_san_pham ?? 'Sản phẩm không xác định',
                     'message' => 'Sản phẩm hoặc biến thể không tồn tại trong hệ thống.',
                 ];
-                continue; // Bỏ qua sản phẩm này
+                continue;
             }
-        
-            // Kiểm tra nếu số lượng tồn kho bằng 0
+
             if ($bienThe->so_luong === 0) {
                 $outOfStock[] = [
                     'product_name' => $bienThe->sanPham->ten_san_pham,
                     'message' => 'Sản phẩm đã hết hàng.',
                 ];
-                continue; // Bỏ qua sản phẩm này
+                continue;
             }
-        
-            // Kiểm tra nếu tồn kho không đủ
+
+            $availableQuantity = min($item['quantity'], $bienThe->so_luong);
             if ($item['quantity'] > $bienThe->so_luong) {
                 $insufficientStock[] = [
                     'product_name' => $bienThe->sanPham->ten_san_pham,
                     'available_quantity' => $bienThe->so_luong,
                     'message' => 'Số lượng không đủ tồn kho.',
                 ];
-                // Cập nhật lại số lượng khả dụng trong giỏ hàng
-                $item['quantity'] = $bienThe->so_luong; 
             }
-        
-            // Cập nhật tổng tiền sau khi kiểm tra số lượng
-            $updatedTotalPrice += $item['quantity'] * $item['bienthe']->gia_moi;
+
+            $updatedTotalPrice += $availableQuantity * $item['bienthe']->gia_moi;
+            $cart->products[$key]['quantity'] = $availableQuantity;
         }
-        
-        // Cập nhật lại giỏ hàng nếu cần
+
         $cart->totalPrice = $updatedTotalPrice;
         Session::put('cart', $cart);
-        
-        // Chuẩn bị thông báo chi tiết
+
         $response = [
             'success' => false,
             'message' => 'Một số vấn đề xảy ra khi cập nhật giỏ hàng.',
         ];
-        
-        if (!empty($notFound)) {
-            $response['not_found'] = $notFound;
-        }
-        
-        if (!empty($outOfStock)) {
-            $response['out_of_stock'] = $outOfStock;
-        }
-        
-        if (!empty($insufficientStock)) {
-            $response['insufficient_stock'] = $insufficientStock;
-        }
-        
-        // Nếu có lỗi, trả về phản hồi lỗi
+        if (!empty($notFound)) $response['not_found'] = $notFound;
+        if (!empty($outOfStock)) $response['out_of_stock'] = $outOfStock;
+        if (!empty($insufficientStock)) $response['insufficient_stock'] = $insufficientStock;
         if (!empty($notFound) || !empty($outOfStock) || !empty($insufficientStock)) {
             return response()->json($response);
-        } 
+        }
 
-
-        // Kiểm tra mã giảm giá
         $discountCode = Session::get('discount_code', null);
         $discountPercentage = Session::get('discount_percentage', 0);
         $maxDiscount = Session::get('maxDiscount', null);
-
         if ($discountCode) {
             $discount = KhuyenMai::where('ma_khuyen_mai', $discountCode)->first();
             $nowDate = now();
             if (!$discount || !$nowDate->between($discount->ngay_bat_dau, $discount->ngay_ket_thuc)) {
-                // Xóa giảm giá nếu không hợp lệ
                 Session::forget('discount_code');
                 Session::forget('discount_percentage');
                 $discountPercentage = 0;
             }
         }
 
-        // Tính toán tổng tiền và giảm giá
-        $originalTotal = $cart->totalPrice; // Thêm phí giao hàng
+        $originalTotal = $cart->totalPrice;
         $discountAmount = $originalTotal * ($discountPercentage / 100);
-
-        // Áp dụng giới hạn giảm giá tối đa
         if ($maxDiscount > 0 && $discountAmount > $maxDiscount) {
             $discountAmount = $maxDiscount;
         }
+        $tongTienSauGiam = $originalTotal - $discountAmount + 50000;
 
-        $tongTienSauGiam = $originalTotal - $discountAmount+ 50000;
-
-        // Kiểm tra user_id
         $userId = auth()->id();
         if (!$userId) {
             Log::error("Người dùng chưa đăng nhập.");
             return response()->json(['success' => false, 'message' => 'Bạn cần đăng nhập để đặt hàng'], 401);
         }
-        // Kiểm tra phương thức thanh toán
-        if ($request->payment_method == 'Thanh toán qua chuyển khoản ngân hàng') {
-            
-        // Tạo hóa đơn
+
         $hoaDon = HoaDon::create([
             'ma_hoa_don' => date("ymd") . rand(0, 1000000),
             'user_id' => $userId,
@@ -313,59 +291,61 @@ public function placeOrder(Request $request)
             'phuong_thuc_thanh_toan' => $request->payment_method,
             'trang_thai' => HoaDon::CHO_XAC_NHAN,
             'trang_thai_thanh_toan' => HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán'],
-            /* 'thoi_gian_het_han' => now()->addMinutes(15), // Thời gian hết hạn 15 phút */
-            'thoi_gian_het_han' => now()->addDays(1), // Thời gian hết hạn 1 ngày
+            'thoi_gian_het_han' => now()->addDays(1),
         ]);
 
         Log::info("Hóa đơn đã tạo: ", (array) $hoaDon);
 
         foreach ($cart->products as $item) {
-    Log::info("Chi tiết sản phẩm: ", (array) $item);
+            $bienThe = BienTheSanPham::find($item['bienthe']->id);
+            if (!$bienThe) continue;
 
-    // Tìm biến thể sản phẩm từ cơ sở dữ liệu
-    $bienThe = BienTheSanPham::find($item['bienthe']->id);
+            ChiTietHoaDon::create([
+                'hoa_don_id' => $hoaDon->id,
+                'bien_the_san_pham_id' => $bienThe->id,
+                'so_luong' => $item['quantity'],
+                'don_gia' => $item['bienthe']->gia_moi,
+                'thanh_tien' => $item['quantity'] * $item['bienthe']->gia_moi,
+            ]);
 
-    // Kiểm tra tồn kho trước khi giảm số lượng
-    if ($bienThe->so_luong < $item['quantity']) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Sản phẩm ' . $bienThe->sanPham->ten_san_pham . ' chỉ còn lại ' . $bienThe->so_luong . ' trong kho.',
-        ]);
-    }
+            $bienThe->so_luong -= $item['quantity'];
+            $bienThe->save();
+        }
 
-    // Tạo chi tiết hóa đơn
-    ChiTietHoaDon::create([
-        'hoa_don_id' => $hoaDon->id,
-        'bien_the_san_pham_id' => $item['bienthe']->id,
-        'so_luong' => $item['quantity'],
-        'don_gia' => $item['bienthe']->gia_moi,
-        'thanh_tien' => $item['quantity'] * $item['bienthe']->gia_moi,
-    ]);
-
-    // Giảm số lượng tồn kho
-    $bienThe->so_luong -= $item['quantity'];
-    $bienThe->save();
-}
-
-        // Xóa session giỏ hàng và mã giảm giá
         Session::forget('cart');
         Session::forget('discount_code');
         Session::forget('discount_percentage');
         Session::forget('maxDiscount');
-            // Thanh toán online qua ZaloPay
-            $maHoaDon = $hoaDon->ma_hoa_don;
-            return app(VNPayController::class)->createPayment($tongTienSauGiam, $hoaDon->ma_hoa_don, "Thanh toán đơn hàng #$hoaDon->ma_hoa_don");
-        } else {
-            $giamGia=$discountAmount;
-            // Thanh toán offline
-            return $this->createInvoice($userId, $request, $cart, $giamGia, $tongTienSauGiam);
+
+        // **Xử lý theo từng phương thức thanh toán**
+        switch ($request->payment_method) {
+            case 'Thanh toán qua chuyển khoản ngân hàng':
+                return app(VNPayController::class)->createPayment(
+                    $tongTienSauGiam, 
+                    $hoaDon->ma_hoa_don, 
+                    "Thanh toán đơn hàng #$hoaDon->ma_hoa_don"
+                );
+
+            case 'Thanh toán khi nhận hàng':
+                $hoaDon->update(['trang_thai_thanh_toan' => HoaDon::TRANG_THAI_THANH_TOAN['Chưa thanh toán']]);
+                return response()->json(['success' => true, 'message' => 'Đặt hàng thành công, thanh toán khi nhận hàng.']);
+
+            case 'Thanh toán qua ví điện tử':
+                return app(EWalletController::class)->processPayment(
+                    $tongTienSauGiam, 
+                    $hoaDon->ma_hoa_don, 
+                    $request->ewallet_id
+                );
+
+            default:
+                return response()->json(['success' => false, 'message' => 'Phương thức thanh toán không hợp lệ'], 400);
         }
     } catch (\Exception $e) {
         Log::error("Lỗi khi đặt hàng: " . $e->getMessage());
         return response()->json(['success' => false, 'message' => 'Đã xảy ra lỗi khi đặt hàng'], 500);
     }
-    
 }
+
 
 
 protected function createInvoice($userId, $request, $cart, $giamGia, $tongTienSauGiam)
