@@ -33,7 +33,7 @@ class TrangBaiVietController extends Controller
     }
 
     // Phân trang
-    $baiViet = $baiVietQuery->paginate(6); 
+    $baiViet = $baiVietQuery->orderBy('created_at', 'desc')->paginate(6);
 
     // Lấy thông tin người dùng đã đăng nhập
     $user = auth()->user();
