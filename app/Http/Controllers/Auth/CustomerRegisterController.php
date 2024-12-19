@@ -46,7 +46,6 @@ class CustomerRegisterController extends Controller
             'vai_tro' => 'user', // Default role for new users
         ]);
     
-        event(new Registered($user));
     
         return redirect()->route('customer.login')->with('success', 'Registration successful.');
     }
