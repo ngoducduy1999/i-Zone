@@ -57,6 +57,9 @@
                             <li>
                                 <a class='tp-link' href="{{ route('admin.thongke.sanpham.banchay') }}">Sản phẩm bán chạy</a>
                             </li>
+                            <li>
+                                <a class='tp-link' href="{{ route('admin.thongke.sanpham.kho') }}">Kho Sản phẩm </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

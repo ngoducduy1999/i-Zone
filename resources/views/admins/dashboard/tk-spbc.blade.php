@@ -1,23 +1,25 @@
 @extends('layouts.admin')
 
+@section('title', 'Thống Kê Sản Phẩm Bán Chạy')
+
 @section('content')
-<div class="container">
-    <h1 class="mb-4">Thống Kê Sản Phẩm Bán Chạy</h1>
+<div class="container-xxl">
+    <h1>Thống Kê Sản Phẩm Bán Chạy</h1>
 
     <!-- Bộ lọc -->
-    <form method="GET" action="{{ route('admin.thongke.sanpham.banchay') }}" class="mb-4">
-        <div class="row">
-            <div class="col-md-4">
-                <label for="thoi_gian">Thời gian:</label>
-                <select name="thoi_gian" id="thoi_gian" class="form-control">
+    <form method="GET" action="{{ route('admin.thongke.sanpham.banchay') }}">
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <label for="thoi_gian" class="form-label">Thời gian:</label>
+                <select name="thoi_gian" id="thoi_gian" class="form-select">
                     <option value="day" {{ $thoiGian === 'day' ? 'selected' : '' }}>Hôm nay</option>
                     <option value="week" {{ $thoiGian === 'week' ? 'selected' : '' }}>Tuần này</option>
                     <option value="month" {{ $thoiGian === 'month' ? 'selected' : '' }}>Tháng này</option>
                 </select>
             </div>
-            <div class="col-md-4">
-                <label for="danh_muc_id">Danh mục sản phẩm:</label>
-                <select name="danh_muc_id" id="danh_muc_id" class="form-control">
+            <div class="col-md-3">
+                <label for="danh_muc_id" class="form-label">Danh mục sản phẩm:</label>
+                <select name="danh_muc_id" id="danh_muc_id" class="form-select">
                     <option value="">Tất cả</option>
                     @foreach ($danhmucs as $danhMuc)
                         <option value="{{ $danhMuc->id }}" {{ isset($danhMucId) && $danhMucId == $danhMuc->id ? 'selected' : '' }}>
@@ -26,67 +28,69 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-4 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary">Lọc</button>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Lọc</button>
             </div>
         </div>
     </form>
 
     <!-- Biểu đồ -->
-    <div class="my-4">
-        <canvas id="sanPhamBanChayChart" width="400" height="200"></canvas>
+    <div class="card shadow p-4">
+        <h3 class="card-title">Biểu đồ Sản Phẩm Bán Chạy</h3>
+        <canvas id="sanPhamBanChayChart" class="mt-3"></canvas>
     </div>
 
     <!-- Bảng dữ liệu -->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Tên Sản Phẩm</th>
-                <th>Danh Mục</th>
-                <th>Số Lượng Bán</th>
-                <th>Tổng Tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($sanPhamBanChay as $key => $sanPham)
+    <div class="card shadow p-4 mt-5">
+        <h3 class="card-title">Danh sách Sản Phẩm</h3>
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ $key + 1 }}</td>
-                    <td>{{ $sanPham->ten_san_pham }}</td>
-                    <td>{{ $sanPham->danh_muc }}</td>
-                    <td>{{ $sanPham->so_luong_ban }}</td>
-                    <td>{{ number_format($sanPham->tong_tien, 0, ',', '.') }} VND</td>
+                    <th>#</th>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Danh Mục</th>
+                    <th>Số Lượng Bán</th>
+                    <th>Tổng Tiền</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="5" class="text-center">Không có dữ liệu</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse ($sanPhamBanChay as $key => $sanPham)
+                    <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $sanPham->ten_san_pham }}</td>
+                        <td>{{ $sanPham->danh_muc }}</td>
+                        <td>{{ $sanPham->so_luong_ban }}</td>
+                        <td>{{ number_format($sanPham->tong_tien, 0, ',', '.') }} VND</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">Không có dữ liệu</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Lấy dữ liệu từ Blade
         const labels = {!! json_encode($sanPhamBanChay->pluck('ten_san_pham')) !!};
         const data = {!! json_encode($sanPhamBanChay->pluck('so_luong_ban')) !!};
 
-        // Kiểm tra nếu không có dữ liệu
         if (!labels.length || !data.length) {
             console.warn('Không có dữ liệu để hiển thị biểu đồ.');
             return;
         }
 
-        // Khởi tạo biểu đồ
         const ctx = document.getElementById('sanPhamBanChayChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: labels, // Tên sản phẩm
+                labels: labels,
                 datasets: [{
                     label: 'Số lượng bán',
-                    data: data, // Số lượng bán
+                    data: data,
                     backgroundColor: 'rgba(54, 162, 235, 0.5)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
@@ -95,27 +99,22 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Biểu đồ Sản Phẩm Bán Chạy'
-                    }
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Biểu đồ Sản Phẩm Bán Chạy' }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                scales: { y: { beginAtZero: true } }
             }
         });
     });
 </script>
-@endsection
-
-@section('scripts')
-
-
-
+<style>
+    .container-xxl h1 {
+        color: #007BFF;
+        font-weight: bold;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+</style>
 @endsection

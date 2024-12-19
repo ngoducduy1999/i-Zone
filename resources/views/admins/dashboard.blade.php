@@ -345,7 +345,57 @@
                 
             </div>
               <!-- Bar Charts -->
-              
+              <div class="col-md-6 col-xl-4">                        
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Đánh giá gần đây</h5>
+                    </div>
+        
+                    <div class="card-body">
+
+        <!-- Body -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>TÊN SẢN PHẨM</th>
+                    <th>XẾP HẠNG</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($reviews as $index => $review)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $review->sanPham->ten_san_pham }}</td>
+                        <td>
+                            <span style="color: #f4b400;">
+                                @for ($i = 0; $i < $review->diem_so; $i++)
+                                    ★
+                                @endfor
+                                @for ($i = 0; $i < 5 - $review->diem_so; $i++)
+                                    ☆
+                                @endfor
+                            </span>
+                        </td>
+                        <td>
+                            <a href="#detail{{ $index }}" data-bs-toggle="collapse" class="text-primary">
+                                <strong>+</strong>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr id="detail{{ $index }}" class="collapse">
+                        <td colspan="4">
+                            <p><strong>Nhận xét</strong> {{ $review->nhan_xet }}</p>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        
+                    </div>
+                </div>  
+            </div> 
         </div>
         
         <div class="row"> 
@@ -380,11 +430,13 @@
                 <h5 class="card-title mb-0">Thống kê liên hệ</h5>
             </div>
 
-            <div class="card-body">
+            <div class="card-body" style="height: 453px">
                 <div id="total_contact_chart" ></div> 
             </div>
+            <input type="hidden" name="">
         </div>  
     </div>
+    
            
     </div>
     <div class="row">
@@ -398,17 +450,7 @@
 
 
 
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Đánh giá gần đây</h5>
-            </div>
-
-            <div class="card-body">
-                <div id="total_contact_chart" ></div> 
-            </div>
-        </div>  
-    </div> 
+    
 </div>
 </div>
 

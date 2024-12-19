@@ -14,17 +14,91 @@ use App\Models\KhuyenMai;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RevenueExport;
 use App\Models\lien_hes;
+use App\Models\ChiTietHoaDon;
+use App\Models\DanhGiaSanPham;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        // 1. Tổng hợp các số liệu thống kê
-        $tong_doanh_thu = HoaDon::where('trang_thai', 7)->sum('tong_tien');
-        $tong_nguoi_dung = User::count();
-        $tong_san_pham = SanPham::count();
-        $tong_don_hang = HoaDon::count();
+    public function index(Request $request)
+    {  $filter = $request->get('filter', 'today'); // Lấy giá trị lọc từ request, mặc định là 'today'
 
+        // Xác định khoảng thời gian lọc
+        switch ($filter) {
+            case 'week':
+                $startDate = Carbon::now()->startOfWeek();
+                $endDate = Carbon::now()->endOfWeek();
+                break;
+            case 'month':
+                $startDate = Carbon::now()->startOfMonth();
+                $endDate = Carbon::now()->endOfMonth();
+                break;
+            case 'year':
+                $startDate = Carbon::now()->startOfYear();
+                $endDate = Carbon::now()->endOfYear();
+                break;
+            default: // 'today'
+                $startDate = Carbon::today(); // Bắt đầu ngày
+                $endDate = Carbon::now()->endOfDay(); // Kết thúc ngày
+                break;
+            
+        }
+    
+        // Lọc dữ liệu
+        $tong_san_pham = ChiTietHoaDon::whereHas('hoaDon', function ($query) {
+            $query->where('trang_thai', 7);
+        })
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->sum('so_luong');
+    
+        $tong_don_hang = HoaDon::whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+    
+        $tong_doanh_thu = HoaDon::where('trang_thai', 7)
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->sum('tong_tien');
+    
+        $tong_don_hang_da_xu_ly = HoaDon::where('trang_thai', 7)  // Lọc các đơn hàng đã xử lý
+        ->whereBetween('created_at', [$startDate, $endDate])  // Lọc các đơn hàng tạo trong hôm nay
+        ->count();  // Đếm số lượng đơn hàng đã xử lý trong hôm nay
+    
+        $tong_don_hang_chua_xu_ly = HoaDon::whereIn('trang_thai', [1, 2, 3, 4, 5])  // Lọc các đơn hàng chưa xử lý
+        ->whereBetween('created_at', [$startDate, $endDate])  // Lọc các đơn hàng tạo trong hôm nay
+        ->count();  // Đếm số lượng đơn hàng chưa xử lý trong hôm nay
+    
+        $tong_nguoi_dung = User::whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+       
+        $san_pham_ban_chay = SanPham::select(
+                'san_phams.id',
+                'san_phams.ten_san_pham',
+                'danh_mucs.ten_danh_muc',
+                'san_phams.anh_san_pham',
+                DB::raw('SUM(chi_tiet_hoa_dons.so_luong) as tong_so_luong_ban'),
+                DB::raw('SUM(chi_tiet_hoa_dons.so_luong * bien_the_san_phams.gia_moi) as tong_doanh_thu')
+            )
+            ->join('bien_the_san_phams', 'san_phams.id', '=', 'bien_the_san_phams.san_pham_id')
+            ->join('chi_tiet_hoa_dons', 'bien_the_san_phams.id', '=', 'chi_tiet_hoa_dons.bien_the_san_pham_id')
+            ->join('hoa_dons', 'chi_tiet_hoa_dons.hoa_don_id', '=', 'hoa_dons.id') // Kết nối với bảng hoa_dons
+            ->join('danh_mucs', 'san_phams.danh_muc_id', '=', 'danh_mucs.id')
+            ->where('hoa_dons.trang_thai', 7) // Lọc chỉ lấy hóa đơn có trạng thái = 7
+            ->whereBetween('chi_tiet_hoa_dons.created_at',[$startDate, $endDate]) // Lọc chi tiết hóa đơn trong ngày hôm nay
+            ->groupBy('san_phams.id', 'san_phams.ten_san_pham', 'san_phams.anh_san_pham', 'danh_mucs.ten_danh_muc')
+            ->orderBy('tong_so_luong_ban', 'desc')
+            ->take(5) // Lấy 4 sản phẩm bán chạy nhất
+            ->get();
+        $totalResolved = lien_hes::where('trang_thai_phan_hoi', 'resolved')
+            ->whereBetween('created_at', [$startDate, $endDate]) // Lọc theo khoảng thời gian
+            ->count(); // Đã phản hồi
+        
+        $totalPending = lien_hes::where('trang_thai_phan_hoi', 'pending')
+            ->whereBetween('created_at', [$startDate, $endDate]) // Lọc theo khoảng thời gian
+            ->count(); // Chưa phản hồi
+        $reviews = DanhGiaSanPham::whereBetween('created_at', [$startDate, $endDate]) // Lọc theo khoảng thời gian
+            ->latest()
+            ->take(7) // Lấy 8 bản ghi mới nhất
+            ->get();
+
+        
         // 2. Thống kê người dùng đăng ký theo ngày trong tháng hiện tại
         $nguoiDungTheoNgay = User::selectRaw('DATE(created_at) as ngay, COUNT(id) as so_luong_nguoi_dung')
             ->whereMonth('created_at', now()->month)
@@ -57,12 +131,12 @@ class DashboardController extends Controller
 
         // 5. Thống kê doanh thu theo ngày trong tháng hiện tại
         $doanhThuTheoNgay = HoaDon::selectRaw('DATE(created_at) as ngay, SUM(tong_tien) as tong_doanh_thu')
-    ->where('trang_thai', 7)
-    ->whereMonth('created_at', now()->month)
-    ->whereYear('created_at', now()->year)
-    ->groupBy('ngay')
-    ->orderBy('ngay', 'asc')
-    ->get();
+       ->where('trang_thai', 7)
+       ->whereMonth('created_at', now()->month)
+       ->whereYear('created_at', now()->year)
+       ->groupBy('ngay')
+       ->orderBy('ngay', 'asc')
+       ->get();
 
 
         $doanhThuNgayData = $doanhThuTheoNgay->pluck('tong_doanh_thu')->toArray();
@@ -84,22 +158,7 @@ class DashboardController extends Controller
             return $item->thang . '/' . $item->nam;
         })->toArray();
 
-        // 7. Thống kê sản phẩm bán chạy
-        $san_pham_ban_chay = SanPham::select(
-            'san_phams.id',
-            'san_phams.ten_san_pham',
-            'danh_mucs.ten_danh_muc',
-            'san_phams.anh_san_pham',
-            DB::raw('SUM(chi_tiet_hoa_dons.so_luong) as tong_so_luong_ban'),
-            DB::raw('SUM(chi_tiet_hoa_dons.so_luong * bien_the_san_phams.gia_moi) as tong_doanh_thu')
-        )
-        ->join('bien_the_san_phams', 'san_phams.id', '=', 'bien_the_san_phams.san_pham_id')
-        ->join('chi_tiet_hoa_dons', 'bien_the_san_phams.id', '=', 'chi_tiet_hoa_dons.bien_the_san_pham_id')
-        ->join('danh_mucs', 'san_phams.danh_muc_id', '=', 'danh_mucs.id')
-        ->groupBy('san_phams.id', 'san_phams.ten_san_pham', 'san_phams.anh_san_pham', 'danh_mucs.ten_danh_muc')
-        ->orderBy('tong_so_luong_ban', 'desc')
-        ->take(4)
-        ->get();
+       
 
         // 8. Thống kê số lượng đơn hàng
         $ngay_dau_tien_don_hang = HoaDon::min('created_at');
@@ -131,14 +190,17 @@ class DashboardController extends Controller
 
         $labelsDanhMuc = $danhMucSanPham->pluck('ten_danh_muc')->toArray();
         $dataDanhMuc = $danhMucSanPham->pluck('so_luong_san_pham')->toArray();
-        // 11. Thống kê chương trình khuyến mãi
-        $khuyenMai = KhuyenMai::all();
+        // Thống kê chương trình khuyến mãi
+$so_luong_khuyen_mai_hoat_dong = KhuyenMai::where('trang_thai', 1)->count();
 
-        $so_luong_khuyen_mai_hoat_dong = $khuyenMai->where('trang_thai', 1)->count();
-        $so_luong_khuyen_mai_sap_het_han = $khuyenMai->where('ngay_ket_thuc', '<=', Carbon::now()->addDays(7))->count();
+// Lấy số lượng khuyến mãi sắp hết hạn (trong vòng 7 ngày)
+$so_luong_khuyen_mai_sap_het_han = KhuyenMai::where('ngay_ket_thuc', '>=', Carbon::now())
+    ->where('ngay_ket_thuc', '<=', Carbon::now()->addDays(1))
+    ->count();
 
-        $labelsKhuyenMai = ['Đang hoạt động', 'Sắp hết hạn'];
-        $dataKhuyenMai = [$so_luong_khuyen_mai_hoat_dong, $so_luong_khuyen_mai_sap_het_han];
+$labelsKhuyenMai = ['Đang hoạt động', 'Sắp hết hạn'];
+$dataKhuyenMai = [$so_luong_khuyen_mai_hoat_dong, $so_luong_khuyen_mai_sap_het_han];
+
         // Lấy danh sách sản phẩm và số lượng tồn kho từ bảng biến thể
         $products = DB::table('bien_the_san_phams')
             ->join('san_phams', 'bien_the_san_phams.san_pham_id', '=', 'san_phams.id')
@@ -170,9 +232,7 @@ class DashboardController extends Controller
 
         //Thống kê liên hệ
 
-         // Lấy tổng số lượng liên hệ theo trạng thái
-    $totalResolved = lien_hes::where('trang_thai_phan_hoi', 'resolved')->count(); // Đã phản hồi
-    $totalPending = lien_hes::where('trang_thai_phan_hoi', 'pending')->count(); // Chưa phản hồi
+    
 
 
 
@@ -207,8 +267,12 @@ class DashboardController extends Controller
             'dataInStock' ,
             'dataLowStock' ,
             'dataOutOfStock',
-'totalPending',
-'totalResolved',
+            'totalPending',
+            'totalResolved',
+            'tong_don_hang_da_xu_ly',
+            'tong_don_hang_chua_xu_ly',
+            'filter',
+            'reviews'
 
         ));
     }
@@ -276,21 +340,22 @@ class DashboardController extends Controller
         $thoiGian = $request->input('thoi_gian', 'day'); // Mặc định lọc theo ngày
         $danhMucId = $request->input('danh_muc_id', null); // Lọc theo danh mục nếu có
         $danhmucs = DanhMuc::all();
+        
         $query = DB::table('chi_tiet_hoa_dons')
             ->join('hoa_dons', 'hoa_dons.id', '=', 'chi_tiet_hoa_dons.hoa_don_id')
-            ->join('san_phams', 'san_phams.id', '=', 'chi_tiet_hoa_dons.bien_the_san_pham_id')
+            ->join('bien_the_san_phams', 'bien_the_san_phams.id', '=', 'chi_tiet_hoa_dons.bien_the_san_pham_id')
+            ->join('san_phams', 'san_phams.id', '=', 'bien_the_san_phams.san_pham_id') // Kết nối đúng bảng san_phams
             ->join('danh_mucs', 'danh_mucs.id', '=', 'san_phams.danh_muc_id') // Nối bảng danh_mucs
             ->select(
                 'san_phams.id',
                 'san_phams.ten_san_pham',
                 'danh_mucs.ten_danh_muc as danh_muc', // Lấy tên danh mục
                 DB::raw('SUM(chi_tiet_hoa_dons.so_luong) as so_luong_ban'),
-                DB::raw('SUM(chi_tiet_hoa_dons.so_luong * chi_tiet_hoa_dons.don_gia) as tong_tien')
+                DB::raw('SUM(chi_tiet_hoa_dons.so_luong * bien_the_san_phams.gia_moi) as tong_tien') // Sử dụng giá mới từ bien_the_san_phams
             )
             ->where('hoa_dons.trang_thai', 7) // Chỉ lấy đơn hàng đã giao
-            ->groupBy('san_phams.id', 'san_phams.ten_san_pham', 'danh_mucs.ten_danh_muc') // Nhóm theo danh mục và sản phẩm
-            ->orderBy('so_luong_ban', 'desc');
-
+            ->groupBy('san_phams.id', 'san_phams.ten_san_pham', 'danh_mucs.ten_danh_muc'); // Nhóm theo danh mục và sản phẩm
+    
         // Lọc theo thời gian
         if ($thoiGian === 'day') {
             $query->whereDate('hoa_dons.ngay_dat_hang', Carbon::today());
@@ -299,17 +364,74 @@ class DashboardController extends Controller
         } elseif ($thoiGian === 'month') {
             $query->whereMonth('hoa_dons.ngay_dat_hang', Carbon::now()->month);
         }
-
+    
         // Lọc theo danh mục sản phẩm nếu có
         if ($danhMucId) {
             $query->where('danh_mucs.id', $danhMucId);
         }
-
-        $sanPhamBanChay = $query->get();
-        // dd($sanPhamBanChay);
-
-        return view('admins.dashboard.tk-spbc', compact('sanPhamBanChay', 'thoiGian', 'danhMucId','danhmucs'));
+    
+        // Lấy 5 sản phẩm bán chạy nhất
+        $sanPhamBanChay = $query->orderBy('so_luong_ban', 'desc')
+                                ->take(5) // Lấy 5 sản phẩm bán chạy nhất
+                                ->get();
+    
+        return view('admins.dashboard.tk-spbc', compact('sanPhamBanChay', 'thoiGian', 'danhMucId', 'danhmucs'));
     }
+    public function sanPhamBanKho(Request $request)
+    {
+        // Lấy từ khóa tìm kiếm và trạng thái lọc
+        $search = $request->input('search');
+        $filterStatus = $request->input('status'); // Lọc theo trạng thái tồn kho
+    
+        // Lấy danh sách sản phẩm và biến thể tồn kho
+        $query = DB::table('bien_the_san_phams')
+            ->join('san_phams', 'bien_the_san_phams.san_pham_id', '=', 'san_phams.id')
+            ->join('mau_sacs', 'bien_the_san_phams.mau_sac_id', '=', 'mau_sacs.id') // Bảng màu sắc
+            ->join('dung_luongs', 'bien_the_san_phams.dung_luong_id', '=', 'dung_luongs.id') // Bảng dung lượng
+            ->select(
+                'san_phams.ten_san_pham',
+                'mau_sacs.ten_mau_sac',
+                'dung_luongs.ten_dung_luong',
+                'bien_the_san_phams.so_luong',
+                'bien_the_san_phams.id as bien_the_id'
+            );
+    
+        if ($search) {
+            $query->where('san_phams.ten_san_pham', 'LIKE', '%' . $search . '%');
+        }
+    
+        // Lọc theo trạng thái tồn kho
+        $variants = $query->get();
+        if ($filterStatus) {
+            switch ($filterStatus) {
+                case 'in_stock':
+                    $variants = $variants->filter(fn($variant) => $variant->so_luong >= 10);
+                    break;
+                case 'low_stock':
+                    $variants = $variants->filter(fn($variant) => $variant->so_luong > 0 && $variant->so_luong < 10);
+                    break;
+                case 'out_of_stock':
+                    $variants = $variants->filter(fn($variant) => $variant->so_luong == 0);
+                    break;
+            }
+        }
+    
+        // Phân loại trạng thái tồn kho
+        $outOfStockVariants = $variants->filter(fn($variant) => $variant->so_luong == 0);
+        $lowStockVariants = $variants->filter(fn($variant) => $variant->so_luong > 0 && $variant->so_luong < 10);
+        $inStockVariants = $variants->filter(fn($variant) => $variant->so_luong >= 10);
+    
+        // Trả dữ liệu sang view
+        return view('admins.dashboard.tk-kho', compact(
+            'variants',
+            'inStockVariants',
+            'lowStockVariants',
+            'outOfStockVariants',
+            'search',
+            'filterStatus'
+        ));
+    }
+        
 
 
 }
